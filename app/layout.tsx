@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@govbr-ds/core/dist/core.min.css";
-import Head from 'next/head';
 import Footer from '@/app/_ui/components/footer/Footer';
 import Header from '@/app/_ui/components/header/Header';
 
@@ -25,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <link
           rel="stylesheet"
           href="https://cdn.dsgovserprodesign.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css"
@@ -34,7 +33,7 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&amp;display=swap"
         />
-      </Head>
+      </head>
       <body className={inter.className}>
         <Header />
     <main className="flex min-h-screen gap-8 flex-col items-center p-24">
