@@ -1,0 +1,1 @@
+declare module '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js'
