@@ -3,8 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@govbr-ds/core/dist/core.min.css";
-import Footer from '@/app/_ui/components/footer/Footer';
-import Header from '@/app/_ui/components/header/Header';
+import { Providers } from './_ui/components/Providers';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='dark'>
       <head>
         <link
           rel="stylesheet"
@@ -35,12 +34,10 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Header />
-    <main className="flex min-h-screen gap-8 flex-col items-center p-24">
-        {children}
-        </main>
-        <Footer />
-        </body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }

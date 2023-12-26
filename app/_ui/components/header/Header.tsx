@@ -20,10 +20,10 @@ export default function Header() {
                 <div className="header">
                   <div className="title">Acesso Rápido</div>
                 </div>
-                <Link className="br-item" href="link1">Link de acesso 1</Link>
-                <Link className="br-item" href="link2">Link de acesso 2</Link>
-                <Link className="br-item" href="link3">Link de acesso 3</Link>
-                <Link className="br-item" href="link4">Link de acesso 4</Link>
+                <Link className="br-item" href="layout1">Link de acesso 1</Link>
+                <Link className="br-item" href="layout2">Link de acesso 2</Link>
+                <Link className="br-item" href="layout3">Link de acesso 3</Link>
+                <Link className="br-item" href="layout4">Link de acesso 4</Link>
               </div>
             </div><span className="br-divider vertical mx-half mx-sm-1"></span>
             <div className="header-functions dropdown">
