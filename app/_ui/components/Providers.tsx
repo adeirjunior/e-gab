@@ -8,7 +8,7 @@ export function Providers({children}: { children: React.ReactNode }) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      {children}
+        {children}
     </NextUIProvider>
   )
 }

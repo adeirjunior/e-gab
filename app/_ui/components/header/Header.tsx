@@ -20,7 +20,7 @@ export default function Header() {
                 <div className="header">
                   <div className="title">Acesso Rápido</div>
                 </div>
-                <Link className="br-item" href="layout1">Link de acesso 1</Link>
+                <Link className="br-item" href="layout1">Layout 1</Link>
                 <Link className="br-item" href="layout2">Link de acesso 2</Link>
                 <Link className="br-item" href="layout3">Link de acesso 3</Link>
                 <Link className="br-item" href="layout4">Link de acesso 4</Link>
