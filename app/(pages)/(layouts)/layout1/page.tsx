@@ -8,7 +8,7 @@ export default function App() {
       <HeaderLayout1 />
       <section className="w-full items-center shadow-landingPageInner flex flex-col justify-end h-screen -z-40 bg-portrait bg-cover sm:bg-contain sm:bg-left lg:flex-row bg-center bg-no-repeat p-6">
         <div>
-          <h1 className="hidden lg:block text-white font-bold uppercase text-5xl">Trabalhando todo dia.<br/>Sem parar.</h1>
+          <h1 className="hidden lg:block text-white font-bold uppercase text-5xl mb-4">Trabalhando todo dia.<br/>Sem parar.</h1>
           <MagicButton />
         </div>
       </section>
