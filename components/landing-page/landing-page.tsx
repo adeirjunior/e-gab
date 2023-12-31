@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Background1 from "./background1";
 import Background2 from "./background2";
 
@@ -12,18 +13,18 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center">
             <nav className="hidden items-center text-lg text-purple-900 lg:flex">
-              <a href="#" className="flex px-8 py-2 hover:text-purple-700">
+              <Link href="#" className="flex px-8 py-2 hover:text-purple-700">
                 Home
-              </a>
-              <a href="#" className="flex px-8 py-2 hover:text-purple-700">
+              </Link>
+              <Link href="#" className="flex px-8 py-2 hover:text-purple-700">
                 Sobre
-              </a>
-              <a href="#" className="flex px-8 py-2 hover:text-purple-700">
+              </Link>
+              <Link href="#" className="flex px-8 py-2 hover:text-purple-700">
                 Preços
-              </a>
-              <a href="#" className="flex px-8 py-2 hover:text-purple-700">
+              </Link>
+              <Link href="#" className="flex px-8 py-2 hover:text-purple-700">
                 Contato
-              </a>
+              </Link>
             </nav>
             <button className="ml-4 flex flex-col">
               <span className="mb-1 h-1 w-6 rounded-full bg-purple-800"></span>
@@ -45,12 +46,12 @@ export default function LandingPage() {
             Uma plataforma para candidatos, vereadores e prefeitos aumentarem
             sua campanha e votos.
           </p>
-          <a
-            href="#"
+          <Link
+            href={`${process.env.NEXTAUTH_URL ? "http://app.localhost:3000" : "https://app.anticara.com"}`}
             className="rounded-full bg-purple-600 px-12 py-3 text-lg font-semibold text-white hover:bg-blue-400"
           >
             Entrar
-          </a>
+          </Link>
         </div>
         <Background2 />
       </div>
