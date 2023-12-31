@@ -1,1 +1,1 @@
-export { default as DateTimePicker } from "@/app/_ui/components/DateTimePicker"
+export { default as DateTimePicker } from "@/components/DateTimePicker"
