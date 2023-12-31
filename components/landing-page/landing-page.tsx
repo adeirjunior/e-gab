@@ -47,7 +47,7 @@ export default function LandingPage() {
             sua campanha e votos.
           </p>
           <Link
-            href={`${process.env.NEXTAUTH_URL ? "http://app.localhost:3000" : "https://app.anticara.com"}`}
+            href={`${process.env.NEXTAUTH_URL ? "http://app.localhost:3000" : `https://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}`}
             className="rounded-full bg-purple-600 px-12 py-3 text-lg font-semibold text-white hover:bg-blue-400"
           >
             Entrar
