@@ -124,6 +124,8 @@ export default function HomePage() {
                 className="rounded-lg shadow-xl"
                 src="https://cdn.devdojo.com/images/december2020/dashboard-011.png"
                 alt=""
+                width={1600}
+                height={900}
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">
@@ -146,6 +148,8 @@ export default function HomePage() {
                 className="rounded-lg shadow-xl"
                 src="https://cdn.devdojo.com/images/december2020/dashboard-04.png"
                 alt=""
+                width={1600}
+                height={900}
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pl-16 md:mt-0 md:w-7/12">
@@ -168,6 +172,8 @@ export default function HomePage() {
                 className="rounded-lg shadow-xl"
                 src="https://cdn.devdojo.com/images/december2020/dashboard-03.png"
                 alt=""
+                width={1600}
+                height={900}
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">

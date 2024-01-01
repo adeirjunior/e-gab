@@ -15,6 +15,8 @@ export default function page() {
               <Image
                 src="https://tailus.io/sources/blocks/left-image/preview/images/startup.png"
                 alt="image"
+                width={1000}
+                height={1000}
               />
             </div>
             <div className="md:7/12 lg:w-6/12">
@@ -40,13 +42,15 @@ export default function page() {
 
       <section className="bg-blueGray-50 relative pt-16">
         <div className="container mx-auto">
-          <div className="flex flex-wrap items-center flex-row-reverse">
+          <div className="flex flex-row-reverse flex-wrap items-center">
             <div className="-mt-78 ml-auto mr-auto w-10/12 px-12 md:w-6/12 md:px-4 lg:w-4/12">
               <div className="break-wordsw-full relative mb-6 flex min-w-0 flex-col rounded-lg bg-purple-600 shadow-lg">
                 <Image
                   alt="..."
                   src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=700&amp;q=80"
                   className="w-full rounded-none align-middle"
+                  width={600}
+                  height={400}
                 />
                 <div className="px-6 py-4">
                   <h4 className="text-xl font-bold text-white">
