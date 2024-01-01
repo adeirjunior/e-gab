@@ -63,9 +63,8 @@ export default async function middleware(req: NextRequest) {
     hostname === "localhost:3000" ||
     hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
   ) {
-    return NextResponse.rewrite(
-      new URL(`/home${path === "/" ? "" : path}`, req.url),
-    );
+    const rewritePath = path === "/" ? "/home" : path;
+  return NextResponse.rewrite(new URL(`${rewritePath}`, req.url));
   }
 
   // rewrite everything else to `/[domain]/[slug] dynamic route

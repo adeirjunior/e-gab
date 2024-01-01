@@ -8,10 +8,7 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdngovbr-ds.estaleiro.serpro.gov.br",
-      },
+      { hostname: "cdngovbr-ds.estaleiro.serpro.gov.br" },
       { hostname: "public.blob.vercel-storage.com" },
       { hostname: "res.cloudinary.com" },
       { hostname: "abs.twimg.com" },
@@ -21,6 +18,9 @@ const nextConfig = {
       { hostname: "www.google.com" },
       { hostname: "flag.vercel.app" },
       { hostname: "illustrations.popsy.co" },
+      { hostname: "tailus.io" },
+      { hostname: "images.unsplash.com" },
+      { hostname: "cdn.devdojo.com" },
     ],
   },
 };
