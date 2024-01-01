@@ -126,6 +126,7 @@ export default function HomePage() {
                 alt=""
                 width={1600}
                 height={900}
+                loading="lazy"
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">
@@ -150,6 +151,7 @@ export default function HomePage() {
                 alt=""
                 width={1600}
                 height={900}
+                loading="lazy"
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pl-16 md:mt-0 md:w-7/12">
@@ -174,6 +176,7 @@ export default function HomePage() {
                 alt=""
                 width={1600}
                 height={900}
+                loading="lazy"
               />
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">

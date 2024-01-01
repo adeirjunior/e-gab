@@ -17,6 +17,7 @@ export default function page() {
                 alt="image"
                 width={1000}
                 height={1000}
+                loading="eager"
               />
             </div>
             <div className="md:7/12 lg:w-6/12">
@@ -51,6 +52,7 @@ export default function page() {
                   className="w-full rounded-none align-middle"
                   width={600}
                   height={400}
+                  loading="eager"
                 />
                 <div className="px-6 py-4">
                   <h4 className="text-xl font-bold text-white">
