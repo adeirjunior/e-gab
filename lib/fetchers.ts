@@ -10,9 +10,9 @@ export async function getSiteData(domain: string) {
 
   return await unstable_cache(
     async () => {
-      return prisma.site.findUnique({
+      return prisma.website.findUnique({
         where: subdomain ? { subdomain } : { customDomain: domain },
-        include: { user: true },
+        include: { User: true },
       });
     },
     [`${domain}-metadata`],
@@ -32,7 +32,7 @@ export async function getPostsForSite(domain: string) {
     async () => {
       return prisma.post.findMany({
         where: {
-          site: subdomain ? { subdomain } : { customDomain: domain },
+          website: subdomain ? { subdomain } : { customDomain: domain },
           published: true,
         },
         select: {
@@ -67,16 +67,12 @@ export async function getPostData(domain: string, slug: string) {
     async () => {
       const data = await prisma.post.findFirst({
         where: {
-          site: subdomain ? { subdomain } : { customDomain: domain },
+          website: subdomain ? { subdomain } : { customDomain: domain },
           slug,
           published: true,
         },
         include: {
-          site: {
-            include: {
-              user: true,
-            },
-          },
+          user: true
         },
       });
 
@@ -86,7 +82,7 @@ export async function getPostData(domain: string, slug: string) {
         getMdxSource(data.content!),
         prisma.post.findMany({
           where: {
-            site: subdomain ? { subdomain } : { customDomain: domain },
+            website: subdomain ? { subdomain } : { customDomain: domain },
             published: true,
             NOT: {
               id: data.id,
@@ -130,4 +126,33 @@ async function getMdxSource(postContents: string) {
   });
 
   return mdxSource;
+}
+
+export async function getPoliticianSiteByUser(userId: number) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: Number(userId) },
+      include: {
+            Website: {
+              include: {
+                User: true
+              }
+            }
+      },
+    });
+
+    if (!user) {
+      console.log("Usuário não encontrado.");
+      return null;
+    }
+
+    const site = user.Website;
+
+    console.log("Site do Político:", site);
+    return site;
+  } catch (error) {
+    console.error("Erro ao obter o site do político:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }

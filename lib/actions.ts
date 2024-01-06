@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Post, Site } from "@prisma/client";
+import { Post, Website } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { withPostAuth, withSiteAuth } from "./auth";
 import { getSession } from "@/lib/auth";
@@ -33,14 +33,15 @@ export const createSite = async (formData: FormData) => {
   const subdomain = formData.get("subdomain") as string;
 
   try {
-    const response = await prisma.site.create({
+    const response = await prisma.website.create({
       data: {
         name,
         description,
         subdomain,
-        user: {
+        politicianId: 1,
+        User: {
           connect: {
-            id: session.user.id,
+            id: Number(session.user.id),
           },
         },
       },
@@ -63,7 +64,7 @@ export const createSite = async (formData: FormData) => {
 };
 
 export const updateSite = withSiteAuth(
-  async (formData: FormData, site: Site, key: string) => {
+  async (formData: FormData, site: Website, key: string) => {
     const value = formData.get(key) as string;
 
     try {
@@ -77,7 +78,7 @@ export const updateSite = withSiteAuth(
 
           // if the custom domain is valid, we need to add it to Vercel
         } else if (validDomainRegex.test(value)) {
-          response = await prisma.site.update({
+          response = await prisma.website.update({
             where: {
               id: site.id,
             },
@@ -93,7 +94,7 @@ export const updateSite = withSiteAuth(
 
           // empty value means the user wants to remove the custom domain
         } else if (value === "") {
-          response = await prisma.site.update({
+          response = await prisma.website.update({
             where: {
               id: site.id,
             },
@@ -157,7 +158,7 @@ export const updateSite = withSiteAuth(
 
         const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 
-        response = await prisma.site.update({
+        response = await prisma.website.update({
           where: {
             id: site.id,
           },
@@ -167,7 +168,7 @@ export const updateSite = withSiteAuth(
           },
         });
       } else {
-        response = await prisma.site.update({
+        response = await prisma.website.update({
           where: {
             id: site.id,
           },
@@ -202,9 +203,9 @@ export const updateSite = withSiteAuth(
   },
 );
 
-export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
+export const deleteSite = withSiteAuth(async (_: FormData, site: Website) => {
   try {
-    const response = await prisma.site.delete({
+    const response = await prisma.website.delete({
       where: {
         id: site.id,
       },
@@ -222,19 +223,19 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
   }
 });
 
-export const getSiteFromPostId = async (postId: string) => {
+export const getSiteFromPostId = async (postId: number) => {
   const post = await prisma.post.findUnique({
     where: {
-      id: postId,
+      id: Number(postId),
     },
     select: {
-      siteId: true,
+      websiteId: true,
     },
   });
-  return post?.siteId;
+  return post?.websiteId;
 };
 
-export const createPost = withSiteAuth(async (_: FormData, site: Site) => {
+export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
@@ -243,7 +244,7 @@ export const createPost = withSiteAuth(async (_: FormData, site: Site) => {
   }
   const response = await prisma.post.create({
     data: {
-      siteId: site.id,
+      websiteId: site.id,
       userId: session.user.id,
     },
   });
@@ -269,7 +270,7 @@ export const updatePost = async (data: Post) => {
       id: data.id,
     },
     include: {
-      site: true,
+      website: true,
     },
   });
   if (!post || post.userId !== session.user.id) {
@@ -290,16 +291,16 @@ export const updatePost = async (data: Post) => {
     });
 
     await revalidateTag(
-      `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
     );
     await revalidateTag(
-      `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
+      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
     );
 
     // if the site has a custom domain, we need to revalidate those tags too
-    post.site?.customDomain &&
-      (await revalidateTag(`${post.site?.customDomain}-posts`),
-      await revalidateTag(`${post.site?.customDomain}-${post.slug}`));
+    post.website?.customDomain &&
+      (await revalidateTag(`${post.website?.customDomain}-posts`),
+      await revalidateTag(`${post.website?.customDomain}-${post.slug}`));
 
     return response;
   } catch (error: any) {
@@ -313,7 +314,7 @@ export const updatePostMetadata = withPostAuth(
   async (
     formData: FormData,
     post: Post & {
-      site: Site;
+      site: Website;
     },
     key: string,
   ) => {
@@ -385,7 +386,7 @@ export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
         id: post.id,
       },
       select: {
-        siteId: true,
+        websiteId: true,
       },
     });
     return response;

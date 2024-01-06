@@ -9,7 +9,7 @@ import { deletePost } from "@/lib/actions";
 import va from "@vercel/analytics";
 
 export default function DeletePostForm({ postName }: { postName: string }) {
-  const { id } = useParams() as { id: string };
+  const { id } = useParams() as unknown as { id: number };
   const router = useRouter();
   return (
     <form

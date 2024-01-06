@@ -17,14 +17,14 @@ export default async function Posts({
   }
   const posts = await prisma.post.findMany({
     where: {
-      userId: session.user.id as string,
+      userId: Number(session.user.id),
       ...(siteId ? { siteId } : {}),
     },
     orderBy: {
       updatedAt: "desc",
     },
     include: {
-      site: true,
+      website: true,
     },
     ...(limit ? { take: limit } : {}),
   });

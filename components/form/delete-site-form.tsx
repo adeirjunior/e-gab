@@ -9,7 +9,7 @@ import { deleteSite } from "@/lib/actions";
 import va from "@vercel/analytics";
 
 export default function DeleteSiteForm({ siteName }: { siteName: string }) {
-  const { id } = useParams() as { id: string };
+  const { id } = useParams() as unknown as { id: number };
   const router = useRouter();
   return (
     <form

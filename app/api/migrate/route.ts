@@ -12,7 +12,7 @@ export async function GET() {
   //   Download data from old database
   //  const users = await prisma.user.findMany();
   //  const accounts = await prisma.account.findMany();
-  //  const sites = await prisma.site.findMany();
+  //  const sites = await prisma.website.findMany();
   //  const posts = await prisma.post.findMany();
   //  const examples = await prisma.example.findMany();
 
@@ -38,7 +38,7 @@ export async function GET() {
   //       data: accounts,
   //       skipDuplicates: true,
   //     }),
-  //     prisma.site.createMany({
+  //     prisma.website.createMany({
   //       data: sites,
   //       skipDuplicates: true,
   //     }),

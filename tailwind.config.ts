@@ -14,6 +14,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        //demo page style
+        'demoPrimary' : '#0B7DC5',
+        'demoPrimaryLight' : '#2b8ecc',
+        'demoSecondary' : '#EC3F8C',
+
         // light mode
         tremor: {
           brand: {

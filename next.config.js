@@ -10,6 +10,7 @@ const nextConfig = {
     remotePatterns: [
       { hostname: "cdngovbr-ds.estaleiro.serpro.gov.br" },
       { hostname: "public.blob.vercel-storage.com" },
+      { hostname: "be6gfqnmzh19ics7.public.blob.vercel-storage.com" },
       { hostname: "res.cloudinary.com" },
       { hostname: "abs.twimg.com" },
       { hostname: "pbs.twimg.com" },

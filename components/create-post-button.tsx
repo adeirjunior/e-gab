@@ -9,7 +9,7 @@ import va from "@vercel/analytics";
 
 export default function CreatePostButton() {
   const router = useRouter();
-  const { id } = useParams() as { id: string };
+  const { id } = useParams() as unknown as { id: number };
   const [isPending, startTransition] = useTransition();
 
   return (

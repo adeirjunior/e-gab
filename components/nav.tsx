@@ -14,6 +14,7 @@ import {
   Settings,
   FileCode,
   Github,
+  LucideNewspaper
 } from "lucide-react";
 import {
   useParams,
@@ -26,47 +27,29 @@ import Image from "next/image";
 
 const externalLinks = [
   {
-    name: "Read announcement",
+    name: "Atualizações",
     href: "https://vercel.com/blog/platforms-starter-kit",
     icon: <Megaphone width={18} />,
   },
   {
-    name: "Star on GitHub",
-    href: "https://github.com/vercel/platforms",
-    icon: <Github width={18} />,
-  },
-  {
-    name: "Read the guide",
-    href: "https://vercel.com/guides/nextjs-multi-tenant-application",
+    name: "Documentação",
+    href: process.env.NEXTAUTH_URL
+      ? "http://doc.localhost:3000"
+      : `https://doc.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
     icon: <FileCode width={18} />,
   },
   {
-    name: "View demo site",
+    name: "Veja o site",
     href: "https://demo.vercel.pub",
     icon: <Layout width={18} />,
-  },
-  {
-    name: "Deploy your own",
-    href: "https://vercel.com/templates/next.js/platforms-starter-kit",
-    icon: (
-      <svg
-        width={18}
-        viewBox="0 0 76 76"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="py-1 text-black dark:text-white"
-      >
-        <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor" />
-      </svg>
-    ),
   },
 ];
 
 export default function Nav({ children }: { children: ReactNode }) {
   const segments = useSelectedLayoutSegments();
-  const { id } = useParams() as { id?: string };
+  const { id } = useParams() as { id?: number };
 
-  const [siteId, setSiteId] = useState<string | null>();
+  const [siteId, setSiteId] = useState<number | null>();
 
   useEffect(() => {
     if (segments[0] === "post" && id) {
@@ -92,13 +75,13 @@ export default function Nav({ children }: { children: ReactNode }) {
         },
         {
           name: "Analytics",
-          href: `/site/${id}/analytics`,
+          href: `/site/analytics`,
           isActive: segments.includes("analytics"),
           icon: <BarChart3 width={18} />,
         },
         {
           name: "Settings",
-          href: `/site/${id}/settings`,
+          href: `/site/settings`,
           isActive: segments.includes("settings"),
           icon: <Settings width={18} />,
         },
@@ -126,21 +109,39 @@ export default function Nav({ children }: { children: ReactNode }) {
     }
     return [
       {
-        name: "Overview",
+        name: "Visão Geral",
         href: "/",
         isActive: segments.length === 0,
         icon: <LayoutDashboard width={18} />,
       },
       {
-        name: "Sites",
-        href: "/sites",
-        isActive: segments[0] === "sites",
+        name: "Site",
+        href: "/site",
+        isActive: segments[0] === "site",
         icon: <Globe width={18} />,
       },
       {
-        name: "Settings",
-        href: "/settings",
-        isActive: segments[0] === "settings",
+        name: "Posts",
+        href: `/posts`,
+        isActive: segments.length === 2,
+        icon: <Newspaper width={18} />,
+      },
+      {
+        name: "Notícias",
+        href: `/noticias`,
+        isActive: segments.length === 2,
+        icon: <Newspaper width={18} />,
+      },
+      {
+        name: "Estatísticas",
+        href: `/estatisticas`,
+        isActive: segments.includes("estatisticas"),
+        icon: <BarChart3 width={18} />,
+      },
+      {
+        name: "Configurações",
+        href: "/configuracoes",
+        isActive: segments[0] === "configuracoes",
         icon: <Settings width={18} />,
       },
     ];
@@ -175,8 +176,10 @@ export default function Nav({ children }: { children: ReactNode }) {
       >
         <div className="grid gap-2">
           <div className="flex items-center space-x-2 rounded-lg px-2 py-1.5">
-            <a
-              href="https://vercel.com/templates/next.js/platforms-starter-kit"
+            <Link
+              href={process.env.NEXTAUTH_URL
+                ? "http://localhost:3000"
+                : `https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg p-1.5 hover:bg-stone-200 dark:hover:bg-stone-700"
@@ -193,7 +196,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                   fill="currentColor"
                 />
               </svg>
-            </a>
+            </Link>
             <div className="h-6 rotate-[30deg] border-l border-stone-400 dark:border-stone-500" />
             <Link
               href="/"
@@ -226,7 +229,7 @@ export default function Nav({ children }: { children: ReactNode }) {
         <div>
           <div className="grid gap-1">
             {externalLinks.map(({ name, href, icon }) => (
-              <a
+              <Link
                 key={name}
                 href={href}
                 target="_blank"
@@ -238,7 +241,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                   <span className="text-sm font-medium">{name}</span>
                 </div>
                 <p>↗</p>
-              </a>
+              </Link>
             ))}
           </div>
           <div className="my-2 border-t border-stone-200 dark:border-stone-700" />
