@@ -13,10 +13,10 @@ export default function page() {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="mr-2 bg-gray-100 p-6 sm:rounded-lg">
                 <h1 className="text-4xl font-extrabold tracking-tight text-gray-800 sm:text-5xl">
-                  Get in touch
+                  Entre em contato
                 </h1>
                 <p className="text-normal mt-2 text-lg font-medium text-gray-600 sm:text-2xl">
-                  Fill in the form to start a conversation
+                  Preencha o formulário para iniciar uma conversa
                 </p>
 
                 <div className="mt-8 flex items-center text-gray-600">
@@ -95,13 +95,13 @@ export default function page() {
               <form className="flex flex-col justify-center p-6">
                 <div className="flex flex-col">
                   <label htmlFor="name" className="hidden">
-                    Full Name
+                    Nome Completo
                   </label>
                   <input
                     type="name"
                     name="name"
                     id="name"
-                    placeholder="Full Name"
+                    placeholder="Nome completo"
                     className="w-100 mt-2 rounded-lg border border-gray-400 bg-white px-3 py-3 font-semibold text-gray-800 focus:border-indigo-500 focus:outline-none"
                   />
                 </div>
@@ -121,13 +121,13 @@ export default function page() {
 
                 <div className="mt-2 flex flex-col">
                   <label htmlFor="tel" className="hidden">
-                    Number
+                    Número
                   </label>
                   <input
                     type="tel"
                     name="tel"
                     id="tel"
-                    placeholder="Telephone Number"
+                    placeholder="Número de telefone"
                     className="w-100 mt-2 rounded-lg border border-gray-400 bg-white px-3 py-3 font-semibold text-gray-800 focus:border-indigo-500 focus:outline-none"
                   />
                 </div>
