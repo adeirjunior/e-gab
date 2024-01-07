@@ -413,7 +413,7 @@ export const editUser = async (
   try {
     const response = await prisma.user.update({
       where: {
-        id: session.user.id,
+        id: Number(session.user.id),
       },
       data: {
         [key]: value,

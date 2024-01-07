@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
-export default function LoginButton() {
+export default function GithubLoginButton() {
   const [loading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.
