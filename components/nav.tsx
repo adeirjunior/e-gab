@@ -13,8 +13,6 @@ import {
   Newspaper,
   Settings,
   FileCode,
-  Github,
-  LucideNewspaper
 } from "lucide-react";
 import {
   useParams,
