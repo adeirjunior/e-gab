@@ -73,11 +73,10 @@ export default function DemoHeader() {
             isOpen ? "" : "hidden"
           } flex font-gray-700 absolute left-0 right-0 z-50 mt-7 px-4 items-center self-center justify-between bg-white py-5 font-bold uppercase drop-shadow-lg`}
         >
-          <Link href="#">About</Link>
-          <Link href="#">Issues</Link>
-          <Link href="#">Vote</Link>
-          <Link href="#">Store</Link>
-          <Link href="#">Contact</Link>
+          <Link href="/">Home</Link>
+          <Link href="#">Parlamentar</Link>
+          <Link href="#">Utlidades</Link>
+          <Link href="/contato">Contato</Link>
         </nav>
       </div>
     </header>
