@@ -14,7 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <Toaster className="dark:hidden" />
       <Toaster theme="dark" className="hidden dark:block" />
       <NextUIProvider navigate={router.push}>
-        <NextThemesProvider attribute="class" defaultTheme="light">
+        <NextThemesProvider attribute="class" defaultTheme="dark">
           <ModalProvider>{children}</ModalProvider>
         </NextThemesProvider>
       </NextUIProvider>
