@@ -52,7 +52,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (hostname == `claudinhodacascalheira.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-    return NextResonse.rewrite(
+    return NextResponse.rewrite(
       new URL(`/demo${path === "/" ? "" : path}`, req.url),
     );
   }
