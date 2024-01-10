@@ -3,7 +3,8 @@ import Background1 from "./background1";
 import Background2 from "./background2";
 
 export default function LandingPage() {
-  return <>
+  return (
+    <>
       <div className="container relative mx-auto flex flex-col-reverse px-6 sm:flex-row sm:px-12">
         <div className="relative z-10 sm:w-6/12">
           <Background1 />
@@ -13,8 +14,8 @@ export default function LandingPage() {
             Plataforma para aumentar votos.
           </h1>
           <p className="mb-4 text-blue-900 sm:mb-12 lg:text-lg">
-            Uma plataforma para candidatos, vereadores e prefeitos aumentarem
-            sua campanha e votos.
+            Eleve sua campanha a um novo patamar com uma plataforma
+            personalizada que cativa eleitores e fortalece sua imagem política.
           </p>
           <Link
             href={`${
@@ -29,5 +30,6 @@ export default function LandingPage() {
         </div>
         <Background2 />
       </div>
-  </>
+    </>
+  );
 }

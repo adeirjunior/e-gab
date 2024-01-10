@@ -116,7 +116,6 @@ export default function page() {
                 src="/demo-main-1.jpg"
                 alt="Placeholder"
                 fill
-                objectFit="cover"
               />
               <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col items-start justify-between p-2 md:p-4 lg:p-4">
                 <p className="text-md text-left font-medium text-white md:text-xl xl:text-3xl">

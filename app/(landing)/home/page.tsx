@@ -24,12 +24,12 @@ export default function HomePage() {
               <div className="ml-auto mr-auto w-full px-4 text-center lg:w-6/12">
                 <div className="pr-12">
                   <h1 className="text-5xl font-semibold">
-                    Your story starts with us.
+                    Conecte-se com o eleitorado.
                   </h1>
                   <p className="text-blueGray-200 mt-4 text-lg">
-                    This is a simple example of a Landing Page you can build
-                    using Notus JS. It features multiple CSS components based on
-                    the Tailwind CSS design system.
+                    Comunique-se diretamente com eleitores, compartilhando sua
+                    história, propostas e projetos de uma forma autêntica e
+                    envolvente.
                   </p>
                 </div>
               </div>
@@ -64,10 +64,12 @@ export default function HomePage() {
                     <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-400 p-3 text-center text-white shadow-lg">
                       <i className="fas fa-award"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                    <h6 className="text-xl font-semibold">
+                      Aumente a Visibilidade
+                    </h6>
                     <p className="text-blueGray-500 mb-4 mt-2">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
+                      Esteja na mente dos eleitores o tempo todo, mostrando seu
+                      comprometimento e transparência.
                     </p>
                   </div>
                 </div>
@@ -78,10 +80,12 @@ export default function HomePage() {
                     <div className="bg-lightBlue-400 mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full p-3 text-center text-white shadow-lg">
                       <i className="fas fa-retweet"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
+                    <h6 className="text-xl font-semibold">
+                      Fortaleça a Confiança
+                    </h6>
                     <p className="text-blueGray-500 mb-4 mt-2">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
+                      Construa confiança e credibilidade ao fornecer informações
+                      claras e acessíveis sobre suas propostas e ações.
                     </p>
                   </div>
                 </div>
@@ -92,10 +96,13 @@ export default function HomePage() {
                     <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-400 p-3 text-center text-white shadow-lg">
                       <i className="fas fa-fingerprint"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
+                    <h6 className="text-xl font-semibold">
+                      Resultados Comprovados
+                    </h6>
                     <p className="text-blueGray-500 mb-4 mt-2">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
+                      Políticos que utilizam nossa plataforma veem um aumento
+                      médio de X% na preferência dos eleitores e uma maior
+                      participação em eventos e encontros.
                     </p>
                   </div>
                 </div>
@@ -109,13 +116,13 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-7xl flex-col space-y-12 px-8 xl:px-12">
           <div className="relative">
             <h2 className="w-full text-center text-3xl font-bold sm:text-4xl md:text-5xl">
-              {" "}
-              Level Up Your Designs
+              Controle sua Presença Política com uma Dashboard Poderosa e
+              Intuitiva!
             </h2>
             <p className="intro mx-auto -mt-2 w-full py-8 text-center text-lg text-gray-700 sm:max-w-3xl">
-              Add some nice touches to your interface with our latest designs,
-              components, and templates. We&apos;ve crafted a beautiful user
-              experience that your visitors will love.{" "}
+              Maximize sua influência e conecte-se com eleitores de maneira
+              eficaz através de uma dashboard feita sob medida para políticos
+              modernos.
             </p>
           </div>
           <div className="animated fadeIn mb-8 flex flex-col sm:flex-row">
@@ -131,15 +138,14 @@ export default function HomePage() {
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">
               <p className="mb-2 text-left text-sm font-semibold uppercase leading-none text-indigo-600">
-                Drag-n-drop design
+                Equipe Sintonizada
               </p>
               <h3 className="mt-2 text-2xl sm:text-left md:text-4xl">
-                Design Made Easy
+                Gestão de Equipe Eficiente
               </h3>
               <p className="text mt-5 text-lg text-gray-700 md:text-left">
-                Crafting your user experience has never been easier, with our
-                intuitive drag&apos;n drop interface you will be creating
-                beatiful designs in no time.
+                Atribua permissões, gerencie colaboradores, e mantenha sua
+                equipe alinhada na missão de fortalecer sua presença política.
               </p>
             </div>
           </div>
@@ -156,15 +162,15 @@ export default function HomePage() {
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pl-16 md:mt-0 md:w-7/12">
               <p className="mb-2 text-left text-sm font-semibold uppercase leading-none text-indigo-600">
-                know your data
+                Gestão de Conteúdo
               </p>
               <h3 className="mt-2 text-2xl sm:text-left md:text-4xl">
-                Optimized For Conversions
+                Atualize seu Site com Facilidade
               </h3>
               <p className="text mt-5 text-lg text-gray-700 md:text-left">
-                Backed by data, these templates have been crafted for ultimate
-                optimization. Now, converting your visitors into customers is
-                easier than ever before.
+                Publique propostas, notícias, atualizações de blog e mantenha
+                seu eleitorado informado com apenas alguns cliques na nossa
+                dashboard intuitiva.
               </p>
             </div>
           </div>
@@ -181,15 +187,15 @@ export default function HomePage() {
             </div>
             <div className="mb-8 mt-5 flex flex-col justify-center sm:w-1/2 sm:pr-16 md:mt-0 md:w-7/12">
               <p className="mb-2 text-left text-sm font-semibold uppercase leading-none text-indigo-600">
-                Easy to customize
+                Agenda Dinâmica
               </p>
               <h3 className="mt-2 text-2xl sm:text-left md:text-4xl">
-                Make It Your Own
+                Agenda Personalizada
               </h3>
               <p className="text mt-5 text-lg text-gray-700 md:text-left">
-                All templates and components are fully customizable. You can use
-                these templates to tell your personal story and convey your
-                message.
+                Mantenha-se organizado com uma agenda integrada, agendando
+                eventos, respondendo convites e gerenciando seus compromissos
+                políticos.
               </p>
             </div>
           </div>

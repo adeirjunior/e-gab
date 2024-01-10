@@ -1,5 +1,5 @@
 import { Book } from "lucide-react";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 
 export type NavItems = {
   Icon: ReactElement;
