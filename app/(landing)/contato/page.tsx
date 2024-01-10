@@ -136,7 +136,7 @@ export default function page() {
                   type="submit"
                   className="hover:bg-blue-dark mt-3 rounded-lg bg-indigo-600 px-6 py-3 font-bold text-white transition duration-300 ease-in-out hover:bg-indigo-500 md:w-32"
                 >
-                  Submit
+                  Enviar
                 </button>
               </form>
             </div>
