@@ -13,7 +13,7 @@ import {
 
 export default function PricingTableDiferences() {
   return (
-    <Table className="px-4" aria-label="Example table with dynamic content">
+    <Table className="px-4 light" aria-label="Example table with dynamic content">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>

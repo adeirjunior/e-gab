@@ -3,7 +3,7 @@ import PricingPableSvg from "./pricing-table-svg";
 
 export default function PricingTable() {
   return (
-    <div className="container">
+    <div className="container light">
       <div className="-mx-4 flex flex-wrap">
         <div className="w-full px-4">
           <div className="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20">
