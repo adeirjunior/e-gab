@@ -8,9 +8,11 @@ import { cn } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { useModal } from "./provider";
 import va from "@vercel/analytics";
+import { Input, Textarea } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function CreateSiteModal() {
+  
   const router = useRouter();
   const modal = useModal();
 
@@ -38,36 +40,39 @@ export default function CreateSiteModal() {
             toast.error(res.error);
           } else {
             va.track("Created Site");
-            const { id } = res;
             router.refresh();
-            router.push(`/site/${id}`);
+            router.push(`/site`);
             modal?.hide();
-            toast.success(`Successfully created site!`);
+            toast.success(`Site criado com sucesso!`);
           }
         })
       }
-      className="w-full rounded-md bg-white dark:bg-black md:max-w-md md:border md:border-stone-200 md:shadow dark:md:border-stone-700"
+      className="w-full rounded-md bg-white md:max-w-md md:border md:border-stone-200 md:shadow dark:bg-black dark:md:border-stone-700"
     >
       <div className="relative flex flex-col space-y-4 p-5 md:p-10">
-        <h2 className="font-cal text-2xl dark:text-white">Create a new site</h2>
+        <h2 className="font-cal text-2xl dark:text-white">Crie seu site</h2>
 
         <div className="flex flex-col space-y-2">
           <label
             htmlFor="name"
             className="text-sm font-medium text-stone-500 dark:text-stone-400"
           >
-            Site Name
+            Nome do Site
           </label>
-          <input
+          <Input
             name="name"
+            autoComplete="no"
             type="text"
-            placeholder="My Awesome Site"
+            placeholder="Meu site incrível"
             autoFocus
             value={data.name}
             onChange={(e) => setData({ ...data, name: e.target.value })}
             maxLength={32}
             required
-            className="w-full rounded-md border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-600 placeholder:text-stone-400 focus:border-black focus:outline-none focus:ring-black dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700 dark:focus:ring-white"
+            variant="bordered"
+            classNames={{
+              input: "text-gray-200",
+            }}
           />
         </div>
 
@@ -76,20 +81,31 @@ export default function CreateSiteModal() {
             htmlFor="subdomain"
             className="text-sm font-medium text-stone-500"
           >
-            Subdomain
+            Subdomínio
           </label>
           <div className="flex w-full max-w-md">
-            <input
+            <Input
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">https://</span>
+                </div>
+              }
               name="subdomain"
+              autoComplete="no"
+              variant="bordered"
+              radius="none"
               type="text"
-              placeholder="subdomain"
+              placeholder="subdomínio"
               value={data.subdomain}
               onChange={(e) => setData({ ...data, subdomain: e.target.value })}
               autoCapitalize="off"
               pattern="[a-zA-Z0-9\-]+" // only allow lowercase letters, numbers, and dashes
               maxLength={32}
               required
-              className="w-full rounded-l-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-600 placeholder:text-stone-400 focus:border-black focus:outline-none focus:ring-black dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700 dark:focus:ring-white"
+              classNames={{
+                inputWrapper: "rounded-s-xl",
+                input: "text-gray-200",
+              }}
             />
             <div className="flex items-center rounded-r-lg border border-l-0 border-stone-200 bg-stone-100 px-3 text-sm dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400">
               .{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
@@ -102,25 +118,28 @@ export default function CreateSiteModal() {
             htmlFor="description"
             className="text-sm font-medium text-stone-500"
           >
-            Description
+            Descrição
           </label>
-          <textarea
+          <Textarea
             name="description"
-            placeholder="Description about why my site is so awesome"
+            placeholder="Dê um resumo simples para seu site"
             value={data.description}
             onChange={(e) => setData({ ...data, description: e.target.value })}
             maxLength={140}
             rows={3}
-            className="w-full rounded-md border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-600 placeholder:text-stone-400 focus:border-black  focus:outline-none focus:ring-black dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700 dark:focus:ring-white"
+            variant="bordered"
+            className="text-gray-200"
           />
         </div>
       </div>
-      <div className="flex items-center justify-end rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 dark:border-stone-700 dark:bg-stone-800 md:px-10">
+      <div className="flex items-center justify-end rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 md:px-10 dark:border-stone-700 dark:bg-stone-800">
         <CreateSiteFormButton />
       </div>
     </form>
   );
 }
+
+
 function CreateSiteFormButton() {
   const { pending } = useFormStatus();
   return (
@@ -129,11 +148,11 @@ function CreateSiteFormButton() {
         "flex h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none",
         pending
           ? "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
-          : "border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800",
+          : " bg-black text-white border-stone-700 hover:border-stone-200 hover:bg-black hover:text-white active:bg-stone-800",
       )}
       disabled={pending}
     >
-      {pending ? <LoadingDots color="#808080" /> : <p>Create Site</p>}
+      {pending ? <LoadingDots color="#808080" /> : <p className="m-0 text-gray-200">Criar Site</p>}
     </button>
   );
 }

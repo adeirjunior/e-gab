@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Post, Website } from "@prisma/client";
+import { Politician, Post, Website } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { withPostAuth, withSiteAuth } from "./auth";
 import { getSession } from "@/lib/auth";
@@ -21,6 +21,35 @@ const nanoid = customAlphabet(
   7,
 ); // 7-character random string
 
+export const createPolitician = async() => {
+  const session = await getSession();
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
+
+  try {
+
+    const response: Politician = await prisma.politician.create({
+      data: {
+        party: "Partido Genérico",
+        User: {
+          connect: {
+            id: Number(session.user.id),
+          },
+        },
+      },
+    });
+
+    return response;
+  } catch(error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}
+
 export const createSite = async (formData: FormData) => {
   const session = await getSession();
   if (!session?.user.id) {
@@ -33,12 +62,20 @@ export const createSite = async (formData: FormData) => {
   const subdomain = formData.get("subdomain") as string;
 
   try {
+    const politician = await createPolitician();
+
+    if('error' in politician){
+      return {
+        error:  "Você já possui um site"
+      }
+    }
+
     const response = await prisma.website.create({
       data: {
         name,
         description,
         subdomain,
-        politicianId: 1,
+        politicianId: Number(politician.id),
         User: {
           connect: {
             id: Number(session.user.id),
