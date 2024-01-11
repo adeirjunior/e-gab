@@ -121,13 +121,7 @@ export default function Nav({ children }: { children: ReactNode }) {
       {
         name: "Posts",
         href: `/posts`,
-        isActive: segments.length === 2,
-        icon: <Newspaper width={18} />,
-      },
-      {
-        name: "Notícias",
-        href: `/noticias`,
-        isActive: segments.length === 2,
+        isActive: segments.includes("posts"),
         icon: <Newspaper width={18} />,
       },
       {

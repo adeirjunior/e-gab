@@ -2,32 +2,31 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useParams, useSelectedLayoutSegment } from "next/navigation";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 export default function SiteSettingsNav() {
-  const { id } = useParams() as { id?: string };
   const segment = useSelectedLayoutSegment();
 
   const navItems = [
     {
-      name: "General",
-      href: `/site/${id}/settings`,
+      name: "Geral",
+      href: `/site`,
       segment: null,
     },
     {
-      name: "Domains",
-      href: `/site/${id}/settings/domains`,
-      segment: "domains",
+      name: "Domínios",
+      href: `/site/dominios`,
+      segment: "dominios",
     },
     {
-      name: "Appearance",
-      href: `/site/${id}/settings/appearance`,
-      segment: "appearance",
+      name: "Aparência",
+      href: `/site/aparencia`,
+      segment: "aparencia",
     },
   ];
 
   return (
-    <div className="flex space-x-4 border-b border-stone-200 pb-4 pt-2 dark:border-stone-700">
+    <div className="flex justify-center sm:justify-start space-x-4 px-4 border-b border-stone-200 pb-4 pt-2 dark:border-stone-700">
       {navItems.map((item) => (
         <Link
           key={item.name}
