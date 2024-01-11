@@ -2,20 +2,19 @@
 
 import LoadingDots from "@/components/icons/loading-dots";
 import { cn } from "@/lib/utils";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import { deleteSite } from "@/lib/actions";
 import va from "@vercel/analytics";
 
 export default function DeleteSiteForm({ siteName }: { siteName: string }) {
-  const { id } = useParams() as unknown as { id: number };
   const router = useRouter();
   return (
     <form
       action={async (data: FormData) =>
-        window.confirm("Are you sure you want to delete your site?") &&
-        deleteSite(data, id, "delete")
+        window.confirm("Tem certeza que quer deletar o seu site?") &&
+        deleteSite(data, "delete")
           .then(async (res) => {
             if (res.error) {
               toast.error(res.error);
@@ -23,7 +22,7 @@ export default function DeleteSiteForm({ siteName }: { siteName: string }) {
               va.track("Deleted Site");
               router.refresh();
               router.push("/sites");
-              toast.success(`Successfully deleted site!`);
+              toast.success(`Site deletado com sucesso!`);
             }
           })
           .catch((err: Error) => toast.error(err.message))
