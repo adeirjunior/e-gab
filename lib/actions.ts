@@ -197,7 +197,7 @@ export const updateSite = withSiteAuth(
 
         response = await prisma.website.update({
           where: {
-            id: site.id,
+            id: Number(site.id),
           },
           data: {
             [key]: url,
@@ -244,7 +244,7 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Website) => {
   try {
     const response = await prisma.website.delete({
       where: {
-        id: site.id,
+        id: Number(site.id),
       },
     });
     await revalidateTag(
@@ -281,15 +281,15 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
   }
   const response = await prisma.post.create({
     data: {
-      websiteId: site.id,
-      userId: session.user.id,
+      websiteId: Number(site.id),
+      userId: Number(session.user.id),
     },
   });
 
-  await revalidateTag(
+  revalidateTag(
     `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
   );
-  site.customDomain && (await revalidateTag(`${site.customDomain}-posts`));
+  site.customDomain && (revalidateTag(`${site.customDomain}-posts`));
 
   return response;
 });
@@ -324,6 +324,7 @@ export const updatePost = async (data: Post) => {
         title: data.title,
         description: data.description,
         content: data.content,
+        published: true
       },
     });
 

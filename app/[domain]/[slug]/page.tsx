@@ -21,6 +21,9 @@ export async function generateMetadata({
   if (!data || !siteData) {
     return null;
   }
+  if ('error' in data) {
+    return null;
+  }
   const { title, description } = data;
 
   return {
@@ -90,7 +93,8 @@ export default async function SitePostPage({
   const slug = decodeURIComponent(params.slug);
   const data = await getPostData(domain, slug);
 
-  if (!data) {
+  if ('error' in data) {
+    console.log(data)
     notFound();
   }
 

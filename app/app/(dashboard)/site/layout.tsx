@@ -12,7 +12,7 @@ export default async function SiteAnalyticsLayout({children}: {children: ReactNo
 
   return (
     <>
-      <div className="flex flex-col px-4 pt-4 items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
+      <div className="flex flex-col px-8 pt-8 items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
         <h1 className="font-cal text-xl font-bold dark:text-white sm:text-3xl">
           Configurações do Site
         </h1>

@@ -107,7 +107,6 @@ export function getSession() {
 export function withSiteAuth(action: any) {
   return async (
     formData: FormData | null,
-    siteId: number,
     key: string | null,
   ) => {
     const session = await getSession();
@@ -116,21 +115,33 @@ export function withSiteAuth(action: any) {
         error: "Not authenticated",
       };
     }
-    const site = await prisma.website.findUnique({
-      where: {
-        id: siteId,
-      },
-    });
-
     const checkUser = await prisma.user.findUnique({
       where: {
         id: Number(session.user.id)
       }
     })
 
+if (!checkUser) {
+      return {
+        error: "Não autorizado",
+      };
+    }
+
+if (checkUser.websiteId === null) {
+  return {
+    error: "Não há website",
+  };
+}
+
+    const site = await prisma.website.findUnique({
+      where: {
+        id: checkUser.websiteId
+      },
+    });
+
     if (!site || !checkUser) {
       return {
-        error: "Not authorized",
+        error: "Não autorizado",
       };
     }
 

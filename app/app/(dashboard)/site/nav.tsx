@@ -26,7 +26,7 @@ export default function SiteSettingsNav() {
   ];
 
   return (
-    <div className="flex justify-center sm:justify-start space-x-4 px-4 border-b border-stone-200 pb-4 pt-2 dark:border-stone-700">
+    <div className="flex justify-center sm:justify-start space-x-4 px-8 border-b border-stone-200 pb-4 pt-2 dark:border-stone-700">
       {navItems.map((item) => (
         <Link
           key={item.name}

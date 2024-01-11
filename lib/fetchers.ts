@@ -76,7 +76,9 @@ export async function getPostData(domain: string, slug: string) {
         },
       });
 
-      if (!data) return null;
+      if (!data) return {
+        error: "Post está indefinido"
+      };
 
       const [mdxSource, adjacentPosts] = await Promise.all([
         getMdxSource(data.content!),

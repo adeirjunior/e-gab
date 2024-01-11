@@ -37,7 +37,7 @@ export default async function Posts({
     </div>
   ) : (
     <div className="flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">No Posts Yet</h1>
+      <h1 className="font-cal text-4xl">Sem Posts Ainda</h1>
       <Image
         alt="missing post"
         src="https://illustrations.popsy.co/gray/graphic-design.svg"
@@ -45,7 +45,7 @@ export default async function Posts({
         height={400}
       />
       <p className="text-lg text-stone-500">
-        You do not have any posts yet. Create one to get started.
+        Você não tem nenhum post ainda. Crie um para começar.
       </p>
     </div>
   );

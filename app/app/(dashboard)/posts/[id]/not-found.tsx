@@ -11,7 +11,7 @@ export default function NotFoundPost() {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        Post does not exist, or you do not have permission to edit it
+        Este post não existe, ou você não tem permissão para edita-lo.
       </p>
     </div>
   );

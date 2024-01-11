@@ -1,4 +1,5 @@
 import { getSiteData } from "@/lib/fetchers";
+import { decodeUTF8 } from "@/lib/utils";
 import { headers } from "next/headers";
 import Image from "next/image";
 
@@ -19,9 +20,9 @@ export default async function NotFound() {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        {data
-          ? data.message404
-          : "Blimey! You've found a page that doesn't exist."}
+        {data && data.message404
+          ? decodeUTF8(data.message404)
+          : "Você encontrou um site que não existe."}
       </p>
     </div>
   );

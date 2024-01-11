@@ -145,7 +145,7 @@ function FormButton() {
       )}
       disabled={pending}
     >
-      {pending ? <LoadingDots color="#808080" /> : <p>Save Changes</p>}
+      {pending ? <LoadingDots color="#808080" /> : <p className="m-0 text-gray-300">Salvar</p>}
     </button>
   );
 }

@@ -12,12 +12,12 @@ export default async function SettingsPage() {
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
       <div className="flex flex-col space-y-6">
         <h1 className="font-cal text-3xl font-bold dark:text-white">
-          Settings
+          Configurações
         </h1>
         <Form
-          title="Name"
-          description="Your name on this app."
-          helpText="Please use 32 characters maximum."
+          title="Nome"
+          description="Seu nome nesta plataforma."
+          helpText="Por favor use no máximo 32 caracteres."
           inputAttrs={{
             name: "name",
             type: "text",
@@ -29,8 +29,8 @@ export default async function SettingsPage() {
         />
         <Form
           title="Email"
-          description="Your email on this app."
-          helpText="Please enter a valid email."
+          description="Seu email nesta plataforma."
+          helpText="Por favor coloque um email valido."
           inputAttrs={{
             name: "email",
             type: "email",
