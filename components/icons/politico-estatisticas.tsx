@@ -9,7 +9,7 @@ export default function PoliticoEstatisticas() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_130_4)">
+      <g clipPath="url(#clip0_130_4)">
         <rect width="500" height="500" fill="white" />
         <path d="M500 0H0V500H500V0Z" fill="white" />
         <path

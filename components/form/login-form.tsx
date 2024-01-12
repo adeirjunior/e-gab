@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 export default function LoginForm() {
     const [loading, setLoading] = useState<boolean>(false);
   return (
-    <form className="mb-6" action="">
+    <form>
       <input
         type="email"
         placeholder="Seu email"
@@ -22,7 +22,7 @@ export default function LoginForm() {
         disabled={loading}
         onClick={() => {
           setLoading(true);
-          signIn("github");
+          signIn("credentials");
         }}
         className={`${
           loading

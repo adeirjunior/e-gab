@@ -26,6 +26,12 @@ export interface DomainResponse {
   }[];
 }
 
+export type AuthenticatedUser = {
+  id: string;
+  name: string | null;
+  email: string;
+};
+
 // From https://vercel.com/docs/rest-api/endpoints#get-a-domain-s-configuration
 export interface DomainConfigResponse {
   /** How we see the domain's configuration. - `CNAME`: Domain has a CNAME pointing to Vercel. - `A`: Domain's A record is resolving to Vercel. - `http`: Domain is resolving to Vercel but may be behind a Proxy. - `null`: Domain is not resolving to Vercel. */

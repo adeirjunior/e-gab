@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
+import { userService } from "./services/user.service";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -25,27 +26,28 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "username" },
+        email: { label: "Email", type: "text", placeholder: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const { username, password, role } = credentials as {
-          username: string;
+        const { email, password, role } = credentials as {
+          email: string;
           password: string;
           role: UserRole;
         };
 
-        if (username !== "admin" && password !== "admin") {
-          return null;
+        try {
+          const user = await userService.authenticate(email, password);
+
+          if ("error" in user) {
+            // Handle the error case
+            throw new Error(user.error);
+          }
+
+          return user;
+        } catch (error) {
+          throw error;
         }
-
-        const user = {
-          id: "9001",
-          name: "Web Admin",
-          email: "admin@example.com",
-        }; 
-
-        return user;
       },
     }),
   ],
@@ -53,7 +55,7 @@ export const authOptions: NextAuthOptions = {
     signIn: `/login`,
     verifyRequest: `/login`,
     error: "/login", // Error code passed in query string as ?error=
-    newUser: "/new"
+    newUser: "/new",
   },
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -112,7 +114,7 @@ export function withSiteAuth(action: any) {
     const session = await getSession();
     if (!session) {
       return {
-        error: "Not authenticated",
+        error: "Não autentificado",
       };
     }
     const checkUser = await prisma.user.findUnique({
@@ -158,7 +160,7 @@ export function withPostAuth(action: any) {
     const session = await getSession();
     if (!session?.user.id) {
       return {
-        error: "Not authenticated",
+        error: "Não autentificado",
       };
     }
     const post = await prisma.post.findUnique({
@@ -171,7 +173,7 @@ export function withPostAuth(action: any) {
     });
     if (!post || post.userId !== session.user.id) {
       return {
-        error: "Post not found",
+        error: "Post não encontrado",
       };
     }
 

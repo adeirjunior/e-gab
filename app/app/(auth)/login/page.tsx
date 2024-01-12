@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import GoogleLoginButton from "@/components/button/google-login-button";
 import LoginForm from "@/components/form/login-form";
+import { Link as LinkUI } from "@nextui-org/react";
 
 export default function LoginPage() {
   return (
@@ -21,7 +22,7 @@ export default function LoginPage() {
       <p className="mt-2 text-center text-sm text-stone-600 dark:text-stone-400">
         Plataforma de gabinete virtual. <br />
         <Link
-          className="font-medium text-black hover:text-stone-800 dark:text-stone-300 dark:hover:text-stone-100"
+          className="font-medium dark:text-stone-300 dark:hover:text-stone-100"
           href={
             process.env.NEXTAUTH_URL
               ? "http://localhost:3000"
@@ -41,6 +42,16 @@ export default function LoginPage() {
         >
           <LoginForm />
         </Suspense>
+        <p className="text-center text-small text-gray-300 my-3">
+          Não tem uma conta?{" "}
+          <LinkUI
+            size="sm"
+            className="cursor-pointer"
+            href="signup"
+          >
+            Registre-se
+          </LinkUI>
+        </p>
         <Suspense
           fallback={
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
