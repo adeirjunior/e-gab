@@ -130,6 +130,47 @@ async function getMdxSource(postContents: string) {
   return mdxSource;
 }
 
+export const getSiteFromPostId = async (postId: string) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    select: {
+      websiteId: true,
+    },
+  });
+  return post?.websiteId;
+};
+
+export async function getWebsiteByUserId(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { Website: true }, // Certifique-se de que o relacionamento está correto no seu modelo
+    });
+
+    if (!user) {
+      console.log("Usuário não encontrado.");
+      return null;
+    }
+
+    const website = user.Website;
+
+    if (!website) {
+      console.log("Usuário não tem um site associado.");
+      return null;
+    }
+
+    console.log("Site encontrado:", website);
+    return website;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function getPoliticianSiteByUser(userId: string) {
   try {
     const user = await prisma.user.findUnique({
