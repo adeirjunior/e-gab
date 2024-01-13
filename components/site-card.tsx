@@ -1,7 +1,7 @@
 import BlurImage from "@/components/blur-image";
 import { placeholderBlurhash, random } from "@/lib/utils";
 import { Website } from "@prisma/client";
-import { BarChart, ExternalLink } from "lucide-react";
+import { BarChart } from "lucide-react";
 import Link from "next/link";
 
 export default function SiteCard({ data }: { data: Website }) {

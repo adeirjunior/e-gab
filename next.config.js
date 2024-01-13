@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
+const withMDX = require('@next/mdx')()
 
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   experimental: {
     serverActions: {
       allowedOrigins: ["app.localhost:3000"],
@@ -26,4 +28,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig
+module.exports = withMDX(nextConfig)

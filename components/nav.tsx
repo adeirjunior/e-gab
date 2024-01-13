@@ -20,7 +20,7 @@ import {
   useSelectedLayoutSegments,
 } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { getSiteFromPostId } from "@/lib/actions";
+import { getSiteFromPostId } from "@/lib/actions/website";
 import Image from "next/image";
 
 const externalLinks = [
@@ -45,13 +45,13 @@ const externalLinks = [
 
 export default function Nav({ children }: { children: ReactNode }) {
   const segments = useSelectedLayoutSegments();
-  const { id } = useParams() as { id?: number };
+  const { id } = useParams() as { id?: string };
 
   const [siteId, setSiteId] = useState<number | null>();
 
   useEffect(() => {
-    if (segments[0] === "post" && id) {
-      getSiteFromPostId(id).then((id) => {
+    if (segments[0] === "posts" && id) {
+      getSiteFromPostId(id).then((id: any) => {
         setSiteId(id);
       });
     }
@@ -84,11 +84,11 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <Settings width={18} />,
         },
       ];
-    } else if (segments[0] === "post" && id) {
+    } else if (segments[0] === "posts" && id) {
       return [
         {
-          name: "Back to All Posts",
-          href: siteId ? `/site/${siteId}` : "/sites",
+          name: "Voltar para posts",
+          href: `/posts`,
           icon: <ArrowLeft width={18} />,
         },
         {
@@ -98,9 +98,9 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <Edit3 width={18} />,
         },
         {
-          name: "Settings",
-          href: `/posts/${id}/settings`,
-          isActive: segments.includes("settings"),
+          name: "Configurações",
+          href: `/posts/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
           icon: <Settings width={18} />,
         },
       ];
@@ -137,7 +137,7 @@ export default function Nav({ children }: { children: ReactNode }) {
         icon: <Settings width={18} />,
       },
     ];
-  }, [segments, id, siteId]);
+  }, [segments, id]);
 
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -153,7 +153,7 @@ export default function Nav({ children }: { children: ReactNode }) {
       <button
         className={`fixed z-20 ${
           // left align for Editor, right align for other pages
-          segments[0] === "post" && segments.length === 2 && !showSidebar
+          segments[0] === "posts" && segments.length === 2 && !showSidebar
             ? "left-5 top-5"
             : "right-5 top-7"
         } sm:hidden`}

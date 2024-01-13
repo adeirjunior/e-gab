@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { createPost } from "@/lib/actions";
+import { createPost } from "@/lib/actions/post/post.create.action";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import LoadingDots from "@/components/icons/loading-dots";

@@ -130,10 +130,10 @@ async function getMdxSource(postContents: string) {
   return mdxSource;
 }
 
-export async function getPoliticianSiteByUser(userId: number) {
+export async function getPoliticianSiteByUser(userId: string) {
   try {
     const user = await prisma.user.findUnique({
-      where: { id: Number(userId) },
+      where: { id: userId },
       include: {
             Website: {
               include: {
@@ -150,7 +150,6 @@ export async function getPoliticianSiteByUser(userId: number) {
 
     const site = user.Website;
 
-    console.log("Site do Político:", site);
     return site;
   } catch (error) {
     console.error("Erro ao obter o site do político:", error);

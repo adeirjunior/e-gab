@@ -3,10 +3,16 @@
 import { Button, Card, CardBody, Input, Tab, Tabs, Link } from "@nextui-org/react"
 import { UserRole } from "@prisma/client";
 import { Key, useState } from "react";
-import CreateSiteModal from "../modal/create-site";
+import { createSite } from "@/lib/actions/website/website.create.action";
+import { toast } from "sonner";
+import va from "@vercel/analytics";
+import { useRouter } from "next/navigation";
+import { useModal } from "../modal/provider";
 
 export default function NewUserForm() {
      const [selected, setSelected] = useState<UserRole>("Politician");
+     const router = useRouter();
+     const modal = useModal();
   return (
     <Card className="min-h-[600px] w-[340px] max-w-full">
       <CardBody className="overflow-hidden">

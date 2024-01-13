@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { Post } from "@prisma/client";
-import { updatePost, updatePostMetadata } from "@/lib/actions";
+import { updatePost, updatePostMetadata } from "@/lib/actions/post/post.update.action";
 import { Editor as NovelEditor } from "novel";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
@@ -52,20 +52,20 @@ export default function Editor({ post }: { post: PostWithSite }) {
           </a>
         )}
         <div className="rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400 dark:bg-stone-800 dark:text-stone-500">
-          {isPendingSaving ? "Saving..." : "Saved"}
+          {isPendingSaving ? "Salvando..." : "Salvo"}
         </div>
         <button
           onClick={() => {
             const formData = new FormData();
             console.log(data.published, typeof data.published);
-            formData.append("published", String(!data.published));
+            formData.append("poblicado", String(!data.published));
             startTransitionPublishing(async () => {
-              await updatePostMetadata(formData, post.id, "published").then(
+              await updatePostMetadata(formData, post.id, "publicado").then(
                 () => {
                   toast.success(
-                    `Successfully ${
-                      data.published ? "unpublished" : "published"
-                    } your post.`,
+                    `Seu post foi ${
+                      data.published ? "despublicado" : "publicado"
+                    } com sucesso.`,
                   );
                   setData((prev) => ({ ...prev, published: !prev.published }));
                 },
@@ -83,21 +83,21 @@ export default function Editor({ post }: { post: PostWithSite }) {
           {isPendingPublishing ? (
             <LoadingDots />
           ) : (
-            <p>{data.published ? "Unpublish" : "Publish"}</p>
+            <p>{data.published ? "Despublicar" : "Publicar"}</p>
           )}
         </button>
       </div>
       <div className="mb-5 flex flex-col space-y-3 border-b border-stone-200 pb-5 dark:border-stone-700">
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Título"
           defaultValue={post?.title || ""}
           autoFocus
           onChange={(e) => setData({ ...data, title: e.target.value })}
           className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <TextareaAutosize
-          placeholder="Description"
+          placeholder="Descrição"
           defaultValue={post?.description || ""}
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"

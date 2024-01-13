@@ -97,7 +97,7 @@ export const authOptions: NextAuthOptions = {
 export function getSession() {
   return getServerSession(authOptions) as Promise<{
     user: {
-      id: number;
+      id: string;
       name: string;
       username: string;
       email: string;
@@ -119,7 +119,7 @@ export function withSiteAuth(action: any) {
     }
     const checkUser = await prisma.user.findUnique({
       where: {
-        id: Number(session.user.id)
+        id: session.user.id
       }
     })
 
@@ -154,7 +154,7 @@ if (checkUser.websiteId === null) {
 export function withPostAuth(action: any) {
   return async (
     formData: FormData | null,
-    postId: number,
+    postId: string,
     key: string | null,
   ) => {
     const session = await getSession();

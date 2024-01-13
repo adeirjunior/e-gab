@@ -2,13 +2,13 @@ import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import Form from "@/components/form";
-import { updatePostMetadata } from "@/lib/actions";
+import { updatePostMetadata } from "@/lib/actions/post/post.update.action";
 import DeletePostForm from "@/components/form/delete-post-form";
 
 export default async function PostSettings({
   params,
 }: {
-  params: { id: number};
+  params: { id: string};
 }) {
   const session = await getSession();
   if (!session) {
@@ -16,7 +16,7 @@ export default async function PostSettings({
   }
   const data = await prisma.post.findUnique({
     where: {
-      id: Number(params.id),
+      id: params.id,
     },
   });
   if (!data || data.userId !== session.user.id) {

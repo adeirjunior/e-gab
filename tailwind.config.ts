@@ -15,9 +15,9 @@ module.exports = {
     extend: {
       colors: {
         //demo page style
-        'demoPrimary' : '#0B7DC5',
-        'demoPrimaryLight' : '#2b8ecc',
-        'demoSecondary' : '#EC3F8C',
+        demoPrimary: "#0B7DC5",
+        demoPrimaryLight: "#2b8ecc",
+        demoSecondary: "#EC3F8C",
 
         // light mode
         tremor: {
@@ -187,6 +187,10 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("tailwindcss-animate"),
-    nextui()
+    nextui(),
+    function ({ addVariant }: any) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
   ],
 };

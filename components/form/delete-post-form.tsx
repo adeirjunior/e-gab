@@ -5,17 +5,17 @@ import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
-import { deletePost } from "@/lib/actions";
+import { deletePost } from "@/lib/actions/post/post.delete.action";
 import va from "@vercel/analytics";
 
 export default function DeletePostForm({ postName }: { postName: string }) {
-  const { id } = useParams() as unknown as { id: number };
+  const { id } = useParams() as unknown as { id: string };
   const router = useRouter();
   return (
     <form
       action={async (data: FormData) =>
         window.confirm("Are you sure you want to delete your post?") &&
-        deletePost(data, id, "delete").then((res) => {
+        deletePost(data, id, "delete").then((res: any) => {
           if (res.error) {
             toast.error(res.error);
           } else {
