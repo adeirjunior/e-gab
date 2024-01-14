@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card, Tab, Tabs } from "@nextui-org/react";
 import PricingPableSvg from "./pricing-table-svg";
@@ -6,12 +6,9 @@ import { pricingTable } from "@/lib/data/pricing-table";
 import { Key, useState } from "react";
 
 export default function PricingTable() {
+  type KeyType = "ano" | "mes";
 
- type KeyType = "ano" | "mes";
-
- const [isMonthly, setIsMonthly] = useState<KeyType>("mes");
-
-
+  const [isMonthly, setIsMonthly] = useState<KeyType>("mes");
 
   return (
     <div className="container light">
@@ -121,6 +118,71 @@ export default function PricingTable() {
             </div>
           ),
         )}
+        <div className="w-full px-4">
+          <Card
+            className="
+               shadow-pricing
+               relative
+               z-10
+               mb-10
+               overflow-hidden rounded-xl border
+               border-purple-600
+               border-opacity-20
+               px-8
+               py-10
+               sm:p-12 lg:px-6
+               lg:py-10
+               xl:p-12
+               "
+          >
+            <span className="mb-4 block text-lg font-semibold text-blue-900">
+              Demonstração
+            </span>
+            <h2 className="text-dark mb-5 text-[42px] font-bold">Grátis</h2>
+            <p
+              className="
+                  text-body-color mb-8
+                  border-b
+                  border-[#F2F2F2]
+                  pb-8 text-base
+                  "
+            >
+              Não oferecemos planos gratuitos, por isso temos um site de
+              demonstração para que você possa ver como são os nossos sites em
+              potência máxima.
+            </p>
+            <div className="mb-7">
+              <p className="text-body-color mb-1 text-base leading-loose">
+                Todos os recursos disponíveis em ação
+              </p>
+            </div>
+            <a
+              target="demo"
+              href={
+                process.env.NEXTAUTH_URL
+                  ? "http://demo.localhost:3000"
+                  : `https://demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+              }
+              className="
+                  block
+                  w-full
+                  rounded-md
+                  border
+                  border-[#D4DEFF]
+                  bg-transparent
+                  p-4 text-center
+                  text-base
+                  font-semibold
+                  text-blue-900
+                  transition hover:border-purple-600 hover:bg-purple-600
+                  hover:text-white
+                  "
+            >
+              Veja a Demo
+            </a>
+            <PricingPableSvg />
+          </Card>
+        </div>
       </div>
     </div>
   );

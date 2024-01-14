@@ -33,7 +33,7 @@ export const pricingTable: PricingTableType = [
     name: "Profissional",
     monthPrice: "200",
     yearPrice: "2000",
-    description: "Tudo que você precisa",
+    description: "Desbloqueie Todo o Potencial!",
     items: [
       {
         name: "Usuários ilimitados",
