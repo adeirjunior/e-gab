@@ -47,44 +47,8 @@ export default function Nav({ children }: { children: ReactNode }) {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
 
-  const [siteId, setSiteId] = useState<number | null>();
-
-  useEffect(() => {
-    if (segments[0] === "posts" && id) {
-      getSiteFromPostId(id).then((id: any) => {
-        setSiteId(id);
-      });
-    }
-  }, [segments, id]);
-
   const tabs = useMemo(() => {
-    if (segments[0] === "site" && id) {
-      return [
-        {
-          name: "Back to All Sites",
-          href: "/sites",
-          icon: <ArrowLeft width={18} />,
-        },
-        {
-          name: "Posts",
-          href: `/site/${id}`,
-          isActive: segments.length === 2,
-          icon: <Newspaper width={18} />,
-        },
-        {
-          name: "Analytics",
-          href: `/site/analytics`,
-          isActive: segments.includes("analytics"),
-          icon: <BarChart3 width={18} />,
-        },
-        {
-          name: "Settings",
-          href: `/site/settings`,
-          isActive: segments.includes("settings"),
-          icon: <Settings width={18} />,
-        },
-      ];
-    } else if (segments[0] === "posts" && id) {
+    if (segments[0] === "posts" && id) {
       return [
         {
           name: "Voltar para posts",
