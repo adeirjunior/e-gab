@@ -13,6 +13,12 @@ import {
   Newspaper,
   Settings,
   FileCode,
+  Vote,
+  Scale,
+  DollarSign,
+  CalendarDays,
+  ScrollText,
+  ListChecks
 } from "lucide-react";
 import {
   useParams,
@@ -20,7 +26,6 @@ import {
   useSelectedLayoutSegments,
 } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { getSiteFromPostId } from "@/lib/fetchers";
 import Image from "next/image";
 
 const externalLinks = [
@@ -48,24 +53,76 @@ export default function Nav({ children }: { children: ReactNode }) {
   const { id } = useParams() as { id?: string };
 
   const tabs = useMemo(() => {
-    if (segments[0] === "posts" && id) {
+    console.log(segments[0])
+    if (segments[0] === "conteudos" && segments[1] === "posts" && id) {
       return [
         {
           name: "Voltar para posts",
-          href: `/posts`,
+          href: `/conteudos/posts`,
           icon: <ArrowLeft width={18} />,
         },
         {
           name: "Editor",
-          href: `/posts/${id}`,
-          isActive: segments.length === 2,
+          href: `/conteudos/posts/${id}`,
+          isActive: segments.length === 3,
           icon: <Edit3 width={18} />,
         },
         {
           name: "Configurações",
-          href: `/posts/${id}/configuracoes`,
+          href: `/conteudos/posts/${id}/configuracoes`,
           isActive: segments.includes("configuracoes"),
           icon: <Settings width={18} />,
+        },
+      ];
+    }
+    else if (segments[0] === "conteudos") {
+      return [
+        {
+          name: "Voltar para Visão Geral",
+          href: `/`,
+          icon: <ArrowLeft width={18} />,
+        },
+        {
+          name: "Posts",
+          href: `/${segments[0]}/posts`,
+          isActive: segments.includes("posts"),
+          icon: <Edit3 width={18} />,
+        },
+        {
+          name: "Leis",
+          href: `/${segments[0]}/leis`,
+          isActive: segments.includes("leis"),
+          icon: <Scale width={18} />,
+        },
+        {
+          name: "Gastos",
+          href: `/${segments[0]}/gastos`,
+          isActive: segments.includes("gastos"),
+          icon: <DollarSign width={18} />,
+        },
+        {
+          name: "Eventos",
+          href: `/${segments[0]}/eventos`,
+          isActive: segments.includes("eventos"),
+          icon: <CalendarDays width={18} />,
+        },
+        {
+          name: "Moções",
+          href: `/${segments[0]}/mocoes`,
+          isActive: segments.includes("mocoes"),
+          icon: <ScrollText width={18} />,
+        },
+        {
+          name: "Pesquisas",
+          href: `/${segments[0]}/pesquisas`,
+          isActive: segments.includes("pesquisas"),
+          icon: <ListChecks width={18} />,
+        },
+        {
+          name: "Enquetes",
+          href: `/${segments[0]}/enquetes`,
+          isActive: segments.includes("enquetes"),
+          icon: <Vote width={18} />,
         },
       ];
     }
@@ -82,10 +139,11 @@ export default function Nav({ children }: { children: ReactNode }) {
         isActive: segments[0] === "site",
         icon: <Globe width={18} />,
       },
+
       {
-        name: "Posts",
-        href: `/posts`,
-        isActive: segments.includes("posts"),
+        name: "Conteúdos",
+        href: `/conteudos`,
+        isActive: segments.includes("conteudos"),
         icon: <Newspaper width={18} />,
       },
       {

@@ -2,6 +2,7 @@ import Form from "@/components/form";
 import { updateSite } from "@/lib/actions/website/website.update.action";
 import { getSession } from "@/lib/auth";
 import { getWebsiteByUserId } from "@/lib/fetchers";
+import { decodeUTF8 } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export default async function SiteSettingsAppearance() { 
@@ -55,7 +56,7 @@ export default async function SiteSettingsAppearance() {
         inputAttrs={{
           name: "message404",
           type: "text",
-          defaultValue: data?.message404!,
+          defaultValue: decodeUTF8(data?.message404!),
           placeholder: "Nossa! Essa página não existe.",
           maxLength: 240,
         }}

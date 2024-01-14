@@ -1,8 +1,10 @@
+const { redirect } = require('next/dist/server/api-utils');
+
 /** @type {import('next').NextConfig} */
 const withMDX = require('@next/mdx')()
 
 const nextConfig = {
-  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   experimental: {
     serverActions: {
       allowedOrigins: ["app.localhost:3000"],
@@ -25,6 +27,15 @@ const nextConfig = {
       { hostname: "images.unsplash.com" },
       { hostname: "cdn.devdojo.com" },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/conteudos",
+        destination: "/conteudos/posts",
+        permanent: true,
+      },
+    ];
   },
 };
 
