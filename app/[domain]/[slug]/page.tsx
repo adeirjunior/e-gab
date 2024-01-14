@@ -6,6 +6,8 @@ import BlurImage from "@/components/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 
+export const dynamic = 'force-static'
+
 export async function generateMetadata({
   params,
 }: {
@@ -39,13 +41,6 @@ export async function generateMetadata({
       description,
       creator: "@vercel",
     },
-    // Optional: Set canonical URL to custom domain if it exists
-    // ...(params.domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
-    //   siteData.customDomain && {
-    //     alternates: {
-    //       canonical: `https://${siteData.customDomain}/${params.slug}`,
-    //     },
-    //   }),
   };
 }
 
