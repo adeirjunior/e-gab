@@ -26,12 +26,12 @@ export default async function PostSettings({
     <div className="flex max-w-screen-xl flex-col space-y-12 p-6">
       <div className="flex flex-col space-y-6">
         <h1 className="font-cal text-3xl font-bold dark:text-white">
-          Post Settings
+          Configurações do Post 
         </h1>
         <Form
           title="Post Slug"
-          description="The slug is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
-          helpText="Please use a slug that is unique to this post."
+          description="O slug é uma url amigável. Geralmente toda em minusculo e possui apenas letras, nómeros e hifens."
+          helpText="Favoer usar um slug que é unico para este post."
           inputAttrs={{
             name: "slug",
             type: "text",
@@ -42,9 +42,9 @@ export default async function PostSettings({
         />
 
         <Form
-          title="Thumbnail image"
-          description="The thumbnail image for your post. Accepted formats: .png, .jpg, .jpeg"
-          helpText="Max file size 50MB. Recommended size 1200x630."
+          title="Thumbnail"
+          description="A thumbnail do seu post. Formatos aceitos: .png, .jpg, .jpeg"
+          helpText="Arquivo de no máximo 5MB. Tamanho recomendado 1200x630."
           inputAttrs={{
             name: "image",
             type: "file",
