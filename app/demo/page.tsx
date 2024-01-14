@@ -6,31 +6,6 @@ import { default as NextImage } from "next/image";
 export default function page() {
   return (
     <>
-      <section className="socials container mx-auto mt-2 hidden justify-end space-x-2 px-5 py-1 md:flex">
-        <div>
-          <Link href="#" title="Twitter Link">
-            <i className="fa-brands fa-twitter fa-lg hover:text-demoSecondary text-gray-700 hover:transition-all"></i>
-          </Link>
-        </div>
-        <div>
-          <Link href="#" title="Facebook Link">
-            <i className="fa-brands fa-facebook fa-lg hover:text-demoSecondary text-gray-700 hover:transition-all"></i>
-          </Link>
-        </div>
-        <div>
-          <Link href="#" title="Instagram Link">
-            <i className="fa-brands fa-instagram fa-lg hover:text-demoSecondary text-gray-700 hover:transition-all"></i>
-          </Link>
-        </div>
-        <div>
-          <Link href="#" title="YouTube Link">
-            <i className="fa-brands fa-youtube fa-lg hover:text-demoSecondary text-gray-700 hover:transition-all"></i>
-          </Link>
-        </div>
-      </section>
-
-      <DemoHeader />
-
       <section className="hero mt-2">
         <div className="container mx-auto flex max-h-max flex-col-reverse space-y-0 py-0 md:flex-row md:space-y-0 md:px-5">
           <div className="from-demoPrimaryLight to-demoPrimary flex flex-col items-center justify-center space-y-8 bg-gradient-to-tr p-10 md:w-1/2 md:items-start lg:items-start">
@@ -254,55 +229,7 @@ export default function page() {
         </div>
       </div>
 
-      <footer className="container mx-auto mt-5 bg-white p-4 md:px-6 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <Link href="#" className="mb-4 flex items-center sm:mb-0">
-            <Image
-              src="/demo-logo.png"
-              className="h-12 w-auto"
-              alt="Billy Pace Logo"
-            />
-          </Link>
-          <ul className="mb-6 flex flex-wrap items-center text-base font-medium sm:mb-0 dark:text-gray-700">
-            <li>
-              <Link
-                href="#"
-                className="font-saira hover:text-demoSecondary mr-4 text-gray-700 transition-all hover:underline hover:decoration-2 hover:underline-offset-4 md:mr-6"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="font-saira hover:text-demoSecondary mr-4 text-gray-700 transition-all hover:underline hover:decoration-2 hover:underline-offset-4 md:mr-6"
-              >
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="font-saira hover:text-demoSecondary mr-4 text-gray-700 transition-all hover:underline hover:decoration-2 hover:underline-offset-4 md:mr-6"
-              >
-                Licensing
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="font-saira hover:text-demoSecondary mr-4 text-gray-700 transition-all hover:underline hover:decoration-2 hover:underline-offset-4 md:mr-6"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <hr className="sm:mx-aut border-demoPrimary my-6 border-2 lg:my-8" />
-        <span className="block text-sm text-gray-700 sm:text-center">
-          © {getCurrentYear()} Billy Pace For Arcadia. All Rights Reserved.
-        </span>
-      </footer>
+      
     </>
   );
 }

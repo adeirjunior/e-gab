@@ -1,6 +1,6 @@
 "use client";
 
-import { Image, Link } from "@nextui-org/react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Link } from "@nextui-org/react";
 import Hamburger from "hamburger-react";
 import { useState } from "react";
 import DropdownNavItem from "./dropdown-nav-item";
@@ -28,7 +28,9 @@ export default function DemoHeader() {
           >
             Home
           </Link>
-          <DropdownNavItem items={parlamentarItems}>Parlamentar</DropdownNavItem>
+          <DropdownNavItem items={parlamentarItems}>
+            Parlamentar
+          </DropdownNavItem>
           <DropdownNavItem items={utilidadesItems}>Utilidades</DropdownNavItem>
           <Link
             href="/contato"
