@@ -19,8 +19,8 @@ export default function Editor({ post }: { post: PostWithSite }) {
   const [hydrated, setHydrated] = useState(false);
 
   const url = process.env.NEXT_PUBLIC_VERCEL_ENV
-    ? `https://${data.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/${data.slug}`
-    : `http://${data.website?.subdomain}.localhost:3000/${data.slug}`;
+    ? `https://${data.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts/${data.slug}`
+    : `http://${data.website?.subdomain}.localhost:3000/posts/${data.slug}`;
 
   // listen to CMD + S and override the default behavior
   useEffect(() => {
