@@ -1,5 +1,6 @@
 import { getServerSession, type NextAuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import Credentials from "next-auth/providers/credentials";
@@ -10,7 +11,7 @@ const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GitHubProvider({
+    GitHub({
       clientId: process.env.AUTH_GITHUB_ID as string,
       clientSecret: process.env.AUTH_GITHUB_SECRET as string,
       profile(profile) {
@@ -20,6 +21,18 @@ export const authOptions: NextAuthOptions = {
           gh_username: profile.login,
           email: profile.email,
           image: profile.avatar_url,
+        };
+      },
+    }),
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
         };
       },
     }),

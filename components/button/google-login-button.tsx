@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingDots from "@/components/icons/loading-dots";
+import { Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -19,11 +20,11 @@ export default function GoogleLoginButton() {
   }, [error]);
 
   return (
-    <button
+    <Button
       disabled={loading}
       onClick={() => {
         setLoading(true);
-        signIn("github");
+        signIn("google");
       }}
       className={`${
         loading
@@ -52,6 +53,6 @@ export default function GoogleLoginButton() {
           </p>
         </>
       )}
-    </button>
+    </Button>
   );
 }
