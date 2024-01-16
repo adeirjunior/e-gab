@@ -1,5 +1,3 @@
-const { redirect } = require('next/dist/server/api-utils');
-
 /** @type {import('next').NextConfig} */
 const withMDX = require('@next/mdx')()
 
@@ -26,6 +24,7 @@ const nextConfig = {
       { hostname: "tailus.io" },
       { hostname: "images.unsplash.com" },
       { hostname: "cdn.devdojo.com" },
+      { hostname: "lh3.googleusercontent.com" },
     ],
   },
   async redirects() {
