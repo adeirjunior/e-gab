@@ -5,6 +5,12 @@ export function decodeUTF8(encodedText: string): string {
   return decodeURIComponent(escape(encodedText));
 }
 
+export function getCurrentDomain(subdomain?: string) {
+  return process.env.NODE_ENV === 'development'
+    ? `http://${subdomain ? `${subdomain}.` : ""}localhost:3000`
+    : `https://${subdomain ? `${subdomain}.` : ""}${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
