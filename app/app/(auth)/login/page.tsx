@@ -42,16 +42,6 @@ export default function LoginPage() {
         >
           <LoginForm />
         </Suspense>
-        <p className="text-center text-small text-gray-300 my-3">
-          Não tem uma conta?{" "}
-          <LinkUI
-            size="sm"
-            className="cursor-pointer"
-            href="signup"
-          >
-            Registre-se
-          </LinkUI>
-        </p>
         <Suspense
           fallback={
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
