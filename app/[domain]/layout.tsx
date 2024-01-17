@@ -103,13 +103,6 @@ export default async function SiteLayout({
       </div>
 
       <div className="mt-20">{children}</div>
-
-      {domain == `demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
-      domain == `platformize.co` ? (
-        <CTA />
-      ) : (
-        <ReportAbuse />
-      )}
     </div>
     </NextThemeProvider>
     
