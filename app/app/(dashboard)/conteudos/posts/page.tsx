@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";
 import Posts from "@/components/posts";
-import CreatePostButton from "@/components/create-post-button";
+import CreatePostButton from "@/components/button/create-post-button";
 import { getPoliticianSiteByUser } from "@/lib/fetchers";
 
 export default async function SitePosts() {

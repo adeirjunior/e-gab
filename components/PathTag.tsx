@@ -5,6 +5,6 @@ import { usePathname } from "next/navigation"
 export default function PathTag() {
     const path = usePathname()
     return (
-<h1>Page {path}</h1>
+<h1>Página {path}</h1>
     )
 }

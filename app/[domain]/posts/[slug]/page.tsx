@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { getPostData, getSiteData } from "@/lib/fetchers";
-import BlogCard from "@/components/blog-card";
+import BlogCard from "@/components/card/blog-card";
 import BlurImage from "@/components/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";

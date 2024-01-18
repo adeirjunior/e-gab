@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import OverviewStats from "@/components/overview-stats";
+import OverviewStats from "@/components/stats/overview-stats";
 import Posts from "@/components/posts";
-import PlaceholderCard from "@/components/placeholder-card";
+import PlaceholderCard from "@/components/card/placeholder-card";
 
 export default function Overview() {
   return (
