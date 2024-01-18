@@ -38,6 +38,7 @@
     "ai": "^2.2.30",
     "clsx": "^2.1.0",
     "date-fns": "^3.0.6",
+    "editorjs-html": "^3.4.3",
     "focus-trap-react": "^10.2.3",
     "framer-motion": "^10.16.16",
     "gray-matter": "^4.0.3",

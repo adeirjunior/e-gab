@@ -9,14 +9,14 @@ import {
 } from "@/lib/actions/post/post.update.action";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
-import { Editor as NovelEditor } from "novel";
 import LoadingDots from "./icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
+import EditorWrapper from "@/components/editor/editor-wrapper";
 
-type PostWithSite = Post & { website: { subdomain: string | null } | null };
+export type PostWithSite = Post & { website: { subdomain: string | null } | null };
 
 export default function Editor({ post }: { post: PostWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
@@ -132,17 +132,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
-        <NovelEditor
-          className="relative block"
-          disableLocalStorage
-          defaultValue={post?.content || undefined}
-          onUpdate={(editor) =>
-            setData((prev) => ({
-              ...prev,
-              content: editor?.storage.markdown.getMarkdown(),
-            }))
-          }
-        />
+        <EditorWrapper data={data} setData={setData} />
       </div>
     </div>
   );

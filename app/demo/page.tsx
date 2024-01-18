@@ -1,4 +1,5 @@
 import CldImage from "@/components/demo/cloudinary-image";
+import ObjectiveSection from "@/components/demo/objective-section";
 import SectionHeadingTitles from "@/components/demo/section-heading-titles";
 import WorkNumberCard from "@/components/demo/work-number-card";
 import { Button } from "@nextui-org/react";
@@ -71,11 +72,35 @@ export default function Page() {
         possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis
         odio. Numquam, laboriosam."
           />
-          <div className="mx-auto grid w-fit grid-cols-2 place-content-center gap-6">
-            {workNumberCardData.map((item, index) => (
-              <WorkNumberCard key={index} data={item} />
-            ))}
-          </div>
+          <ObjectiveSection type="saude" title="Saúde">
+            Implementarei programas educativos e preventivos para conscientizar
+            a população sobre práticas saudáveis, visando reduzir a incidência
+            de doenças e promover um estilo de vida mais saudável, visando
+            reduzir a incidência de doenças e promover um estilo de vida mais
+            saudável.
+          </ObjectiveSection>
+          <ObjectiveSection type="educacao" title="Educação">
+            Promoverei a integração de tecnologias educacionais, visando
+            enriquecer o processo de aprendizado e preparar os alunos para os
+            desafios da era digital.
+          </ObjectiveSection>
+          <ObjectiveSection type="infraestrutura" title="Infraestrutura">
+            Buscar investimentos para melhorar os serviços de saneamento básico,
+            assegurando o acesso universal a água potável e a gestão eficiente
+            de resíduos
+          </ObjectiveSection>
+        </section>
+        <section>
+          <SectionHeadingTitles
+            subtitle="Eventos próximos"
+            title="Fique atento aos próximos eventos"
+            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde
+        expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis
+        architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt
+        nisi fugit non mollitia molestiae quisquam ad hic corporis architecto
+        possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis
+        odio. Numquam, laboriosam."
+          />
         </section>
       </div>
     </>
