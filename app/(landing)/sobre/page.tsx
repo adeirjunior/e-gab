@@ -26,9 +26,9 @@ export default function page() {
                 de políticos com eficiência e personalização.
               </p>
               <p className="mt-4 text-gray-600">
-                Comprometidos em fornecer soluções digitais de
-                ponta para políticos conscientes, estamos moldando o futuro da
-                política digital no Brasil.
+                Comprometidos em fornecer soluções digitais de ponta para
+                políticos conscientes, estamos moldando o futuro da política
+                digital no Brasil.
               </p>
             </div>
           </div>

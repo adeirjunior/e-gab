@@ -1,11 +1,14 @@
 type Props = {
-    subtitle: string;
-    title: string;
-    description: string
-}
+  subtitle: string;
+  title: string;
+  description: string;
+};
 
-
-export default function SectionHeadingTitles({subtitle, title, description}: Props) {
+export default function SectionHeadingTitles({
+  subtitle,
+  title,
+  description,
+}: Props) {
   return (
     <div className="text-center">
       <span className="text-sm font-bold text-[#3B5DD9]">{subtitle}</span>

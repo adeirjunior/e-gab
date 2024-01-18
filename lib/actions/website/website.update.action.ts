@@ -1,7 +1,11 @@
-"use server"
+"use server";
 
 import { withSiteAuth } from "@/lib/auth";
-import { addDomainToVercel, removeDomainFromVercelProject, validDomainRegex } from "@/lib/domains";
+import {
+  addDomainToVercel,
+  removeDomainFromVercelProject,
+  validDomainRegex,
+} from "@/lib/domains";
 import { Website } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { nanoid } from "..";

@@ -6,7 +6,6 @@ import { getWebsiteByUserId } from "@/lib/fetchers";
 import { redirect } from "next/navigation";
 
 export default async function SiteSettingsIndex() {
-
   const session = await getSession();
   if (!session) {
     redirect("/login");
@@ -38,7 +37,8 @@ export default async function SiteSettingsIndex() {
           name: "description",
           type: "text",
           defaultValue: data?.description!,
-          placeholder: "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
+          placeholder:
+            "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
         }}
         handleSubmit={updateSite}
       />

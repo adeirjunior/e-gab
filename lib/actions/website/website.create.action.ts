@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth";
 import { createPolitician } from "../politician/politician.create.action";

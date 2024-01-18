@@ -6,26 +6,32 @@ export default function App() {
   return (
     <div className="bg-black ">
       <HeaderLayout1 />
-      <section className="w-full items-center shadow-landingPageInner flex flex-col justify-end h-screen -z-40 bg-portrait bg-cover sm:bg-contain sm:bg-left lg:flex-row bg-center bg-no-repeat p-6">
+      <section className="shadow-landingPageInner bg-portrait -z-40 flex h-screen w-full flex-col items-center justify-end bg-cover bg-center bg-no-repeat p-6 sm:bg-contain sm:bg-left lg:flex-row">
         <div>
-          <h1 className="hidden lg:block text-white font-bold uppercase text-5xl mb-4">Trabalhando todo dia.<br/>Sem parar.</h1>
+          <h1 className="mb-4 hidden text-5xl font-bold uppercase text-white lg:block">
+            Trabalhando todo dia.
+            <br />
+            Sem parar.
+          </h1>
           <MagicButton />
         </div>
       </section>
-      <section className="grid w-fit grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 m-auto py-6">
-        <Card className="w-60 h-60  text-center grid place-content-center border border-gray-600">
+      <section className="m-auto grid w-fit grid-cols-1 gap-6 py-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Card className="grid h-60  w-60 place-content-center border border-gray-600 text-center">
           <p className="text-6xl font-bold text-white">184</p>
           <p className="text-2xl font-bold text-white">Projetos de lei</p>
         </Card>
-        <Card className="w-60 h-60  text-center grid place-content-center border border-gray-600">
+        <Card className="grid h-60  w-60 place-content-center border border-gray-600 text-center">
           <p className="text-6xl font-bold text-white">123</p>
           <p className="text-2xl font-bold text-white">Leis aprovadas</p>
         </Card>
-        <Card className="w-60 h-60  text-center grid place-content-center border border-gray-600">
+        <Card className="grid h-60  w-60 place-content-center border border-gray-600 text-center">
           <p className="text-6xl font-bold text-white">184</p>
-          <p className="text-2xl font-bold text-white">Indicações legislativas</p>
+          <p className="text-2xl font-bold text-white">
+            Indicações legislativas
+          </p>
         </Card>
-        <Card className="w-60 h-60  text-center grid place-content-center border border-gray-600">
+        <Card className="grid h-60  w-60 place-content-center border border-gray-600 text-center">
           <p className="text-6xl font-bold text-white">184</p>
           <p className="text-2xl font-bold text-white">Moções</p>
         </Card>

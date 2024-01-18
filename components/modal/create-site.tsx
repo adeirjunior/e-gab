@@ -12,7 +12,6 @@ import { Input, Textarea } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function CreateSiteModal() {
-  
   const router = useRouter();
   const modal = useModal();
 
@@ -139,7 +138,6 @@ export default function CreateSiteModal() {
   );
 }
 
-
 function CreateSiteFormButton() {
   const { pending } = useFormStatus();
   return (
@@ -148,11 +146,15 @@ function CreateSiteFormButton() {
         "flex h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none",
         pending
           ? "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
-          : " bg-black text-white border-stone-700 hover:border-stone-200 hover:bg-black hover:text-white active:bg-stone-800",
+          : " border-stone-700 bg-black text-white hover:border-stone-200 hover:bg-black hover:text-white active:bg-stone-800",
       )}
       disabled={pending}
     >
-      {pending ? <LoadingDots color="#808080" /> : <p className="m-0 text-gray-200">Criar Site</p>}
+      {pending ? (
+        <LoadingDots color="#808080" />
+      ) : (
+        <p className="m-0 text-gray-200">Criar Site</p>
+      )}
     </button>
   );
 }

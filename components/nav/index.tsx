@@ -16,13 +16,19 @@ import { NavLink } from "./nav-link";
 import { Icon } from "./icon";
 import { getCurrentDomain } from "@/lib/utils";
 
-export default function Nav({ children, subdomain }: { children: ReactNode, subdomain: string }) {
+export default function Nav({
+  children,
+  subdomain,
+}: {
+  children: ReactNode;
+  subdomain: string;
+}) {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
   const [externalLinks, setExternalLinks] = useState<Array<any> | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = usePathname();
-  
+
   const tabs = useMemo(() => getTabs(segments, id), [segments, id]);
 
   useEffect(() => {

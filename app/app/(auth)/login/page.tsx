@@ -1,10 +1,8 @@
 import Image from "next/image";
-import GithubLoginButton from "@/components/button/github-login-button";
 import { Suspense } from "react";
 import Link from "next/link";
 import GoogleLoginButton from "@/components/button/google-login-button";
 import LoginForm from "@/components/form/login-form";
-import { Link as LinkUI } from "@nextui-org/react";
 
 export default function LoginPage() {
   return (
@@ -34,30 +32,13 @@ export default function LoginPage() {
         </Link>
       </p>
 
-      <div className="mx-auto mt-4 w-11/12 max-w-xs sm:w-full">
+      <div className="mx-auto mt-4 flex w-11/12 max-w-xs flex-col gap-4 sm:w-full">
         <Suspense
           fallback={
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
           }
         >
           <LoginForm />
-        </Suspense>
-        <p className="text-center text-small text-gray-300 my-3">
-          Não tem uma conta?{" "}
-          <LinkUI
-            size="sm"
-            className="cursor-pointer"
-            href="signup"
-          >
-            Registre-se
-          </LinkUI>
-        </p>
-        <Suspense
-          fallback={
-            <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
-          }
-        >
-          <GithubLoginButton />
         </Suspense>
         <Suspense
           fallback={

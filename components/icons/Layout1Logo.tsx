@@ -1,8 +1,8 @@
 type Prop = {
-  className: string
-}
+  className: string;
+};
 
-export default function Layout1Logo({className}: Prop) {
+export default function Layout1Logo({ className }: Prop) {
   return (
     <svg
       version="1.0"
@@ -17,7 +17,6 @@ export default function Layout1Logo({className}: Prop) {
         transform="translate(-250.000000,720.000000) scale(0.200000,-0.200000)"
         fill="#ffffff"
         stroke="none"
-       
       >
         <path
           d="M2995 3010 l-160 -160 93 0 92 0 0 -27 c0 -37 -23 -120 -43 -159 -23

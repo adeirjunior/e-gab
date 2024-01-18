@@ -5,7 +5,6 @@ import { getWebsiteByUserId } from "@/lib/fetchers";
 import { redirect } from "next/navigation";
 
 export default async function SiteSettingsDomains() {
-
   const session = await getSession();
   if (!session) {
     redirect("/login");

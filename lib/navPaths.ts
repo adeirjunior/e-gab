@@ -1,7 +1,7 @@
 export type NavPathsType = {
-    name: string,
-    href: string
-}[]
+  name: string;
+  href: string;
+}[];
 
 export const navPaths: NavPathsType = [
   {

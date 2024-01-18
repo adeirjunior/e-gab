@@ -10,13 +10,15 @@ export default function MobileNav() {
 
   return (
     <div className="sm:hidden">
-        <div className="absolute top-5 right-5 z-40"><Hamburger toggled={isOpen} direction="right" toggle={setOpen} /></div>
+      <div className="absolute right-5 top-5 z-40">
+        <Hamburger toggled={isOpen} direction="right" toggle={setOpen} />
+      </div>
       <nav
-        className={`opacity-0 duration-300 transition-all ${
-          isOpen ? "opacity-100 w-full" : "w-0"
-        } absolute w-full top-0 left-0 h-screen bg-black grid place-content-center`}
+        className={`opacity-0 transition-all duration-300 ${
+          isOpen ? "w-full opacity-100" : "w-0"
+        } absolute left-0 top-0 grid h-screen w-full place-content-center bg-black`}
       >
-        <ul className="m-0 p-0 flex flex-col gap-4">
+        <ul className="m-0 flex flex-col gap-4 p-0">
           {navPaths.map(({ name, href }, index) => (
             <li key={index}>
               <Link className="text-white" href={href}>

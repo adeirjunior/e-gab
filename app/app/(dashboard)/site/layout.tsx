@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { getSession } from "@/lib/auth"
+import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import SiteSettingsNav from "./nav";
@@ -20,7 +20,7 @@ export default async function SiteAnalyticsLayout({
   const data = await getWebsiteByUserId(session.user.id);
 
   if (!data) {
-    notFound()
+    notFound();
   }
 
   const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
@@ -28,7 +28,7 @@ export default async function SiteAnalyticsLayout({
   return (
     <>
       <div className="flex flex-col items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
-        <h1 className="font-cal text-xl font-bold sm:text-3xl dark:text-white m-0">
+        <h1 className="m-0 font-cal text-xl font-bold sm:text-3xl dark:text-white">
           Configurações de {data.name}
         </h1>
         <a

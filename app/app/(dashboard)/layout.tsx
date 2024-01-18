@@ -6,7 +6,11 @@ import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers";
 
-export default async function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const session = await getSession();
 
   if (!session) {

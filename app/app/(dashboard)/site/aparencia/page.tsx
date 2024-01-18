@@ -5,8 +5,7 @@ import { getWebsiteByUserId } from "@/lib/fetchers";
 import { decodeUTF8 } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export default async function SiteSettingsAppearance() { 
-
+export default async function SiteSettingsAppearance() {
   const session = await getSession();
   if (!session) {
     redirect("/login");

@@ -4,7 +4,7 @@ const SvgComponent = (props: any) => (
     xmlns="http://www.w3.org/2000/svg"
     data-name="Capa 1"
     viewBox="0 0 497.5 141.26"
-    className="w-full absolute bottom-0 left-0"
+    className="absolute bottom-0 left-0 w-full"
     {...props}
   >
     <title>{"skyline"}</title>

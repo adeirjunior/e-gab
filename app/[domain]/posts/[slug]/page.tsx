@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { getPostData, getSiteData } from "@/lib/fetchers";
-import BlogCard from "@/components/blog-card";
+import BlogCard from "@/components/card/blog-card";
 import BlurImage from "@/components/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
+import "./style.css";
 
-export const dynamic = 'force-static'
+export const dynamic = "force-static";
 
 export async function generateMetadata({
   params,
@@ -23,7 +24,7 @@ export async function generateMetadata({
   if (!data || !siteData) {
     return null;
   }
-  if ('error' in data) {
+  if ("error" in data) {
     return null;
   }
   const { title, description } = data;
@@ -88,8 +89,8 @@ export default async function SitePostPage({
   const slug = decodeURIComponent(params.slug);
   const data = await getPostData(domain, slug);
 
-  if ('error' in data) {
-    console.log(data)
+  if ("error" in data) {
+    console.log(data);
     notFound();
   }
 
@@ -97,7 +98,7 @@ export default async function SitePostPage({
     <>
       <div className="flex flex-col items-center justify-center">
         <div className="m-auto w-full text-center md:w-7/12">
-          <p className="m-auto my-5 w-10/12 text-sm font-light text-stone-500 dark:text-stone-400 md:text-base">
+          <p className="m-auto my-5 w-10/12 text-sm font-light text-stone-500 md:text-base dark:text-stone-400">
             {toDateString(data.createdAt)}
           </p>
           <h1 className="mb-10 font-title text-3xl font-bold text-stone-800 md:text-6xl">
@@ -132,7 +133,7 @@ export default async function SitePostPage({
                 </div>
               )}
             </div>
-            <div className="text-md ml-3 inline-block align-middle dark:text-white md:text-lg">
+            <div className="text-md ml-3 inline-block align-middle text-black md:text-lg">
               por <span className="font-semibold">{data.user?.name}</span>
             </div>
           </div>

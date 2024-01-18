@@ -6,13 +6,14 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import LoadingDots from "@/components/icons/loading-dots";
 import va from "@vercel/analytics";
+import { Button } from "@nextui-org/react";
 
 export default function CreatePostButton() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   return (
-    <button
+    <Button
       onClick={() =>
         startTransition(async () => {
           const post = await createPost(null, null);
@@ -29,7 +30,11 @@ export default function CreatePostButton() {
       )}
       disabled={isPending}
     >
-      {isPending ? <LoadingDots color="#808080" /> : <p className="mb-0 text-gray-400">Criar Novo Post</p>}
-    </button>
+      {isPending ? (
+        <LoadingDots color="#808080" />
+      ) : (
+        <p className="mb-0 text-gray-400">Criar Post</p>
+      )}
+    </Button>
   );
 }

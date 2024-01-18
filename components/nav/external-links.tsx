@@ -1,7 +1,6 @@
 import { getCurrentDomain } from "@/lib/utils";
 
 export const getExternalLinks = async (subdomain: string) => {
-
   const externalLinks = [
     {
       name: "Atualizações",

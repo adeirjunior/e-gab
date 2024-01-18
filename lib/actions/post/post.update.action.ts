@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession, withPostAuth } from "@/lib/auth";
 import { Post, Website } from "@prisma/client";
@@ -12,9 +12,19 @@ export const updatePost = async (data: Post) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
-      error: "Not authenticated",
+      error: "Not authenticatedNão autentificado",
     };
   }
+
+  console.log("iniciou");
+
+  // Verifique se as propriedades essenciais não estão vazias
+  if (!data.title || !data.description || !data.content) {
+    return {
+      error: "Título, descrição, e conteúdo não podem estar vazios",
+    };
+  }
+  console.log("não esta vazio");
   const post = await prisma.post.findUnique({
     where: {
       id: data.id,
@@ -25,9 +35,12 @@ export const updatePost = async (data: Post) => {
   });
   if (!post || post.userId !== session.user.id) {
     return {
-      error: "Post not found",
+      error: "Post não encontrado",
     };
   }
+
+  console.log("encontrou o post");
+
   try {
     const response = await prisma.post.update({
       where: {
@@ -37,21 +50,23 @@ export const updatePost = async (data: Post) => {
         title: data.title,
         description: data.description,
         content: data.content,
-        published: true
+        published: data.published,
       },
     });
 
-    await revalidateTag(
+    console.log("atualizou o post");
+
+    revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
     );
-    await revalidateTag(
+    revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
     );
 
     // if the site has a custom domain, we need to revalidate those tags too
     post.website?.customDomain &&
-      (await revalidateTag(`${post.website?.customDomain}-posts`),
-      await revalidateTag(`${post.website?.customDomain}-${post.slug}`));
+      (revalidateTag(`${post.website?.customDomain}-posts`),
+      revalidateTag(`${post.website?.customDomain}-${post.slug}`));
 
     return response;
   } catch (error: any) {
