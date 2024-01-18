@@ -6,12 +6,12 @@ import LoginForm from "@/components/form/login-form";
 
 export default function LoginPage() {
   return (
-    <div className="mx-3 border border-stone-200 px-3 py-10 sm:mx-auto sm:w-full sm:max-w-md sm:rounded-lg sm:shadow-md dark:border-stone-700">
+    <div className="border border-stone-200 px-3 py-10 mx-auto sm:w-full sm:max-w-xl sm:rounded-lg sm:shadow-md dark:border-stone-700">
       <Image
-        alt="Platforms Starter Kit"
-        width={100}
-        height={100}
-        className="relative mx-auto h-12 w-auto dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
+        alt="Logo E-Gab"
+        width={200}
+        height={200}
+        className="relative mx-auto h-28 w-auto dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
         src="/logo.png"
       />
       <h1 className="mt-6 text-center text-3xl font-semibold dark:text-white">

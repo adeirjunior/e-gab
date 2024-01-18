@@ -97,14 +97,14 @@ export default async function SitePostPage({
   return (
     <>
       <div className="flex flex-col items-center justify-center">
-        <div className="m-auto w-full text-center md:w-7/12">
-          <p className="m-auto my-5 w-10/12 text-sm font-light text-stone-500 md:text-base dark:text-stone-400">
+        <div className="m-auto w-full space-y-6 text-center md:w-7/12">
+          <p className="m-auto mb-5 w-10/12 text-sm font-light text-stone-500 md:text-base dark:text-stone-400">
             {toDateString(data.createdAt)}
           </p>
-          <h1 className="mb-10 font-title text-3xl font-bold text-stone-800 md:text-6xl">
+          <h1 className="font-title text-3xl font-bold text-stone-800 md:text-6xl">
             {data.title}
           </h1>
-          <p className="text-md m-auto w-10/12 text-stone-600  md:text-lg">
+          <p className="text-md w-10/12 mx-auto text-stone-600  md:text-lg">
             {data.description}
           </p>
         </div>

@@ -16,15 +16,13 @@ export const updatePost = async (data: Post) => {
     };
   }
 
-  console.log("iniciou");
-
   // Verifique se as propriedades essenciais não estão vazias
   if (!data.title || !data.description || !data.content) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
   }
-  console.log("não esta vazio");
+
   const post = await prisma.post.findUnique({
     where: {
       id: data.id,
@@ -39,8 +37,6 @@ export const updatePost = async (data: Post) => {
     };
   }
 
-  console.log("encontrou o post");
-
   try {
     const response = await prisma.post.update({
       where: {
@@ -53,8 +49,6 @@ export const updatePost = async (data: Post) => {
         published: data.published,
       },
     });
-
-    console.log("atualizou o post");
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
@@ -118,17 +112,17 @@ export const updatePostMetadata = withPostAuth(
         });
       }
 
-      await revalidateTag(
+      revalidateTag(
         `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
       );
-      await revalidateTag(
+      revalidateTag(
         `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
       );
 
       // if the site has a custom domain, we need to revalidate those tags too
       post.site?.customDomain &&
-        (await revalidateTag(`${post.site?.customDomain}-posts`),
-        await revalidateTag(`${post.site?.customDomain}-${post.slug}`));
+        (revalidateTag(`${post.site?.customDomain}-posts`),
+        revalidateTag(`${post.site?.customDomain}-${post.slug}`));
 
       return response;
     } catch (error: any) {

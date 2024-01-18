@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { useModal } from "./provider";
 import va from "@vercel/analytics";
-import { Input, Textarea } from "@nextui-org/react";
+import { Button, Input, Textarea } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function CreateSiteModal() {
@@ -141,7 +141,7 @@ export default function CreateSiteModal() {
 function CreateSiteFormButton() {
   const { pending } = useFormStatus();
   return (
-    <button
+    <Button
       className={cn(
         "flex h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none",
         pending
@@ -155,6 +155,6 @@ function CreateSiteFormButton() {
       ) : (
         <p className="m-0 text-gray-200">Criar Site</p>
       )}
-    </button>
+    </Button>
   );
 }

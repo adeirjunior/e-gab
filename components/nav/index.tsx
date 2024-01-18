@@ -89,8 +89,8 @@ export default function Nav({
             >
               <Image
                 src="/logo.png"
-                width={24}
-                height={24}
+                width={60}
+                height={60}
                 alt="Logo"
                 className="dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
               />
