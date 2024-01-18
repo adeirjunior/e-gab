@@ -17,6 +17,7 @@ import {
   ScrollText,
   Settings,
   Vote,
+  Users
 } from "lucide-react";
 
 interface IconProps {
@@ -43,6 +44,7 @@ export const Icon = ({ name, width, ...rest }: IconProps) => {
     CalendarDays,
     ScrollText,
     ListChecks,
+    Users
   };
 
   const SelectedIcon = icons[name];

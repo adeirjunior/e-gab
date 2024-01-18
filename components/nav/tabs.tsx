@@ -95,10 +95,10 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       icon: "BarChart3",
     },
     {
-      name: "Configurações",
-      href: "/configuracoes",
-      isActive: segments[0] === "configuracoes",
-      icon: "Settings",
+      name: "Usuários",
+      href: "/usuarios",
+      isActive: segments[0] === "usuarios",
+      icon: "Users",
     },
   ];
 };
