@@ -170,7 +170,7 @@ export async function getWebsiteByUserId(userId: string) {
       return null;
     }
 
-    console.log("Site encontrado:", website);
+    console.log("Site encontrado:", website.name);
     return website;
   } catch (error) {
     console.error("Erro ao buscar o site:", error);

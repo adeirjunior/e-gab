@@ -63,7 +63,7 @@
     "swr": "^2.2.4",
     "tailwind-merge": "^2.2.0",
     "unist-util-visit": "^5.0.0",
-    "use-debounce": "^10.0.0",
+    "usehooks-ts": "^2.9.4",
     "vaul": "^0.8.0"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import BlogCard from "@/components/blog-card";
 import BlurImage from "@/components/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
+import "./style.css"
 
 export const dynamic = 'force-static'
 
@@ -132,7 +133,7 @@ export default async function SitePostPage({
                 </div>
               )}
             </div>
-            <div className="text-md ml-3 inline-block align-middle dark:text-white md:text-lg">
+            <div className="text-md ml-3 inline-block align-middle text-black md:text-lg">
               por <span className="font-semibold">{data.user?.name}</span>
             </div>
           </div>
