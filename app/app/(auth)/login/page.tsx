@@ -1,10 +1,8 @@
 import Image from "next/image";
-import GithubLoginButton from "@/components/button/github-login-button";
 import { Suspense } from "react";
 import Link from "next/link";
 import GoogleLoginButton from "@/components/button/google-login-button";
 import LoginForm from "@/components/form/login-form";
-import { Link as LinkUI } from "@nextui-org/react";
 
 export default function LoginPage() {
   return (
@@ -41,13 +39,6 @@ export default function LoginPage() {
           }
         >
           <LoginForm />
-        </Suspense>
-        <Suspense
-          fallback={
-            <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
-          }
-        >
-          <GithubLoginButton />
         </Suspense>
         <Suspense
           fallback={
