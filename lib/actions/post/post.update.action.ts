@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession, withPostAuth } from "@/lib/auth";
 import { Post, Website } from "@prisma/client";
@@ -16,7 +16,7 @@ export const updatePost = async (data: Post) => {
     };
   }
 
-  console.log("iniciou")
+  console.log("iniciou");
 
   // Verifique se as propriedades essenciais não estão vazias
   if (!data.title || !data.description || !data.content) {
@@ -24,7 +24,7 @@ export const updatePost = async (data: Post) => {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
   }
-console.log("não esta vazio");
+  console.log("não esta vazio");
   const post = await prisma.post.findUnique({
     where: {
       id: data.id,
@@ -39,7 +39,7 @@ console.log("não esta vazio");
     };
   }
 
-  console.log("encontrou o post")
+  console.log("encontrou o post");
 
   try {
     const response = await prisma.post.update({
@@ -54,7 +54,7 @@ console.log("não esta vazio");
       },
     });
 
-    console.log("atualizou o post")
+    console.log("atualizou o post");
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
@@ -75,7 +75,6 @@ console.log("não esta vazio");
     };
   }
 };
-
 
 export const updatePostMetadata = withPostAuth(
   async (

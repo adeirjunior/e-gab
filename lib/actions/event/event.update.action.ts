@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth";
 import { Event } from "@prisma/client";
@@ -14,7 +14,13 @@ export const updateEvent = async (data: Event) => {
   }
 
   // Verifique se as propriedades essenciais não estão vazias
-  if (!data.title || !data.description || !data.eventEnd || !data.eventStart || !data.location) {
+  if (
+    !data.title ||
+    !data.description ||
+    !data.eventEnd ||
+    !data.eventStart ||
+    !data.location
+  ) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
@@ -44,7 +50,7 @@ export const updateEvent = async (data: Event) => {
         description: data.description,
         location: data.location,
         eventStart: data.eventStart,
-        eventEnd: data.eventEnd
+        eventEnd: data.eventEnd,
       },
     });
 

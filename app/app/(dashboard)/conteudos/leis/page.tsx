@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
@@ -19,13 +19,13 @@ import {
   Pagination,
   Selection,
   ChipProps,
-  SortDescriptor
+  SortDescriptor,
 } from "@nextui-org/react";
-import {PlusIcon} from "@/components/icons/plus-icon";
-import {VerticalDotsIcon} from "@/components/icons/VerticalDotsIcon";
-import {ChevronDownIcon} from "@/components/icons/chevron-down-icon";
-import {SearchIcon} from "@/components/icons/search-icon";
-import {columns, users, statusOptions} from "./data";
+import { PlusIcon } from "@/components/icons/plus-icon";
+import { VerticalDotsIcon } from "@/components/icons/VerticalDotsIcon";
+import { ChevronDownIcon } from "@/components/icons/chevron-down-icon";
+import { SearchIcon } from "@/components/icons/search-icon";
+import { columns, users, statusOptions } from "./data";
 import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
 import { capitalize } from "@/lib/utils";
 
@@ -37,12 +37,14 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-type User = typeof users[0];
+type User = (typeof users)[0];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [visibleColumns, setVisibleColumns] = useState<Selection>(
+    new Set(INITIAL_VISIBLE_COLUMNS),
+  );
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
@@ -58,7 +60,9 @@ export default function App() {
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
 
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
+    return columns.filter((column) =>
+      Array.from(visibleColumns).includes(column.uid),
+    );
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
@@ -69,7 +73,10 @@ export default function App() {
         user.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
-    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+    if (
+      statusFilter !== "all" &&
+      Array.from(statusFilter).length !== statusOptions.length
+    ) {
       filteredUsers = filteredUsers.filter((user) =>
         Array.from(statusFilter).includes(user.status),
       );
@@ -102,7 +109,7 @@ export default function App() {
       case "name":
         return (
           <User
-            avatarProps={{radius: "full", size: "sm", src: user.avatar}}
+            avatarProps={{ radius: "full", size: "sm", src: user.avatar }}
             classNames={{
               description: "text-default-500",
             }}
@@ -116,13 +123,15 @@ export default function App() {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
+            <p className="text-bold text-tiny capitalize text-default-500">
+              {user.team}
+            </p>
           </div>
         );
       case "status":
         return (
           <Chip
-            className="capitalize border-none gap-1 text-default-600"
+            className="gap-1 border-none capitalize text-default-600"
             color={statusColorMap[user.status]}
             size="sm"
             variant="dot"
@@ -132,8 +141,8 @@ export default function App() {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown className="bg-background border-1 border-default-200">
+          <div className="relative flex items-center justify-end gap-2">
+            <Dropdown className="border-1 border-default-200 bg-background">
               <DropdownTrigger>
                 <Button isIconOnly radius="full" size="sm" variant="light">
                   <VerticalDotsIcon className="text-default-400" />
@@ -151,12 +160,14 @@ export default function App() {
         return cellValue;
     }
   }, []);
-  
 
-  const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
-    setRowsPerPage(Number(e.target.value));
-    setPage(1);
-  }, []);
+  const onRowsPerPageChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setRowsPerPage(Number(e.target.value));
+      setPage(1);
+    },
+    [],
+  );
 
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
@@ -170,7 +181,7 @@ export default function App() {
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex items-end justify-between gap-3">
           <Input
             isClearable
             classNames={{
@@ -245,12 +256,14 @@ export default function App() {
             </Button>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} users</span>
-          <label className="flex items-center text-default-400 text-small">
+        <div className="flex items-center justify-between">
+          <span className="text-small text-default-400">
+            Total {users.length} users
+          </span>
+          <label className="flex items-center text-small text-default-400">
             Rows per page:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -273,7 +286,7 @@ export default function App() {
 
   const bottomContent = useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
+      <div className="flex items-center justify-between px-2 py-2">
         <Pagination
           showControls
           classNames={{
@@ -349,7 +362,9 @@ export default function App() {
       <TableBody emptyContent={"No users found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
           </TableRow>
         )}
       </TableBody>

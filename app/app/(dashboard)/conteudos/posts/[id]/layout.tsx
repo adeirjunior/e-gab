@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
 
 export default function PostLayout({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col space-y-6 w-full sm:p-10 justify-center items-center">{children}</div>;
+  return (
+    <div className="flex w-full flex-col items-center justify-center space-y-6 sm:p-10">
+      {children}
+    </div>
+  );
 }

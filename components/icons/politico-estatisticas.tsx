@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function PoliticoEstatisticas() {
   return (
@@ -747,7 +747,7 @@ export default function PoliticoEstatisticas() {
         />
         <mask
           id="mask0_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"
@@ -767,7 +767,7 @@ export default function PoliticoEstatisticas() {
         </g>
         <mask
           id="mask1_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"
@@ -787,7 +787,7 @@ export default function PoliticoEstatisticas() {
         </g>
         <mask
           id="mask2_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"
@@ -807,7 +807,7 @@ export default function PoliticoEstatisticas() {
         </g>
         <mask
           id="mask3_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"
@@ -827,7 +827,7 @@ export default function PoliticoEstatisticas() {
         </g>
         <mask
           id="mask4_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"
@@ -847,7 +847,7 @@ export default function PoliticoEstatisticas() {
         </g>
         <mask
           id="mask5_130_4"
-          style={{maskType: "luminance"}}
+          style={{ maskType: "luminance" }}
           maskUnits="userSpaceOnUse"
           x="339"
           y="116"

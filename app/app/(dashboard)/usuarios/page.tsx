@@ -4,7 +4,5 @@ export const metadata: Metadata = {
   title: "Usuários",
 };
 export default function Page() {
-  return (
-    <div>usuários</div>
-  )
+  return <div>usuários</div>;
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { OutputData } from "@editorjs/editorjs";
 import { useState } from "react";
-import React from 'react'
+import React from "react";
 import Editor from "./editor";
 import { Post } from "@prisma/client";
 

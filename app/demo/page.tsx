@@ -26,7 +26,7 @@ export default function Page() {
   return (
     <>
       <main className="relative flex min-h-[280px] w-full flex-col items-center justify-end bg-[#90CAFF]">
-        <div className="from-heroGradient absolute bottom-0 left-0 h-[140px] w-full bg-gradient-to-t"></div>
+        <div className="absolute bottom-0 left-0 h-[140px] w-full bg-gradient-to-t from-heroGradient"></div>
         <CldImage
           width={200}
           height={200}
@@ -42,7 +42,7 @@ export default function Page() {
           Junte-se
         </Button>
       </main>
-      <div className="container py-10 space-y-10">
+      <div className="container space-y-10 py-10">
         <section>
           <SectionHeadingTitles
             subtitle="Veja"

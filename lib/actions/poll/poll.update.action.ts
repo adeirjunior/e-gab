@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth";
 import { Poll } from "@prisma/client";
@@ -63,4 +63,3 @@ export const updatePoll = async (data: Poll) => {
     };
   }
 };
-

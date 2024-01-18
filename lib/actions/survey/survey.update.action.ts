@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth";
 import { Survey } from "@prisma/client";
@@ -34,17 +34,15 @@ export const updateSurvey = async (data: Survey) => {
     };
   }
 
-
   try {
     const response = await prisma.survey.update({
       where: {
         id: data.id,
       },
       data: {
-        question: data.question
+        question: data.question,
       },
     });
-
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,

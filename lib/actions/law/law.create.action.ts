@@ -18,9 +18,7 @@ export const createLaw = withSiteAuth(async (_: FormData, site: Website) => {
     },
   });
 
-  revalidateTag(
-    `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-law`,
-  );
+  revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-law`);
   site.customDomain && revalidateTag(`${site.customDomain}-law`);
 
   return response;

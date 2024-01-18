@@ -1,6 +1,14 @@
-"use client"
+"use client";
 
-import { Button, Card, CardBody, Input, Tab, Tabs, Link } from "@nextui-org/react"
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Tab,
+  Tabs,
+  Link,
+} from "@nextui-org/react";
 import { UserRole } from "@prisma/client";
 import { Key, useState } from "react";
 import { createSite } from "@/lib/actions/website/website.create.action";
@@ -10,9 +18,9 @@ import { useRouter } from "next/navigation";
 import { useModal } from "../modal/provider";
 
 export default function NewUserForm() {
-     const [selected, setSelected] = useState<UserRole>("Politician");
-     const router = useRouter();
-     const modal = useModal();
+  const [selected, setSelected] = useState<UserRole>("Politician");
+  const router = useRouter();
+  const modal = useModal();
   return (
     <Card className="min-h-[600px] w-[340px] max-w-full">
       <CardBody className="overflow-hidden">
@@ -24,19 +32,22 @@ export default function NewUserForm() {
           onSelectionChange={(key: Key) => setSelected(key as UserRole)}
         >
           <Tab key="Politician" title="Político">
-            <form action={async (data: FormData) =>
-        createSite(data).then((res: any) => {
-          if (res.error) {
-            toast.error(res.error);
-          } else {
-            va.track("Created Site");
-            router.refresh();
-            router.push(`/site`);
-            modal?.hide();
-            toast.success(`Site criado com sucesso!`);
-          }
-        })
-      } className="flex flex-col gap-4">
+            <form
+              action={async (data: FormData) =>
+                createSite(data).then((res: any) => {
+                  if (res.error) {
+                    toast.error(res.error);
+                  } else {
+                    va.track("Created Site");
+                    router.refresh();
+                    router.push(`/site`);
+                    modal?.hide();
+                    toast.success(`Site criado com sucesso!`);
+                  }
+                })
+              }
+              className="flex flex-col gap-4"
+            >
               <Input
                 isRequired
                 autoFocus

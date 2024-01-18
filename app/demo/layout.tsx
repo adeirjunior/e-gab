@@ -1,10 +1,7 @@
-
-
 import { default as Footer } from "@/components/demo/footer-layout-2";
 import { default as Header } from "@/components/demo/header-layout-2";
 import { Metadata } from "next";
 import { NextThemeProvider } from "../next-themes-provider";
-
 
 export const metadata: Metadata = {
   title: {
@@ -24,14 +21,12 @@ export default function RootLayout({
   return (
     <NextThemeProvider theme="light">
       <div>
-      <Header />
-      
+        <Header />
+
         {children}
-      
-      <Footer />
-    </div>
+
+        <Footer />
+      </div>
     </NextThemeProvider>
-    
-   
   );
 }

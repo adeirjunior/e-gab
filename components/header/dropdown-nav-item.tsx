@@ -21,7 +21,7 @@ export default function DropdownNavItem({
         <DropdownTrigger>
           <button
             type="button"
-            className="font-saira flex items-center uppercase text-gray-700 transition-all hover:text-demoSecondary hover:underline hover:decoration-4 hover:underline-offset-4 sm:text-sm md:text-base lg:text-large"
+            className="font-saira hover:text-demoSecondary flex items-center uppercase text-gray-700 transition-all hover:underline hover:decoration-4 hover:underline-offset-4 sm:text-sm md:text-base lg:text-large"
           >
             {children}{" "}
             <svg
@@ -44,9 +44,7 @@ export default function DropdownNavItem({
         <DropdownMenu aria-label="Static Actions">
           {items.map(({ Icon, href, name }, index) => (
             <DropdownItem key={index} as={Link} href={href} className="flex">
-              {cloneElement(Icon)}
-              {" "}
-              {name}
+              {cloneElement(Icon)} {name}
             </DropdownItem>
           ))}
         </DropdownMenu>

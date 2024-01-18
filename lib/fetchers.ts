@@ -4,13 +4,11 @@ import { serialize } from "next-mdx-remote/serialize";
 import { replaceTweets } from "@/lib/remark-plugins";
 
 export async function getSiteData(domain: string) {
-
   if (!domain) {
     // Trate o caso em que domain é undefined
     console.error("O parâmetro 'domain' não pode ser undefined.");
     return null; // ou lançar uma exceção, dependendo do seu caso
   }
-
 
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
@@ -30,7 +28,6 @@ export async function getSiteData(domain: string) {
     },
   )();
 }
-
 
 export async function getPostsForSite(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -81,15 +78,16 @@ export async function getPostData(domain: string, slug: string) {
           published: true,
         },
         include: {
-          user: true
+          user: true,
         },
       });
 
-      if (!data) return {
-        error: "Post está indefinido"
-      };
+      if (!data)
+        return {
+          error: "Post está indefinido",
+        };
 
-      const [mdxSource, adjacentPosts] : any= await Promise.all([
+      const [mdxSource, adjacentPosts]: any = await Promise.all([
         getMdxSource(data.content!),
         prisma.post.findMany({
           where: {
@@ -185,11 +183,11 @@ export async function getPoliticianSiteByUser(userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-            Website: {
-              include: {
-                User: true
-              }
-            }
+        Website: {
+          include: {
+            User: true,
+          },
+        },
       },
     });
 

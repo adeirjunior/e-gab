@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth";
 import { Expenditure } from "@prisma/client";
@@ -65,4 +65,3 @@ export const updateExpenditure = async (data: Expenditure) => {
     };
   }
 };
-

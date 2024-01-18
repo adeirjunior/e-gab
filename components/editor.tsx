@@ -14,7 +14,7 @@ import LoadingDots from "./icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
-import { useDebounce } from 'usehooks-ts'
+import { useDebounce } from "usehooks-ts";
 
 type PostWithSite = Post & { website: { subdomain: string | null } | null };
 
@@ -22,7 +22,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
   const [isPendingPublishing, startTransitionPublishing] = useTransition();
   const [data, setData] = useState<PostWithSite>(post);
-  const debouncedData = useDebounce(data, 750)
+  const debouncedData = useDebounce(data, 750);
 
   const url = process.env.NEXT_PUBLIC_VERCEL_ENV
     ? `https://${data.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts/${data.slug}`
@@ -39,7 +39,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
 
     startTransitionSaving(async () => {
       const response = await updatePost(data);
-      
+
       if ("error" in response) {
         toast.error(response.error);
       }
@@ -61,7 +61,9 @@ export default function Editor({ post }: { post: PostWithSite }) {
         } else {
           setData((prev) => ({ ...prev, published: !prev.published }));
           toast.success(
-            `Seu post foi ${data.published ? "despublicado" : "publicado"} com sucesso.`,
+            `Seu post foi ${
+              data.published ? "despublicado" : "publicado"
+            } com sucesso.`,
           );
         }
       } catch (error) {

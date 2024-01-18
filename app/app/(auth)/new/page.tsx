@@ -20,7 +20,7 @@ export default async function App() {
   if (data) {
     redirect("/site");
   }
-  
+
   return (
     <>
       <div className="my-8 flex flex-col gap-4 text-center">

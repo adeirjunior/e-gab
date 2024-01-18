@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
 import Hamburger from "hamburger-react";
 import Link from "next/link";
 import { useState } from "react";
-
 
 export default function Header() {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -49,7 +48,7 @@ export default function Header() {
           </div>
         </div>
         <div
-          className={`container absolute left-1/2 top-full z-40 flex -translate-x-1/2 w-full items-center justify-between overflow-hidden bg-gray-100 px-6 transition-height duration-300 ease-in sm:px-12 ${
+          className={`container absolute left-1/2 top-full z-40 flex w-full -translate-x-1/2 items-center justify-between overflow-hidden bg-gray-100 px-6 duration-300 ease-in transition-height sm:px-12 ${
             isOpen ? "h-fit" : "hidden h-[1px]"
           }`}
         >

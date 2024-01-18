@@ -1,15 +1,14 @@
 export type PricingTableType = {
-    name: string;
-    monthPrice: string;
-    yearPrice: string;
-    description: string;
-    items: PricingTableItemType[]
-}[]
+  name: string;
+  monthPrice: string;
+  yearPrice: string;
+  description: string;
+  items: PricingTableItemType[];
+}[];
 
 type PricingTableItemType = {
   name: string;
-}
-
+};
 
 export const pricingTable: PricingTableType = [
   {

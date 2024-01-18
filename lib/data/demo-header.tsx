@@ -7,7 +7,6 @@ export type NavItems = {
   href: string;
 };
 
-
 export const parlamentarItems: NavItems[] = [
   {
     Icon: <Book />,

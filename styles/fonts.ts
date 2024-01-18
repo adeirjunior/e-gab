@@ -4,7 +4,7 @@ import { Inter, Lora, Work_Sans, Raleway } from "next/font/google";
 export const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
-})
+});
 
 export const inter = Inter({
   variable: "--font-inter",

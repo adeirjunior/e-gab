@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { withPostAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";

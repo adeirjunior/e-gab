@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession, withSiteAuth } from "@/lib/auth";
 import { Website } from "@prisma/client";

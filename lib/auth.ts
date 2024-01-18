@@ -107,10 +107,7 @@ export function getSession() {
 }
 
 export function withSiteAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    key: string | null,
-  ) => {
+  return async (formData: FormData | null, key: string | null) => {
     const session = await getSession();
     if (!session) {
       return {
@@ -119,25 +116,25 @@ export function withSiteAuth(action: any) {
     }
     const checkUser = await prisma.user.findUnique({
       where: {
-        id: session.user.id
-      }
-    })
+        id: session.user.id,
+      },
+    });
 
-if (!checkUser) {
+    if (!checkUser) {
       return {
         error: "Não autorizado",
       };
     }
 
-if (checkUser.websiteId === null) {
-  return {
-    error: "Não há website",
-  };
-}
+    if (checkUser.websiteId === null) {
+      return {
+        error: "Não há website",
+      };
+    }
 
     const site = await prisma.website.findUnique({
       where: {
-        id: checkUser.websiteId
+        id: checkUser.websiteId,
       },
     });
 

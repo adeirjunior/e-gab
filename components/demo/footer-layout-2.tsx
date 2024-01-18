@@ -1,5 +1,3 @@
 export default function FooterLayout2() {
-  return (
-    <div>footer-layout-2</div>
-  )
+  return <div>footer-layout-2</div>;
 }
