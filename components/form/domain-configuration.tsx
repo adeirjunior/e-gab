@@ -5,6 +5,7 @@ import { useDomainStatus } from "./use-domain-status";
 import { getSubdomain } from "@/lib/domains";
 import { AlertCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@nextui-org/react";
 
 export const InlineSnippet = ({
   className,
@@ -99,7 +100,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
       ) : (
         <>
           <div className="flex justify-start space-x-4">
-            <button
+            <Button
               type="button"
               onClick={() => setRecordType("A")}
               className={`${
@@ -109,8 +110,8 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               } ease border-b-2 pb-1 text-sm transition-all duration-150`}
             >
               A Record{!subdomain && " (recommended)"}
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => setRecordType("CNAME")}
               className={`${
@@ -120,7 +121,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               } ease border-b-2 pb-1 text-sm transition-all duration-150`}
             >
               CNAME Record{subdomain && " (recommended)"}
-            </button>
+            </Button>
           </div>
           <div className="my-3 text-left">
             <p className="my-5 text-sm dark:text-white">

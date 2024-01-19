@@ -4,6 +4,7 @@ import Link from "next/link";
 import GoogleLoginButton from "@/components/button/google-login-button";
 import LoginForm from "@/components/form/login-form";
 import { getCurrentDomain } from "@/lib/utils";
+import SignupForm from "@/components/form/signup-form";
 
 export default function LoginPage() {
   return (
@@ -35,11 +36,9 @@ export default function LoginPage() {
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
           }
         >
-          <LoginForm />
+          <SignupForm />
         </Suspense>
-        <p className="text-gray-400">
-          Não tem uma conta? <Link href="/signup">Cadastre-se</Link>
-        </p>
+        <p className="text-gray-400">Já tem uma conta? <Link href="/login">Entre</Link></p>
         <Suspense
           fallback={
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />

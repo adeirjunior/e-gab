@@ -1,11 +1,10 @@
-import { getServerSession, type NextAuthOptions } from "next-auth";
-import GitHub from "next-auth/providers/github";
+import { NextAuthOptions } from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
-import { userService } from "./services/user.service";
+import { userService } from "../services/user.service";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -46,6 +45,7 @@ export const authOptions: NextAuthOptions = {
 
           return user;
         } catch (error) {
+          console.log(error);
           throw error;
         }
       },
@@ -75,6 +75,17 @@ export const authOptions: NextAuthOptions = {
     },
   },
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+    const isAllowedToSignIn = true
+    if (isAllowedToSignIn) {
+      return true
+    } else {
+      // Return false to display a default error message
+      return false
+      // Or you can return a URL to redirect to:
+      // return '/unauthorized'
+    }
+  },
     jwt: async ({ token, user }) => {
       if (user) {
         token.user = user;
@@ -93,87 +104,3 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
-
-export function getSession() {
-  return getServerSession(authOptions) as Promise<{
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      image: string;
-    };
-  } | null>;
-}
-
-export function withSiteAuth(action: any) {
-  return async (formData: FormData | null, key: string | null) => {
-    const session = await getSession();
-    if (!session) {
-      return {
-        error: "Não autentificado",
-      };
-    }
-    const checkUser = await prisma.user.findUnique({
-      where: {
-        id: session.user.id,
-      },
-    });
-
-    if (!checkUser) {
-      return {
-        error: "Não autorizado",
-      };
-    }
-
-    if (checkUser.websiteId === null) {
-      return {
-        error: "Não há website",
-      };
-    }
-
-    const site = await prisma.website.findUnique({
-      where: {
-        id: checkUser.websiteId,
-      },
-    });
-
-    if (!site || !checkUser) {
-      return {
-        error: "Não autorizado",
-      };
-    }
-
-    return action(formData, site, key);
-  };
-}
-
-export function withPostAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    postId: string,
-    key: string | null,
-  ) => {
-    const session = await getSession();
-    if (!session?.user.id) {
-      return {
-        error: "Não autentificado",
-      };
-    }
-    const post = await prisma.post.findUnique({
-      where: {
-        id: postId,
-      },
-      include: {
-        website: true,
-      },
-    });
-    if (!post || post.userId !== session.user.id) {
-      return {
-        error: "Post não encontrado",
-      };
-    }
-
-    return action(formData, post, key);
-  };
-}

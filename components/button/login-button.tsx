@@ -10,7 +10,7 @@ export default function LoginButton() {
   return (
     <Button
       disabled={loading}
-      type="button"
+      type="submit"
       onClick={() => {
         setLoading(true);
       }}

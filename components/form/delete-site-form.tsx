@@ -7,6 +7,7 @@ import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import { deleteSite } from "@/lib/actions/website/website.delete.action";
 import va from "@vercel/analytics";
+import { Button } from "@nextui-org/react";
 
 export default function DeleteSiteForm({ siteName }: { siteName: string }) {
   const router = useRouter();
@@ -61,7 +62,8 @@ export default function DeleteSiteForm({ siteName }: { siteName: string }) {
 function FormButton() {
   const { pending } = useFormStatus();
   return (
-    <button
+    <Button
+    type="submit"
       className={cn(
         "flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10",
         pending
@@ -75,6 +77,6 @@ function FormButton() {
       ) : (
         <p className="m-0 text-gray-300">Deletar</p>
       )}
-    </button>
+    </Button>
   );
 }

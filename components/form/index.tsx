@@ -10,6 +10,7 @@ import DomainStatus from "./domain-status";
 import DomainConfiguration from "./domain-configuration";
 import Uploader from "./uploader";
 import va from "@vercel/analytics";
+import { Button } from "@nextui-org/react";
 
 export default function Form({
   title,
@@ -136,7 +137,8 @@ export default function Form({
 function FormButton() {
   const { pending } = useFormStatus();
   return (
-    <button
+    <Button
+    type="submit"
       className={cn(
         "flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10",
         pending
@@ -150,6 +152,6 @@ function FormButton() {
       ) : (
         <p className="m-0 text-gray-300">Salvar</p>
       )}
-    </button>
+    </Button>
   );
 }

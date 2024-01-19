@@ -1,5 +1,6 @@
 import { NavItems } from "@/lib/data/demo-header";
 import {
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -19,7 +20,7 @@ export default function DropdownNavItem({
     <div className="relative inline-block">
       <Dropdown className="light">
         <DropdownTrigger>
-          <button
+          <Button
             type="button"
             className="font-saira hover:text-demoSecondary flex items-center uppercase text-gray-700 transition-all hover:underline hover:decoration-4 hover:underline-offset-4 sm:text-sm md:text-base lg:text-large"
           >
@@ -39,7 +40,7 @@ export default function DropdownNavItem({
                 d="m1 1 4 4 4-4"
               />
             </svg>
-          </button>
+          </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           {items.map(({ Icon, href, name }, index) => (

@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, ChangeEvent } from "react";
 import { toast } from "sonner";
 import LoadingDots from "@/components/icons/loading-dots";
+import { Button } from "@nextui-org/react";
 
 export default function Uploader() {
   const [data, setData] = useState<{
@@ -185,7 +186,8 @@ export default function Uploader() {
         </div>
       </div>
 
-      <button
+      <Button
+      type="submit"
         disabled={saveDisabled}
         className={`${
           saveDisabled
@@ -198,7 +200,7 @@ export default function Uploader() {
         ) : (
           <p className="text-sm">Confirm upload</p>
         )}
-      </button>
+      </Button>
     </form>
   );
 }

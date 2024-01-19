@@ -7,6 +7,7 @@ import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import { deletePost } from "@/lib/actions/post/post.delete.action";
 import va from "@vercel/analytics";
+import { Button } from "@nextui-org/react";
 
 export default function DeletePostForm({ postName }: { postName: string }) {
   const { id } = useParams() as unknown as { id: string };
@@ -60,7 +61,8 @@ export default function DeletePostForm({ postName }: { postName: string }) {
 function FormButton() {
   const { pending } = useFormStatus();
   return (
-    <button
+    <Button
+    type="submit"
       className={cn(
         "flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10",
         pending
@@ -70,6 +72,6 @@ function FormButton() {
       disabled={pending}
     >
       {pending ? <LoadingDots color="#808080" /> : <p>Deletar</p>}
-    </button>
+    </Button>
   );
 }

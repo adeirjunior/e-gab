@@ -150,6 +150,10 @@ export const getSiteFromPostId = async (postId: string) => {
 };
 
 export async function getWebsiteByUserId(userId: string) {
+  if (!userId) {
+    console.error("User ID is undefined or null");
+    return null;
+  }
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },

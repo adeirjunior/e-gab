@@ -69,7 +69,7 @@ export default function NewUserForm() {
               />
 
               <div className="flex justify-end gap-2">
-                <Button fullWidth color="primary">
+                <Button type="submit" fullWidth color="primary">
                   Criar Site
                 </Button>
               </div>
@@ -96,7 +96,7 @@ export default function NewUserForm() {
                 type="password"
               />
               <div className="flex justify-end gap-2">
-                <Button fullWidth color="primary">
+                <Button type="submit" fullWidth color="primary">
                   Conectar Site
                 </Button>
               </div>

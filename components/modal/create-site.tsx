@@ -142,6 +142,7 @@ function CreateSiteFormButton() {
   const { pending } = useFormStatus();
   return (
     <Button
+    type="submit"
       className={cn(
         "flex h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none",
         pending
