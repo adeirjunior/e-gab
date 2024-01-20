@@ -8,25 +8,27 @@ generator client {
 }
 
 model User {
-  id            String         @id @default(cuid()) @map("_id")
-  name          String?
-  username      String?
-  gh_username   String?
-  email         String?        @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  subscriptions Subscription[]
-  password      String?
-  role          UserRole       @default(Politician)
-  Politician    Politician?
-  Secretary     Secretary?
-  posts         Post[]
-  Website       Website?       @relation(fields: [websiteId], references: [id])
-  websiteId     String?
+  id               String         @id @default(cuid()) @map("_id")
+  name             String?
+  username         String?
+  gh_username      String?
+  email            String?        @unique
+  emailVerified    DateTime?
+  image            String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  accounts         Account[]
+  sessions         Session[]
+  password         String?
+  role             UserRole       @default(Politician)
+  Politician       Politician?
+  Secretary        Secretary?
+  posts            Post[]
+  Website          Website?       @relation(fields: [websiteId], references: [id])
+  websiteId        String?
+  isActive         Boolean        @default(false)
+  stripeCustomerId String?        @unique
+  subscriptions    Subscription[]
 }
 
 enum UserRole {
@@ -43,15 +45,94 @@ model Secretary {
 }
 
 model Politician {
-  id          String      @id @default(cuid()) @map("_id")
-  party       String
-  User        User        @relation(fields: [userId], references: [id])
-  userId      String      @unique
-  Secretaries Secretary[]
-  description String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  donation    Donation[]
+  id             String      @id @default(cuid()) @map("_id")
+  party          String
+  User           User        @relation(fields: [userId], references: [id])
+  userId         String      @unique
+  Secretaries    Secretary[]
+  description    String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  donation       Donation[]
+  billingAddress Json?
+  paymentMethod  Json?
+}
+
+model Subscription {
+  id                   String             @id @default(cuid()) @map("_id")
+  user_id              String
+  status               SubscriptionStatus
+  metadata             Json
+  price_id             String
+  quantity             Int
+  cancel_at_period_end Boolean
+  created              DateTime
+  current_period_start DateTime
+  current_period_end   DateTime
+  ended_at             DateTime?
+  cancel_at            DateTime?
+  canceled_at          DateTime?
+  trial_start          DateTime?
+  trial_end            DateTime?
+  // Add other fields as needed
+
+  user         User    @relation(fields: [user_id], references: [id])
+  price        Price   @relation(fields: [price_id], references: [id])
+  politicianId String?
+  Plan         Plan?   @relation(fields: [planId], references: [id])
+  planId       String?
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  CANCELED
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  PAST_DUE
+  UNPAID
+  PAUSED
+}
+
+model Price {
+  id                String              @id @default(cuid()) @map("_id")
+  product_id        String
+  active            Boolean
+  description       String
+  unit_amount       Int
+  currency          String
+  pricing_type      PricingType
+  interval          PricingPlanInterval
+  interval_count    Int
+  trial_period_days Int?
+  metadata          Json
+  // Add other fields as needed
+
+  product      Product        @relation(fields: [product_id], references: [id])
+  Subscription Subscription[]
+}
+
+enum PricingType {
+  ONE_TIME
+  RECURRING
+}
+
+enum PricingPlanInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+model Product {
+  id          String  @id @default(cuid()) @map("_id")
+  active      Boolean
+  name        String
+  description String
+  image       String
+  metadata    Json
+  // Add other fields as needed
+  Price       Price[]
 }
 
 model Account {
@@ -159,37 +240,6 @@ model Donation {
 }
 
 enum DonationStatus {
-  pending
-  completed
-  failed
-}
-
-model Subscription {
-  id              String              @id @default(cuid()) @map("_id")
-  userId          String
-  planId          String
-  status          SubscriptionStatus?
-  startDate       DateTime            @default(now())
-  endDate         DateTime
-  paymentMethod   String
-  paymentStatus   PaymentStatus?
-  paymentAmount   Float
-  currency        String
-  paymentIntentId String?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  user            User                @relation(fields: [userId], references: [id])
-  plan            Plan                @relation(fields: [planId], references: [id])
-
-  @@index([userId])
-}
-
-enum SubscriptionStatus {
-  active
-  inactive
-}
-
-enum PaymentStatus {
   pending
   completed
   failed

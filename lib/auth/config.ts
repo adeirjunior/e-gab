@@ -96,6 +96,7 @@ export const authOptions: NextAuthOptions = {
       session.user = {
         ...session.user,
         // @ts-expect-error
+        stripeCustomerId: token?.user?.stripeCustomerId,
         id: token.sub,
         // @ts-expect-error
         username: token?.user?.username || token?.user?.gh_username,
