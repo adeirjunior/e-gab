@@ -4,6 +4,7 @@
 import React, { memo, useEffect, useRef } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor-tools";
+import { PT_I18N } from "./editor-i18n"
 import "./style.css"
 
 //props
@@ -24,6 +25,7 @@ const Editor = ({ data, onChange, holder }: Props) => {
       const editor = new EditorJS({
         holder: holder,
         tools: EDITOR_TOOLS,
+        i18n: PT_I18N,
         data,
         async onChange(api, event) {
           const data = await api.saver.save();
