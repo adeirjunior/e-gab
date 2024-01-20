@@ -19,8 +19,8 @@ export default function PricingPableSvg() {
               y2="172"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="#9333ea" stop-opacity="0.09" />
-              <stop offset="1" stopColor="#C4C4C4" stop-opacity="0" />
+              <stop stopColor="#9333ea" stopOpacity="0.09" />
+              <stop offset="1" stopColor="#C4C4C4" stopOpacity="0" />
             </linearGradient>
           </defs>
         </svg>

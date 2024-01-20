@@ -8,24 +8,22 @@ const products = [
   {
     products: [
       {
-        name: "base",
+        name: "Padrão",
         type: "year",
-        price: "142,99",
+        price: "1500",
         productId: "price_1NDCZ3IMQotP1KSIxFBL4LwI",
         description: [
-          "Appointment scheduling",
-          "Patient notification",
-          "Create up to one office",
-          "appointment Tagging System",
-          "Appointment status updates",
-          "Appointment history tracking and filtering",
+          "Quer dar inicio?",
+          "5 usuários",
+          "Atualizações gratuitas",
+          "3 meses de suporte",
         ],
         active: true,
       },
       {
-        name: "Office+",
+        name: "Profissional",
         type: "year",
-        price: "238,99",
+        price: "2000",
         productId: "price_1NDCYGIMQotP1KSIv178valr",
         description: [
           "Appointment scheduling",
@@ -34,66 +32,34 @@ const products = [
         ],
         active: true,
       },
-      {
-        name: "Enterprize",
-        type: "year",
-        price: "238,99",
-        productId: "",
-        description: [
-          "Appointment scheduling",
-          "Patient notification",
-          "Create up to one office",
-          "appointment Tagging System",
-          "Appointment status updates",
-          "Appointment history tracking and filtering",
-        ],
-        active: false,
-      },
     ],
   },
   {
     products: [
       {
-        name: "base",
+        name: "Padrão",
         type: "month",
-        price: "14,99",
-        productId: "price_1NDCWcIMQotP1KSIBt3qrxLB",
+        price: "150",
+        productId: "price_1NDCZ3IMQotP1KSIxFBL4LwI",
         description: [
-          "Appointment scheduling",
-          "Patient notification",
-          "Create up to one office",
-          "appointment Tagging System",
-          "Appointment status updates",
-          "Appointment history tracking and filtering",
+          "Quer dar inicio?",
+          "5 usuários",
+          "Atualizações gratuitas",
+          "3 meses de suporte",
         ],
         active: true,
       },
       {
-        name: "Office+",
+        name: "Profissional",
         type: "month",
-        price: "24,99",
-        productId: "price_1NDCYGIMQotP1KSIn5rvmYEh",
+        price: "200",
+        productId: "price_1NDCYGIMQotP1KSIv178valr",
         description: [
           "Appointment scheduling",
           "Patient notification",
           "Create up to one office",
         ],
         active: true,
-      },
-      {
-        name: "Enterprize",
-        type: "month",
-        price: "24,99",
-        productId: "",
-        description: [
-          "Appointment scheduling",
-          "Patient notification",
-          "Create up to one office",
-          "appointment Tagging System",
-          "Appointment status updates",
-          "Appointment history tracking and filtering",
-        ],
-        active: false,
       },
     ],
   },
@@ -208,7 +174,7 @@ export default function PricingTable({
         <Tab key="monthly" title="Mês" />
         <Tab key="yearly" title="Ano" />
       </Tabs>
-      <div className="-mx-4 flex flex-wrap justify-center">
+      <div className="-mx-4 flex flex-wrap justify-center gap-6">
         {selectedType.type === "monthly"
           ? products[1].products.map((product, index) => (
               <SubscriptionCard

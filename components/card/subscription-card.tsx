@@ -2,7 +2,6 @@ import { Button, Card } from "@nextui-org/react";
 import PricingPableSvg from "../table/pricing-table-svg";
 
 export default function SubscriptionCard({
-  selectedPlan,
   product,
 }: {
   selectedPlan: {
@@ -19,14 +18,17 @@ export default function SubscriptionCard({
   };
 }) {
   const { name, price, type, description } = product;
+  const [firstDescription, ...otherDescription] = description;
 
   return (
-    <div className="w-full px-4 md:w-1/2 lg:w-1/3">
+    <div className="w-full lg:w-1/3">
       <Card
         className="
                shadow-pricing
                relative
                z-10
+               min-h-[550px]
+               h-full
                mb-10
                overflow-hidden rounded-xl border
                border-purple-600
@@ -44,7 +46,7 @@ export default function SubscriptionCard({
         <h2 className="text-dark mb-5 text-[42px] font-bold">
           R${price}
           <span className="text-body-color text-base font-medium">
-            / {type === "monthly" ? "mês" : "ano"}
+            / {type === "month" ? "mês" : "ano"}
           </span>
         </h2>
         <p
@@ -55,10 +57,10 @@ export default function SubscriptionCard({
                   pb-8 text-base
                   "
         >
-          {description}
+          {firstDescription}
         </p>
         <div className="mb-7">
-          {description.map((text, index) => (
+          {otherDescription.map((text, index) => (
             <p
               key={index}
               className="text-body-color mb-1 text-base leading-loose"
@@ -69,13 +71,16 @@ export default function SubscriptionCard({
         </div>
         <Button
           className="
+                  absolute
+                  bottom-8
+                  left-10
+                  right-10
                   block
-                  w-full
                   rounded-md
                   border
                   border-[#D4DEFF]
                   bg-transparent
-                  p-4 text-center
+                  text-center
                   text-base
                   font-semibold
                   text-blue-900
