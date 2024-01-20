@@ -13,9 +13,10 @@ export default function EditorWrapper({
   setData: Dispatch<SetStateAction<PostWithSite>>;
 }) {
   const [data, setData] = useState<OutputData>();
+
   return (
-    <div className="bg-stone-900">
-      <Editor data={data} onChange={setData} holder="editor" />
-    </div>
+        <div>
+          <Editor data={data} onChange={setData} holder="editorjs-container" />
+        </div>
   );
 }

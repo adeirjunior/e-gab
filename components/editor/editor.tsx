@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client"
+
 import React, { memo, useEffect, useRef } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor-tools";
+import "./style.css"
 
 //props
 type Props = {
@@ -24,8 +27,10 @@ const Editor = ({ data, onChange, holder }: Props) => {
         data,
         async onChange(api, event) {
           const data = await api.saver.save();
+          console.log(data)
           onChange(data);
         },
+        placeholder: "Conteúdo"
       });
       ref.current = editor;
     }

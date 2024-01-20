@@ -16,7 +16,9 @@ import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import EditorWrapper from "@/components/editor/editor-wrapper";
 
-export type PostWithSite = Post & { website: { subdomain: string | null } | null };
+export type PostWithSite = Post & {
+  website: { subdomain: string | null } | null;
+};
 
 export default function Editor({ post }: { post: PostWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
@@ -51,20 +53,25 @@ export default function Editor({ post }: { post: PostWithSite }) {
     formData.append("published", String(!data.published));
     startTransitionPublishing(async () => {
       try {
-        const response = await updatePostMetadata(
-          formData,
-          post.id,
-          "published",
-        );
-        if (response.error) {
-          toast.error(response.error);
+        if (!data.title || !data.description || !data.content) {
+          toast.error("Impossível publicar sem conteúdo.");
         } else {
-          setData((prev) => ({ ...prev, published: !prev.published }));
-          toast.success(
-            `Seu post foi ${
-              data.published ? "despublicado" : "publicado"
-            } com sucesso.`,
+          const response = await updatePostMetadata(
+            formData,
+            post.id,
+            "published",
           );
+
+          if (response.error) {
+            toast.error(response.error);
+          } else {
+            setData((prev) => ({ ...prev, published: !prev.published }));
+            toast.success(
+              `Seu post foi ${
+                data.published ? "despublicado" : "publicado"
+              } com sucesso.`,
+            );
+          }
         }
       } catch (error) {
         console.error("Erro ao atualizar metadata:", error);
@@ -113,7 +120,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
           {isPendingPublishing ? (
             <LoadingDots />
           ) : (
-            <p>{data.published ? "Despublicar" : "Publicar"}</p>
+            <p className="m-0">{data.published ? "Despublicar" : "Publicar"}</p>
           )}
         </Button>
       </div>
