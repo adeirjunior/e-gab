@@ -7,6 +7,7 @@ export default function PoliticoEstatisticas() {
       height="500"
       viewBox="0 0 500 500"
       fill="none"
+      className="w-full"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clipPath="url(#clip0_130_4)">

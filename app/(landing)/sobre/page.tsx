@@ -11,7 +11,7 @@ export default function page() {
     <>
       <div className="bg-white py-16">
         <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
-          <div className="space-y-6 md:flex md:gap-6 md:space-y-0 lg:items-center lg:gap-12">
+          <div className="space-y-6 lg:flex lg:space-y-0 lg:items-center lg:gap-12">
             <div className="md:5/12 lg:w-5/12">
               <PoliticoEstatisticas />
             </div>
