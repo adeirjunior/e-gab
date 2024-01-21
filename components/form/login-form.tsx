@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [isPendingUserLogin, startUserLogin] = useTransition();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
@@ -30,15 +30,15 @@ export default function LoginForm() {
 
         if (!session) {
           toast.error("Esta conta não existe.");
-          router.push('/signup')
+          router.push("/signup");
         } else {
           toast.success("Login feito com sucesso.");
+          router.push("/");
         }
       });
     } catch (error: any) {
       toast.error("Autentificação falhou:", error);
     }
-
   };
 
   return (

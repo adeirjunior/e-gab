@@ -6,11 +6,10 @@ export function decodeUTF8(encodedText: string): string {
 }
 
 export function getCurrentDomain(subdomain?: string, path?: string) {
-  return process.env.NODE_ENV === "development"
-    ? `http://${subdomain ? `${subdomain}.` : ""}localhost:3000${path ?? ""}`
-    : `https://${subdomain ? `${subdomain}.` : ""}${
-        process.env.NEXT_PUBLIC_ROOT_DOMAIN
-      }${path ?? ""}`;
+  const isDev = process.env.NODE_ENV === "development";
+  const protocol = isDev ? "http://" : "https://";
+  const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
+  return `${protocol}${subdomain && `${subdomain}.`}${domain}${path ?? ""}`;
 }
 
 export function cn(...inputs: ClassValue[]) {
