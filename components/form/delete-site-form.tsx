@@ -15,7 +15,7 @@ export default function DeleteSiteForm({ siteName }: { siteName: string }) {
     <form
       action={async (data: FormData) =>
         window.confirm("Tem certeza que quer deletar o seu site?") &&
-        deleteSite(data, "delete")
+        await deleteSite(data, "delete")
           .then(async (res) => {
             if (res.error) {
               toast.error(res.error);

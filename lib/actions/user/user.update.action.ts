@@ -1,6 +1,6 @@
 "use server";
 
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/prisma";
 
 export const editUser = async (

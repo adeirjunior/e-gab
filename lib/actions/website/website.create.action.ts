@@ -1,6 +1,6 @@
 "use server";
 
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { createPolitician } from "../politician/politician.create.action";
 import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";

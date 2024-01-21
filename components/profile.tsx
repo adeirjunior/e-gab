@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";

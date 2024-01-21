@@ -1,12 +1,13 @@
 "use server";
 
-import { getSession, withPostAuth } from "@/lib/auth";
+import {  withPostAuth } from "@/lib/auth";
 import { Post, Website } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
+import { getSession } from "@/lib/auth/get-session";
 
 export const updatePost = async (data: Post) => {
   const session = await getSession();

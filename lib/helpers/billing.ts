@@ -1,4 +1,4 @@
-import { getSession } from "../auth";
+import { getSession } from "../auth/get-session";
 import { getCurrentDomain } from "../utils";
 import { stripe } from "../stripe";
 import prisma from "../prisma";

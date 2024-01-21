@@ -1,5 +1,5 @@
 import Form from "@/components/form";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions/user/user.update.action";
 import CurrentActivePlanCard from "@/components/card/current-active-plan-card";

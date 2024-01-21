@@ -6,7 +6,7 @@ import { useTransition } from "react";
 import LoadingDots from "../icons/loading-dots";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {

@@ -1,7 +1,7 @@
 import Form from "@/components/form";
 import DeleteSiteForm from "@/components/form/delete-site-form";
 import { updateSite } from "@/lib/actions/website/website.update.action";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers";
 import { redirect } from "next/navigation";
 

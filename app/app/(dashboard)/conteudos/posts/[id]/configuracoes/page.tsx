@@ -1,9 +1,9 @@
-import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import Form from "@/components/form";
 import { updatePostMetadata } from "@/lib/actions/post/post.update.action";
 import DeletePostForm from "@/components/form/delete-post-form";
+import { getSession } from "@/lib/auth/get-session";
 
 export default async function PostSettings({
   params,

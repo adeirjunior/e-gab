@@ -1,9 +1,10 @@
 "use server";
 
-import { getSession, withSiteAuth } from "@/lib/auth";
+import { getSession } from "@/lib/auth/get-session";
 import { Website } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";
+import { withSiteAuth } from "@/lib/auth";
 
 export const createExpenditure = withSiteAuth(
   async (_: FormData, site: Website) => {
