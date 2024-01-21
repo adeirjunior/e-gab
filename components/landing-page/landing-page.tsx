@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Background1 from "./background1";
 import Background2 from "./background2";
+import { getCurrentDomain } from "@/lib/utils";
 
 export default function LandingPage() {
   return (
@@ -18,11 +19,7 @@ export default function LandingPage() {
             personalizada que cativa eleitores e fortalece sua imagem política.
           </p>
           <Link
-            href={`${
-              process.env.NEXTAUTH_URL
-                ? "http://app.localhost:3000"
-                : `https://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-            }`}
+            href={getCurrentDomain("app")}
             className="rounded-full bg-purple-600 px-12 py-3 text-lg font-semibold text-white hover:bg-blue-400"
           >
             Entrar

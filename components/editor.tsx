@@ -8,7 +8,7 @@ import {
   updatePostMetadata,
 } from "@/lib/actions/post/post.update.action";
 import TextareaAutosize from "react-textarea-autosize";
-import { cn } from "@/lib/utils";
+import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "./icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
@@ -26,9 +26,8 @@ export default function Editor({ post }: { post: PostWithSite }) {
   const [data, setData] = useState<PostWithSite>(post);
   const debouncedData = useDebounce(data, 750);
 
-  const url = process.env.NEXT_PUBLIC_VERCEL_ENV
-    ? `https://${data.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts/${data.slug}`
-    : `http://${data.website?.subdomain}.localhost:3000/posts/${data.slug}`;
+  
+  const url = getCurrentDomain(data.website?.subdomain!, `/posts/${data.slug}`);
 
   useEffect(() => {
     if (

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Suspense } from "react";
 import Link from "next/link";
 import GoogleLoginButton from "@/components/button/google-login-button";
-import LoginForm from "@/components/form/login-form";
 import { getCurrentDomain } from "@/lib/utils";
 import SignupForm from "@/components/form/signup-form";
 

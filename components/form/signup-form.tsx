@@ -1,11 +1,8 @@
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
-import LoadingDots from "../icons/loading-dots";
 import prisma from "@/lib/prisma";
 import { hash } from "bcrypt-ts";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
-import { signIn } from "next-auth/react";
 
 export default function SignupForm() {
 
@@ -20,13 +17,18 @@ export default function SignupForm() {
 
       try {
 
-      await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashPass
-        }
-      })
+      await prisma.user
+        .create({
+          data: {
+            name,
+            email,
+            password: hashPass,
+          },
+        })
+        .then(() => {
+          toast.message("Usuário criado")
+          redirect("/login")
+        });
 
       } catch(err) {
         console.log(err)

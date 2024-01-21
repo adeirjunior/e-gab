@@ -1,5 +1,6 @@
-import { useEffect, useRef, ReactNode, Dispatch, SetStateAction } from "react";
+import { useRef, ReactNode, Dispatch, SetStateAction } from "react";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function Leaflet({
   setShow,
@@ -11,13 +12,13 @@ export default function Leaflet({
   const leafletRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const transitionProps = { type: "spring", stiffness: 500, damping: 30 };
-  useEffect(() => {
+  useEffectOnce(() => {
     controls.start({
       y: 20,
       transition: transitionProps,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   async function handleDragEnd(_: any, info: any) {
     const offset = info.offset.y;

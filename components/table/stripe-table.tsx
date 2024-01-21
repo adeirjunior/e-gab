@@ -1,9 +1,10 @@
 "use client"
 
-import { createElement, useEffect } from "react";
+import { createElement } from "react";
+import { useEffectOnce } from "usehooks-ts";
 
 const StripePricingTable = () => {
-  useEffect(() => {
+  useEffectOnce(() => {
     const script = document.createElement("script");
     script.src = "https://js.stripe.com/v3/pricing-table.js";
     script.async = true;
@@ -12,7 +13,7 @@ const StripePricingTable = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  });
 
   return createElement("stripe-pricing-table", {
     "pricing-table-id": process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID,

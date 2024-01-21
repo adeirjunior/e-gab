@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function useMediaQuery() {
   const [device, setDevice] = useState<"mobile" | "tablet" | "desktop" | null>(
@@ -9,7 +10,7 @@ export default function useMediaQuery() {
     height: number;
   } | null>(null);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     const checkDevice = () => {
       if (window.matchMedia("(max-width: 640px)").matches) {
         setDevice("mobile");
@@ -33,7 +34,7 @@ export default function useMediaQuery() {
     return () => {
       window.removeEventListener("resize", checkDevice);
     };
-  }, []);
+  });
 
   return {
     device,

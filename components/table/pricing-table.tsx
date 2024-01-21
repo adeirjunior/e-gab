@@ -4,6 +4,7 @@ import { Card, Tab, Tabs } from "@nextui-org/react";
 import PricingPableSvg from "./pricing-table-svg";
 import { pricingTable } from "@/lib/data/pricing-table";
 import { Key, useState } from "react";
+import { getCurrentDomain } from "@/lib/utils";
 
 export default function PricingTable() {
   type KeyType = "ano" | "mes";
@@ -158,11 +159,7 @@ export default function PricingTable() {
             </div>
             <a
               target="demo"
-              href={
-                process.env.NEXTAUTH_URL
-                  ? "http://demo.localhost:3000"
-                  : `https://demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-              }
+              href={getCurrentDomain("demo")}
               className="
                   block
                   w-full

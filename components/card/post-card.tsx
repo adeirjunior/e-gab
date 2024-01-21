@@ -1,5 +1,5 @@
 import BlurImage from "@/components/blur-image";
-import { placeholderBlurhash } from "@/lib/utils";
+import { getCurrentDomain, placeholderBlurhash } from "@/lib/utils";
 import { Post, Website } from "@prisma/client";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ export default function PostCard({
 }: {
   data: Post & { website: Website | null };
 }) {
-  const url = `${data.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts/${data.slug}`;
+  const url = getCurrentDomain(data.website?.subdomain!, `/posts/${data.slug}`);
 
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
@@ -28,7 +28,7 @@ export default function PostCard({
           />
           {!data.published && (
             <span className="absolute bottom-2 right-2 rounded-md border border-stone-200 bg-white px-3 py-0.5 text-sm font-medium text-stone-600 shadow-md">
-              Draft
+              Esboço
             </span>
           )}
         </div>
@@ -43,11 +43,7 @@ export default function PostCard({
       </Link>
       <div className="absolute bottom-4 flex w-full px-4">
         <a
-          href={
-            process.env.NEXT_PUBLIC_VERCEL_ENV
-              ? `https://${url}`
-              : `http://${data.website?.subdomain}.localhost:3000/posts/${data.slug}`
-          }
+          href={url}
           target="_blank"
           rel="noreferrer"
           className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"

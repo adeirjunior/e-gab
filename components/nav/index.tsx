@@ -15,6 +15,7 @@ import { getTabs } from "./tabs";
 import { NavLink } from "./nav-link";
 import { Icon } from "./icon";
 import { getCurrentDomain } from "@/lib/utils";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function Nav({
   children,
@@ -31,14 +32,14 @@ export default function Nav({
 
   const tabs = useMemo(() => getTabs(segments, id), [segments, id]);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     const fetchExternalLinks = async () => {
       const links = await getExternalLinks(subdomain);
       setExternalLinks(links);
     };
 
     fetchExternalLinks();
-  }, []);
+  });
 
   useEffect(() => {
     setShowSidebar(false);

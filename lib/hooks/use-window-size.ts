@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function useWindowSize() {
   const [windowSize, setWindowSize] = useState<{
@@ -9,7 +10,7 @@ export default function useWindowSize() {
     height: undefined,
   });
 
-  useEffect(() => {
+  useEffectOnce(() => {
     // Handler to call on window resize
     function handleResize() {
       // Set window width/height to state
@@ -27,7 +28,7 @@ export default function useWindowSize() {
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
+  }); // Empty array ensures that effect is only run on mount
 
   return {
     windowSize,

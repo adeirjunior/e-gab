@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useRef } from "react";
+import { useEffectOnce } from "usehooks-ts";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor-tools";
 import { PT_I18N } from "./editor-i18n"
@@ -15,12 +16,9 @@ type Props = {
 };
 
 const Editor = ({ data, onChange, holder }: Props) => {
-  //add a reference to editor
   const ref = useRef<EditorJS>();
 
-  //initialize editorjs
-  useEffect(() => {
-    //initialize editor if we don't have a reference
+  useEffectOnce(() => {
     if (!ref.current) {
       const editor = new EditorJS({
         holder: holder,
@@ -37,13 +35,12 @@ const Editor = ({ data, onChange, holder }: Props) => {
       ref.current = editor;
     }
 
-    //add a return function handle cleanup
     return () => {
       if (ref.current && ref.current.destroy) {
         ref.current.destroy();
       }
     };
-  }, []);
+  });
 
   return <div id={holder} />;
 };
