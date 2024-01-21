@@ -1,64 +1,124 @@
-import { Button } from "@nextui-org/react";
-import prisma from "@/lib/prisma";
+"use client"
+
+import { Button, Input } from "@nextui-org/react";
 import { hash } from "bcrypt-ts";
-import { redirect } from "next/navigation";
 import { toast } from "sonner";
+import { passwordStrength } from "check-password-strength";
+import { useState, useTransition, useEffect } from "react";
+import LoadingDots from "../icons/loading-dots";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/user";
+
+
+type checkPassStrengthType = {
+  id: number;
+  value: "Senha muito fraca" | "Senha fraca" | "Boa senha" | "Ótima senha";
+};
 
 export default function SignupForm() {
+  const [isPendingUserCreation, startUserCreation] = useTransition();
+  const [password, setPassword] = useState<string>("");
+  const [passStrength, setPassStrength] = useState<checkPassStrengthType>({
+    id: 0,
+    value: "Senha muito fraca",
+  });
+
+  const router = useRouter();
+
+  const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
+    const id = passwordStrength(pass).id;
+    return {
+      id,
+      value:
+        id === 1
+          ? "Senha fraca"
+          : id === 2
+            ? "Boa senha"
+            : id === 3
+              ? "Ótima senha"
+              : "Senha muito fraca",
+    };
+  };
+
+  useEffect(() => {
+    setPassStrength(checkPassStrength(password));
+  }, [password]);
+
+  const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const hashPass = await hash(password, 10);
+
+    try {
+      startUserCreation(async () => {
+        await createUser(name, email, hashPass)
+          .then(() => {
+            toast.success("Usuário criado");
+            router.push("/login");
+          })
+      })
+    } catch (error: any) {
+      console.error("Authentication failed:", error);
+    } finally {
+    }
+  };
 
   return (
-    <form action={async (formData: FormData) => {
-      "use server"
-      const name = formData.get("name") as string
-      const email = formData.get("email") as string
-      const password = formData.get("password") as string
-
-      const hashPass = await hash(password, 10)
-
-      try {
-
-      await prisma.user
-        .create({
-          data: {
-            name,
-            email,
-            password: hashPass,
-          },
-        })
-        .then(() => {
-          toast.message("Usuário criado")
-          redirect("/login")
-        });
-
-      } catch(err) {
-        console.log(err)
-      }
-    }}>
-      <input
+    <form className="space-y-4" onSubmit={handleFormSubmit}>
+      <Input
+        variant="bordered"
+        isRequired
         name="name"
         type="text"
-        placeholder="Seu nome"
-        className="group my-2 flex h-10 w-full items-center justify-center gap-2 space-x-2 rounded-md border border-stone-200 bg-white px-2 transition-colors duration-75 hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
+        label="Nome"
+        className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
-      <input
+      <Input
+        variant="bordered"
         name="email"
+        isRequired
         type="email"
-        placeholder="Seu email"
-        className="group my-2 flex h-10 w-full items-center justify-center gap-2 space-x-2 rounded-md border border-stone-200 bg-white px-2 transition-colors duration-75 hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
+        label="Email"
+        className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
-      <input
+      <Input
+        label="Senha"
+        isRequired
+        variant="bordered"
+        onChange={(e) => setPassword(e.target.value)}
         name="password"
         type="password"
-        placeholder="Sua senha"
-        className="group my-2 flex h-10 w-full items-center justify-center gap-2 space-x-2 rounded-md border border-stone-200 bg-white px-2 transition-colors duration-75 hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
+        className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
+      <p
+        className={cn(
+          "p-0 font-semibold gap-2 flex text-sm text-gray-300",
+          passStrength.id === 0 && "text-danger-300",
+          passStrength.id === 1 && "text-yellow-600",
+          passStrength.id === 2 && "text-success-300",
+        )}
+      >
+        {passStrength.value}{passStrength.id === 3 && <Check size={20}/>}
+      </p>
+
       <Button
         type="submit"
-        className="bg-white hover:bg-stone-50 active:bg-stone-100 dark:bg-black dark:hover:border-white dark:hover:bg-black group my-2 flex h-10 w-full items-center justify-center gap-2 space-x-2 rounded-md border border-stone-200 transition-colors duration-75 focus:outline-none dark:border-stone-700"
+        className=" h-10 w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:hover:border-white dark:hover:bg-black"
+        variant="bordered"
+        radius="sm"
+        disabled={passStrength.id <= 1}
+        spinner={<LoadingDots color="#808080" />}
+        isLoading={isPendingUserCreation}
       >
-          <p className="m-0 text-sm font-medium text-stone-600 dark:text-stone-400">
-            Cadastre-se
-          </p>
+        {isPendingUserCreation ? "" : "Cadastre-se"}
       </Button>
     </form>
   );

@@ -19,7 +19,7 @@ const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
 
   try {
     setLoading(true)
-    await signIn("credentials", { email, password }).catch((err) => {
+    await signIn("credentials", { email, password }).then(() => toast.success("Login feito com sucesso")).catch((err) => {
       toast.error(err)
     })
   } catch (error: any) {
