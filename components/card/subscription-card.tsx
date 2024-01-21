@@ -1,5 +1,9 @@
 import { Button, Card } from "@nextui-org/react";
 import PricingPableSvg from "../table/pricing-table-svg";
+import { getCurrentDomain } from "@/lib/utils";
+import { toast } from "sonner";
+import { getStripe } from "@/lib/stripe/stripe-client";
+import { useRouter } from "next/navigation";
 
 export default function SubscriptionCard({
   product,
@@ -17,8 +21,44 @@ export default function SubscriptionCard({
     active: boolean;
   };
 }) {
-  const { name, price, type, description } = product;
+  const { name, price, type, description, productId } = product;
   const [firstDescription, ...otherDescription] = description;
+  const router = useRouter();
+
+  const handleCreateCheckoutSession = async (productId: string) => {
+    const res = await fetch(`/api/stripe/checkout-session`, {
+      method: "POST",
+      body: JSON.stringify(productId),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json().then((value) => {
+      return value;
+    });
+
+    if ("error" in data) {
+      const error = data.error as any;
+      if ("message" in error) {
+        toast.error(error.message as string);
+
+        router.push(getCurrentDomain("app"));
+      }
+    }
+
+    const checkoutSession = await res.json().then((value) => {
+      return value.session;
+    });
+
+    const stripe = await getStripe();
+
+    const { error } = await stripe!.redirectToCheckout({
+      sessionId: checkoutSession?.id,
+    });
+
+    console.warn(error.message);
+  };
 
   return (
     <div className="w-full lg:w-1/3">
@@ -27,9 +67,9 @@ export default function SubscriptionCard({
                shadow-pricing
                relative
                z-10
-               min-h-[550px]
-               h-full
                mb-10
+               h-full
+               min-h-[550px]
                overflow-hidden rounded-xl border
                border-purple-600
                border-opacity-20
@@ -70,6 +110,7 @@ export default function SubscriptionCard({
           ))}
         </div>
         <Button
+          onClick={async () => await handleCreateCheckoutSession(productId)}
           className="
                   absolute
                   bottom-8

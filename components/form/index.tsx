@@ -57,7 +57,7 @@ export default function Form({
               await update();
               router.refresh();
             }
-            toast.success(`Successfully updated ${inputAttrs.name}!`);
+            toast.success(`Atualizado ${inputAttrs.name} com sucesso!`);
           }
         });
       }}
@@ -138,20 +138,19 @@ function FormButton() {
   const { pending } = useFormStatus();
   return (
     <Button
-    type="submit"
+      type="submit"
+      variant="bordered"
+      radius="sm"
       className={cn(
-        "flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10",
+        "h-8 w-32 focus:outline-none sm:h-10",
         pending
           ? "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
           : "border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800",
       )}
-      disabled={pending}
+      spinner={<LoadingDots color="#808080" />}
+      isLoading={pending}
     >
-      {pending ? (
-        <LoadingDots color="#808080" />
-      ) : (
-        <p className="m-0 text-gray-300">Salvar</p>
-      )}
+      {pending ? "" : "Salvar"}
     </Button>
   );
 }

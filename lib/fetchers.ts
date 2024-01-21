@@ -29,6 +29,25 @@ export async function getSiteData(domain: string) {
   )();
 }
 
+export async function getUserRole(id: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: { role: true },
+    });
+
+    if (!user) {
+      throw new Error("Não foi possível encontrar o usuário")
+    }
+
+    return user.role;
+  } catch (error: any) {
+    throw new Error(`Erro ao obter papel do usuário: ${error.message}`)
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function getPostsForSite(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
