@@ -29,7 +29,8 @@ export interface DomainResponse {
 export type AuthenticatedUser = {
   id: string;
   name: string | null;
-  email: string;
+  email: string | null;
+  password: string | null;
 };
 
 // From https://vercel.com/docs/rest-api/endpoints#get-a-domain-s-configuration

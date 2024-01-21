@@ -1,8 +1,10 @@
+"use server";
+
 import { getServerSession } from "next-auth";
 import prisma from "../prisma";
 import { authOptions } from "./config";
 
-export function getSession() {
+export async function getSession() {
   return getServerSession(authOptions) as Promise<{
     user: {
       id: string;
@@ -15,7 +17,7 @@ export function getSession() {
   } | null>;
 }
 
-export function withSiteAuth(action: any) {
+export async function withSiteAuth(action: any) {
   return async (formData: FormData | null, key: string | null) => {
     const session = await getSession();
     if (!session) {
@@ -57,7 +59,7 @@ export function withSiteAuth(action: any) {
   };
 }
 
-export function withPostAuth(action: any) {
+export async function withPostAuth(action: any) {
   return async (
     formData: FormData | null,
     postId: string,

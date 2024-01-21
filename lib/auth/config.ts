@@ -4,9 +4,19 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
-import { userService } from "../services/user.service";
+import { AuthenticatedUser } from "../types";
+import { ErrorType, userService } from "../services/user.service";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
+
+type UserCredentialsConfig<T> = {
+  name: string;
+  credentials: T;
+  authorize: (
+    credentials: Record<string, string> | undefined,
+    req: any,
+  ) => Promise<any>; // ajuste de acordo com sua implementação real
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -28,7 +38,10 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text", placeholder: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(
+        credentials: Record<"email" | "password", string> | undefined,
+        req,
+      ): Promise<AuthenticatedUser | ErrorType> {
         const { email, password, role } = credentials as {
           email: string;
           password: string;
@@ -39,17 +52,20 @@ export const authOptions: NextAuthOptions = {
           const user = await userService.authenticate(email, password);
 
           if ("error" in user) {
-            // Handle the error case
-            throw new Error(user.error);
+            return {
+              error: user.error
+            };
           }
 
-          return user;
+          return user as AuthenticatedUser;
         } catch (error) {
-          console.log(error);
-          throw error;
+          return { error } as ErrorType;
         }
       },
-    }),
+    } as UserCredentialsConfig<{
+      email: { label: string; type: string; placeholder: string };
+      password: { label: string; type: string };
+    }>),
   ],
   pages: {
     signIn: `/login`,
@@ -75,17 +91,14 @@ export const authOptions: NextAuthOptions = {
     },
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-    const isAllowedToSignIn = true
-    if (isAllowedToSignIn) {
-      return true
-    } else {
-      // Return false to display a default error message
-      return false
-      // Or you can return a URL to redirect to:
-      // return '/unauthorized'
-    }
-  },
+    async signIn({ user }) {
+
+      const isNotFound = 'error' in user;
+
+      if (isNotFound) return false;
+
+      return true;
+    },
     jwt: async ({ token, user }) => {
       if (user) {
         token.user = user;

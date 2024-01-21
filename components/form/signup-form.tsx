@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button, Input } from "@nextui-org/react";
 import { hash } from "bcrypt-ts";
@@ -8,9 +8,9 @@ import { useState, useTransition, useEffect } from "react";
 import LoadingDots from "../icons/loading-dots";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/user";
-
+import { useEffectOnce } from "usehooks-ts";
 
 type checkPassStrengthType = {
   id: number;
@@ -19,6 +19,7 @@ type checkPassStrengthType = {
 
 export default function SignupForm() {
   const [isPendingUserCreation, startUserCreation] = useTransition();
+  const params = useParams<{ error?: string }>();
   const [password, setPassword] = useState<string>("");
   const [passStrength, setPassStrength] = useState<checkPassStrengthType>({
     id: 0,
@@ -26,6 +27,12 @@ export default function SignupForm() {
   });
 
   const router = useRouter();
+
+  useEffectOnce(() => {
+    if (params.error === "notLogged") {
+      toast.error("Esta conta não existe.");
+    }
+  });
 
   const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
     const id = passwordStrength(pass).id;
@@ -59,12 +66,11 @@ export default function SignupForm() {
 
     try {
       startUserCreation(async () => {
-        await createUser(name, email, hashPass)
-          .then(() => {
-            toast.success("Usuário criado");
-            router.push("/login");
-          })
-      })
+        await createUser(name, email, hashPass).then(() => {
+          toast.success("Usuário criado");
+          router.push("/login");
+        });
+      });
     } catch (error: any) {
       console.error("Authentication failed:", error);
     } finally {
@@ -100,18 +106,28 @@ export default function SignupForm() {
       />
       <p
         className={cn(
-          "p-0 font-semibold gap-2 flex text-sm text-gray-300",
+          "flex gap-2 p-0 text-sm font-semibold text-gray-300",
           passStrength.id === 0 && "text-danger-300",
           passStrength.id === 1 && "text-yellow-600",
           passStrength.id === 2 && "text-success-300",
         )}
       >
-        {passStrength.value}{passStrength.id === 3 && <Check size={20}/>}
+        {password.length > 0 && (
+          <>
+            {passStrength.value}
+            {passStrength.id === 3 && <Check size={20} />}
+          </>
+        )}
       </p>
 
       <Button
         type="submit"
-        className=" h-10 w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:hover:border-white dark:hover:bg-black"
+        className={cn(
+          isPendingUserCreation || passStrength.id < 2
+            ? "cursor-not-allowed bg-stone-50 dark:bg-stone-800"
+            : "bg-white hover:bg-stone-50 active:bg-stone-100 dark:bg-black dark:hover:border-white dark:hover:bg-black",
+          "my-2 flex h-10 w-full space-x-2 border-stone-200 transition-colors duration-75 focus:outline-none dark:border-stone-700",
+        )}
         variant="bordered"
         radius="sm"
         disabled={passStrength.id <= 1}

@@ -2,11 +2,20 @@ import prisma from "@/lib/prisma";
 import { AuthenticatedUser } from "../types";
 import { compare } from "bcrypt-ts";
 
+export type ErrorType = {
+  error: {
+    message: string;
+  };
+};
+
 export const userService = {
   authenticate,
 };
 
-async function authenticate(email: string, password: string) {
+async function authenticate(
+  email: string,
+  password: string,
+): Promise<AuthenticatedUser | ErrorType> {
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -15,33 +24,39 @@ async function authenticate(email: string, password: string) {
       id: true,
       email: true,
       name: true,
-      password: true
+      password: true,
     },
   });
 
   if (!user) {
     return {
-      error: "Usuário não encontrado.",
+      error: {
+        message: "Usuário não encontrado.",
+      },
     };
   }
 
   if (!user.email) {
     return {
-      error: "Coloque um email.",
+      error: {
+        message: "Coloque um email.",
+      },
     };
   }
 
   if (!user.password) {
     return {
-      error: "Coloque uma senha.",
+      error: {
+        message: "Coloque uma senha.",
+      },
     };
   }
 
-  const passIsSame = await compare(password, user.password)
+  const passIsSame = await compare(password, user.password);
 
   if (!passIsSame) {
     return {
-      error: "Senha incorreta.",
+      error: { message: "Senha incorreta." },
     };
   }
 
