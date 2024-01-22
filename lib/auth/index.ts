@@ -74,3 +74,34 @@ export function withPostAuth(action: any) {
     return action(formData, post, key);
   };
 }
+
+export function withLawAuth(action: any) {
+  return async (
+    formData: FormData | null,
+    lawId: string,
+    key: string | null,
+  ) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Não autentificado",
+      };
+    }
+    const law = await prisma.law.findUnique({
+      where: {
+        id: lawId,
+      },
+      include: {
+        website: true,
+      },
+    });
+    if (!law) {
+      return {
+        error: "Lei não encontrada",
+      };
+    }
+
+    return action(formData, law, key);
+  };
+}
+

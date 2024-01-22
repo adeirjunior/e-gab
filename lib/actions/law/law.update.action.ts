@@ -1,9 +1,13 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Law } from "@prisma/client";
+import { Law, Website } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";
+import { withLawAuth } from "@/lib/auth";
+import { nanoid } from "nanoid";
+import { put } from "@vercel/blob";
+import { getBlurDataURL } from "@/lib/utils";
 
 export const updateLaw = async (data: Law) => {
   const session = await getSession();
@@ -20,7 +24,7 @@ export const updateLaw = async (data: Law) => {
     };
   }
 
-  const post = await prisma.post.findUnique({
+  const law = await prisma.law.findUnique({
     where: {
       id: data.id,
     },
@@ -28,9 +32,9 @@ export const updateLaw = async (data: Law) => {
       website: true,
     },
   });
-  if (!post || post.userId !== session.user.id) {
+  if (!law) {
     return {
-      error: "Post não encontrado",
+      error: "Lei não encontrada",
     };
   }
 
@@ -46,16 +50,16 @@ export const updateLaw = async (data: Law) => {
     });
 
     revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-laws`,
     );
     revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
+      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
     );
 
     // if the site has a custom domain, we need to revalidate those tags too
-    post.website?.customDomain &&
-      (revalidateTag(`${post.website?.customDomain}-posts`),
-      revalidateTag(`${post.website?.customDomain}-${post.slug}`));
+    law.website?.customDomain &&
+      (revalidateTag(`${law.website?.customDomain}-laws`),
+      revalidateTag(`${law.website?.customDomain}-${law.slug}`));
 
     return response;
   } catch (error: any) {
@@ -64,3 +68,72 @@ export const updateLaw = async (data: Law) => {
     };
   }
 };
+
+export const updateLawMetadata = withLawAuth(
+  async (
+    formData: FormData,
+    law: Law & {
+      site: Website;
+    },
+    key: string,
+  ) => {
+    const value = formData.get(key) as string;
+
+    try {
+      let response;
+      if (key === "image") {
+        const file = formData.get("image") as File;
+        const filename = `${nanoid()}.${file.type.split("/")[1]}`;
+
+        const { url } = await put(filename, file, {
+          access: "public",
+        });
+
+        const blurhash = await getBlurDataURL(url);
+
+        response = await prisma.law.update({
+          where: {
+            id: law.id,
+          },
+          data: {
+            image: url,
+            imageBlurhash: blurhash,
+          },
+        });
+      } else {
+        response = await prisma.law.update({
+          where: {
+            id: law.id,
+          },
+          data: {
+            [key]: key === "published" ? value === "true" : value,
+          },
+        });
+      }
+
+      revalidateTag(
+        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-laws`,
+      );
+      revalidateTag(
+        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
+      );
+
+      // if the site has a custom domain, we need to revalidate those tags too
+      law.site?.customDomain &&
+        (revalidateTag(`${law.site?.customDomain}-laws`),
+        revalidateTag(`${law.site?.customDomain}-${law.slug}`));
+
+      return response;
+    } catch (error: any) {
+      if (error.code === "P2002") {
+        return {
+          error: `This slug is already in use`,
+        };
+      } else {
+        return {
+          error: error.message,
+        };
+      }
+    }
+  },
+);

@@ -141,6 +141,65 @@ export async function getPostData(domain: string, slug: string) {
   )();
 }
 
+export async function getLawData(domain: string, slug: string) {
+  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+    : null;
+
+  return await unstable_cache(
+    async () => {
+      const data = await prisma.post.findFirst({
+        where: {
+          website: subdomain ? { subdomain } : { customDomain: domain },
+          slug,
+          published: true,
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      if (!data)
+        return {
+          error: "Lei está indefinida",
+        };
+
+      const [mdxSource, adjacentPosts]: any = await Promise.all([
+        getMdxSource(data.content!),
+        prisma.law.findMany({
+          where: {
+            website: subdomain ? { subdomain } : { customDomain: domain },
+            published: true,
+            NOT: {
+              id: data.id,
+            },
+          },
+          select: {
+            slug: true,
+            title: true,
+            createdAt: true,
+            description: true,
+            image: true,
+            imageBlurhash: true,
+          },
+        }),
+      ]);
+
+      return {
+        ...data,
+        mdxSource,
+        adjacentPosts,
+      };
+    },
+    [`${domain}-${slug}`],
+    {
+      revalidate: 900, // 15 minutes
+      tags: [`${domain}-${slug}`],
+    },
+  )();
+}
+
+
 async function getMdxSource(postContents: string) {
   // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax
   // https://mdxjs.com/docs/what-is-mdx/#markdown

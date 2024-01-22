@@ -4,13 +4,12 @@ import prisma from "@/lib/prisma";
 import PostCard from "./card/post-card";
 import Image from "next/image";
 
-export default async function Posts({
-  siteId,
-  limit,
-}: {
+export type contentArray = {
   siteId?: string;
   limit?: number;
-}) {
+}
+
+export default async function Posts({siteId, limit}: contentArray) {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");

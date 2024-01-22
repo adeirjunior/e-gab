@@ -216,7 +216,7 @@ model Website {
   projects      Project[]
   polls         Poll[]
   surveys       Survey[]
-  News          News[]
+  news          News[]
   expenditures  Expenditure[]
   posts         Post[]
   donations     Donation[]
@@ -233,7 +233,7 @@ model Donation {
   status       DonationStatus?
   updatedAt    DateTime        @updatedAt
   donator      String
-  Website      Website         @relation(fields: [websiteId], references: [id])
+  website      Website         @relation(fields: [websiteId], references: [id])
   politician   Politician?     @relation(fields: [politicianId], references: [id])
 
   @@index([userId])
@@ -266,7 +266,7 @@ model Event {
   location    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Website     Website   @relation(fields: [websiteId], references: [id])
+  website     Website   @relation(fields: [websiteId], references: [id])
   websiteId   String
 }
 
@@ -274,20 +274,45 @@ model Project {
   id          String   @id @default(cuid()) @map("_id")
   title       String?
   description String?
+  published   Boolean  @default(false)
+  slug        String   @default(cuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Website     Website  @relation(fields: [websiteId], references: [id])
+  website     Website  @relation(fields: [websiteId], references: [id])
   websiteId   String
 }
 
 model Law {
-  id          String   @id @default(cuid()) @map("_id")
-  title       String?
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Website     Website  @relation(fields: [websiteId], references: [id])
-  websiteId   String
+  id            String     @id @default(cuid()) @map("_id")
+  title         String?
+  content        OutputData? @relation(fields: [outputDataId], references: [id])
+  image         String?    @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
+  imageBlurhash String?    @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  published     Boolean    @default(false)
+  slug          String     @default(cuid())
+  description   String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  website       Website    @relation(fields: [websiteId], references: [id])
+  websiteId     String
+  outputDataId  String?
+}
+
+model OutputData {
+  id      String            @id @default(cuid()) @map("_id")
+  version String?
+  time    Int?
+  blocks  OutputBlockData[]
+
+  Law Law[]
+}
+
+model OutputBlockData {
+  id           String     @id @default(cuid()) @map("_id")
+  type         String
+  data         String[]
+  OutputData   OutputData? @relation(fields: [outputDataId], references: [id])
+  outputDataId String?
 }
 
 model News {
@@ -295,7 +320,7 @@ model News {
   title       String?
   content     String?
   publishedAt DateTime
-  Website     Website  @relation(fields: [websiteId], references: [id])
+  website     Website  @relation(fields: [websiteId], references: [id])
   websiteId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -308,7 +333,7 @@ model Expenditure {
   date        DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Website     Website   @relation(fields: [websiteId], references: [id])
+  website     Website   @relation(fields: [websiteId], references: [id])
   websiteId   String
 }
 
@@ -320,7 +345,7 @@ model Poll {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   websiteId String
-  Website   Website  @relation(fields: [websiteId], references: [id])
+  website   Website  @relation(fields: [websiteId], references: [id])
 }
 
 model Survey {
@@ -331,5 +356,5 @@ model Survey {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   websiteId String
-  Website   Website  @relation(fields: [websiteId], references: [id])
+  website   Website  @relation(fields: [websiteId], references: [id])
 }

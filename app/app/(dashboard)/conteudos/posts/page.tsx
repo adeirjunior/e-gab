@@ -4,6 +4,12 @@ import Posts from "@/components/posts";
 import CreatePostButton from "@/components/button/create-post-button";
 import { getPoliticianSiteByUser } from "@/lib/fetchers";
 import { getCurrentDomain } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Posts",
+};
+
 
 export default async function SitePosts() {
   const session = await getSession();
