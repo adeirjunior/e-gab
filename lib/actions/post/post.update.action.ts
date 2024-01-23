@@ -133,7 +133,8 @@ export const updatePost = async (
             }
           }
         } catch (error: any) {
-          console.error("Erro ao processar bloco:", error);
+          console.error(block);
+          
           return {
             error: `Erro ao processar bloco: ${error.message}`,
           };
