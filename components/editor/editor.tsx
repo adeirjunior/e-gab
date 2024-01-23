@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client"
+"use client";
 
 import React, { memo, useRef } from "react";
 import { useEffectOnce } from "usehooks-ts";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor-tools";
-import { PT_I18N } from "./editor-i18n"
-import "./style.css"
+import { PT_I18N } from "./editor-i18n";
+import "./style.css";
 
 //props
 type Props = {
@@ -29,7 +29,7 @@ const Editor = ({ data, onChange, holder }: Props) => {
           const data = await api.saver.save();
           onChange(data);
         },
-        placeholder: "Conteúdo"
+        placeholder: "Conteúdo",
       });
       ref.current = editor;
     }

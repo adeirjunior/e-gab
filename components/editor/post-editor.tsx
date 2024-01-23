@@ -2,48 +2,69 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { Post } from "@prisma/client";
+import { OutputBlock, OutputData, Post } from "@prisma/client";
 import {
+  ExtendedOutputBlock,
   updatePost,
   updatePostMetadata,
 } from "@/lib/actions/post/post.update.action";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn, getCurrentDomain } from "@/lib/utils";
-import LoadingDots from "./icons/loading-dots";
+import LoadingDots from "@/components/icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import EditorWrapper from "@/components/editor/editor-wrapper";
 
+import { OutputData as Output } from "@editorjs/editorjs";
+
 export type PostWithSite = Post & {
   website: { subdomain: string | null } | null;
+  content: (OutputData & { blocks: ExtendedOutputBlock[] }) | null;
 };
 
 export default function Editor({ post }: { post: PostWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
   const [isPendingPublishing, startTransitionPublishing] = useTransition();
   const [data, setData] = useState<PostWithSite>(post);
-  const debouncedData = useDebounce(data, 750);
+  const debouncedData = useDebounce(data, 2000);
 
+
+  const updateContent: (
+    content: OutputData & { blocks: OutputBlock[] },
+  ) => void = (content) => {
+    setData(
+      (prev) =>
+        ({
+          ...prev,
+          content: {
+            ...prev.content,
+            blocks: content.blocks,
+          },
+        }) as PostWithSite,
+    );
+  };
   
   const url = getCurrentDomain(data.website?.subdomain!, `/posts/${data.slug}`);
 
+  const isSync =
+    data.title === post.title &&
+    data.description === post.description &&
+    data.content === post.content;
+
   useEffect(() => {
-    if (
-      data.title === post.title &&
-      data.description === post.description &&
-      data.content === post.content
-    ) {
+    if (isSync) {
       return;
     }
 
     startTransitionSaving(async () => {
-      const response = await updatePost(data);
-
-      if ("error" in response) {
-        toast.error(response.error);
+      const response = await updatePost(data)
+      
+      if(typeof response !== 'number' && 'error' in response) {
+        toast.error(response.error)
       }
+
     });
   }, [debouncedData, startTransitionSaving]);
 
@@ -101,7 +122,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
             },
           )}
         >
-          {isPendingSaving ? "Salvando..." : "Salvo"}
+          {isPendingSaving ? "Salvando..." : isSync ? "Salvo" : "Não salvo"}
         </div>
         <Button
           onClick={togglePublish}
@@ -138,7 +159,10 @@ export default function Editor({ post }: { post: PostWithSite }) {
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
-        <EditorWrapper data={data} setData={setData} />
+        <EditorWrapper
+          data={data.content as unknown as Output}
+          setData={updateContent}
+        />
       </div>
     </div>
   );

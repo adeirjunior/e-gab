@@ -3,6 +3,10 @@ import prisma from "@/lib/prisma";
 import { serialize } from "next-mdx-remote/serialize";
 import { replaceTweets } from "@/lib/remark-plugins";
 
+import editorJsHtml from "editorjs-html";
+import { OutputData } from "@prisma/client";
+const EditorJsToHtml = editorJsHtml();
+
 export async function getSiteData(domain: string) {
   if (!domain) {
     // Trate o caso em que domain é undefined
@@ -98,16 +102,28 @@ export async function getPostData(domain: string, slug: string) {
         },
         include: {
           user: true,
+          content: {
+            include: {
+              blocks: {
+                include: {
+                  data: true
+                }
+              }
+            }
+          },
         },
       });
 
-      if (!data)
+      if (!data || !data.content) {
         return {
           error: "Post está indefinido",
         };
+      }
 
-      const [mdxSource, adjacentPosts]: any = await Promise.all([
-        getMdxSource(data.content!),
+      console.log(data)
+
+      const [mdxSource, adjacentPosts] = await Promise.all([
+        EditorJsToHtml.parse(data.content as any),
         prisma.post.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },
@@ -156,6 +172,11 @@ export async function getLawData(domain: string, slug: string) {
         },
         include: {
           user: true,
+          content: {
+            include: {
+              blocks: true
+            }
+          }
         },
       });
 
@@ -165,7 +186,7 @@ export async function getLawData(domain: string, slug: string) {
         };
 
       const [mdxSource, adjacentPosts]: any = await Promise.all([
-        getMdxSource(data.content!),
+        EditorJsToHtml.parse(data.content as any),
         prisma.law.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },
@@ -197,22 +218,6 @@ export async function getLawData(domain: string, slug: string) {
       tags: [`${domain}-${slug}`],
     },
   )();
-}
-
-
-async function getMdxSource(postContents: string) {
-  // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax
-  // https://mdxjs.com/docs/what-is-mdx/#markdown
-  const content =
-    postContents?.replaceAll(/<(https?:\/\/\S+)>/g, "[$1]($1)") ?? "";
-  // Serialize the content string into MDX
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [replaceTweets],
-    },
-  });
-
-  return mdxSource;
 }
 
 export const getSiteFromPostId = async (postId: string) => {

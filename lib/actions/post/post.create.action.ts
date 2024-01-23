@@ -13,10 +13,27 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
       error: "Not authenticated",
     };
   }
+  const outputData = await prisma.outputData.create({
+    data: {
+      version: "1.0",
+      blocks: {
+        create: {
+          type: "paragraph",
+          data: {
+            create: {
+              text: ""
+            }
+          },
+        },
+      },
+    },
+  });
+
   const response = await prisma.post.create({
     data: {
-      websiteId: site.id,
       userId: session.user.id,
+      websiteId: site.id,
+      outputDataId: outputData.id,
     },
   });
 

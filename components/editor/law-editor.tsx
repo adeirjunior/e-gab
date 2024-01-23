@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Law, OutputBlockData, OutputData } from "@prisma/client";
 import {
   updateLaw,

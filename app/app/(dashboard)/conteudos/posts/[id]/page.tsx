@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
-import Editor from "@/components/editor";
+import Editor, { PostWithSite } from "@/components/editor/post-editor";
 
 export default async function PostPage({
   params,
@@ -19,15 +19,24 @@ export default async function PostPage({
     include: {
       website: {
         select: {
-          subdomain: true,
-        },
+          subdomain: true
+        }
       },
-    },
+      content: {
+        include: {
+          blocks: {
+            include: {
+              data: true
+            }
+          }
+        }
+      }
+    }
   });
 
-  if (!data || data.userId != session.user.id) {
+  if (!data || data.userId !== session.user.id) {
     notFound();
   }
 
-  return <Editor post={data} />;
+  return <Editor post={data as PostWithSite} />;
 }
