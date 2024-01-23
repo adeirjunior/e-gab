@@ -3,7 +3,7 @@ import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import SiteSettingsNav from "./nav";
-import { getWebsiteByUserId } from "@/lib/fetchers";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
 
 export default async function SiteAnalyticsLayout({

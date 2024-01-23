@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import BlurImage from "@/components/blur-image";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import BlogCard from "@/components/card/blog-card";
-import { getPostsForSite, getSiteData } from "@/lib/fetchers";
+import { getSiteData } from "@/lib/fetchers/site";
+import { getPostsForSite } from "@/lib/fetchers/post";
 import Image from "next/image";
 
 export async function generateStaticParams() {

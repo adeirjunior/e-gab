@@ -4,7 +4,7 @@ import Nav from "@/components/nav";
 import { NextThemeProvider } from "@/app/next-themes-provider";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
-import { getWebsiteByUserId } from "@/lib/fetchers";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 
 export default async function DashboardLayout({
   children,

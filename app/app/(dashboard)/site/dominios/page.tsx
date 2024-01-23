@@ -1,7 +1,7 @@
 import Form from "@/components/form";
 import { updateSite } from "@/lib/actions/website/website.update.action";
 import { getSession } from "@/lib/auth/get-session";
-import { getWebsiteByUserId } from "@/lib/fetchers";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { redirect } from "next/navigation";
 
 export default async function SiteSettingsDomains() {

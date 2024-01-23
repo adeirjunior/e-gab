@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { notFound, redirect } from "next/navigation";
-import { getSiteData } from "@/lib/fetchers";
+import { getSiteData } from "@/lib/fetchers/site";
 import { fontMapper } from "@/styles/fonts";
 import { Metadata } from "next";
 import { NextThemeProvider } from "../next-themes-provider";

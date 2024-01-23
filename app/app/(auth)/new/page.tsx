@@ -1,6 +1,6 @@
 import CreateSiteModal from "@/components/modal/create-site";
 import { getSession } from "@/lib/auth/get-session";
-import { getPoliticianSiteByUser } from "@/lib/fetchers";
+import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

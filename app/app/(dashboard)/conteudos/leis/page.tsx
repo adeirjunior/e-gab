@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
-import { getPoliticianSiteByUser } from "@/lib/fetchers";
+import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
 import CreateLawButton from "@/components/button/create-law-button";
