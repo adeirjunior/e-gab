@@ -1,6 +1,6 @@
 "use client";
 
-import { navPaths } from "@/lib/navPaths";
+import { navPaths } from "@/lib/data/navPaths";
 import { Link } from "@nextui-org/react";
 import { useState } from "react";
 import { Cross as Hamburger } from "hamburger-react";

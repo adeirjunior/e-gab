@@ -4,6 +4,7 @@ import { withPostAuth } from "@/lib/auth";
 import {
   OutputBlock,
   OutputBlockData,
+  OutputBlockDataItems,
   OutputData,
   Post,
   Website,
@@ -12,16 +13,17 @@ import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
-import { getBlurDataURL } from "@/lib/utils";
+import { diff, getBlurDataURL } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
+import { createBlock } from "../editor/editor.create.action";
 
 export interface ExtendedOutputBlock extends OutputBlock {
-  data: OutputBlockData;
+  data: OutputBlockData & {items: OutputBlockDataItems[]}
 }
 
 export const updatePost = async (
   data: Post & {
-    content: (OutputData & { blocks: ExtendedOutputBlock[] }) | null;
+    content: (OutputData & { blocks: ExtendedOutputBlock[] });
   },
 ) => {
   const session = await getSession();
@@ -48,7 +50,11 @@ export const updatePost = async (
         include: {
           blocks: {
             include: {
-              data: true,
+              data: {
+                include: {
+                  items: true
+                }
+              }
             },
           },
         },
@@ -64,82 +70,29 @@ export const updatePost = async (
 
   try {
     try {
-      const postResponse = await prisma.post.update({
+      await prisma.post.update({
         where: { id: data.id },
         data: {
           title: data.title,
           description: data.description,
-          // Adicione outros campos, se necessário
         },
       });
 
-      // Processar postResponse ou verificar erros
+      data.content.blocks.map(async (block) => {
+        const existingBlock: OutputBlock | null = await prisma.outputBlock.findUnique({
+          where: {
+            id: block.id,
+            outputDataId: data.content.id,
+            type: block.type,
+          },
+        });
 
-      // Iterar sobre os blocos de conteúdo
-      for (const block of data.content.blocks) {
-        try {
-          if (block.id) {
-            // Se o bloco tiver um id, atualize o bloco existente
-            const blockResponse = await prisma.outputBlock.update({
-              where: { id: block.id },
-              data: { type: block.type },
-            });
-            // Processar blockResponse ou verificar erros
-
-            // Verificar se block.data existe antes de tentar atualizar
-            if (block.data && block.data.id && block.data.outputBlockId) {
-              const blockDataResponse = await prisma.outputBlockData.update({
-                where: {
-                  id: block.data.id,
-                  outputBlockId: block.data.outputBlockId,
-                },
-                data: { text: block.data.text },
-              });
-              // Processar blockDataResponse ou verificar erros
-            }
-          } else {
-            // Se o bloco não tiver um id, é um novo bloco, então insira um novo bloco
-            const newBlockResponse = await prisma.outputBlock.create({
-              data: {
-                type: block.type,
-                outputDataId: data.content.id,
-              },
-            });
-            // Processar newBlockResponse ou verificar erros
-
-            // Verificar se block.data existe antes de tentar criar
-            if (block.data) {
-              const newBlockDataResponse = await prisma.outputBlockData.create({
-                data: {
-                  text: block.data.text,
-                  outputBlockId: newBlockResponse.id,
-                },
-              });
-              // Processar newBlockDataResponse ou verificar erros
-
-              // Agora você precisa associar os novos blocos ao post
-              // Por exemplo, assumindo que você tenha um outputDataId para cada bloco
-              const newOutputDataResponse = await prisma.outputData.create({
-                data: { blocks: { connect: [{ id: newBlockResponse.id }] } },
-              });
-              // Processar newOutputDataResponse ou verificar erros
-
-              // Atualizar o post para vincular ao novo OutputData
-              const updatePostResponse = await prisma.post.update({
-                where: { id: data.id },
-                data: { outputDataId: newOutputDataResponse.id },
-              });
-              // Processar updatePostResponse ou verificar erros
-            }
-          }
-        } catch (error: any) {
-          console.error(block);
-          
-          return {
-            error: `Erro ao processar bloco: ${error.message}`,
-          };
+        if (!existingBlock) {
+          await createBlock(block, data)
         }
-      }
+      })
+
+
     } catch (error: any) {
       console.error("Erro ao atualizar post:", error);
       return {

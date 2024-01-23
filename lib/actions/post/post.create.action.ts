@@ -1,10 +1,12 @@
 "use server";
 
 import { withSiteAuth } from "@/lib/auth";
-import { Website } from "@prisma/client";
+import { OutputBlock, Website } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth/get-session";
+import { createContent } from "../editor/editor.create.action";
+import { ExtendedOutputBlock } from "./post.update.action";
 
 export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
   const session = await getSession();
@@ -13,21 +15,8 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
       error: "Not authenticated",
     };
   }
-  const outputData = await prisma.outputData.create({
-    data: {
-      version: "1.0",
-      blocks: {
-        create: {
-          type: "paragraph",
-          data: {
-            create: {
-              text: ""
-            }
-          },
-        },
-      },
-    },
-  });
+
+  const outputData = await createContent();
 
   const response = await prisma.post.create({
     data: {
@@ -44,3 +33,4 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
 
   return response;
 });
+

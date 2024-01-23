@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ExtendedOutputBlock } from "./actions/post/post.update.action";
 
 export function decodeUTF8(encodedText: string): string {
   return decodeURIComponent(escape(encodedText));
@@ -10,6 +11,10 @@ export function getCurrentDomain(subdomain?: string, path?: string) {
   const protocol = isDev ? "http://" : "https://";
   const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
   return `${protocol}${subdomain && `${subdomain}.`}${domain}${path ?? ""}`;
+}
+
+export function diff(arr1: ExtendedOutputBlock[], arr2: ExtendedOutputBlock[]) {
+  return arr1.filter((x) => !arr2.includes(x));
 }
 
 export function cn(...inputs: ClassValue[]) {

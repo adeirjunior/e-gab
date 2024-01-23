@@ -1,4 +1,4 @@
-import { navPaths } from "@/lib/navPaths";
+import { navPaths } from "@/lib/data/navPaths";
 import { Link } from "@nextui-org/react";
 
 export default function DesktopNav() {
