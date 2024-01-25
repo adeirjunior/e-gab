@@ -1,7 +1,7 @@
 "use server";
 
 import { withPostAuth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { Law } from "@prisma/client";
 
 export const deleteLaw = withPostAuth(async (_: FormData, law: Law) => {

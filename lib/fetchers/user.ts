@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 
 export async function getUserRole(id: string) {
   try {

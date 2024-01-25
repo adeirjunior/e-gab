@@ -2,7 +2,7 @@
 
 import { getSession } from "@/lib/auth/get-session";
 import { createPolitician } from "../politician/politician.create.action";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 
 export const createSite = async (formData: FormData) => {

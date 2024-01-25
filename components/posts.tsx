@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import PostCard from "./card/post-card";
 import Image from "next/image";
 

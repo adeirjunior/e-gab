@@ -21,7 +21,7 @@ import { OutputData as Output } from "@editorjs/editorjs";
 
 export type PostWithSite = Post & {
   website: { subdomain: string | null } | null;
-  content: (OutputData & { blocks: ExtendedOutputBlock[] }) | null;
+  content: (OutputData & { blocks: ExtendedOutputBlock[] });
 };
 
 export default function Editor({ post }: { post: PostWithSite }) {
@@ -51,7 +51,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
   const isSync =
     data.title === post.title &&
     data.description === post.description &&
-    data.content === post.content;
+    data.content == post.content;
 
   useEffect(() => {
     if (isSync) {

@@ -1,7 +1,7 @@
 "use server";
 
 import { withPostAuth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { Post } from "@prisma/client";
 
 export const deletePost = withPostAuth(async (_: FormData, post: Post) => {

@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/auth/get-session";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
 import Editor, { PostWithSite } from "@/components/editor/post-editor";
 
@@ -34,9 +34,9 @@ export default async function PostPage({
     }
   });
 
-  if (!data || data.userId !== session.user.id) {
+  if (!data || data.userId !== session.user.id || !data.outputDataId) {
     notFound();
   }
-
+  
   return <Editor post={data as PostWithSite} />;
 }

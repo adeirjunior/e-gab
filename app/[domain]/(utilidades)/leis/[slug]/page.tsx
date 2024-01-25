@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import {  getSiteData } from "@/lib/fetchers/site";
 import { getLawData } from "@/lib/fetchers/law";
 import BlogCard from "@/components/card/blog-card";

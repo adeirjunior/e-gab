@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/auth/get-session";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
 import LawEditor from "@/components/editor/law-editor";
 

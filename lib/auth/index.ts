@@ -1,4 +1,4 @@
-import prisma from "../prisma";
+import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
 
 

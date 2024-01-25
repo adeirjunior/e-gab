@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 
 export const deleteContent = async (id: string) => {
   try {

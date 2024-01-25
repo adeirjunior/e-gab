@@ -1,5 +1,5 @@
 import { unstable_cache } from "next/cache";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 
 export const getSiteFromPostId = async (postId: string) => {
   const post = await prisma.post.findUnique({

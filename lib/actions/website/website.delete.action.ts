@@ -1,7 +1,7 @@
 "use server";
 
 import { withSiteAuth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { Website } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 

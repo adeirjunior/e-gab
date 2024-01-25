@@ -1,5 +1,5 @@
 import { unstable_cache } from "next/cache";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 
 import editorJsHtml from "editorjs-html";
 const EditorJsToHtml = editorJsHtml();

@@ -14,7 +14,7 @@ export default function EditorWrapper({
 
   return (
         <div>
-          <Editor data={data} onChange={setData} holder="editorjs-container" />
+          <Editor data={data} onChange={setData} />
         </div>
   );
 }

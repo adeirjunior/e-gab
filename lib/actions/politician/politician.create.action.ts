@@ -1,7 +1,7 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { Politician } from "@prisma/client";
 
 export const createPolitician = async () => {

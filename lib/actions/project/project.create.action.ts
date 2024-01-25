@@ -2,7 +2,7 @@
 
 import { withSiteAuth } from "@/lib/auth";
 import { Website } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth/get-session";
 

@@ -7,7 +7,7 @@ import {
   validDomainRegex,
 } from "@/lib/domains";
 import { Website } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";

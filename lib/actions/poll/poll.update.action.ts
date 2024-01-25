@@ -2,7 +2,7 @@
 
 import { getSession } from "@/lib/auth/get-session";
 import { Poll } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 
 export const updatePoll = async (data: Poll) => {

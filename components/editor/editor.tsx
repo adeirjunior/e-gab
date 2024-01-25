@@ -11,13 +11,13 @@ import { updatePost } from "@/lib/actions/post/post.update.action";
 
 //props
 type Props = {
-  id: string;
+  id?: string;
   data?: OutputData;
   onChange(val: OutputData): void;
-  holder: string;
+  holder?: string;
 };
 
-const Editor = ({ data, onChange, holder }: Props) => {
+const Editor = ({ data, onChange, holder = "editorjs" }: Props) => {
   const ref = useRef<EditorJS>();
 
   useEffectOnce(() => {
@@ -32,6 +32,7 @@ const Editor = ({ data, onChange, holder }: Props) => {
           onChange(data);
         },
         placeholder: "Conteúdo",
+        
       });
       ref.current = editor;
     }

@@ -2,7 +2,7 @@ import React from 'react'
 import { contentArray } from './posts';
 import { getSession } from '@/lib/auth/get-session';
 import { redirect } from 'next/navigation';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/configs/prisma';
 import { Button, Image } from '@nextui-org/react';
 
 export default async function Laws({siteId, limit}: contentArray) {

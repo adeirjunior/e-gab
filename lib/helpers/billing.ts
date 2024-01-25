@@ -1,7 +1,7 @@
 import { getSession } from "../auth/get-session";
 import { getCurrentDomain } from "../utils";
 import { stripe } from "../stripe";
-import prisma from "../prisma";
+import prisma from "../configs/prisma";
 
 //price_1NarR3APMZcBliJSoefCKTi5
 

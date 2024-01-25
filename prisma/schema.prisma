@@ -314,7 +314,7 @@ model OutputBlock {
   type         String
   data         OutputBlockData?
   outputData   OutputData       @relation(fields: [outputDataId], references: [id])
-  outputDataId String           @unique
+  outputDataId String           
 }
 
 model OutputBlockData {
