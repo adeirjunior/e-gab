@@ -1,4 +1,4 @@
-import GoBackwardButton from "@/components/button/GoBackwardButton";
+import GoBackwardButton from "@/components/button/go-backward-button";
 
 export default function NotFound() {
   return (

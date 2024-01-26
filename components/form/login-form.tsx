@@ -56,7 +56,7 @@ export default function LoginForm() {
         name="password"
         isRequired
         type="password"
-        label="Email"
+        label="Senha"
         className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
       <Button

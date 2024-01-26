@@ -14,7 +14,7 @@ import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
-import { Editor as NovelEditor} from 'novel'
+import { Editor as NovelEditor } from "novel";
 
 export type PostWithSite = Post & {
   website: { subdomain: string | null } | null;
@@ -113,13 +113,11 @@ export default function Editor({ post }: { post: PostWithSite }) {
                 !isPendingPublishing,
             },
           )}
+          spinner={<LoadingDots color="#808080" />}
+          isLoading={isPendingPublishing}
           disabled={isPendingPublishing}
         >
-          {isPendingPublishing ? (
-            <LoadingDots />
-          ) : (
-            <p className="m-0">{data.published ? "Despublicar" : "Publicar"}</p>
-          )}
+          {data.published ? "Despublicar" : "Publicar"}
         </Button>
       </div>
       <div className="mb-5 flex flex-col space-y-3 border-b border-stone-200 pb-5 dark:border-stone-700">

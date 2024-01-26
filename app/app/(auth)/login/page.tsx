@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import Link from "next/link";
-import GoogleLoginButton from "@/components/button/google-login-button";
+import GoogleLoginButton from "@/components/button/generic-dashboard-button";
 import LoginForm from "@/components/form/login-form";
 import { getCurrentDomain } from "@/lib/utils";
+import GoogleIcon from "@/components/icons/google-icon";
 
 export default function LoginPage() {
   return (
@@ -45,7 +46,13 @@ export default function LoginPage() {
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
           }
         >
-          <GoogleLoginButton />
+          <GoogleLoginButton
+            type="signIn"
+            Icon={<GoogleIcon />}
+            signInProvider="google"
+          >
+            Google
+          </GoogleLoginButton>
         </Suspense>
       </div>
     </div>

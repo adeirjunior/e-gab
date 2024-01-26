@@ -1,15 +1,15 @@
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
 import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
+import CreateLawButton from "@/components/button/generic-dashboard-button";
 import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
-import CreateLawButton from "@/components/button/create-law-button";
 import Laws from "@/components/laws";
+import { createLaw } from "@/lib/actions/law/law.create.action";
 
 export const metadata: Metadata = {
   title: "Leis",
 };
-
 
 export default async function SitePosts() {
   const session = await getSession();
@@ -40,7 +40,9 @@ export default async function SitePosts() {
             {url} ↗
           </a>
         </div>
-        <CreateLawButton />
+        <CreateLawButton type="content" create={createLaw} path="leis">
+          Criar Lei
+        </CreateLawButton>
       </div>
       <Laws />
     </>

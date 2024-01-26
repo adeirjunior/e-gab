@@ -1,10 +1,11 @@
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
 import Posts from "@/components/posts";
-import CreatePostButton from "@/components/button/create-post-button";
+import CreateButton from "@/components/button/generic-dashboard-button";
 import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
+import { createPost } from "@/lib/actions/post/post.create.action";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -40,7 +41,7 @@ export default async function SitePosts() {
             {url} ↗
           </a>
         </div>
-        <CreatePostButton />
+        <CreateButton type="content" create={createPost} path="posts">Criar Post</CreateButton>
       </div>
       <Posts />
     </>
