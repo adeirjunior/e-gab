@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
-import Editor, { PostWithSite } from "@/components/editor/post-editor";
+import Editor from "@/components/editor/novel-editor";
 
 export default async function PostPage({
   params,
@@ -38,5 +38,5 @@ export default async function PostPage({
     notFound();
   }
   
-  return <Editor post={data as PostWithSite} />;
+  return <Editor post={data} />;
 }

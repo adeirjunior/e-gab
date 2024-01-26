@@ -181,6 +181,7 @@ model Post {
   id            String     @id @default(cuid()) @map("_id")
   title         String?
   description   String?
+  contentMd       String?
   content       OutputData @relation(fields: [outputDataId], references: [id])
   slug          String     @default(cuid())
   image         String?    @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
-import {  getSiteData } from "@/lib/fetchers/site";
+import { getSiteData } from "@/lib/fetchers/site";
 import { getPostData } from "@/lib/fetchers/post";
 import BlogCard from "@/components/card/blog-card";
 import BlurImage from "@/components/blur-image";
@@ -105,7 +105,7 @@ export default async function SitePostPage({
           <h1 className="font-title text-3xl font-bold text-stone-800 md:text-6xl">
             {data.title}
           </h1>
-          <p className="text-md w-10/12 mx-auto text-stone-600  md:text-lg">
+          <p className="text-md mx-auto w-10/12 text-stone-600  md:text-lg">
             {data.description}
           </p>
         </div>

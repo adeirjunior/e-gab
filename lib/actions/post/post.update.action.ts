@@ -1,40 +1,24 @@
 "use server";
 
 import { withPostAuth } from "@/lib/auth";
-import {
-  OutputBlock,
-  OutputBlockData,
-  OutputBlockDataItems,
-  OutputData,
-  Post,
-  Website,
-} from "@prisma/client";
+import { Post, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
-import { diff, getBlurDataURL } from "@/lib/utils";
+import { getBlurDataURL } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
-import { createBlock } from "../editor/editor.create.action";
 
-export interface ExtendedOutputBlock extends OutputBlock {
-  data: OutputBlockData & {items: OutputBlockDataItems[]}
-}
-
-export const updatePost = async (
-  data: Post & {
-    content: (OutputData & { blocks: ExtendedOutputBlock[] });
-  },
-) => {
+export const updatePost = async (data: Post) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
-      error: "Não autentificado",
+      error: "Not authenticatedNão autentificado",
     };
   }
 
   // Verifique se as propriedades essenciais não estão vazias
-  if (!data.title || !data.description || !data.content) {
+  if (!data.title || !data.description || !data.contentMd) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
@@ -46,22 +30,8 @@ export const updatePost = async (
     },
     include: {
       website: true,
-      content: {
-        include: {
-          blocks: {
-            include: {
-              data: {
-                include: {
-                  items: true
-                }
-              }
-            },
-          },
-        },
-      },
     },
   });
-
   if (!post || post.userId !== session.user.id) {
     return {
       error: "Post não encontrado",
@@ -69,38 +39,17 @@ export const updatePost = async (
   }
 
   try {
-    try {
-      await prisma.post.update({
-        where: { id: data.id },
-        data: {
-          title: data.title,
-          description: data.description,
-        },
-      });
-
-      data.content.blocks.map(async (block) => {
-        const existingBlock: OutputBlock | null = await prisma.outputBlock.findUnique({
-          where: {
-            id: block.id,
-            outputDataId: data.content.id,
-            type: block.type,
-          },
-        });
-
-        if (!existingBlock) {
-          await createBlock(block, data)
-        }
-      })
-
-
-    } catch (error: any) {
-      console.error("Erro ao atualizar post:", error);
-      return {
-            error: `Erro ao atualizar post: ${error.message}`,
-          };
-    }
-
-    // ...
+    const response = await prisma.post.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        title: data.title,
+        description: data.description,
+        contentMd: data.contentMd,
+        published: data.published,
+      },
+    });
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
@@ -114,7 +63,7 @@ export const updatePost = async (
       (revalidateTag(`${post.website?.customDomain}-posts`),
       revalidateTag(`${post.website?.customDomain}-${post.slug}`));
 
-    return 1;
+    return response;
   } catch (error: any) {
     return {
       error: error.message,
