@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
-import {  getSiteData } from "@/lib/fetchers/site";
+import { getSiteData } from "@/lib/fetchers/site";
 import { getLawData } from "@/lib/fetchers/law";
 import BlogCard from "@/components/card/blog-card";
 import BlurImage from "@/components/blur-image";
@@ -109,40 +109,10 @@ export default async function SiteLawPage({
             {data.description}
           </p>
         </div>
-        <a
-          // if you are using Github OAuth, you can get rid of the Twitter option
-          href={
-            data.user?.username
-              ? `https://twitter.com/${data.user.username}`
-              : `https://github.com/${data.user?.gh_username}`
-          }
-          rel="noreferrer"
-          target="_blank"
-        >
-          <div className="my-8">
-            <div className="relative inline-block h-8 w-8 overflow-hidden rounded-full align-middle md:h-12 md:w-12">
-              {data.user?.image ? (
-                <BlurImage
-                  alt={data.user?.name ?? "User Avatar"}
-                  height={80}
-                  src={data.user.image}
-                  width={80}
-                />
-              ) : (
-                <div className="absolute flex h-full w-full select-none items-center justify-center bg-stone-100 text-4xl text-stone-500">
-                  ?
-                </div>
-              )}
-            </div>
-            <div className="text-md ml-3 inline-block align-middle text-black md:text-lg">
-              por <span className="font-semibold">{data.user?.name}</span>
-            </div>
-          </div>
-        </a>
       </div>
       <div className="relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:h-150 md:w-5/6 md:rounded-2xl lg:w-2/3">
         <BlurImage
-          alt={data.title ?? "Post image"}
+          alt={data.title ?? "Law image"}
           width={1200}
           height={630}
           className="h-full w-full object-cover"

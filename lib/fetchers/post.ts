@@ -4,6 +4,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { replaceTweets } from "@/lib/remark-plugins";
 
 import editorJsHtml from "editorjs-html";
+import { getMdxSource } from "../utils";
 const EditorJsToHtml = editorJsHtml();
 
 
@@ -113,17 +114,3 @@ export async function getPostsForSite(domain: string) {
   )();
 }
 
-async function getMdxSource(postContents: string) {
-  // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax
-  // https://mdxjs.com/docs/what-is-mdx/#markdown
-  const content =
-    postContents?.replaceAll(/<(https?:\/\/\S+)>/g, "[$1]($1)") ?? "";
-  // Serialize the content string into MDX
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [replaceTweets],
-    },
-  });
-
-  return mdxSource;
-}

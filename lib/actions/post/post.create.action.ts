@@ -1,12 +1,11 @@
 "use server";
 
 import { withSiteAuth } from "@/lib/auth";
-import { OutputBlock, Website } from "@prisma/client";
+import { Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth/get-session";
 import { createContent } from "../editor/editor.create.action";
-import { ExtendedOutputBlock } from "./post.update.action";
 
 export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
   const session = await getSession();

@@ -1,20 +1,22 @@
-import React from 'react'
-import { contentArray } from './posts';
-import { getSession } from '@/lib/auth/get-session';
-import { redirect } from 'next/navigation';
-import prisma from '@/lib/configs/prisma';
-import { Button, Image } from '@nextui-org/react';
+import { getSession } from "@/lib/auth/get-session";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/configs/prisma";
+import LawCard from "./card/law-card";
+import Image from "next/image";
 
-export default async function Laws({siteId, limit}: contentArray) {
+export type contentArray = {
+  siteId?: string;
+  limit?: number;
+};
 
-    const session = await getSession();
+export default async function Laws({ siteId, limit }: contentArray) {
+  const session = await getSession();
   if (!session?.user) {
     redirect("/login");
   }
-
   const laws = await prisma.law.findMany({
     where: {
-      websiteId: siteId,
+      ...(siteId ? { websiteId: siteId } : {}),
     },
     orderBy: {
       updatedAt: "desc",
@@ -26,14 +28,14 @@ export default async function Laws({siteId, limit}: contentArray) {
   });
 
   return laws.length > 0 ? (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-1">
       {laws.map((law) => (
-        <Button key={law.id}>{law.title}</Button>
+        <LawCard key={law.id} data={law} />
       ))}
     </div>
   ) : (
     <div className="flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">Sem Leis Ainda</h1>
+      <h1 className="font-cal text-4xl">Sem laws Ainda</h1>
       <Image
         alt="missing law"
         src="https://illustrations.popsy.co/gray/graphic-design.svg"
@@ -41,7 +43,7 @@ export default async function Laws({siteId, limit}: contentArray) {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        Você não tem nenhuma lei ainda. Crie uma para começar.
+        Você não tem nenhum law ainda. Crie um para começar.
       </p>
     </div>
   );

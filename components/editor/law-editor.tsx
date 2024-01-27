@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { Law, OutputBlockData, OutputData } from "@prisma/client";
+import { Law, OutputBlock, OutputData } from "@prisma/client";
 import {
   updateLaw,
   updateLawMetadata,
@@ -14,12 +14,11 @@ import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
-import EditorWrapper from "@/components/editor/editor-wrapper";
-import { OutputData as Output } from "@editorjs/editorjs";
+import { Editor as NovelEditor } from "novel";
 
 export type LawWithSite = Law & {
-  website: { subdomain: string | null } | null;
-  content: OutputData & { blocks: OutputBlockData[]} | null
+  website: { subdomain: string | null };
+  content: OutputData & { blocks: OutputBlock[]}
 };
 
 export default function LawEditor({ law }: { law: LawWithSite }) {
@@ -28,27 +27,12 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
   const [data, setData] = useState<LawWithSite>(law);
   const debouncedData = useDebounce(data, 750);
 
-  const updateContent: (
-    content: OutputData & { blocks: OutputBlockData[] },
-  ) => void = (content) => {
-    setData(
-      (prev) =>
-        ({
-          ...prev,
-          content: {
-            ...prev.content,
-            blocks: content.blocks,
-          },
-        }) as LawWithSite,
-    );
-  };
-
-  const url = getCurrentDomain(data.website?.subdomain!, `/laws/${data.slug}`);
+  const url = getCurrentDomain(data.website?.subdomain!, `/leis/${data.slug}`);
 
   const isSync =
     data.title === law.title &&
     data.description === law.description &&
-    data.content === law.content;
+    data.contentMd === law.contentMd;
 
 
   useEffect(() => {
@@ -70,7 +54,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
     formData.append("published", String(!data.published));
     startTransitionPublishing(async () => {
       try {
-        if (!data.title || !data.description || !data.content) {
+        if (!data.title || !data.description || !data.contentMd) {
           toast.error("Impossível publicar sem conteúdo.");
         } else {
           const response = await updateLawMetadata(
@@ -156,9 +140,27 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
-        <EditorWrapper
-          data={data.content as unknown as Output}
-          setData={updateContent}
+        <NovelEditor
+          className="relative block"
+          defaultValue={law?.contentMd || undefined}
+          onUpdate={(editor) => {
+            setData((prev) => ({
+              ...prev,
+              contentMd: editor?.storage.markdown.getMarkdown(),
+            }));
+          }}
+          onDebouncedUpdate={() => {
+            if (
+              data.title === law.title &&
+              data.description === law.description &&
+              data.contentMd === law.contentMd
+            ) {
+              return;
+            }
+            startTransitionSaving(async () => {
+              await updateLaw(data);
+            });
+          }}
         />
       </div>
     </div>

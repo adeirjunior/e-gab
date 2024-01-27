@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import Link from "next/link";
-import GoogleLoginButton from "@/components/button/google-login-button";
+import GoogleLoginButton from "@/components/button/generic-dashboard-button";
 import { getCurrentDomain } from "@/lib/utils";
 import SignupForm from "@/components/form/signup-form";
+import GoogleIcon from "@/components/icons/google-icon";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <div className="mx-auto border border-stone-200 px-3 py-10 sm:w-full sm:max-w-xl sm:rounded-lg sm:shadow-md dark:border-stone-700">
       <Image
@@ -37,13 +38,21 @@ export default function LoginPage() {
         >
           <SignupForm />
         </Suspense>
-        <p className="text-gray-400">Já tem uma conta? <Link href="/login">Entre</Link></p>
+        <p className="text-gray-400">
+          Já tem uma conta? <Link href="/login">Entre</Link>
+        </p>
         <Suspense
           fallback={
             <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
           }
         >
-          <GoogleLoginButton />
+          <GoogleLoginButton
+            type="signIn"
+            Icon={<GoogleIcon />}
+            signInProvider="google"
+          >
+            Google
+          </GoogleLoginButton>
         </Suspense>
       </div>
     </div>

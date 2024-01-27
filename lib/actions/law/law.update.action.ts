@@ -1,13 +1,13 @@
 "use server";
 
-import { getSession } from "@/lib/auth/get-session";
+import { withLawAuth } from "@/lib/auth";
 import { Law, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
-import { withLawAuth } from "@/lib/auth";
-import { nanoid } from "nanoid";
+import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
+import { getSession } from "@/lib/auth/get-session";
 
 export const updateLaw = async (data: Law) => {
   const session = await getSession();
@@ -18,7 +18,7 @@ export const updateLaw = async (data: Law) => {
   }
 
   // Verifique se as propriedades essenciais não estão vazias
-  if (!data.title || !data.description) {
+  if (!data.title || !data.description || !data.contentMd) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
@@ -34,7 +34,7 @@ export const updateLaw = async (data: Law) => {
   });
   if (!law) {
     return {
-      error: "Lei não encontrada",
+      error: "Law não encontrado",
     };
   }
 
@@ -46,11 +46,13 @@ export const updateLaw = async (data: Law) => {
       data: {
         title: data.title,
         description: data.description,
+        contentMd: data.contentMd,
+        published: data.published,
       },
     });
 
     revalidateTag(
-      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-laws`,
+      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
     );
     revalidateTag(
       `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
@@ -58,7 +60,7 @@ export const updateLaw = async (data: Law) => {
 
     // if the site has a custom domain, we need to revalidate those tags too
     law.website?.customDomain &&
-      (revalidateTag(`${law.website?.customDomain}-laws`),
+      (revalidateTag(`${law.website?.customDomain}-Laws`),
       revalidateTag(`${law.website?.customDomain}-${law.slug}`));
 
     return response;
@@ -112,7 +114,7 @@ export const updateLawMetadata = withLawAuth(
       }
 
       revalidateTag(
-        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-laws`,
+        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
       );
       revalidateTag(
         `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
@@ -120,7 +122,7 @@ export const updateLawMetadata = withLawAuth(
 
       // if the site has a custom domain, we need to revalidate those tags too
       law.site?.customDomain &&
-        (revalidateTag(`${law.site?.customDomain}-laws`),
+        (revalidateTag(`${law.site?.customDomain}-Laws`),
         revalidateTag(`${law.site?.customDomain}-${law.slug}`));
 
       return response;

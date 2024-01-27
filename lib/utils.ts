@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ExtendedOutputBlock } from "./actions/post/post.update.action";
+import { replaceTweets } from "./remark-plugins";
+import { serialize } from "next-mdx-remote/serialize";
 
 export function decodeUTF8(encodedText: string): string {
   return decodeURIComponent(escape(encodedText));
@@ -11,10 +12,6 @@ export function getCurrentDomain(subdomain?: string, path?: string) {
   const protocol = isDev ? "http://" : "https://";
   const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
   return `${protocol}${subdomain && `${subdomain}.`}${domain}${path ?? ""}`;
-}
-
-export function diff(arr1: ExtendedOutputBlock[], arr2: ExtendedOutputBlock[]) {
-  return arr1.filter((x) => !arr2.includes(x));
 }
 
 export function cn(...inputs: ClassValue[]) {
@@ -79,3 +76,18 @@ export const getCurrentYear: () => string = () => {
 
   return String(year);
 };
+
+export async function getMdxSource(postContents: string) {
+  // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax
+  // https://mdxjs.com/docs/what-is-mdx/#markdown
+  const content =
+    postContents?.replaceAll(/<(https?:\/\/\S+)>/g, "[$1]($1)") ?? "";
+  // Serialize the content string into MDX
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [replaceTweets],
+    },
+  });
+
+  return mdxSource;
+}

@@ -20,6 +20,26 @@ export const getTabs = (segments: string[], id: string | undefined) => {
           icon: "Settings",
         },
       ];
+    } else if (segments[1] === "leis" && id) {
+      return [
+        {
+          name: "Voltar para leis",
+          href: `/conteudos/leis`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/leis/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/leis/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
     }
 
     return [
@@ -64,6 +84,12 @@ export const getTabs = (segments: string[], id: string | undefined) => {
         name: "Enquetes",
         href: `/${segments[0]}/enquetes`,
         isActive: segments.includes("enquetes"),
+        icon: "Vote",
+      },
+      {
+        name: "Propostas",
+        href: `/${segments[0]}/propostas`,
+        isActive: segments.includes("propostas"),
         icon: "Vote",
       },
     ];

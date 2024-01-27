@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import prisma from "@/lib/configs/prisma";
 
 import editorJsHtml from "editorjs-html";
+import { getMdxSource } from "../utils";
 const EditorJsToHtml = editorJsHtml();
 
 export async function getLawData(domain: string, slug: string) {
@@ -11,14 +12,13 @@ export async function getLawData(domain: string, slug: string) {
 
   return await unstable_cache(
     async () => {
-      const data = await prisma.post.findFirst({
+      const data = await prisma.law.findFirst({
         where: {
           website: subdomain ? { subdomain } : { customDomain: domain },
           slug,
           published: true,
         },
         include: {
-          user: true,
           content: {
             include: {
               blocks: true,
@@ -33,7 +33,7 @@ export async function getLawData(domain: string, slug: string) {
         };
 
       const [mdxSource, adjacentPosts]: any = await Promise.all([
-        EditorJsToHtml.parse(data.content as any),
+        getMdxSource(data.contentMd!),
         prisma.law.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },

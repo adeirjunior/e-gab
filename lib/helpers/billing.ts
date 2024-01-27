@@ -1,6 +1,6 @@
 import { getSession } from "../auth/get-session";
 import { getCurrentDomain } from "../utils";
-import { stripe } from "../stripe";
+import { stripe } from "../configs/stripe";
 import prisma from "../configs/prisma";
 
 //price_1NarR3APMZcBliJSoefCKTi5

@@ -2,7 +2,7 @@ import { Button, Card } from "@nextui-org/react";
 import PricingPableSvg from "../table/pricing-table-svg";
 import { getCurrentDomain } from "@/lib/utils";
 import { toast } from "sonner";
-import { getStripe } from "@/lib/stripe/stripe-client";
+import { getStripe } from "@/lib/configs/stripe/stripe-client";
 import { useRouter } from "next/navigation";
 
 export default function SubscriptionCard({
