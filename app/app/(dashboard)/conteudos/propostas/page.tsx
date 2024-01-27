@@ -1,73 +1,59 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-"use client";
+import ProposalCard from "@/components/card/proposal-card";
+import CreateProposalForm from "@/components/form/create-proposal-form";
+import { getSession } from "@/lib/auth/get-session";
+import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
+import { getCurrentDomain } from "@/lib/utils";
+import { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
+import prisma from "@/lib/configs/prisma";
 
-import { useState } from "react";
-import { Proposals } from "@prisma/client";
-import { Select, SelectItem, Textarea } from "@nextui-org/react";
-import TextareaAutosize from "react-textarea-autosize";
-
-export type ProposalsWithSite = Proposals & {
-  website: { subdomain: string | null };
+export const metadata: Metadata = {
+  title: "Propostas",
 };
 
-export default function Page({ proposals }: { proposals: ProposalsWithSite }) {
-  const [data, setData] = useState<ProposalsWithSite>(proposals);
+export default async function Page() {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+  const data = await getPoliticianSiteByUser(session.user.id);
+
+  if (!data) {
+    notFound();
+  }
+
+  const url = getCurrentDomain(data.subdomain!);
+
+  const proposals = await prisma.proposal.findMany({
+    where: {
+      websiteId: data.id,
+    },
+  });
 
   return (
-    <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg dark:border-stone-700">
-      <div className="mb-5 flex flex-col space-y-3 border-b border-stone-200 pb-5 dark:border-stone-700">
-        <Select
-          variant="bordered"
-          label="Selecione uma proposta"
-          className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-gray-400"
-          classNames={{ listbox: "p-0", listboxWrapper: "p-0" }}
-        >
-          <SelectItem
-            classNames={{ title: "text-gray-400" }}
-            variant="bordered"
-            key="1"
-            value="health"
+    <>
+      <div className="flex w-full flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
+        <div className="flex flex-col items-center gap-4 space-y-2 sm:items-start lg:flex-row lg:justify-center">
+          <h1 className="mb-0 w-60 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
+            Todas as Propostas de {data.name}
+          </h1>
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className="m-0 truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
           >
-            Saúde
-          </SelectItem>
-          <SelectItem
-            classNames={{ title: "text-gray-400" }}
-            variant="bordered"
-            key="2"
-            value="education"
-          >
-            Educação
-          </SelectItem>
-          <SelectItem
-            classNames={{ title: "text-gray-400" }}
-            variant="bordered"
-            key="3"
-            value="security"
-          >
-            Segurança
-          </SelectItem>
-          <SelectItem
-            classNames={{ title: "text-gray-400" }}
-            variant="bordered"
-            key="4"
-            value="infrastructure"
-          >
-            Insfraestrutura
-          </SelectItem>
-        </Select>
-        <Textarea
-          key=""
-          variant="bordered"
-          label="Descrição"
-          labelPlacement="outside"
-          placeholder="Entre a descrição do seu projeto"
-          className="col-span-12 mb-6 w-full p-0 md:col-span-6 md:mb-0"
-          classNames={{
-            innerWrapper: "min-h-96",
-            input: "text-gray-400",
-          }}
-        />
+            {url} ↗
+          </a>
+        </div>
       </div>
-    </div>
+      <CreateProposalForm />
+      <div className="w-full">
+        <h2 className="mb-0 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
+          Propostas Adicionadas
+        </h2>
+      </div>
+      <ProposalCard data={proposals} />
+    </>
   );
 }

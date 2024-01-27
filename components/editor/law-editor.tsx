@@ -149,18 +149,6 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
               contentMd: editor?.storage.markdown.getMarkdown(),
             }));
           }}
-          onDebouncedUpdate={() => {
-            if (
-              data.title === law.title &&
-              data.description === law.description &&
-              data.contentMd === law.contentMd
-            ) {
-              return;
-            }
-            startTransitionSaving(async () => {
-              await updateLaw(data);
-            });
-          }}
         />
       </div>
     </div>

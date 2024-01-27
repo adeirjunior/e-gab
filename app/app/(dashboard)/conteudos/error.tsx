@@ -10,22 +10,23 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <Card className="container py-10">
-      <h2 className="text-gray-400">Ocorreu algum erro!</h2>
-      <p className="text-gray-400">{error.message}</p>
+    <Card className="container py-10 space-y-6">
+      <h2 className=" m-0 text-xl text-gray-300">Ocorreu algum erro!</h2>
+      <p className="text-gray-400 m-0">{error.message}</p>
       <Button
+        variant="ghost"
+        className="text-gray-400"
         onClick={
-          // Attempt to recover by trying to re-render the segment
           () => reset()
         }
       >
-        Try again
+        Tente novamente
       </Button>
     </Card>
   );

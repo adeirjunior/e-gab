@@ -219,7 +219,7 @@ model Website {
   projects      Project[]
   polls         Poll[]
   surveys       Survey[]
-  proposals     Proposals[]
+  proposals     Proposal[]
   news          News[]
   expenditures  Expenditure[]
   posts         Post[]
@@ -227,12 +227,12 @@ model Website {
   User          User[]
 }
 
-model Proposals {
-  id          String          @id @default(cuid()) @map("_id")
-  type      ProposalTypes?
+model Proposal {
+  id          String        @id @default(cuid()) @map("_id")
+  type        ProposalTypes @unique
   description String?
-  Website     Website?        @relation(fields: [websiteId], references: [id])
-  websiteId   String?
+  Website     Website?      @relation(fields: [websiteId], references: [id])
+  websiteId   String
 }
 
 enum ProposalTypes {

@@ -134,7 +134,7 @@ export default function Form({
   );
 }
 
-function FormButton() {
+export function FormButton() {
   const { pending } = useFormStatus();
   return (
     <Button
