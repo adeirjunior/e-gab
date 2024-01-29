@@ -84,11 +84,6 @@ export default function Editor({ post }: { post: PostWithSite }) {
             toast.error(response.error);
           } else {
             setData((prev) => ({ ...prev, published: !prev.published }));
-            toast.success(
-              `Seu post foi ${
-                data.published ? "despublicado" : "publicado"
-              } com sucesso.`,
-            );
           }
         }
       } catch (error) {

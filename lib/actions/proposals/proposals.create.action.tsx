@@ -34,7 +34,7 @@ export const createProposal = async (proposal: FormData) => {
 
   const response = await prisma.proposal.create({
     data: {
-      Website: {
+      website: {
         connect: {
           id: site.id
         }

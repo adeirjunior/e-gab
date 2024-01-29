@@ -12,11 +12,11 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Website) => {
         id: site.id,
       },
     });
-    await revalidateTag(
+    revalidateTag(
       `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
     );
     response.customDomain &&
-      (await revalidateTag(`${site.customDomain}-metadata`));
+      (revalidateTag(`${site.customDomain}-metadata`));
     return response;
   } catch (error: any) {
     return {

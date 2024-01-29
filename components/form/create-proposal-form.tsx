@@ -1,13 +1,39 @@
 "use client";
 
-import { Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Textarea, useDisclosure } from "@nextui-org/react";
 import { FormButton } from ".";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createProposal } from "@/lib/actions/proposals/proposals.create.action";
+import { useState, useEffect, useTransition } from "react";
+import { ProposalTypes } from "@prisma/client";
+import { getProposalByType } from "./get-proposal";
+import { cn } from "@/lib/utils";
 
 export default function CreateProposalForm() {
+  const [isPending, start] = useTransition();
+  const [value, setValue] = useState<any>([]);
+  const [textareaValue, setTextareaValue] = useState<any>();
   const router = useRouter();
+
+  useEffect(() => {
+    const arrayFromSet = Array.from(value);
+    if (arrayFromSet.length > 0) {
+      const firstItem = arrayFromSet[0] as ProposalTypes;
+
+      try {
+        start(async () => {
+          const proposal = await getProposalByType(firstItem);
+          setTextareaValue(proposal.description);
+        });
+      } catch (error: any) {
+        toast.error(error);
+      }
+    } else {
+      console.log("O conjunto está vazio.");
+    }
+  }, [value]);
+
   return (
     <form
       action={async (data: FormData) =>
@@ -29,6 +55,8 @@ export default function CreateProposalForm() {
           variant="bordered"
           label="Selecione uma proposta"
           className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-gray-400"
+          selectedKeys={value}
+          onSelectionChange={setValue}
           classNames={{ listbox: "p-0", listboxWrapper: "p-0" }}
         >
           <SelectItem
@@ -73,13 +101,65 @@ export default function CreateProposalForm() {
           labelPlacement="outside"
           placeholder="Entre a descrição do seu projeto"
           className="col-span-12 mb-6 w-full p-0 md:col-span-6 md:mb-0"
+          value={textareaValue}
+          onValueChange={setTextareaValue}
           classNames={{
             innerWrapper: "min-h-[150px]",
             input: "text-gray-400",
           }}
         />
       </div>
-      <FormButton />
+
+      <div className="space-x-4">
+        <FormButton isEmpty={!textareaValue}/>
+      {textareaValue && <ConfirmDeleteProposalModal />}
+      </div>
+      
     </form>
   );
+}
+
+
+export async function ConfirmDeleteProposalModal() {
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  return <>
+   <Button
+        type="button"
+        variant="bordered"
+        color="danger"
+        radius="sm"
+        className="h-8 w-32 focus:outline-none sm:h-10 hover:text-danger-200"
+        onPress={onOpen}
+      >
+        Excluir
+      </Button>
+    <Modal
+      isOpen={isOpen}
+      placement="auto"
+      onOpenChange={onOpenChange}
+    >
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1 text-gray-300">
+              Deletar
+            </ModalHeader>
+            <ModalBody>
+              <p className="text-gray-400">
+                Tem certeza que quer deletar esta proposta?
+              </p>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" variant="light" onPress={onClose}>
+                Sim
+              </Button>
+              <Button color="primary" onPress={onClose}>
+                Não
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+ </>
 }

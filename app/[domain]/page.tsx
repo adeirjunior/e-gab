@@ -7,6 +7,10 @@ import BlogCard from "@/components/card/blog-card";
 import { getSiteData } from "@/lib/fetchers/site";
 import { getPostsForSite } from "@/lib/fetchers/post";
 import Image from "next/image";
+import { getProposalsForSite } from "@/lib/fetchers/proposal";
+import ProposalCard from "@/components/card/proposal-card";
+import ObjectiveSection from "@/components/demo/objective-section";
+import ProposalSection from "@/components/website/proposal-section";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -40,9 +44,10 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  const [data, posts] = await Promise.all([
+  const [data, posts, proposals] = await Promise.all([
     getSiteData(domain),
     getPostsForSite(domain),
+    getProposalsForSite(domain)
   ]);
 
   if (!data) {
@@ -135,6 +140,10 @@ export default async function SiteHomePage({
           </div>
         </div>
       )}
+
+      {proposals.length >= 1 && proposals.map((proposal, index) => (
+        <ProposalSection key={index} proposal={proposal}/>
+      ))}
     </>
   );
 }

@@ -4,6 +4,7 @@ export default function EducacaoSvg() {
       width="280"
       height="280"
       viewBox="0 0 280 280"
+      className="w-full"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -863,61 +864,61 @@ export default function EducacaoSvg() {
         />
         <path
           d="M52.0604 79.0884L58.0708 85.0989"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M58.1918 79.0884L52.1813 85.0989"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M254.261 169.24L260.271 175.251"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M260.392 169.24L254.381 175.251"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M35.1008 148.177L40.4236 153.499"
-          stroke="#1E3A8A"
+          stroke-color="#1E3A8A"
           strokeWidth="1.9001"
           strokeMiterlimit="10"
         />
         <path
           d="M40.5299 148.177L35.2077 153.499"
-          stroke="#1E3A8A"
+          stroke-color="#1E3A8A"
           strokeWidth="1.9001"
           strokeMiterlimit="10"
         />
         <path
           d="M32.2806 104.052C32.2806 106.455 30.3329 108.402 27.9305 108.402C25.5281 108.402 23.5804 106.455 23.5804 104.052C23.5804 101.65 25.5281 99.702 27.9305 99.702C30.3329 99.7015 32.2806 101.649 32.2806 104.052Z"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M202.515 100.703C204.917 100.703 206.865 98.7551 206.865 96.3526C206.865 93.9502 204.917 92.0026 202.515 92.0026C200.113 92.0026 198.165 93.9502 198.165 96.3526C198.165 98.7551 200.113 100.703 202.515 100.703Z"
-          stroke="#375BDF"
+          stroke-color="#375BDF"
           strokeWidth="2.1457"
           strokeMiterlimit="10"
         />
         <path
           d="M222.36 90.2867C222.36 90.8971 221.865 91.3922 221.255 91.3922C220.644 91.3922 220.149 90.8971 220.149 90.2867C220.149 89.6763 220.644 89.1813 221.255 89.1813C221.865 89.1813 222.36 89.6763 222.36 90.2867Z"
-          stroke="#1E3A8A"
+          stroke-color="#1E3A8A"
           strokeWidth="1.9001"
           strokeMiterlimit="10"
         />
         <path
           d="M115.765 53.4292C115.765 54.0396 115.27 54.5346 114.66 54.5346C114.05 54.5346 113.555 54.0396 113.555 53.4292C113.555 52.8188 114.05 52.3237 114.66 52.3237C115.27 52.3237 115.765 52.8188 115.765 53.4292Z"
-          stroke="#1E3A8A"
+          stroke-color="#1E3A8A"
           strokeWidth="1.9001"
           strokeMiterlimit="10"
         />

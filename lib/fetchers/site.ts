@@ -21,7 +21,7 @@ export async function getWebsiteByUserId(userId: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { Website: true }, // Certifique-se de que o relacionamento está correto no seu modelo
+      include: { website: true }, // Certifique-se de que o relacionamento está correto no seu modelo
     });
 
     if (!user) {
@@ -29,7 +29,7 @@ export async function getWebsiteByUserId(userId: string) {
       return null;
     }
 
-    const website = user.Website;
+    const website = user.website;
 
     if (!website) {
       console.log("Usuário não tem um site associado.");
@@ -51,9 +51,9 @@ export async function getPoliticianSiteByUser(userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-        Website: {
+        website: {
           include: {
-            User: true,
+            user: true,
           },
         },
       },
@@ -64,7 +64,7 @@ export async function getPoliticianSiteByUser(userId: string) {
       return null;
     }
 
-    const site = user.Website;
+    const site = user.website;
 
     return site;
   } catch (error) {
@@ -89,7 +89,7 @@ export async function getSiteData(domain: string) {
     async () => {
       return prisma.website.findUnique({
         where: subdomain ? { subdomain } : { customDomain: domain },
-        include: { User: true },
+        include: { user: true },
       });
     },
     [`${domain}-metadata`],

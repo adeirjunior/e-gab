@@ -134,7 +134,7 @@ export default function Form({
   );
 }
 
-export function FormButton() {
+export function FormButton({isEmpty}: {isEmpty?: boolean}) {
   const { pending } = useFormStatus();
   return (
     <Button
@@ -149,6 +149,7 @@ export function FormButton() {
       )}
       spinner={<LoadingDots color="#808080" />}
       isLoading={pending}
+      isDisabled={isEmpty}
     >
       {pending ? "" : "Salvar"}
     </Button>

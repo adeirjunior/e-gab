@@ -21,10 +21,10 @@ model User {
   sessions         Session[]
   password         String?
   role             UserRole       @default(Politician)
-  Politician       Politician?
-  Secretary        Secretary?
+  politician       Politician?
+  secretary        Secretary?
   posts            Post[]
-  Website          Website?       @relation(fields: [websiteId], references: [id])
+  website          Website?       @relation(fields: [websiteId], references: [id])
   websiteId        String?
   isActive         Boolean        @default(false)
   stripeCustomerId String?        @unique
@@ -38,10 +38,12 @@ enum UserRole {
 
 model Secretary {
   id           String     @id @default(cuid()) @map("_id")
-  Politician   Politician @relation(fields: [politicianId], references: [id])
+  politician   Politician @relation(fields: [politicianId], references: [id])
   politicianId String
-  User         User       @relation(fields: [userId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
   userId       String     @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 model Politician {
@@ -49,7 +51,7 @@ model Politician {
   party          String
   User           User        @relation(fields: [userId], references: [id])
   userId         String      @unique
-  Secretaries    Secretary[]
+  secretaries    Secretary[]
   description    String?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
@@ -74,13 +76,11 @@ model Subscription {
   canceled_at          DateTime?
   trial_start          DateTime?
   trial_end            DateTime?
-  // Add other fields as needed
-
-  user         User    @relation(fields: [user_id], references: [id])
-  price        Price   @relation(fields: [price_id], references: [id])
-  politicianId String?
-  Plan         Plan?   @relation(fields: [planId], references: [id])
-  planId       String?
+  user                 User               @relation(fields: [user_id], references: [id])
+  price                Price              @relation(fields: [price_id], references: [id])
+  politicianId         String?
+  Plan                 Plan?              @relation(fields: [planId], references: [id])
+  planId               String?
 }
 
 enum SubscriptionStatus {
@@ -106,10 +106,8 @@ model Price {
   interval_count    Int
   trial_period_days Int?
   metadata          Json
-  // Add other fields as needed
-
-  product      Product        @relation(fields: [product_id], references: [id])
-  Subscription Subscription[]
+  product           Product             @relation(fields: [product_id], references: [id])
+  subscription      Subscription[]
 }
 
 enum PricingType {
@@ -125,14 +123,15 @@ enum PricingPlanInterval {
 }
 
 model Product {
-  id          String  @id @default(cuid()) @map("_id")
+  id          String   @id @default(cuid()) @map("_id")
   active      Boolean
   name        String
   description String
   image       String
   metadata    Json
-  // Add other fields as needed
   Price       Price[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Account {
@@ -178,18 +177,18 @@ model VerificationToken {
 }
 
 model Post {
-  id            String     @id @default(cuid()) @map("_id")
+  id            String   @id @default(cuid()) @map("_id")
   title         String?
   description   String?
   content       String?
-  slug          String     @default(cuid())
-  image         String?    @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
-  imageBlurhash String?    @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  published     Boolean    @default(false)
-  user          User       @relation(fields: [userId], references: [id])
-  website       Website    @relation(fields: [websiteId], references: [id])
+  slug          String   @default(cuid())
+  image         String?  @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
+  imageBlurhash String?  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  published     Boolean  @default(false)
+  user          User     @relation(fields: [userId], references: [id])
+  website       Website  @relation(fields: [websiteId], references: [id])
   userId        String
   websiteId     String
 
@@ -222,15 +221,17 @@ model Website {
   expenditures  Expenditure[]
   posts         Post[]
   donations     Donation[]
-  User          User[]
+  user          User[]
 }
 
 model Proposal {
   id          String        @id @default(cuid()) @map("_id")
   type        ProposalTypes @unique
-  description String?
-  Website     Website?      @relation(fields: [websiteId], references: [id])
+  description String
+  website     Website       @relation(fields: [websiteId], references: [id])
   websiteId   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 enum ProposalTypes {
@@ -252,6 +253,7 @@ model Donation {
   donator      String
   website      Website         @relation(fields: [websiteId], references: [id])
   politician   Politician?     @relation(fields: [politicianId], references: [id])
+  createdAt    DateTime        @default(now())
 
   @@index([userId])
 }
@@ -300,17 +302,17 @@ model Project {
 }
 
 model Law {
-  id            String     @id @default(cuid()) @map("_id")
+  id            String   @id @default(cuid()) @map("_id")
   title         String?
   content       String?
-  image         String?    @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
-  imageBlurhash String?    @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
-  published     Boolean    @default(false)
-  slug          String     @default(cuid())
+  image         String?  @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
+  imageBlurhash String?  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  published     Boolean  @default(false)
+  slug          String   @default(cuid())
   description   String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  website       Website    @relation(fields: [websiteId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  website       Website  @relation(fields: [websiteId], references: [id])
   websiteId     String
 }
 

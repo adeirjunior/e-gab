@@ -31,14 +31,14 @@ export const createSite = async (formData: FormData) => {
         description,
         subdomain,
         politicianId: politician.id,
-        User: {
+        user: {
           connect: {
             id: session.user.id,
           },
         },
       },
     });
-    await revalidateTag(
+    revalidateTag(
       `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
     );
     return response;
