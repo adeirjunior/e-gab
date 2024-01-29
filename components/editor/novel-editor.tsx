@@ -33,7 +33,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
     if (
       data.title === post.title &&
       data.description === post.description &&
-      data.contentMd === post.contentMd
+      data.content === post.content
     ) {
       return;
     }
@@ -43,7 +43,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
         const formData = new FormData();
         formData.append("title", String(debouncedData.title));
         formData.append("description", String(debouncedData.description));
-        formData.append("content", String(debouncedData.contentMd));
+        formData.append("content", String(debouncedData.content));
 
         if (
           !formData.get("title") ||
@@ -71,7 +71,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
     formData.append("published", String(!data.published));
     startTransitionPublishing(async () => {
       try {
-        if (!data.title || !data.description || !data.contentMd) {
+        if (!data.title || !data.description || !data.content) {
           toast.error("Impossível publicar sem conteúdo.");
         } else {
           const response = await updatePostMetadata(
@@ -157,11 +157,11 @@ export default function Editor({ post }: { post: PostWithSite }) {
         />
         <NovelEditor
           className="relative block"
-          defaultValue={post?.contentMd || undefined}
+          defaultValue={post?.content || undefined}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,
-              contentMd: editor?.storage.markdown.getMarkdown(),
+              content: editor?.storage.markdown.getMarkdown(),
             }));
           }}
         />

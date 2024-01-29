@@ -15,13 +15,6 @@ export async function getLawData(domain: string, slug: string) {
           slug,
           published: true,
         },
-        include: {
-          content: {
-            include: {
-              blocks: true,
-            },
-          },
-        },
       });
 
       if (!data)
@@ -30,7 +23,7 @@ export async function getLawData(domain: string, slug: string) {
         };
 
       const [mdxSource, adjacentPosts]: any = await Promise.all([
-        getMdxSource(data.contentMd!),
+        getMdxSource(data.content!),
         prisma.law.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },

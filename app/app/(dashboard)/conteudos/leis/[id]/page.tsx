@@ -17,11 +17,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         select: {
           subdomain: true,
         },
-      },
-      content: {
-        include: {
-          blocks: true
-        }
       }
     },
   });

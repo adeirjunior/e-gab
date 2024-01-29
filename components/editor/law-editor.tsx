@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { Law, OutputBlock, OutputData } from "@prisma/client";
+import { Law } from "@prisma/client";
 import {
   updateLaw,
   updateLawMetadata,
@@ -18,7 +18,6 @@ import { Editor as NovelEditor } from "novel";
 
 export type LawWithSite = Law & {
   website: { subdomain: string | null };
-  content: OutputData & { blocks: OutputBlock[]}
 };
 
 export default function LawEditor({ law }: { law: LawWithSite }) {
@@ -32,7 +31,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
   const isSync =
     data.title === law.title &&
     data.description === law.description &&
-    data.contentMd === law.contentMd;
+    data.content === law.content;
 
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
     formData.append("published", String(!data.published));
     startTransitionPublishing(async () => {
       try {
-        if (!data.title || !data.description || !data.contentMd) {
+        if (!data.title || !data.description || !data.content) {
           toast.error("Impossível publicar sem conteúdo.");
         } else {
           const response = await updateLawMetadata(
@@ -142,11 +141,11 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         />
         <NovelEditor
           className="relative block"
-          defaultValue={law?.contentMd || undefined}
+          defaultValue={law?.content || undefined}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,
-              contentMd: editor?.storage.markdown.getMarkdown(),
+              content: editor?.storage.markdown.getMarkdown(),
             }));
           }}
         />

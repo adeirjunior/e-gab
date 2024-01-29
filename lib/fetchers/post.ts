@@ -29,16 +29,7 @@ export async function getPostData(domain: string, slug: string) {
           published: true,
         },
         include: {
-          user: true,
-          content: {
-            include: {
-              blocks: {
-                include: {
-                  data: true,
-                },
-              },
-            },
-          },
+          user: true
         },
       });
 
@@ -51,7 +42,7 @@ export async function getPostData(domain: string, slug: string) {
       console.log(data);
 
       const [mdxSource, adjacentPosts] = await Promise.all([
-        getMdxSource(data.contentMd!),
+        getMdxSource(data.content!),
         prisma.post.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },

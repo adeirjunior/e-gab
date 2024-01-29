@@ -6,19 +6,14 @@ import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
-import { OutputBlock, OutputBlockData, OutputBlockDataItems } from "@prisma/client";
-
-export interface ExtendedOutputBlock extends OutputBlock {
-  data: OutputBlockData & {items: OutputBlockDataItems[]}
-}
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
-    const contentMd = formData.get("content") as string;
+    const content = formData.get("content") as string;
 
-    if (!title || !description || !contentMd) {
+    if (!title || !description || !content) {
       throw new Error("Title, description, and content are required fields.");
     }
 
@@ -29,7 +24,7 @@ export const updatePost = withPostAuth(async (formData, post) => {
       data: {
         title,
         description,
-        contentMd,
+        content,
       },
     });
 

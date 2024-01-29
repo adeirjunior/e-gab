@@ -18,7 +18,7 @@ export const updateLaw = async (data: Law) => {
   }
 
   // Verifique se as propriedades essenciais não estão vazias
-  if (!data.title || !data.description || !data.contentMd) {
+  if (!data.title || !data.description || !data.content) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
@@ -46,7 +46,7 @@ export const updateLaw = async (data: Law) => {
       data: {
         title: data.title,
         description: data.description,
-        contentMd: data.contentMd,
+        content: data.content,
         published: data.published,
       },
     });

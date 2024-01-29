@@ -5,7 +5,6 @@ import { Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth/get-session";
-import { createContent } from "../editor/editor.create.action";
 
 export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
   const session = await getSession();
@@ -15,13 +14,10 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
     };
   }
 
-  const outputData = await createContent();
-
   const response = await prisma.post.create({
     data: {
       userId: session.user.id,
       websiteId: site.id,
-      outputDataId: outputData.id,
     },
   });
 

@@ -17,20 +17,11 @@ export default async function PostPage({ params }: { params: { id: string } }) {
         select: {
           subdomain: true,
         },
-      },
-      content: {
-        include: {
-          blocks: {
-            include: {
-              data: true,
-            },
-          },
-        },
-      },
+      }
     },
   });
 
-  if (!data || data.userId !== session.user.id || !data.outputDataId) {
+  if (!data || data.userId !== session.user.id) {
     notFound();
   }
 
