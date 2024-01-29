@@ -11,7 +11,9 @@ export async function getProposalByType(type: ProposalTypes) {
   });
 
   if (!proposal) {
-    throw new Error("Proposta esta vazia.");
+    return {
+      error: "Proposta esta vazia."
+    }
   }
 
   return proposal;
