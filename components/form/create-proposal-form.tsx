@@ -16,7 +16,7 @@ import { FormButton } from ".";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createProposal } from "@/lib/actions/proposals/proposals.create.action";
-import { useState, useEffect, useTransition, memo } from "react";
+import { useState, useEffect, useTransition, memo, Dispatch, SetStateAction } from "react";
 import { ProposalTypes } from "@prisma/client";
 import { getProposalByType } from "./get-proposal";
 import { deleteProposal } from "@/lib/actions/proposals/proposals.delete.action";
@@ -36,20 +36,22 @@ export default function CreateProposalForm() {
           const proposal = await getProposalByType(firstItem);
           if ("error" in proposal) {
             setTextareaValue("");
-            setProposalExist(false)
-            toast.error(proposal.error);
+            setProposalExist(false);
+            console.error(proposal.error);
           } else {
             setTextareaValue(proposal.description);
-            setProposalExist(true)
+            setProposalExist(true);
           }
         } catch (error: any) {
           toast.error(error);
         }
       });
     } else {
-      console.log("O conjunto está vazio.");
+      setProposalExist(false);
     }
-  }, [value]);
+    router.refresh();
+  }, [router, value]);
+
 
   return (
     <form
@@ -110,8 +112,8 @@ export default function CreateProposalForm() {
           </SelectItem>
         </Select>
         <Textarea
-          autoFocus
           required
+          isDisabled={value.size === 0}
           name="description"
           key=""
           variant="bordered"
@@ -130,71 +132,85 @@ export default function CreateProposalForm() {
 
       <div className="space-x-4">
         <FormButton isEmpty={!textareaValue} />
-        {proposalExist && <ConfirmDeleteProposalModal type={value} />}
+        {proposalExist && (
+          <ConfirmDeleteProposalModal
+            type={value}
+            setProposalExist={setProposalExist}
+            setTextareaValue={setTextareaValue}
+          />
+        )}
       </div>
     </form>
   );
 }
 
-export const ConfirmDeleteProposalModal = memo(
-  function ConfirmDeleteProposalModal({ type }: { type: Set<ProposalTypes> }) {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const router = useRouter();
+export const ConfirmDeleteProposalModal = memo(function ConfirmDeleteProposalModal({
+  type,
+  setProposalExist,
+  setTextareaValue
+}: {
+  type: Set<ProposalTypes>;
+  setProposalExist: Dispatch<SetStateAction<boolean>>;
+  setTextareaValue: Dispatch<SetStateAction<string>>;
+}) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter();
 
-    const handleDeletePress = async (onClose: () => void) => {
-      try {
-        const [uniqueItem] = Array.from(type);
-        await deleteProposal(uniqueItem);
-        router.refresh();
-        toast.success("Proposta deletada com sucesso.");
-      } catch (error: any) {
-        toast.error(error);
-      } finally {
-        onClose();
-      }
-    };
+  const handleDeletePress = async (onClose: () => void) => {
+    try {
+      const [uniqueItem] = Array.from(type);
+      await deleteProposal(uniqueItem);
+      setProposalExist(false);
+      setTextareaValue("");
+      router.refresh();
+      toast.success("Proposta deletada com sucesso.");
+    } catch (error: any) {
+      toast.error(error);
+    } finally {
+      onClose();
+    }
+  };
 
-    return (
-      <>
-        <Button
-          type="button"
-          variant="bordered"
-          color="danger"
-          radius="sm"
-          className="h-8 w-32 border-danger-100 hover:border-danger-300 focus:outline-none sm:h-10"
-          onPress={onOpen}
-        >
-          Excluir
-        </Button>
-        <Modal isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1 text-gray-300">
-                  Deletar
-                </ModalHeader>
-                <ModalBody>
-                  <p className="text-gray-400">
-                    Tem certeza que quer deletar esta proposta?
-                  </p>
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="danger"
-                    variant="light"
-                    onPress={() => handleDeletePress(onClose)}
-                  >
-                    Sim
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Não
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      </>
-    );
-  },
-);
+  return (
+    <>
+      <Button
+        type="button"
+        variant="bordered"
+        color="danger"
+        radius="sm"
+        className="h-8 w-32 border-danger-100 hover:border-danger-300 focus:outline-none sm:h-10"
+        onPress={onOpen}
+      >
+        Excluir
+      </Button>
+      <Modal isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 text-gray-300">
+                Deletar
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-gray-400">
+                  Tem certeza que quer deletar esta proposta?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="danger"
+                  variant="light"
+                  onPress={() => handleDeletePress(onClose)}
+                >
+                  Sim
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Não
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  );
+});

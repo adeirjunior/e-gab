@@ -6,6 +6,7 @@ import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Propostas",
@@ -53,7 +54,10 @@ export default async function Page() {
           Propostas Adicionadas
         </h2>
       </div>
-      <ProposalCard data={proposals} />
+      <Suspense fallback={<div className="w-full h-72 rounded-xl bg-slate-500 animate-pulse"></div>}>
+        <ProposalCard data={proposals} />
+      </Suspense>
+      
     </>
   );
 }
