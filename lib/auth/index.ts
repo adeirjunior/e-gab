@@ -1,7 +1,6 @@
+import { Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
-
-
 
 export function withSiteAuth(action: any) {
   return async (formData: FormData | null, key: string | null) => {
@@ -45,11 +44,17 @@ export function withSiteAuth(action: any) {
   };
 }
 
-export function withPostAuth(action: any) {
+export function withPostAuth(
+  action: (
+    formData: FormData,
+    post: Post & { website: Website },
+    key: string,
+  ) => any,
+) {
   return async (
-    formData: FormData | null,
+    formData: FormData,
     postId: string,
-    key: string | null,
+    key: string,
   ) => {
     const session = await getSession();
     if (!session?.user.id) {
@@ -104,4 +109,3 @@ export function withLawAuth(action: any) {
     return action(formData, law, key);
   };
 }
-

@@ -3,11 +3,7 @@ import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
 import Editor from "@/components/editor/novel-editor";
 
-export default async function PostPage({
-  params,
-}: {
-  params: { id: string;  };
-}) {
+export default async function PostPage({ params }: { params: { id: string } }) {
   const session = await getSession();
   if (!session) {
     redirect("/login");
@@ -19,24 +15,24 @@ export default async function PostPage({
     include: {
       website: {
         select: {
-          subdomain: true
-        }
+          subdomain: true,
+        },
       },
       content: {
         include: {
           blocks: {
             include: {
-              data: true
-            }
-          }
-        }
-      }
-    }
+              data: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!data || data.userId !== session.user.id || !data.outputDataId) {
     notFound();
   }
-  
+
   return <Editor post={data} />;
 }

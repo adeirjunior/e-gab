@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { replaceTweets } from "./remark-plugins";
-import { serialize } from "next-mdx-remote/serialize";
 
 export function decodeUTF8(encodedText: string): string {
   return decodeURIComponent(escape(encodedText));
@@ -77,17 +75,3 @@ export const getCurrentYear: () => string = () => {
   return String(year);
 };
 
-export async function getMdxSource(postContents: string) {
-  // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax
-  // https://mdxjs.com/docs/what-is-mdx/#markdown
-  const content =
-    postContents?.replaceAll(/<(https?:\/\/\S+)>/g, "[$1]($1)") ?? "";
-  // Serialize the content string into MDX
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [replaceTweets],
-    },
-  });
-
-  return mdxSource;
-}

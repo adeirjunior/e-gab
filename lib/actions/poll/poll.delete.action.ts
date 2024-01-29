@@ -1,10 +1,10 @@
 "use server";
 
-import { withPostAuth } from "@/lib/auth";
+import { withPollAuth } from "@/lib/auth/poll.auth";
 import prisma from "@/lib/configs/prisma";
 import { Poll } from "@prisma/client";
 
-export const deletePoll = withPostAuth(async (_: FormData, poll: Poll) => {
+export const deletePoll = withPollAuth(async (_: FormData, poll: Poll) => {
   try {
     const response = await prisma.poll.delete({
       where: {

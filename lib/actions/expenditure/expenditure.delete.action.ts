@@ -1,10 +1,10 @@
 "use server";
 
-import { withPostAuth } from "@/lib/auth";
+import { withExpenditureAuth } from "@/lib/auth/expenditure.auth";
 import prisma from "@/lib/configs/prisma";
 import { Expenditure } from "@prisma/client";
 
-export const deleteExpenditure = withPostAuth(
+export const deleteExpenditure = withExpenditureAuth(
   async (_: FormData, expenditure: Expenditure) => {
     try {
       const response = await prisma.expenditure.delete({

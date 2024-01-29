@@ -1,10 +1,10 @@
 "use server";
 
-import { withPostAuth } from "@/lib/auth";
+import { withEventAuth } from "@/lib/auth/event.auth";
 import prisma from "@/lib/configs/prisma";
 import { Event } from "@prisma/client";
 
-export const deleteEvent = withPostAuth(async (_: FormData, event: Event) => {
+export const deleteEvent = withEventAuth(async (_: FormData, event: Event) => {
   try {
     const response = await prisma.event.delete({
       where: {

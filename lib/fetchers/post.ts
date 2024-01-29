@@ -1,12 +1,19 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/lib/configs/prisma";
-import { serialize } from "next-mdx-remote/serialize";
 import { replaceTweets } from "@/lib/remark-plugins";
+import { serialize } from "next-mdx-remote/serialize";
 
-import editorJsHtml from "editorjs-html";
-import { getMdxSource } from "../utils";
-const EditorJsToHtml = editorJsHtml();
+export async function getMdxSource(postContents: string) {
+  const content =
+    postContents?.replaceAll(/<(https?:\/\/\S+)>/g, "[$1]($1)") ?? "";
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [replaceTweets],
+    },
+  });
 
+  return mdxSource;
+}
 
 export async function getPostData(domain: string, slug: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -78,7 +85,6 @@ export async function getPostData(domain: string, slug: string) {
   )();
 }
 
-
 export async function getPostsForSite(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
@@ -113,4 +119,3 @@ export async function getPostsForSite(domain: string) {
     },
   )();
 }
-

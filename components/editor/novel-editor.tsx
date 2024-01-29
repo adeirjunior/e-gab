@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
+import "@/components/editor/style.css"
 
 export type PostWithSite = Post & {
   website: { subdomain: string | null } | null;
@@ -38,12 +39,31 @@ export default function Editor({ post }: { post: PostWithSite }) {
     }
 
     startTransitionSaving(async () => {
-      const response = await updatePost(data);
+      try {
+        const formData = new FormData();
+        formData.append("title", String(debouncedData.title));
+        formData.append("description", String(debouncedData.description));
+        formData.append("content", String(debouncedData.contentMd));
 
-      if ("error" in response) {
-        toast.error(response.error);
+        if (
+          !formData.get("title") ||
+          !formData.get("description") ||
+          !formData.get("content")
+        ) {
+          throw new Error(
+            "Title, description, and content are required fields.",
+          );
+        }
+
+        await updatePost(formData, post.id, "post");
+
+        toast.message("Atualizado com sucesso!");
+      } catch (error) {
+        console.error("Error updating post:", error);
+        toast.error("Falha ao atualizar o post. Por favor, tente novamente.");
       }
     });
+
   }, [debouncedData, startTransitionSaving]);
 
   const togglePublish = async () => {
@@ -104,6 +124,8 @@ export default function Editor({ post }: { post: PostWithSite }) {
         </div>
         <Button
           onClick={togglePublish}
+          isLoading={isPendingPublishing}
+          spinner={<LoadingDots color="#808080" />}
           className={cn(
             "flex h-7 w-24 items-center justify-center space-x-2 rounded-lg border text-sm transition-all focus:outline-none",
             {
@@ -113,8 +135,6 @@ export default function Editor({ post }: { post: PostWithSite }) {
                 !isPendingPublishing,
             },
           )}
-          spinner={<LoadingDots color="#808080" />}
-          isLoading={isPendingPublishing}
           disabled={isPendingPublishing}
         >
           {data.published ? "Despublicar" : "Publicar"}
@@ -143,18 +163,6 @@ export default function Editor({ post }: { post: PostWithSite }) {
               ...prev,
               contentMd: editor?.storage.markdown.getMarkdown(),
             }));
-          }}
-          onDebouncedUpdate={() => {
-            if (
-              data.title === post.title &&
-              data.description === post.description &&
-              data.contentMd === post.contentMd
-            ) {
-              return;
-            }
-            startTransitionSaving(async () => {
-              await updatePost(data);
-            });
           }}
         />
       </div>

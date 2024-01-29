@@ -1,9 +1,6 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/lib/configs/prisma";
-
-import editorJsHtml from "editorjs-html";
-import { getMdxSource } from "../utils";
-const EditorJsToHtml = editorJsHtml();
+import { getMdxSource } from "@/lib/fetchers/post";
 
 export async function getLawData(domain: string, slug: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
