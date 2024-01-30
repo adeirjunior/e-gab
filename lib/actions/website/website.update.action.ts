@@ -19,14 +19,12 @@ export const updateSite = withSiteAuth(
 
     try {
       let response;
-
       if (key === "customDomain") {
         if (value.includes("vercel.pub")) {
           return {
             error: "Cannot use vercel.pub subdomain as your custom domain",
           };
 
-          // if the custom domain is valid, we need to add it to Vercel
         } else if (validDomainRegex.test(value)) {
           response = await prisma.website.update({
             where: {
@@ -38,11 +36,8 @@ export const updateSite = withSiteAuth(
           });
           await Promise.all([
             addDomainToVercel(value),
-            // Optional: add www subdomain as well and redirect to apex domain
-            // addDomainToVercel(`www.${value}`),
           ]);
 
-          // empty value means the user wants to remove the custom domain
         } else if (value === "") {
           response = await prisma.website.update({
             where: {
@@ -53,8 +48,6 @@ export const updateSite = withSiteAuth(
             },
           });
         }
-
-        // if the site had a different customDomain before, we need to remove it from Vercel
         if (site.customDomain && site.customDomain !== value) {
           response = await removeDomainFromVercelProject(site.customDomain);
 

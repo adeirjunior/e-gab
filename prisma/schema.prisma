@@ -211,6 +211,7 @@ model Website {
   message404    String        @default("Parabéns! Você encontrou uma página que não existe.")
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  contact       Contact       @relation(fields: [contactId], references: [id])
   laws          Law[]
   events        Event[]
   projects      Project[]
@@ -222,6 +223,16 @@ model Website {
   posts         Post[]
   donations     Donation[]
   user          User[]
+  contactId     String
+}
+
+model Contact {
+  id        String    @id @default(cuid()) @map("_id")
+  phone     String?
+  email     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  website   Website[]
 }
 
 model Proposal {

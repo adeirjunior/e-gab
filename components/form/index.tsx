@@ -49,6 +49,7 @@ export default function Form({
         handleSubmit(data, id, inputAttrs.name).then(async (res: any) => {
           if (res.error) {
             toast.error(res.error);
+            console.error(res.error)
           } else {
             va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
             if (id) {

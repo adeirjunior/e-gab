@@ -36,6 +36,9 @@ export const createSite = async (formData: FormData) => {
             id: session.user.id,
           },
         },
+        contact: {
+          create: {}
+        }
       },
     });
     revalidateTag(
