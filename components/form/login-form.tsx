@@ -30,7 +30,6 @@ export default function LoginForm() {
 
         if (!session) {
           toast.error("Esta conta não existe.");
-          router.push("/signup");
         } else {
           toast.success("Login feito com sucesso.");
           router.push("/");

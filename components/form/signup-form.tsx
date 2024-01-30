@@ -9,7 +9,7 @@ import LoadingDots from "../icons/loading-dots";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/user";
+import { createUser } from "@/lib/actions/user/user.create.action";
 import { useEffectOnce } from "usehooks-ts";
 
 type checkPassStrengthType = {
@@ -53,29 +53,32 @@ export default function SignupForm() {
     setPassStrength(checkPassStrength(password));
   }, [password]);
 
-  const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
-    event.preventDefault();
+const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
+  event.preventDefault();
 
-    const formData = new FormData(event.target as HTMLFormElement);
+  const formData = new FormData(event.target as HTMLFormElement);
 
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
 
-    const hashPass = await hash(password, 10);
+  const hashPass = await hash(password, 10);
 
-    try {
-      startUserCreation(async () => {
-        await createUser(name, email, hashPass).then(() => {
-          toast.success("Usuário criado");
-          router.push("/login");
-        });
-      });
-    } catch (error: any) {
-      console.error("Authentication failed:", error);
-    } finally {
-    }
-  };
+  try {
+    startUserCreation(async () => {
+      const user = await createUser(name, email, hashPass);
+      if (user) {
+        toast.success("Usuário criado");
+        router.push("/login");
+      } else {
+        toast.error("Usuário já existe.")
+        console.error("Criação de usuario falhou: Email já existe.");
+      }
+    });
+  } catch (error: any) {
+    console.error("Authentication failed:", error);
+  }
+};
 
   return (
     <form className="space-y-4" onSubmit={handleFormSubmit}>
