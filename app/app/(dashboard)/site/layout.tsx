@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import SiteSettingsNav from "./nav";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
+import DomainLinkTag from "@/components/domain-link-tag";
 
 export default async function SiteAnalyticsLayout({
   children,
@@ -24,22 +25,13 @@ export default async function SiteAnalyticsLayout({
     notFound();
   }
 
-  const url = getCurrentDomain(data.subdomain!);
-
   return (
     <>
       <div className="flex flex-col items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0 pl-8 pt-8">
         <h1 className="m-0 font-cal text-xl font-bold sm:text-3xl dark:text-white">
           Configurações de {data.name}
         </h1>
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-        >
-          {url} ↗
-        </a>
+        <DomainLinkTag subdomain={data.subdomain!}/>
       </div>
       <SiteSettingsNav />
       <div className="p-8">
