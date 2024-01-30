@@ -61,6 +61,7 @@ export default function CreateProposalForm() {
             toast.error(res.error);
           } else {
             router.refresh();
+            setProposalExist(true);
             toast.success(`Proposta salva com sucesso!`);
           }
         })
