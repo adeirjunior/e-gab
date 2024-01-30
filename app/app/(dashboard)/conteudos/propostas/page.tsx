@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import { Suspense } from "react";
+import DomainLinkTag from "@/components/domain-link-tag";
 
 export const metadata: Metadata = {
   title: "Propostas",
@@ -23,8 +24,6 @@ export default async function Page() {
     notFound();
   }
 
-  const url = getCurrentDomain(data.subdomain!);
-
   const proposals = await prisma.proposal.findMany({
     where: {
       websiteId: data.id,
@@ -38,14 +37,7 @@ export default async function Page() {
           <h1 className="mb-0 w-60 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
             Todas as Propostas de {data.name}
           </h1>
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            className="m-0 truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-          >
-            {url} ↗
-          </a>
+          <DomainLinkTag subdomain={data.subdomain!} path="/#propostas" />
         </div>
       </div>
       <CreateProposalForm />

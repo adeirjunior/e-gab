@@ -11,6 +11,7 @@ import { getProposalsForSite } from "@/lib/fetchers/proposal";
 import ProposalCard from "@/components/card/proposal-card";
 import ObjectiveSection from "@/components/demo/objective-section";
 import ProposalSection from "@/components/website/proposal-section";
+import SectionHeadingTitles from "@/components/website/section-heading-titles";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -47,7 +48,7 @@ export default async function SiteHomePage({
   const [data, posts, proposals] = await Promise.all([
     getSiteData(domain),
     getPostsForSite(domain),
-    getProposalsForSite(domain)
+    getProposalsForSite(domain),
   ]);
 
   if (!data) {
@@ -141,9 +142,20 @@ export default async function SiteHomePage({
         </div>
       )}
 
-      {proposals.length >= 1 && proposals.map((proposal, index) => (
-        <ProposalSection key={index} proposal={proposal}/>
-      ))}
+      {proposals.length >= 1 && (
+        <section>
+          <SectionHeadingTitles
+          id="propostas"
+            subtitle="Meus objetivos"
+            title="Quais são as principais areas que quero impulsionar"
+            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+          />
+          {proposals.length >= 1 &&
+            proposals.map((proposal, index) => (
+              <ProposalSection key={index} proposal={proposal} />
+            ))}
+        </section>
+      )}
     </>
   );
 }

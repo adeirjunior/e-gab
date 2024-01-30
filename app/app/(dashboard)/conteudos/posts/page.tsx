@@ -6,6 +6,7 @@ import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
 import { createPost } from "@/lib/actions/post/post.create.action";
+import DomainLinkTag from "@/components/domain-link-tag";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -23,8 +24,6 @@ export default async function SitePosts() {
     notFound();
   }
 
-  const url = getCurrentDomain(data.subdomain!);
-
   return (
     <>
       <div className="flex w-full flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
@@ -32,14 +31,7 @@ export default async function SitePosts() {
           <h1 className="mb-0 w-60 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
             Todos os Posts de {data.name}
           </h1>
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            className="m-0 truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-          >
-            {url} ↗
-          </a>
+          <DomainLinkTag subdomain={data.subdomain!} path="/posts" />
         </div>
         <CreateButton type="content" create={createPost} path="posts">Criar Post</CreateButton>
       </div>

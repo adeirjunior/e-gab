@@ -100,7 +100,7 @@ export default async function SiteLayout({
           </div>
         </div>
 
-        <div className="mt-20">{children}</div>
+        <div className="container mt-20">{children}</div>
       </div>
     </NextThemeProvider>
   );

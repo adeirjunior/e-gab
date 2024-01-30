@@ -2,14 +2,13 @@ import BlurImage from "@/components/blur-image";
 import { getCurrentDomain, placeholderBlurhash } from "@/lib/utils";
 import { Post, Website } from "@prisma/client";
 import Link from "next/link";
+import DomainLinkTag from "../domain-link-tag";
 
 export default function PostCard({
   data,
 }: {
   data: Post & { website: Website | null };
 }) {
-  const url = getCurrentDomain(data.website?.subdomain!, `/posts/${data.slug}`);
-
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link
@@ -42,14 +41,10 @@ export default function PostCard({
         </div>
       </Link>
       <div className="absolute bottom-4 flex w-full px-4">
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-        >
-          {url} ↗
-        </a>
+        <DomainLinkTag
+          subdomain={data.website?.subdomain!}
+          path={`/posts/${data.slug}`}
+        />
       </div>
     </div>
   );
