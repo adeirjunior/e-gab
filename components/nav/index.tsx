@@ -52,7 +52,7 @@ export default function Nav({
           segments[0] === "posts" && segments.length === 2 && !showSidebar
             ? "left-5 top-5"
             : "right-5 top-7"
-        } sm:hidden`}
+        } sm:hidden dark:text-gray-300`}
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
