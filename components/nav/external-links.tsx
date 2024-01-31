@@ -9,7 +9,7 @@ export const getExternalLinks = async (subdomain: string) => {
     },
     {
       name: "Documentação",
-      href: getCurrentDomain("doc"),
+      href: getCurrentDomain("docs"),
       icon: "FileCode",
     },
     {

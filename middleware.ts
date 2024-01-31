@@ -57,9 +57,9 @@ export default async function middleware(req: NextRequest) {
     );
   }
 
-  if (hostname == `doc.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+  if (hostname == `docs.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     return NextResponse.rewrite(
-      new URL(`/doc${path === "/" ? "" : path}`, req.url),
+      new URL(`/docs${path === "/" ? "" : path}`, req.url),
     );
   }
 
