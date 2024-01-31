@@ -103,6 +103,12 @@ export const getTabs = (segments: string[], id: string | undefined) => {
         icon: "Edit3",
       },
       {
+        name: "Salas",
+        href: `/${segments[0]}/room`,
+        isActive: segments.includes("room"),
+        icon: "Edit3",
+      },
+      {
         name: "Denúncias",
         href: `/${segments[0]}/denuncias`,
         isActive: segments.includes("denuncias"),
