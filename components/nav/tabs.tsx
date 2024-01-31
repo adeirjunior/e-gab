@@ -93,6 +93,52 @@ export const getTabs = (segments: string[], id: string | undefined) => {
         icon: "Vote",
       },
     ];
+  } else if (segments[0] === "ouvidoria") {
+    return [
+      { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
+      {
+        name: "Dados",
+        href: `/${segments[0]}`,
+        isActive: segments.length === 1,
+        icon: "Edit3",
+      },
+      {
+        name: "Denúncias",
+        href: `/${segments[0]}/denuncias`,
+        isActive: segments.includes("denuncias"),
+        icon: "Edit3",
+      },
+      {
+        name: "Elogios",
+        href: `/${segments[0]}/elogios`,
+        isActive: segments.includes("elogios"),
+        icon: "Edit3",
+      },
+      {
+        name: "Informações",
+        href: `/${segments[0]}/informacoes`,
+        isActive: segments.includes("informacoes"),
+        icon: "Edit3",
+      },
+      {
+        name: "Reclamações",
+        href: `/${segments[0]}/reclamacoes`,
+        isActive: segments.includes("reclamacoes"),
+        icon: "Edit3",
+      },
+      {
+        name: "Solicitações",
+        href: `/${segments[0]}/solicitacoes`,
+        isActive: segments.includes("solicitacoes"),
+        icon: "Edit3",
+      },
+      {
+        name: "Sugestões",
+        href: `/${segments[0]}/sugestoes`,
+        isActive: segments.includes("sugestoes"),
+        icon: "Edit3",
+      },
+    ];
   }
 
   return [
@@ -118,6 +164,12 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       name: "Estatísticas",
       href: `/estatisticas`,
       isActive: segments.includes("estatisticas"),
+      icon: "BarChart3",
+    },
+    {
+      name: "Ouvidoria",
+      href: `/ouvidoria`,
+      isActive: segments.includes("ouvidoria"),
       icon: "BarChart3",
     },
     {
