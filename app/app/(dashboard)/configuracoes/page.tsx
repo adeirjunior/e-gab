@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions/user/user.update.action";
 import CurrentActivePlanCard from "@/components/card/current-active-plan-card";
 import { getUserRole } from "@/lib/fetchers/user";
-import { UserRole } from "@prisma/client";
 
 export default async function SettingsPage() {
   const session = await getSession();

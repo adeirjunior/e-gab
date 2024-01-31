@@ -125,11 +125,11 @@ export const updateSite = withSiteAuth(
         `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
         `${site.customDomain}-metadata`,
       );
-      await revalidateTag(
+      revalidateTag(
         `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
       );
       site.customDomain &&
-        (await revalidateTag(`${site.customDomain}-metadata`));
+        (revalidateTag(`${site.customDomain}-metadata`));
 
       return response;
     } catch (error: any) {
