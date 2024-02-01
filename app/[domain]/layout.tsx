@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { NextThemeProvider } from "../next-themes-provider";
 import Header from "@/components/website/header";
 import Footer from "@/components/website/footer";
+import { getSession } from "@/lib/auth/get-session";
 
 export async function generateMetadata({
   params,
@@ -65,6 +66,7 @@ export default async function SiteLayout({
 }) {
   const domain = decodeURIComponent(params.domain);
   const data = await getSiteData(domain);
+  const session = await getSession()
 
   if (!data) {
     notFound();
@@ -82,7 +84,7 @@ export default async function SiteLayout({
   return (
     <NextThemeProvider attribute="class" defaultTheme="light">
       <div className={fontMapper[data.font]}>
-        <Header data={data} />
+        <Header data={data} user={session?.user!} />
 
         <div className="container mt-20">{children}</div>
 

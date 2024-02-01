@@ -1,11 +1,34 @@
-"use client"
+"use client";
 
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@nextui-org/react";
 import { Website } from "@prisma/client";
 import { Cross } from "hamburger-react";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 
-export default function Header({data}: {data: Website}) {
+export default function Header({
+  data,
+  user,
+}: {
+  data: Website;
+  user: {id: string, email: string}
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
@@ -22,7 +45,11 @@ export default function Header({data}: {data: Website}) {
   ];
 
   return (
-    <Navbar position="static" onMenuOpenChange={setIsMenuOpen} className="bg-white">
+    <Navbar
+      position="static"
+      onMenuOpenChange={setIsMenuOpen}
+      className="bg-white"
+    >
       <NavbarContent>
         <NavbarBrand>
           <Link className="block text-teal-600" href="/">
@@ -103,25 +130,61 @@ export default function Header({data}: {data: Website}) {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link
-            className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-            href="/login"
-          >
-            Login
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-            color="primary"
-            href="/signup"
-            variant="flat"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {user?.id ? (
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem key="settings">My Settings</DropdownItem>
+              <DropdownItem key="team_settings">Team Settings</DropdownItem>
+              <DropdownItem key="analytics">Analytics</DropdownItem>
+              <DropdownItem key="system">System</DropdownItem>
+              <DropdownItem key="configurations">Configurations</DropdownItem>
+              <DropdownItem key="help_and_feedback">
+                Help & Feedback
+              </DropdownItem>
+              <DropdownItem
+                key="logout"
+                color="danger"
+                onClick={() => signOut({redirect: false})}
+              >
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Link
+                className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                href="/login"
+              >
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={Link}
+                className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                color="primary"
+                href="/signup"
+                variant="flat"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
 
       <NavbarContent>

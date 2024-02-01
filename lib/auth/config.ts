@@ -37,6 +37,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "text", placeholder: "email" },
         password: { label: "Password", type: "password" },
+        role: { label: "Role", type: "string" },
       },
       async authorize(
         credentials: Record<"email" | "password", string> | undefined,
@@ -53,7 +54,7 @@ export const authOptions: NextAuthOptions = {
 
           if ("error" in user) {
             return {
-              error: user.error
+              error: user.error,
             };
           }
 
@@ -65,6 +66,7 @@ export const authOptions: NextAuthOptions = {
     } as UserCredentialsConfig<{
       email: { label: string; type: string; placeholder: string };
       password: { label: string; type: string };
+      role: { label: string; type: string };
     }>),
   ],
   pages: {
@@ -92,8 +94,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user }) {
-
-      const isNotFound = 'error' in user;
+      const isNotFound = "error" in user;
 
       if (isNotFound) return false;
 

@@ -12,7 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/user/user.create.action";
 import { useEffectOnce } from "usehooks-ts";
 
-type checkPassStrengthType = {
+export type checkPassStrengthType = {
   id: number;
   value: "Senha muito fraca" | "Senha fraca" | "Boa senha" | "Ótima senha";
 };
