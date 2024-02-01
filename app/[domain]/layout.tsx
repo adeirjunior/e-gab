@@ -80,9 +80,9 @@ export default async function SiteLayout({
   }
 
   return (
-    <NextThemeProvider theme="light">
+    <NextThemeProvider attribute="class" defaultTheme="light">
       <div className={fontMapper[data.font]}>
-        <Header data={data}/>
+        <Header data={data} />
 
         <div className="container mt-20">{children}</div>
 

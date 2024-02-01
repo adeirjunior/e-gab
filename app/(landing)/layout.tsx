@@ -9,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NextThemeProvider theme="light">
+    <NextThemeProvider attribute="class" defaultTheme="light">
       <LandingTheme>
         <Header />
         <div className="min-h-screen">{children}</div>
