@@ -1,7 +1,6 @@
 import { ReactNode, Suspense } from "react";
 import Profile from "@/components/profile/profile-wrapper";
 import Nav from "@/components/nav";
-import { NextThemeProvider } from "@/app/next-themes-provider";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
@@ -24,16 +23,13 @@ export default async function DashboardLayout({
   }
 
   return (
-    <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      {" "}
       <div>
         <Nav subdomain={site.subdomain!}>
           <Suspense fallback={<div>Carregando...</div>}>
             <Profile />
           </Suspense>
         </Nav>
-        <div className="min-h-screen sm:pl-60 dark:bg-black">{children}</div>
+        <div className="min-h-screen bg-white sm:pl-60 dark:bg-black">{children}</div>
       </div>
-    </NextThemeProvider>
   );
 }

@@ -2,6 +2,7 @@
 
 import { LogOut } from "lucide-react";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
+import { Metric, Title, Subtitle, Bold, Italic, Text } from "@tremor/react";
 import { signOut } from "next-auth/react";
 
 export default function Profile({
@@ -35,18 +36,17 @@ export default function Profile({
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
-        <DropdownItem key="profile" className="h-14 gap-2">
-          <p className="m-0 p-0 font-bold dark:text-gray-300">Entrou como</p>
-          <p className="m-0 p-0 font-bold dark:text-gray-300">@tonyreichert</p>
+        <DropdownItem key="profile" className="gap-2">
+          <Bold>Entrou como</Bold>
+          <Text>@tonyreichert</Text>
         </DropdownItem>
-        <DropdownItem as={Link} href="/configuracoes" className="dark:text-gray-300" key="settings">
+        <DropdownItem as={Link} href="/configuracoes" key="settings">
           Configurações
         </DropdownItem>
-        <DropdownItem as={Link} href="/sistema" className="dark:text-gray-300" key="system">
+        <DropdownItem as={Link} href="/sistema" key="system">
           Sistema
         </DropdownItem>
         <DropdownItem
-          className="dark:text-gray-300"
           onClick={() => signOut()}
           endContent={<LogOut width={18} />}
           key="logout"
