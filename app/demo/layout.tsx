@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NextThemeProvider theme="light">
+    <NextThemeProvider attribute="class" defaultTheme="light">
       <div>
         <Header />
 
