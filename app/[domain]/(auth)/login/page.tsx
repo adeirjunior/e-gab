@@ -1,3 +1,5 @@
+import { Button, Link } from "@nextui-org/react";
+
 export default function LoginPage() {
   return (
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -10,7 +12,7 @@ export default function LoginPage() {
     </p>
 
     <form action="" className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
-      <p className="text-center text-lg font-medium">Sign in to your account</p>
+      <p className="text-center text-lg font-medium">Entrar na sua conta</p>
 
       <div>
         <label htmlFor="email" className="sr-only">Email</label>
@@ -76,16 +78,16 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <button
+      <Button
         type="submit"
-        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+        className="block w-full rounded-lg bg-indigo-600 px-5 text-sm font-medium text-white"
       >
-        Sign in
-      </button>
+       Entrar
+      </Button>
 
       <p className="text-center text-sm text-gray-500">
-        No account?
-        <a className="underline" href="">Sign up</a>
+        Não possui uma conta?
+        <Link className="underline" href="/signup">Registre-se</Link>
       </p>
     </form>
   </div>

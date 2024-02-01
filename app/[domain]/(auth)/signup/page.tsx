@@ -1,59 +1,139 @@
-import Image from "next/image";
-import { Suspense } from "react";
-import Link from "next/link";
-import GoogleLoginButton from "@/components/button/generic-dashboard-button";
-import { getCurrentDomain } from "@/lib/utils";
-import SignupForm from "@/components/form/signup-form";
-import GoogleIcon from "@/components/icons/google-icon";
+import { Button, Link } from "@nextui-org/react";
 
-export default async function LoginPage() {
+export default async function SignupPage() {
   return (
-    <div className="mx-auto border border-stone-200 px-3 py-10 sm:w-full sm:max-w-xl sm:rounded-lg sm:shadow-md dark:border-stone-700">
-      <Image
-        alt="Logo E-Gab"
-        width={200}
-        height={200}
-        className="relative mx-auto h-28 w-auto dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
-        src="/logo.png"
-      />
-      <h1 className="mt-6 text-center text-3xl font-semibold dark:text-white">
-        E-Gab
-      </h1>
-      <p className="mt-2 text-center text-sm text-stone-600 dark:text-stone-400">
-        Plataforma de gabinete virtual. <br />
-        <Link
-          className="font-medium dark:text-stone-300 dark:hover:text-stone-100"
-          href={getCurrentDomain()}
-          rel="noreferrer"
-        >
-          Leia sobre.
-        </Link>
-      </p>
+    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-lg">
+        <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+          Get started today
+        </h1>
 
-      <div className="mx-auto mt-4 flex w-11/12 max-w-xs flex-col gap-4 sm:w-full">
-        <Suspense
-          fallback={
-            <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
-          }
-        >
-          <SignupForm />
-        </Suspense>
-        <p className="text-gray-400">
-          Já tem uma conta? <Link href="/login">Entre</Link>
+        <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati
+          sunt dolores deleniti inventore quaerat mollitia?
         </p>
-        <Suspense
-          fallback={
-            <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
-          }
+
+        <form
+          action=""
+          className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
         >
-          <GoogleLoginButton
-            type="signIn"
-            Icon={<GoogleIcon />}
-            signInProvider="google"
+          <p className="text-center text-lg font-medium">Registre sua conta</p>
+
+          <div>
+            <label htmlFor="username" className="sr-only">
+              Nome de Usuário
+            </label>
+
+            <div className="relative">
+              <input
+              id="username"
+              name="username"
+                type="text"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                placeholder="Colocar nome"
+              />
+
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="email" className="sr-only">
+              Email
+            </label>
+
+            <div className="relative">
+              <input
+                type="email"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                placeholder="Colocar email"
+              />
+
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="sr-only">
+              Senha
+            </label>
+
+            <div className="relative">
+              <input
+                type="password"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                placeholder="Colocar senha"
+              />
+
+              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="block w-full rounded-lg bg-indigo-600 px-5 text-sm font-medium text-white"
           >
-            Google
-          </GoogleLoginButton>
-        </Suspense>
+            Registrar
+          </Button>
+
+          <p className="text-center text-sm text-gray-500">
+            Tem uma conta?
+            <Link className="underline" href="/login">
+              Entre
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
   );
