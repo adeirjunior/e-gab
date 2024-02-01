@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from "react";
-import Profile from "@/components/profile";
+import Profile from "@/components/profile/profile-wrapper";
 import Nav from "@/components/nav";
 import { NextThemeProvider } from "@/app/next-themes-provider";
 import { getSession } from "@/lib/auth/get-session";

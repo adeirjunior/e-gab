@@ -23,17 +23,29 @@ model User {
   role             UserRole       @default(Politician)
   politician       Politician?
   secretary        Secretary?
+  client           Client?        @relation(fields: [clientId], references: [id])
   posts            Post[]
   website          Website?       @relation(fields: [websiteId], references: [id])
   websiteId        String?
   isActive         Boolean        @default(false)
   stripeCustomerId String?        @unique
   subscriptions    Subscription[]
+  clientId         String?
+  message          Message[]
 }
 
 enum UserRole {
   Politician
   Secretary
+  Client
+}
+
+model Client {
+  id        String     @id @default(cuid()) @map("_id")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User[]
+  chatRoom  ChatRoom[]
 }
 
 model Secretary {
@@ -44,6 +56,7 @@ model Secretary {
   userId       String     @unique
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  chatRoom     ChatRoom[]
 }
 
 model Politician {
@@ -58,6 +71,7 @@ model Politician {
   donation       Donation[]
   billingAddress Json?
   paymentMethod  Json?
+  ChatRoom       ChatRoom[]
 }
 
 model Subscription {
@@ -224,6 +238,7 @@ model Website {
   donations     Donation[]
   user          User[]
   contactId     String
+  ChatRoom      ChatRoom[]
 }
 
 model Contact {
@@ -372,17 +387,28 @@ model Survey {
 }
 
 model ChatRoom {
-  id        String       @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  messages  Message[]
+  id           String     @id @default(cuid())
+  messages     Message[]
+  website      Website    @relation(fields: [websiteId], references: [id])
+  client       Client     @relation(fields: [clientId], references: [id])
+  secretary    Secretary? @relation(fields: [secretaryId], references: [id])
+  politician   Politician? @relation(fields: [politicianId], references: [id])
+  clientId     String
+  secretaryId  String?
+  politicianId String?
+  websiteId    String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 model Message {
-  id         String      @id @default(cuid())
+  id         String   @id @default(cuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   text       String
+  file       String?
+  user       User     @relation(fields: [userId], references: [id])
   chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
   chatRoomId String
+  userId     String
 }
