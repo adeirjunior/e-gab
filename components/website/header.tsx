@@ -74,7 +74,7 @@ export default function Header({
                 radius="sm"
                 variant="light"
               >
-                Features
+                Utilidades
               </Button>
             </DropdownTrigger>
           </NavbarItem>
@@ -86,46 +86,44 @@ export default function Header({
             }}
           >
             <DropdownItem
+              as={Link}
+              href="/enquetes"
               key="autoscaling"
               description="ACME scales apps to meet user demand, automagically, based on load."
             >
-              Autoscaling
+              Enquetes
             </DropdownItem>
             <DropdownItem
+              as={Link}
+              href="/leis"
               key="usage_metrics"
               description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
             >
-              Usage Metrics
+              Leis
             </DropdownItem>
             <DropdownItem
+              as={Link}
+              href="/ouvidoria"
               key="production_ready"
               description="ACME runs on ACME, join us and others serving requests at web scale."
             >
-              Production Ready
+              Ouvidoria
             </DropdownItem>
             <DropdownItem
+              as={Link}
+              href="/pesquisas"
               key="99_uptime"
               description="Applications stay on the grid with high availability and high uptime guarantees."
             >
-              +99% Uptime
-            </DropdownItem>
-            <DropdownItem
-              key="supreme_support"
-              description="Overcome any challenge with a supporting team ready to respond."
-            >
-              +Supreme Support
+              Pesquisas
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
+        <NavbarItem as={Link} href="/contato" isActive>
+          Contato
         </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
+        <NavbarItem as={Link} href="/posts">
+            Posts
         </NavbarItem>
       </NavbarContent>
 
@@ -156,7 +154,7 @@ export default function Header({
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => signOut({redirect: false})}
+                onClick={() => signOut({ redirect: false })}
               >
                 Log Out
               </DropdownItem>

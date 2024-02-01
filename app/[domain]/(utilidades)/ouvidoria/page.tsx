@@ -1,9 +1,17 @@
+import { getSession } from "@/lib/auth/get-session";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Bibliografia",
+  title: "Ouvidoria",
 };
 
-export default function Page() {
+export default async function Page() {
+  const session = await getSession();
+
+  if(!session?.user){
+    redirect("/login")
+  }
+
   return <div>page</div>;
 }

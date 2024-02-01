@@ -1,7 +1,10 @@
-import React from 'react'
+import Chat from "@/components/chat";
+import React from "react";
 
 export default function Page() {
   return (
-    <div>P</div>
-  )
+    <div>
+      <Chat />
+    </div>
+  );
 }
