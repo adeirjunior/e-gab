@@ -84,10 +84,10 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT
-          ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-          : undefined,
+        // AVISO! Remover a marcação de comentário ira fazer que os cookies sejam compartilhados entre subdominios!
+        //domain: VERCEL_DEPLOYMENT
+        //  ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+        //  : undefined,
         secure: VERCEL_DEPLOYMENT,
       },
     },

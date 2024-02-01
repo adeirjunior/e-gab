@@ -1,6 +1,5 @@
 import prisma from "@/lib/configs/prisma";
 import { notFound } from "next/navigation";
-import BlogCard from "@/components/website/post-card";
 import { getSiteData } from "@/lib/fetchers/site";
 import { getPostsForSite } from "@/lib/fetchers/post";
 import Image from "next/image";
