@@ -24,11 +24,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <NextThemeProvider theme="dark">
+    <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
       {" "}
       <div>
         <Nav subdomain={site.subdomain!}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Carregando...</div>}>
             <Profile />
           </Suspense>
         </Nav>

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <NextThemeProvider theme="dark">
+    <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className=" flex items-center justify-center bg-black dark">
-        <div className=" flex min-h-screen flex-col w-full items-center justify-center gap-4 px-6 lg:max-w-5xl lg:flex-row lg:justify-between">
+        <div className=" flex min-h-screen w-full flex-col items-center justify-center gap-4 px-6 lg:max-w-5xl lg:flex-row lg:justify-between">
           {children}
         </div>
       </div>
