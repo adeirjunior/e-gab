@@ -72,7 +72,6 @@ export default async function SiteLayout({
     notFound();
   }
 
-  // Optional: Redirect to custom domain if it exists
   if (
     domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
     data.customDomain &&

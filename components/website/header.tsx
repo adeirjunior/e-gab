@@ -187,7 +187,7 @@ export default function Header({
 
       <NavbarContent>
         <NavbarMenuToggle
-          icon={<Cross />}
+          icon={<Cross onToggle={setIsMenuOpen} toggled={isMenuOpen} />}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
