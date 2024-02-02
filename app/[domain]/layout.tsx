@@ -6,7 +6,6 @@ import { Metadata } from "next";
 import { NextThemeProvider } from "../next-themes-provider";
 import Header from "@/components/website/header";
 import Footer from "@/components/website/footer";
-import { getSession } from "@/lib/auth/get-session";
 
 export async function generateMetadata({
   params,
@@ -56,6 +55,8 @@ export async function generateMetadata({
     //   }),
   };
 }
+
+// Não utilize useSession() neste arquivo, ele causará um erro 500 na página inicial de todos os subdomínios
 
 export default async function SiteLayout({
   params,

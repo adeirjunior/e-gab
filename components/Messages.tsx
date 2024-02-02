@@ -38,8 +38,6 @@ const Messages: FC<MessagesProps> = ({
 
   if (!mounted) return null;
 
-  console.log(initialMessages[0].userId, sessionUserId)
-
   return (
     <div className="space-y-8 overflow-y-scroll">
       {initialMessages.map((message) => (

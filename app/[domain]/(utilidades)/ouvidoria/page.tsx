@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
       return null;
     }
 
-    return redirect(getCurrentDomain(subdomain!, `${response.id}`));
+    return redirect(getCurrentDomain(subdomain!, `/ouvidoria/${response.id}`));
   };
 
   return (
