@@ -33,6 +33,7 @@ export default function LoginForm() {
            toast.error("Esta conta não existe.");
          } else {
            toast.success("Login feito com sucesso.");
+           router.push("/")
          }
        });
      } catch (error: any) {

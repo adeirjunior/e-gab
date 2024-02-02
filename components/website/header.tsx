@@ -20,6 +20,7 @@ import {
 import { Website } from "@prisma/client";
 import { Cross } from "hamburger-react";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Header({
@@ -29,6 +30,7 @@ export default function Header({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session, status } = useSession();
+  const router = useRouter()
 
   const menuItems = [
     "Profile",
@@ -153,9 +155,9 @@ export default function Header({
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => signOut({ redirect: false })}
+                onClick={() => signOut({ redirect: false }).finally(() => router.push("/"))}
               >
-                Log Out
+                Sair
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

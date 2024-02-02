@@ -1,6 +1,14 @@
+import { getSession } from "@/lib/auth/get-session";
 import LoginForm from "./form";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await getSession()
+
+  if(session?.user) {
+    return redirect("/")
+  }
+
   return (
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
   <div className="mx-auto max-w-lg">
