@@ -55,8 +55,6 @@ export default async function SiteHomePage({
   return (
     <>
       <div className="mb-20 w-full">
-        <Banner />
-        <StatsGrid />
         {posts.length > 0 ? (<Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2"> {posts.map((post, index) => <PostCard key={index} post={post}/>)}</Grid>) 
          : (
           <div className="flex flex-col items-center justify-center py-20">
