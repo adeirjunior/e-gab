@@ -97,51 +97,27 @@ export const getTabs = (segments: string[], id: string | undefined) => {
     return [
       { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
       {
-        name: "Dados",
+        name: "Estatísticas",
         href: `/${segments[0]}`,
         isActive: segments.length === 1,
         icon: "Edit3",
       },
       {
-        name: "Salas",
-        href: `/${segments[0]}/room`,
-        isActive: segments.includes("room"),
+        name: "Salas Abertas",
+        href: `/${segments[0]}/abertas`,
+        isActive: segments.includes("abertas"),
         icon: "Edit3",
       },
       {
-        name: "Denúncias",
-        href: `/${segments[0]}/denuncias`,
-        isActive: segments.includes("denuncias"),
-        icon: "Edit3",
-      },
-      {
-        name: "Elogios",
-        href: `/${segments[0]}/elogios`,
-        isActive: segments.includes("elogios"),
-        icon: "Edit3",
-      },
-      {
-        name: "Informações",
-        href: `/${segments[0]}/informacoes`,
-        isActive: segments.includes("informacoes"),
-        icon: "Edit3",
-      },
-      {
-        name: "Reclamações",
-        href: `/${segments[0]}/reclamacoes`,
-        isActive: segments.includes("reclamacoes"),
+        name: "Salas Fechadas",
+        href: `/${segments[0]}/fechadas`,
+        isActive: segments.includes("fechadas"),
         icon: "Edit3",
       },
       {
         name: "Solicitações",
         href: `/${segments[0]}/solicitacoes`,
         isActive: segments.includes("solicitacoes"),
-        icon: "Edit3",
-      },
-      {
-        name: "Sugestões",
-        href: `/${segments[0]}/sugestoes`,
-        isActive: segments.includes("sugestoes"),
         icon: "Edit3",
       },
     ];

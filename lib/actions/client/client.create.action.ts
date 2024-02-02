@@ -10,7 +10,8 @@ export const createClient = async (id: string) => {
         user: {
           connect: {
             id,
-          },        },
+          },
+        },
       },
     });
 

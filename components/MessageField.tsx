@@ -1,30 +1,32 @@
-"use client";
-
+import { createMessage } from "@/lib/actions/message/message.create.action";
 import { Button, Card, Input } from "@nextui-org/react";
-import axios from "axios";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 interface MessageFieldProps {
   roomId: string;
+  userId: string;
 }
 
-const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
-    const [input, setInput] = useState<string>("");
+const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
 
-  const sendMessage = async (text: string) => {
-    await axios.post("/api/message", { text, roomId });
+  const sendMessage = async (formData: FormData) => {
+    "use server"
+    const text = formData.get("message") as string;
+    await createMessage(text, userId, roomId );
   };
 
   return (
-    <Card className="flex w-full p-4 gap-2 flex-row items-center justify-center">
-      <Input
-        onChange={({ target }) => setInput(target.value)}
-        radius="full"
-        placeholder="Escreva sua mensagem"
-        type="text"
-      />
-      <Button onClick={() => sendMessage(input || "")}>Enviar</Button>
-    </Card>
+    <form className="w-full" action={sendMessage}>
+      <Card className="flex w-full flex-row items-center justify-center gap-2 p-4">
+        <Input
+          name="message"
+          radius="full"
+          placeholder="Escreva sua mensagem"
+          type="text"
+        />
+        <Button type="submit">Enviar</Button>
+      </Card>
+    </form>
   );
 };
 

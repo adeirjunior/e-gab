@@ -30,7 +30,7 @@ model User {
   isActive         Boolean        @default(false)
   stripeCustomerId String?        @unique
   subscriptions    Subscription[]
-  clientId         String?
+  clientId         String? @unique
   message          Message[]
 }
 
@@ -44,7 +44,7 @@ model Client {
   id        String     @id @default(cuid()) @map("_id")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  user      User[]
+  user      User?
   chatRoom  ChatRoom[]
 }
 

@@ -46,6 +46,27 @@ export async function getWebsiteByUserId(userId: string) {
   }
 }
 
+export async function getWebsiteBySubdomain(subdomain: string) {
+  try {
+    const website = await prisma.website.findUnique({
+      where: { subdomain },
+    });
+
+    if (!website) {
+      console.log("Website não encontrado.");
+      return null;
+    }
+
+    console.log("Site encontrado:", website.name);
+    return website;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function getPoliticianSiteByUser(userId: string) {
   try {
     const user = await prisma.user.findUnique({
