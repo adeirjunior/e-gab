@@ -1,5 +1,5 @@
 p, h1, h2, h3, h4, h5 ,h6, div {
-    @apply text-gray-300
+    @apply dark:text-gray-300
 }
 
 .ce-popover, .ce-popover-item__icon, .ce-toolbar__plus, .ce-toolbar__settings-btn, .cdx-checklist__item-checkbox-check, .cdx-quote  {

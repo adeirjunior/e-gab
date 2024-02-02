@@ -24,10 +24,10 @@ export default async function App() {
   return (
     <>
       <div className="my-8 flex flex-col gap-4 text-center">
-        <h1 className="text-3xl font-bold text-gray-200">
+        <h1 className="text-3xl font-bold dark:text-gray-200">
           Bem-vindo ao E-Gab!
         </h1>
-        <p className="text-lg font-semibold text-gray-200">
+        <p className="text-lg font-semibold dark:text-gray-200">
           Faça as configurações iniciais necessárias pra começar a usar nossa
           plataforma.
         </p>
