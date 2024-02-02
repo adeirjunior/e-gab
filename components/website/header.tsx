@@ -75,6 +75,68 @@ export default function Header({
                 radius="sm"
                 variant="light"
               >
+                Parlamentar
+              </Button>
+            </DropdownTrigger>
+          </NavbarItem>
+          <DropdownMenu
+            aria-label="ACME features"
+            className="w-[340px]"
+            itemClasses={{
+              base: "gap-4",
+            }}
+          >
+            <DropdownItem
+              as={Link}
+              href="/agenda"
+              key="autoscaling"
+              description="ACME scales apps to meet user demand, automagically, based on load."
+            >
+              Agenda
+            </DropdownItem>
+            <DropdownItem
+              as={Link}
+              href="/bibliografia"
+              key="usage_metrics"
+              description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
+            >
+              Bibliografia
+            </DropdownItem>
+            <DropdownItem
+              as={Link}
+              href="/emendas"
+              key="production_ready"
+              description="ACME runs on ACME, join us and others serving requests at web scale."
+            >
+              Emendas
+            </DropdownItem>
+            <DropdownItem
+              as={Link}
+              href="/galeria"
+              key="99_uptime"
+              description="Applications stay on the grid with high availability and high uptime guarantees."
+            >
+              Galeria
+            </DropdownItem>
+            <DropdownItem
+              as={Link}
+              href="/projetos"
+              key="99_utime"
+              description="Applications stay on the grid with high availability and high uptime guarantees."
+            >
+              Projetos
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <Dropdown>
+          <NavbarItem>
+            <DropdownTrigger>
+              <Button
+                disableRipple
+                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                radius="sm"
+                variant="light"
+              >
                 Utilidades
               </Button>
             </DropdownTrigger>
@@ -120,11 +182,29 @@ export default function Header({
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <NavbarItem as={Link} href="/contato" isActive>
-          Contato
+        <NavbarItem isActive>
+          <Button
+            as={Link}
+            disableRipple
+            className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+            radius="sm"
+            variant="light"
+            href="/contato"
+          >
+            Contato
+          </Button>
         </NavbarItem>
-        <NavbarItem as={Link} href="/posts">
+        <NavbarItem>
+          <Button
+            as={Link}
+            disableRipple
+            className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+            radius="sm"
+            variant="light"
+            href="/posts"
+          >
             Posts
+          </Button>
         </NavbarItem>
       </NavbarContent>
 
@@ -155,7 +235,9 @@ export default function Header({
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => signOut({ redirect: false }).finally(() => router.push("/"))}
+                onClick={() =>
+                  signOut({ redirect: false }).finally(() => router.push("/"))
+                }
               >
                 Sair
               </DropdownItem>
