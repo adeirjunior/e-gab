@@ -1,6 +1,15 @@
-import SectionHeadingTitles from "./section-heading-titles"
 
-export default function StatsGrid() {
+import SectionHeadingTitles from "./section-heading-titles"
+import prisma from "@/lib/configs/prisma";
+
+export default async function StatsGrid({websiteId}: {websiteId: string}) {
+
+  const lawCount = await prisma.law.count({
+    where: {
+      websiteId
+    }
+  })
+
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
@@ -21,7 +30,7 @@ export default function StatsGrid() {
               </dt>
 
               <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                $4.8m
+                {lawCount}
               </dd>
             </div>
 

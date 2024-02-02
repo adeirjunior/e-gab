@@ -56,3 +56,39 @@ export async function getLawData(domain: string, slug: string) {
     },
   )();
 }
+
+
+export async function getLawsForSite(domain: string) {
+  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+    : null;
+
+  return await unstable_cache(
+    async () => {
+      return prisma.law.findMany({
+        where: {
+          website: subdomain ? { subdomain } : { customDomain: domain },
+          published: true,
+        },
+        select: {
+          title: true,
+          description: true,
+          slug: true,
+          image: true,
+          imageBlurhash: true,
+          createdAt: true,
+        },
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
+      });
+    },
+    [`${domain}-laws`],
+    {
+      revalidate: 900,
+      tags: [`${domain}-laws`],
+    },
+  )();
+}

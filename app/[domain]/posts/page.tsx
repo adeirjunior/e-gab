@@ -3,7 +3,6 @@ import { getPostsForSite } from "@/lib/fetchers/post";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Posts",
