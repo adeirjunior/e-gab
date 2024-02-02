@@ -1,14 +1,6 @@
 import {
-  Button,
   Card,
-  Input,
-  Select,
-  SelectItem,
 } from "@nextui-org/react";
-import { AtSign, Instagram, Youtube } from "lucide-react";
-import Facebook from "@/components/website/svg/facebook.svg";
-import Tiktok from "@/components/website/svg/tiktok.svg";
-import Twitter from "@/components/website/svg/twitter.svg";
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";

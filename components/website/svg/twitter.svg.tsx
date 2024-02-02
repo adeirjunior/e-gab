@@ -1,4 +1,4 @@
-export default function Twitter({className}: {className: React.ReactNode}) {
+export default function Twitter({className}: {className?: React.ReactNode}) {
   return (
     <svg
       width="1200"
