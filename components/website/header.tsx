@@ -19,17 +19,16 @@ import {
 } from "@nextui-org/react";
 import { Website } from "@prisma/client";
 import { Cross } from "hamburger-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function Header({
-  data,
-  user,
+  data
 }: {
   data: Website;
-  user: {id: string, email: string}
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const menuItems = [
     "Profile",
@@ -128,7 +127,7 @@ export default function Header({
       </NavbarContent>
 
       <NavbarContent justify="end">
-        {user?.id ? (
+        {status === "authenticated" ? (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
@@ -141,7 +140,7 @@ export default function Header({
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{user.email}</p>
+                <p className="font-semibold">{session.user?.email}</p>
               </DropdownItem>
               <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem key="team_settings">Team Settings</DropdownItem>

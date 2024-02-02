@@ -66,7 +66,6 @@ export default async function SiteLayout({
 }) {
   const domain = decodeURIComponent(params.domain);
   const data = await getSiteData(domain);
-  const session = await getSession()
 
   if (!data) {
     notFound();
@@ -83,7 +82,7 @@ export default async function SiteLayout({
   return (
     <NextThemeProvider attribute="class" defaultTheme="light">
       <div className={fontMapper[data.font]}>
-        <Header data={data} user={session?.user!} />
+        <Header data={data}  />
 
         <div className="container mt-20">{children}</div>
 
