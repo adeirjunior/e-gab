@@ -9,7 +9,7 @@ export function getCurrentDomain(subdomain?: string, path?: string) {
   const isDev = process.env.NODE_ENV === "development";
   const protocol = isDev ? "http://" : "https://";
   const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
-  return `${protocol}${subdomain && `${subdomain}.`}${domain}${path ?? ""}`;
+  return `${protocol}${subdomain ? `${subdomain}.` : ''}${domain}${path ?? ""}`;
 }
 
 export function cn(...inputs: ClassValue[]) {
