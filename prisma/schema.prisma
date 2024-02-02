@@ -30,7 +30,7 @@ model User {
   isActive         Boolean        @default(false)
   stripeCustomerId String?        @unique
   subscriptions    Subscription[]
-  clientId         String? @unique
+  clientId         String?        @unique
   message          Message[]
 }
 
@@ -239,6 +239,7 @@ model Website {
   user          User[]
   contactId     String
   ChatRoom      ChatRoom[]
+  socialMedia   SocialMedia[]
 }
 
 model Contact {
@@ -248,6 +249,25 @@ model Contact {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   website   Website[]
+}
+
+model SocialMedia {
+  id        String            @id @default(cuid()) @map("_id")
+  type      SocialMediaTypes? @unique
+  handle    String?
+  link      String?
+  website   Website           @relation(fields: [websiteId], references: [id])
+  websiteId String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+enum SocialMediaTypes {
+  facebook
+  twitter
+  instagram
+  youtube
+  tiktok
 }
 
 model Proposal {
@@ -387,18 +407,18 @@ model Survey {
 }
 
 model ChatRoom {
-  id           String     @id @default(cuid())
+  id           String      @id @default(cuid())
   messages     Message[]
-  website      Website    @relation(fields: [websiteId], references: [id])
-  client       Client     @relation(fields: [clientId], references: [id])
-  secretary    Secretary? @relation(fields: [secretaryId], references: [id])
+  website      Website     @relation(fields: [websiteId], references: [id])
+  client       Client      @relation(fields: [clientId], references: [id])
+  secretary    Secretary?  @relation(fields: [secretaryId], references: [id])
   politician   Politician? @relation(fields: [politicianId], references: [id])
   clientId     String
   secretaryId  String?
   politicianId String?
   websiteId    String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Message {
