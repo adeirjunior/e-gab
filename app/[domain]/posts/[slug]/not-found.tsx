@@ -14,7 +14,7 @@ export default async function NotFound() {
     <div className="flex flex-col items-center justify-center">
       <h1 className="font-cal text-4xl">{data ? `${data.name}: ` : ""}404</h1>
       <Image
-        alt="missing site"
+        alt="missing post"
         src="https://illustrations.popsy.co/gray/timed-out-error.svg"
         width={400}
         height={400}
@@ -22,7 +22,7 @@ export default async function NotFound() {
       <p className="text-lg text-stone-500">
         {data && data.message404
           ? decodeUTF8(data.message404)
-          : "Você encontrou um site que não existe."}
+          : "Você encontrou um post que não existe."}
       </p>
     </div>
   );

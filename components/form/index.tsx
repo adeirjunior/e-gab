@@ -23,6 +23,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { Suspense } from "react";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function Form({
   title,
@@ -44,9 +45,9 @@ export default function Form({
   };
   handleSubmit: any;
 }) {
-  const { id } = useParams() as { id?: string };
   const router = useRouter();
   const { update } = useSession();
+
   return (
     <form
       action={async (data: FormData) => {
@@ -58,18 +59,14 @@ export default function Form({
         ) {
           return;
         }
-        handleSubmit(data, id, inputAttrs.name).then(async (res: any) => {
+        handleSubmit(data, inputAttrs.name).then(async (res: any) => {
           if (res.error) {
             toast.error(res.error);
             console.error(res.error);
           } else {
-            va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
-            if (id) {
-              router.refresh();
-            } else {
+            va.track(`Updated ${inputAttrs.name}`);
               await update();
               router.refresh();
-            }
             toast.success(`Atualizado ${inputAttrs.name} com sucesso!`);
           }
         });
@@ -200,6 +197,7 @@ export default function Form({
             </Suspense>
           ) : (
             <Input
+              {...inputAttrs}
               variant="bordered"
               radius="sm"
               isRequired

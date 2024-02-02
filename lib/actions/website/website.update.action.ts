@@ -1,21 +1,32 @@
 "use server";
 
-import { withSiteAuth } from "@/lib/auth";
 import {
   addDomainToVercel,
   removeDomainFromVercelProject,
   validDomainRegex,
 } from "@/lib/domains";
-import { Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { getSession } from "@/lib/auth/get-session";
 
-export const updateSite = withSiteAuth(
-  async (formData: FormData, site: Website, key: string) => {
+export const updateSite = async (
+  formData: FormData,
+  key: string,
+) => {
+  const session = await getSession();
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
     const value = formData.get(key) as string;
+const site = await getWebsiteByUserId(session.user.id); 
+
+
 
     try {
       let response;
@@ -28,7 +39,7 @@ export const updateSite = withSiteAuth(
         } else if (validDomainRegex.test(value)) {
           response = await prisma.website.update({
             where: {
-              id: site.id,
+              id: site?.id,
             },
             data: {
               customDomain: value,
@@ -41,15 +52,15 @@ export const updateSite = withSiteAuth(
         } else if (value === "") {
           response = await prisma.website.update({
             where: {
-              id: site.id,
+              id: site?.id,
             },
             data: {
               customDomain: null,
             },
           });
         }
-        if (site.customDomain && site.customDomain !== value) {
-          response = await removeDomainFromVercelProject(site.customDomain);
+        if (site?.customDomain && site?.customDomain !== value) {
+          response = await removeDomainFromVercelProject(site?.customDomain);
 
           /* Optional: remove domain from Vercel team 
 
@@ -103,7 +114,7 @@ export const updateSite = withSiteAuth(
 
         response = await prisma.website.update({
           where: {
-            id: site.id,
+            id: site?.id,
           },
           data: {
             [key]: url,
@@ -113,7 +124,7 @@ export const updateSite = withSiteAuth(
       } else {
         response = await prisma.website.update({
           where: {
-            id: site.id,
+            id: site?.id,
           },
           data: {
             [key]: value,
@@ -122,14 +133,14 @@ export const updateSite = withSiteAuth(
       }
       console.log(
         "Updated site data! Revalidating tags: ",
-        `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-        `${site.customDomain}-metadata`,
+        `${site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
+        `${site?.customDomain}-metadata`,
       );
       revalidateTag(
-        `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
+        `${site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
       );
-      site.customDomain &&
-        (revalidateTag(`${site.customDomain}-metadata`));
+      site?.customDomain &&
+        (revalidateTag(`${site?.customDomain}-metadata`));
 
       return response;
     } catch (error: any) {
@@ -143,5 +154,4 @@ export const updateSite = withSiteAuth(
         };
       }
     }
-  },
-);
+  }

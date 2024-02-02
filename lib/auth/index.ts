@@ -10,6 +10,7 @@ export function withSiteAuth(action: any) {
         error: "Não autentificado",
       };
     }
+    console.log(key)
     const checkUser = await prisma.user.findUnique({
       where: {
         id: session.user.id,

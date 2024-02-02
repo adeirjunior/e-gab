@@ -81,7 +81,7 @@ export default async function SiteHomePage({
         )}
       </div>
 
-      {proposals.length >= 1 && (
+      {proposals.length > 0 && (
         <section>
           <SectionHeadingTitles
           id="propostas"
