@@ -45,6 +45,7 @@ export default function Form({
   };
   handleSubmit: any;
 }) {
+  const { id } = useParams() as { id?: string };
   const router = useRouter();
   const { update } = useSession();
 
@@ -59,7 +60,7 @@ export default function Form({
         ) {
           return;
         }
-        handleSubmit(data, inputAttrs.name).then(async (res: any) => {
+        handleSubmit(data, id, inputAttrs.name).then(async (res: any) => {
           if (res.error) {
             toast.error(res.error);
             console.error(res.error);
