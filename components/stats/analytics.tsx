@@ -40,11 +40,11 @@ const chartdata = [
 ];
 
 const pages = [
-  { name: "/platforms-starter-kit", value: 1230 },
-  { name: "/vercel-is-now-bercel", value: 751 },
-  { name: "/nextjs-conf", value: 471 },
-  { name: "/150m-series-d", value: 280 },
-  { name: "/about", value: 78 },
+  { name: "/", value: 1230 },
+  { name: "/agenda", value: 751 },
+  { name: "/ouvidoria", value: 471 },
+  { name: "/posts", value: 280 },
+  { name: "/sobre", value: 78 },
 ];
 
 const referrers = [
@@ -68,8 +68,8 @@ const countries = [
 
 const categories = [
   {
-    title: "Top Pages",
-    subtitle: "Page",
+    title: "Páginas Principais",
+    subtitle: "Página",
     data: pages,
   },
   {
@@ -86,9 +86,9 @@ const categories = [
 
 export default function AnalyticsMockup() {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 w-full">
       <Card>
-        <Title>Visitors</Title>
+        <Title>Visitantes</Title>
         <AreaChart
           className="mt-4 h-72"
           data={chartdata}
@@ -109,7 +109,7 @@ export default function AnalyticsMockup() {
                 <Bold>{subtitle}</Bold>
               </Text>
               <Text>
-                <Bold>Visitors</Bold>
+                <Bold>Visitantes</Bold>
               </Text>
             </Flex>
             <BarList
