@@ -5,6 +5,7 @@ import { Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth/get-session";
+import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
   const session = await getSession();
@@ -13,6 +14,15 @@ export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
       error: "Not authenticated",
     };
   }
+
+  const hasSub = await hasSubscription();
+
+  if (!hasSub) {
+    return {
+      error: `Você precisa assinar um plano para realizar este comando.`,
+    };
+  }
+
   const response = await prisma.event.create({
     data: {
       websiteId: site.id,

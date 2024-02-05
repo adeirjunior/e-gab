@@ -6,9 +6,19 @@ import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
+import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
+
+    const hasSub = await hasSubscription();
+
+    if (!hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
+      };
+    }
+
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const content = formData.get("content") as string;
@@ -53,6 +63,15 @@ export const updatePost = withPostAuth(async (formData, post) => {
 
 
 export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
+
+  const hasSub = await hasSubscription();
+
+  if (!hasSub) {
+    return {
+      error: `Você precisa assinar um plano para realizar este comando.`,
+    };
+  }
+  
   const value = formData.get(key) as string;
 
   try {

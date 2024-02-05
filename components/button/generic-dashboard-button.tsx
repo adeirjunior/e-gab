@@ -47,9 +47,16 @@ export default function GenericDashboardButton({
           throw new Error("Função create() indefinida.");
         }
         const data = await create(null, null);
-        va.track(`Created ${path}`);
+
+        if('error' in data) {
+          toast.error(data.error)
+        } else {
+           va.track(`Created ${path}`);
         router.refresh();
         router.push(`/conteudos/${path}/${data.id}`);
+        }
+
+       
       }
     });
   };

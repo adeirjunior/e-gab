@@ -8,8 +8,18 @@ import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
+import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updateLaw = async (data: Law) => {
+
+  const hasSub = await hasSubscription();
+
+  if (!hasSub) {
+    return {
+      error: `Você precisa assinar um plano para realizar este comando.`,
+    };
+  }
+
   const session = await getSession();
   if (!session?.user.id) {
     return {
