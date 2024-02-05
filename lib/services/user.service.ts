@@ -1,5 +1,5 @@
 import prisma from "@/lib/configs/prisma";
-import { AuthenticatedUser } from "../types";
+import { AuthenticatedUser } from "../types/types";
 import { compare } from "bcrypt-ts";
 
 export type ErrorType = {

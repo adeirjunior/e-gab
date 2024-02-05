@@ -35,6 +35,8 @@ model User {
 }
 
 enum UserRole {
+  Admin
+  Manager
   Politician
   Secretary
   Client

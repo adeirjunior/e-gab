@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "./config";
+import { UserRole } from "@prisma/client";
 
 export async function getSession() {
   return getServerSession(authOptions) as Promise<{
@@ -12,6 +13,7 @@ export async function getSession() {
       email: string;
       image: string;
       stripeCustomerId: string;
+      role: UserRole
     };
   } | null>;
 }

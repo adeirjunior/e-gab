@@ -1,6 +1,7 @@
 import LandingPage from "@/components/landing-page/landing-page";
 import { Image } from "@nextui-org/react";
 import { Metadata } from "next";
+import Timeline from "../../../components/landing-page/timeline";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -111,6 +112,8 @@ export default function HomePage() {
           </div>
         </section>
       </section>
+
+      <Timeline />
 
       <section className="bg-white py-20">
         <div className="mx-auto flex max-w-7xl flex-col space-y-12 px-8 xl:px-12">

@@ -3,15 +3,15 @@ import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions/user/user.update.action";
 import CurrentActivePlanCard from "@/components/card/current-active-plan-card";
-import { getUserRole } from "@/lib/fetchers/user";
 
 export default async function SettingsPage() {
   const session = await getSession();
+
   if (!session) {
     redirect("/login");
   }
 
-  const userRole = await getUserRole(session.user.id)
+  const user = session.user
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -26,7 +26,7 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "name",
             type: "text",
-            defaultValue: session.user.name!,
+            defaultValue: user.name!,
             placeholder: "Brendon Urie",
             maxLength: 32,
           }}
@@ -39,12 +39,12 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "email",
             type: "email",
-            defaultValue: session.user.email!,
+            defaultValue: user.email!,
             placeholder: "panic@thedis.co",
           }}
           handleSubmit={editUser}
         />
-        {userRole === "Politician" ? (
+        {user.role === "Politician" ? (
           <CurrentActivePlanCard session={session} plan="Grátis" />
         ) : (
           ""

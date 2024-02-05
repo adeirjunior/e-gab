@@ -4,7 +4,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/configs/prisma";
 import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
-import { AuthenticatedUser } from "../types";
+import { AuthenticatedUser } from "../types/types";
 import { ErrorType, userService } from "../services/user.service";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
@@ -15,7 +15,7 @@ type UserCredentialsConfig<T> = {
   authorize: (
     credentials: Record<string, string> | undefined,
     req: any,
-  ) => Promise<any>; // ajuste de acordo com sua implementação real
+  ) => Promise<any>;
 };
 
 export const authOptions: NextAuthOptions = {
@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
-    error: "/login", // Error code passed in query string as ?error=
+    error: "/login", 
     newUser: "/new",
   },
   adapter: PrismaAdapter(prisma),
@@ -84,10 +84,6 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        // AVISO! Remover a marcação de comentário ira fazer que os cookies sejam compartilhados entre subdominios!
-        //domain: VERCEL_DEPLOYMENT
-        //  ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-        //  : undefined,
         secure: VERCEL_DEPLOYMENT,
       },
     },
@@ -102,19 +98,34 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: async ({ token, user }) => {
       if (user) {
-        token.user = user;
+        const dbUser = await prisma.user.findUnique({
+          where: {
+            id: user.id
+          }
+        })
+
+        token.user = user as any;
+
+        if (!dbUser) {
+          return token
+        }
+        
+        token.user.role = dbUser.role
       }
+
       return token;
     },
     session: async ({ session, token }) => {
-      session.user = {
-        ...session.user,
-        // @ts-expect-error
-        stripeCustomerId: token?.user?.stripeCustomerId,
-        id: token.sub,
-        // @ts-expect-error
-        username: token?.user?.username || token?.user?.gh_username,
-      };
+      if (token) {
+        session.user = {
+          ...session.user,
+          stripeCustomerId: token.user.stripeCustomerId,
+          id: token.user.id,
+          username: token.user.username || token.user.gh_username,
+          role: token.user.role,
+        };
+      }
+
       return session;
     },
   },
