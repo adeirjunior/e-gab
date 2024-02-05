@@ -4,7 +4,6 @@ import { getSession } from "@/lib/auth/get-session";
 
 export default async function page() {
   const session = await getSession()
-  const stripeCustomerId = await createCustomerIfNull(session) as string;
   const hasSub = await hasSubscription()
   return (
     <div className="p-8">

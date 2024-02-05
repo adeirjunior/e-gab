@@ -3,6 +3,7 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updateContact = async (
   formData: FormData,
@@ -15,6 +16,14 @@ export const updateContact = async (
       error: "Not authenticated",
     };
   }
+  const hasSub = await hasSubscription()
+
+  if(!hasSub) {
+    return {
+      error: `Você precisa assinar um plano para realizar este comando.`,
+    };
+  }
+  
   const value = formData.get(key) as string;
 
   try {
@@ -28,6 +37,7 @@ export const updateContact = async (
         [key]: value,
       },
     });
+
     return response;
   } catch (error: any) {
     if (error.code === "P2002") {

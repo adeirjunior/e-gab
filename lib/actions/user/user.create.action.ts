@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/configs/prisma";
+import { stripe } from "@/lib/configs/stripe";
 import { Prisma, User } from "@prisma/client";
 
 export const createUser: (
@@ -16,7 +17,21 @@ export const createUser: (
         password,
       },
     });
-    return user;
+
+    const customer = await stripe.customers.create({
+      email: String(user?.email),
+    });
+
+    const user2 = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        stripeCustomerId: customer.id,
+      },
+    });
+
+    return user2;
   } catch (e: any) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
