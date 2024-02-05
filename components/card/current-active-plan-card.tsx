@@ -22,7 +22,7 @@ export default async function CurrentActivePlanCard({
   const checkout_link = await createCheckoutLink(stripeCustomerId) as string;
 
   const hasSub = await hasSubscription();
-
+  
   return (
     <div className="rounded-lg border border-stone-200 bg-white dark:border-stone-700 dark:bg-black">
       <div className="relative flex flex-col space-y-4 p-5 sm:p-10">
