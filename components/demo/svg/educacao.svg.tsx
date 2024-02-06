@@ -1,9 +1,9 @@
 export default function EducacaoSvg() {
   return (
     <svg
-      width="280"
-      height="280"
       viewBox="0 0 280 280"
+      className="w-full max-w-[410px] lg:min-w-[410px]"
+      preserveAspectRatio="xMinYMin meet"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

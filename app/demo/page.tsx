@@ -55,7 +55,7 @@ export default function Page() {
         possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis
         odio. Numquam, laboriosam."
           />
-          <div className="mx-auto grid w-fit grid-cols-2 place-content-center gap-6 sm:grid-cols-4">
+          <div className="mx-auto grid w-fit grid-cols-2 place-content-center gap-2 sm:grid-cols-4">
             {workNumberCardData.map((item, index) => (
               <WorkNumberCard key={index} data={item} />
             ))}
