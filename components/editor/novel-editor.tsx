@@ -139,21 +139,21 @@ export default function Editor({ post }: { post: PostWithSite }) {
         <input
           type="text"
           placeholder="Título"
-          defaultValue={post?.title || ""}
+          defaultValue={post.title || ""}
           autoFocus
           onChange={(e) => setData({ ...data, title: e.target.value })}
           className="dark:placeholder-text-600 font-cal border-none px-0 text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <TextareaAutosize
           placeholder="Descrição"
-          defaultValue={post?.description || ""}
+          defaultValue={post.description || ""}
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <NovelEditor
           className="relative block"
           disableLocalStorage
-          defaultValue={post?.content || undefined}
+          defaultValue={post.content || undefined}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,
