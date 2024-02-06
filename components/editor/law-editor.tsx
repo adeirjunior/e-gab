@@ -81,7 +81,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
   };
 
   return (
-    <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg dark:border-stone-700">
+    <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 dark:border-stone-700 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg">
       <div className="absolute right-5 top-5 mb-5 flex items-center space-x-3">
         {data.published && (
           <a
@@ -131,7 +131,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
           defaultValue={law?.title || ""}
           autoFocus
           onChange={(e) => setData({ ...data, title: e.target.value })}
-          className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
+          className="dark:placeholder-text-600 font-cal border-none px-0 text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <TextareaAutosize
           placeholder="Descrição"
@@ -141,6 +141,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         />
         <NovelEditor
           className="relative block"
+          disableLocalStorage
           defaultValue={law?.content || undefined}
           onUpdate={(editor) => {
             setData((prev) => ({

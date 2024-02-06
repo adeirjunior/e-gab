@@ -95,7 +95,7 @@ export default function App() {
         />
       </NavbarContent>
 
-      <NavbarContent className="pr-3 sm:hidden" justify="center">
+      <NavbarContent className="sm:hidden" justify="center">
         <NavbarBrand>
           <Link href="/">
             {" "}
