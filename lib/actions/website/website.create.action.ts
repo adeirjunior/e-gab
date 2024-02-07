@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { createPolitician } from "../politician/politician.create.action";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
+import cloudinary from "@/lib/configs/cloudinary";
 
 export const createSite = async (formData: FormData) => {
   const session = await getSession();
@@ -30,6 +31,7 @@ export const createSite = async (formData: FormData) => {
         name,
         description,
         subdomain,
+        cloudinaryDir: "",
         politicianId: politician.id,
         user: {
           connect: {
@@ -41,6 +43,16 @@ export const createSite = async (formData: FormData) => {
         }
       },
     });
+
+    await prisma.website.update({
+      where: {
+        id: response.id
+      },
+      data: {
+        cloudinaryDir: `E-Gab/Websites/Website ${response.id}`
+      }
+    })
+
     revalidateTag(
       `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
     );
