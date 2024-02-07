@@ -46,6 +46,9 @@ model Client {
   id        String     @id @default(cuid()) @map("_id")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  cpf       String?
+  tel       String?
+  address   String?
   user      User?
   chatRoom  ChatRoom[]
 }
@@ -225,6 +228,7 @@ model Website {
   subdomain     String?       @unique
   customDomain  String?       @unique
   message404    String        @default("Parabéns! Você encontrou uma página que não existe.")
+  cloudinaryDir String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   contact       Contact       @relation(fields: [contactId], references: [id])
@@ -409,18 +413,35 @@ model Survey {
 }
 
 model ChatRoom {
-  id           String      @id @default(cuid())
-  messages     Message[]
-  website      Website     @relation(fields: [websiteId], references: [id])
-  client       Client      @relation(fields: [clientId], references: [id])
-  secretary    Secretary?  @relation(fields: [secretaryId], references: [id])
-  politician   Politician? @relation(fields: [politicianId], references: [id])
-  clientId     String
-  secretaryId  String?
-  politicianId String?
-  websiteId    String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id            String         @id @default(cuid())
+  title         String
+  description   String
+  address       String
+  neighborhood  String
+  cep           String
+  quality       Int            @default(0)
+  startingFiles String[]
+  clientId      String
+  secretaryId   String?
+  politicianId  String?
+  websiteId     String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  messages      Message[]
+  website       Website        @relation(fields: [websiteId], references: [id])
+  client        Client         @relation(fields: [clientId], references: [id])
+  secretary     Secretary?     @relation(fields: [secretaryId], references: [id])
+  politician    Politician?    @relation(fields: [politicianId], references: [id])
+  status        ChatRoomStatus @default(pending)
+}
+
+enum ChatRoomStatus {
+  pending
+  accepted
+  denied
+  active
+  completed
+  disabled
 }
 
 model Message {

@@ -2,11 +2,12 @@ import { createChatRoom } from "@/lib/actions/chatRoom/chatRoom.create.action";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
-import { Button, Card, Link } from "@nextui-org/react";
+import { Button, Card, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import { Grid, Title } from "@tremor/react";
+import FormModal from "./form-modal";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",
@@ -49,10 +50,10 @@ export default async function Page({ params }: { params: { domain: string } }) {
     return null;
   }
 
-  const createRoom = async () => {
+  const createRoom = async (formData: FormData) => {
     "use server";
 
-    const response = await createChatRoom(client.clientId!, website.id!);
+    const response = await createChatRoom(client.clientId!, website.id!, formData);
 
     if ("error" in response) {
       console.error(response.error);
@@ -79,9 +80,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
       </Grid>
 
       <form action={createRoom}>
-        <Button type="submit" radius="full">
-          Criar Sala
-        </Button>
+        <FormModal />
       </form>
     </Card>
   );
