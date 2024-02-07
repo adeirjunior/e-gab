@@ -1,6 +1,5 @@
 import { createMessage } from "@/lib/actions/message/message.create.action";
 import { Button, Card, Input } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 interface MessageFieldProps {
