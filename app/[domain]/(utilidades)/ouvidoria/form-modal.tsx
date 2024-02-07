@@ -143,8 +143,6 @@ export default function FormModal() {
                         className="mt-2"
                       />
                     </div>
-
-                  <Divider />
                 </div>
               </ModalBody>
               <ModalFooter>
