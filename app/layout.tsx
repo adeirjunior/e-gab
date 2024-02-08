@@ -4,8 +4,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "@govbr-ds/core/dist/core.min.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const title = "Meu Gabinete";
