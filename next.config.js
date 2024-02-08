@@ -9,11 +9,18 @@ const nextConfig = {
     },
   },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { hostname: "cdngovbr-ds.estaleiro.serpro.gov.br" },
       { hostname: "public.blob.vercel-storage.com" },
       { hostname: "be6gfqnmzh19ics7.public.blob.vercel-storage.com" },
       { hostname: "res.cloudinary.com" },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/my-account/**",
+      },
       { hostname: "abs.twimg.com" },
       { hostname: "pbs.twimg.com" },
       { hostname: "avatar.vercel.sh" },

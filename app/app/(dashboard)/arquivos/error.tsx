@@ -12,7 +12,7 @@ export default function Error({
 }) {
 
   useEffect(() => {
-    console.error(error);
+    console.error(`Mensagem de erro a seguir: ${JSON.stringify(error)}`);
   }, [error]);
 
   return (

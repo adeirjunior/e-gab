@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { createPolitician } from "../politician/politician.create.action";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
-import cloudinary from "@/lib/configs/cloudinary";
+import { createWebsiteFolder } from "../image/image.create.action";
 
 export const createSite = async (formData: FormData) => {
   const session = await getSession();
@@ -52,6 +52,8 @@ export const createSite = async (formData: FormData) => {
         cloudinaryDir: `E-Gab/Websites/Website ${response.id}`
       }
     })
+
+    await createWebsiteFolder(response.id)
 
     revalidateTag(
       `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,

@@ -121,7 +121,30 @@ export const getTabs = (segments: string[], id: string | undefined) => {
         icon: "Edit3",
       },
     ];
+  } else if (segments[0] === "arquivos") {
+    return [
+      { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
+      {
+        name: "Galeria",
+        href: `/${segments[0]}`,
+        isActive: segments.length === 1,
+        icon: "GalleryHorizontal",
+      },
+      {
+        name: "Albums",
+        href: `/${segments[0]}/albums`,
+        isActive: segments.includes("albums"),
+        icon: "Album",
+      },
+      {
+        name: "Favoritos",
+        href: `/${segments[0]}/favoritos`,
+        isActive: segments.includes("favoritos"),
+        icon: "Heart",
+      },
+    ];
   }
+
 
   return [
     {
@@ -141,6 +164,12 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       href: `/conteudos`,
       isActive: segments.includes("conteudos"),
       icon: "Newspaper",
+    },
+    {
+      name: "Arquivos",
+      href: `/arquivos`,
+      isActive: segments.includes("arquivos"),
+      icon: "Files",
     },
     {
       name: "Estatísticas",
