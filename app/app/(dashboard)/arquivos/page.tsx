@@ -1,6 +1,5 @@
 import cloudinary from "@/lib/configs/cloudinary";
 import { ImageProps } from "@/lib/types/types";
-import getBase64ImageUrl from "@/lib/utils/generateBlurPlaceholder";
 import Bridge from "@/components/icons/Bridge";
 import Logo from "@/components/icons/Logo";
 import Gallery from "./gallery";
@@ -28,12 +27,6 @@ const results = await cloudinary.v2.search
     return result;
   })
   .catch((err) => console.log(err));
-
-  const blurImagePromises = results.resources.map((image: ImageProps) => {
-    return getBase64ImageUrl(image);
-  });
-
-  const imagesWithBlurDataUrls = await Promise.all(blurImagePromises);
 
   return (
     <main className="mx-auto max-w-[1960px] p-4">
@@ -64,7 +57,6 @@ const results = await cloudinary.v2.search
         </div>
         <Gallery
           results={results}
-          imagesWithBlurDataUrls={imagesWithBlurDataUrls}
         />
       </div>
     </main>

@@ -3,18 +3,15 @@
 import Modal from "@/components/ModalC";
 import { useLastViewedPhoto } from "@/lib/utils/useLastViewedPhoto";
 import Link from "next/link";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { ImageProps } from "@/lib/types/types";
-import { getCurrentDomain } from "@/lib/utils";
+import { Image } from "@nextui-org/react";
 
 export default function Gallery({
   results,
-  imagesWithBlurDataUrls,
 }: {
   results: any;
-  imagesWithBlurDataUrls: any;
 }) {
   const searchParams = useSearchParams();
   const [images, setImages] = useState<ImageProps[]>([]);
@@ -30,11 +27,10 @@ export default function Gallery({
       width: result.width,
       public_id: result.public_id,
       format: result.format,
-      blurDataUrl: imagesWithBlurDataUrls[i],
     }));
 
     setImages(newImages);
-  }, [results.resources, imagesWithBlurDataUrls]);
+  }, [results.resources]);
 
   useEffect(() => {
     if (lastViewedPhoto && !photoId && lastViewedPhotoRef.current) {
@@ -54,7 +50,7 @@ export default function Gallery({
           }}
         />
       )}
-      {images.map(({ id, public_id, format, blurDataUrl }) => (
+      {images.map(({ id, public_id, format }) => (
         <Link
           key={id}
           href={`/arquivos?photoId=${id}`}
@@ -67,8 +63,6 @@ export default function Gallery({
             alt="Next.js Conf photo"
             className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
             style={{ transform: "translate3d(0, 0, 0)" }}
-            placeholder="blur"
-            blurDataURL={blurDataUrl}
             src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${public_id}.${format}`}
             width={720}
             height={480}

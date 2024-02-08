@@ -1,6 +1,5 @@
 import { ImageProps } from "@/lib/types/types";
 import getResults from "@/lib/utils/cachedImages";
-import getBase64ImageUrl from "@/lib/utils/generateBlurPlaceholder";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/get-session";
@@ -30,12 +29,10 @@ const Home = async ({ params }: { params: { photoId: string } }) => {
     notFound();
   }
 
-  const blurDataUrl = await getBase64ImageUrl(photo);
-
   return (
     <>
       <main className="mx-auto max-w-[1960px] p-4">
-        <CarouselWrapper blurDataUrl={blurDataUrl} photo={photo} photoId={params.photoId} />
+        <CarouselWrapper photo={photo} photoId={params.photoId} />
       </main>
     </>
   );
