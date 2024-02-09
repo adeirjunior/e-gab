@@ -1,9 +1,24 @@
 "use server";
 
+import { getSession } from "@/lib/auth/get-session";
 import cloudinary from "@/lib/configs/cloudinary";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { revalidatePath } from "next/cache";
 
 export async function create(formData: FormData) {
+  const session = await getSession()
+
+  if(!session) {
+    throw new Error("Erro")
+  }
+
+  const website =await  getWebsiteByUserId(session.user.id)
+
+   if (!website) {
+     throw new Error("Erro");
+   }
+
+  
   const file = formData.get("image") as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
@@ -12,6 +27,7 @@ export async function create(formData: FormData) {
       .upload_stream(
         {
           tags: ["nextjs-server-actions-upload-sneakers"],
+          folder: `E-Gab/Websites/Website ${website.id}`,
         },
         function (error: any, result: unknown) {
           if (error) {
@@ -23,7 +39,7 @@ export async function create(formData: FormData) {
       )
       .end(buffer);
   });
-  revalidatePath("/");
+  revalidatePath("/arquivos");
 }
 
 export const createWebsiteFolder = async (id: string) => {

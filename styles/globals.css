@@ -108,3 +108,48 @@ ul[data-type="taskList"] li[data-checked="true"] > div > p {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
+
+.custom-drag-drop {
+  @apply relative w-full;
+}
+
+.custom-drag-drop input[type="file"] {
+  @apply absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer;
+}
+
+.custom-drag-drop input[type="file"]:focus~.drag-drop-container,
+.drag-drop-container.active {
+  @apply border-purple-600 bg-purple-600/10;
+}
+
+.custom-drag-drop .drag-drop-container .drag-drop-content {
+  @apply flex flex-col items-center gap-4;
+}
+
+.custom-drag-drop .drag-drop-container .drag-drop-text {
+  @apply text-center;
+}
+
+.drag-file-overlay {
+  @apply absolute top-0 left-0 w-full h-full z-20;
+}
+
+.uploaded-images-cont {
+  @apply flex gap-4 p-4;
+}
+
+.uploaded-image {
+  @apply grow p-2 text-center dark:bg-gray-700 rounded-lg;
+}
+
+.uploaded-image>.wrapper {
+  @apply relative flex flex-col gap-2 min-h-[7rem];
+}
+
+.uploaded-image.img-cont img {
+  @apply grow h-60 bg-gray-100 dark:bg-gray-700 rounded-md;
+}
+
+.uploaded-image-overlay {
+  @apply absolute top-0 left-0 flex flex-col items-center justify-center gap-2 text-white w-full h-full bg-gray-900/20 rounded-lg;
+}

@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import OverviewStats from "@/components/stats/overview-stats";
 import Posts from "@/components/posts";
 import PlaceholderCard from "@/components/card/placeholder-card";
+import CustomDragDrop from "@/components/CustomDragDrop";
+import ExampleForm from "@/components/ExampleForm";
 
 export default function Overview() {
   return (
@@ -12,6 +14,8 @@ export default function Overview() {
         </h1>
         <OverviewStats />
       </div>
+
+      <ExampleForm/>
 
       <div className="flex flex-col space-y-6">
         <h1 className="font-cal text-3xl font-bold dark:text-white">

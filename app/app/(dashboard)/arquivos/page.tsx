@@ -1,11 +1,15 @@
 import cloudinary from "@/lib/configs/cloudinary";
-import { ImageProps } from "@/lib/types/types";
 import Bridge from "@/components/icons/Bridge";
 import Logo from "@/components/icons/Logo";
 import Gallery from "./gallery";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { Button, Input } from "@nextui-org/react";
+import { create } from "@/lib/actions/image/image.create.action";
+import { CldImage } from "next-cloudinary";
+import ExampleForm from "@/components/ExampleForm";
 
 export default async function Page() {
 
@@ -28,8 +32,24 @@ const results = await cloudinary.v2.search
   })
   .catch((err) => console.log(err));
 
+  interface CloudinaryResource {
+    context?: {
+      alt?: string;
+      caption?: string;
+    };
+    public_id: string;
+    secure_url: string;
+  }
+
+  const { resources: sneakers } = await cloudinary.v2.api.resources_by_tag(
+    "nextjs-server-actions-upload-sneakers",
+    { context: true },
+  );
+
+
   return (
     <main className="mx-auto max-w-[1960px] p-4">
+      <ExampleForm />
       <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
         <div className="after:content shadow-highlight after:shadow-highlight relative mb-5 flex h-[629px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white after:pointer-events-none after:absolute after:inset-0 after:rounded-lg lg:pt-0">
           <div className="absolute inset-0 flex items-center justify-center opacity-20">
@@ -55,9 +75,31 @@ const results = await cloudinary.v2.search
             Clone and Deploy
           </a>
         </div>
-        <Gallery
-          results={results}
-        />
+        {sneakers.map((sneaker: CloudinaryResource) => {
+          return (
+            <li
+              key={sneaker.public_id}
+              className="overflow-hidden rounded bg-white dark:bg-slate-700"
+            >
+              <div className="relative">
+                <CldImage
+                  width={800}
+                  height={600}
+                  src={sneaker.public_id}
+                  alt={sneaker.context?.alt || ""}
+                />
+              </div>
+              {sneaker.context?.caption && (
+                <div className="px-5 py-4">
+                  <p className="text-md mb-1 font-bold leading-tight text-neutral-800 dark:text-neutral-50">
+                    {sneaker.context?.caption || ""}
+                  </p>
+                </div>
+              )}
+            </li>
+          );
+        })}
+        <Gallery results={results} />
       </div>
     </main>
   );
