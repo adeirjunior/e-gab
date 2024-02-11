@@ -1,5 +1,21 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+import crypto from "crypto";
+
+export const generateSHA1 = (data: any) => {
+  const hash = crypto.createHash("sha1");
+  hash.update(data);
+  return hash.digest("hex");
+};
+
+export const generateSignature = (publicId: string, apiSecret: string) => {
+  const timestamp = new Date().getTime();
+  return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+};
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export function decodeUTF8(encodedText: string): string {
   return decodeURIComponent(escape(encodedText));
@@ -9,12 +25,9 @@ export function getCurrentDomain(subdomain?: string, path?: string) {
   const isDev = process.env.NODE_ENV === "development";
   const protocol = isDev ? "http://" : "https://";
   const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
-  return `${protocol}${subdomain ? `${subdomain}.` : ''}${domain}${path ?? ""}`;
+  return `${protocol}${subdomain ? `${subdomain}.` : ""}${domain}${path ?? ""}`;
 }
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit,

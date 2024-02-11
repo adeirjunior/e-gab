@@ -63,7 +63,7 @@ const CustomDragDrop = ({
   return (
     <Card
       onDragEnter={() => handleDrag}
-      className="custom-drag-drop rounded-lg border-2 border-dashed border-purple-600 bg-slate-50 dark:bg-gray-800 p-8 py-14 my-4"
+      className="custom-drag-drop rounded-lg border-2 border-dashed border-blue-500 bg-slate-50 dark:bg-gray-800 p-8 py-14 my-4"
     >
       <input
         ref={FileInput}
@@ -80,9 +80,9 @@ const CustomDragDrop = ({
           </div>
           <div className="drag-drop-text">
             <p className="text-purple font-bold">
-              Tap or drag and drop to upload Image
+              Toque ou arraste para fazer upload da imagem
             </p>
-            <span>PNG, JPEG</span>
+            <span>PNG, JPEG, MP4, GIF, WEBP</span>
           </div>
         </div>
       </label>

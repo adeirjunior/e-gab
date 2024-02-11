@@ -26,6 +26,18 @@ export interface DomainResponse {
   }[];
 }
 
+export type SearchResult = {
+  public_id: string;
+  tags: string[];
+};
+
+export type UploadResult = {
+  info: {
+    public_id: string;
+  };
+  event: "success";
+};
+
 /* eslint-disable no-unused-vars */
 export interface ImageProps {
   id: number;
