@@ -1,8 +1,19 @@
 "use server"
 
 import cloudinary from "@/lib/configs/cloudinary";
-import { generateSHA1, generateSignature } from "@/lib/utils";
 import axios from 'axios';
+import { createHash } from "crypto";
+
+const generateSHA1 = (data: any) => {
+  const hash = createHash("sha1");
+  hash.update(data);
+  return hash.digest("hex");
+};
+
+const generateSignature = (publicId: string, apiSecret: string) => {
+  const timestamp = new Date().getTime();
+  return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+};
 
 export const handleDeleteImage = async (publicId) => {
   const cloudName = "your_cloud_name";
