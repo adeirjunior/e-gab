@@ -56,7 +56,7 @@ async function SideMenu() {
               variant="ghost"
               className="w-full justify-start flex gap-2"
             >
-              <Link href="/albums">
+              <Link href="/arquivos/albums">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

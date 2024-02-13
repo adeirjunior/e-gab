@@ -11,16 +11,17 @@ import { ImageMenu } from "./image-menu";
 
 export function CloudinaryImage(
   props: {
+    websiteCloudinaryDir: string;
     imageData: SearchResult;
     onUnheart?: (unheartedResource: SearchResult) => void;
-  } & Omit<CldImageProps, "src">
+  } & Omit<CldImageProps, "src">,
 ) {
   const [transition, startTransition] = useTransition();
 
-  const { imageData, onUnheart } = props;
+  const { imageData, onUnheart, websiteCloudinaryDir } = props;
 
   const [isFavorited, setIsFavorited] = useState(
-    imageData.tags.includes("favorite")
+    imageData.tags.includes("favorite"),
   );
 
   return (
@@ -35,7 +36,7 @@ export function CloudinaryImage(
               setAsFavoriteAction(imageData.public_id, false);
             });
           }}
-          className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer"
+          className="absolute left-2 top-2 cursor-pointer text-red-500 hover:text-white"
         />
       ) : (
         <Heart
@@ -45,10 +46,13 @@ export function CloudinaryImage(
               setAsFavoriteAction(imageData.public_id, true);
             });
           }}
-          className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
+          className="absolute left-2 top-2 cursor-pointer hover:text-red-500"
         />
       )}
-      <ImageMenu image={imageData} />
+      <ImageMenu
+        image={imageData}
+        websiteCloudinaryDir={websiteCloudinaryDir}
+      />
     </div>
   );
 }

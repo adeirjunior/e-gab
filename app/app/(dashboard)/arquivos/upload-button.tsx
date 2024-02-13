@@ -4,12 +4,15 @@ import { CldUploadButton } from "next-cloudinary";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export default function UploadButton() {
+export default function UploadButton({websiteCloudinaryDir}: {websiteCloudinaryDir: string}) {
   const router = useRouter();
 
   return (
     <Button asChild>
       <CldUploadButton
+      options={{
+        folder: websiteCloudinaryDir
+      }}
         onUpload={() => {
           setTimeout(() => {
             router.refresh();

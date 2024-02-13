@@ -1,10 +1,21 @@
 import cloudinary from "@/lib/configs/cloudinary";
 import { AlbumCard } from "./album-card";
+import { getSession } from "@/lib/auth/get-session";
+import { redirect } from "next/navigation";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 
 export type Folder = { name: string; path: string };
 
 export default async function AlbumsPage() {
-  const { folders } = (await cloudinary.v2.api.root_folders()) as {
+const session = await getSession()
+  
+  if(!session) {
+    redirect("/login")
+  }
+
+  const website = await getWebsiteByUserId(session.user.id)
+
+  const { folders } = (await cloudinary.v2.api.sub_folders(website.cloudinaryDir)) as {
     folders: Folder[];
   };
 

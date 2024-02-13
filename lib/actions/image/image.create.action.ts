@@ -7,19 +7,18 @@ import { SearchResult } from "@/lib/types/types";
 import { revalidatePath } from "next/cache";
 
 export async function create(formData: FormData) {
-  const session = await getSession()
+  const session = await getSession();
 
-  if(!session) {
-    throw new Error("Erro")
+  if (!session) {
+    throw new Error("Erro");
   }
 
-  const website =await  getWebsiteByUserId(session.user.id)
+  const website = await getWebsiteByUserId(session.user.id);
 
-   if (!website) {
-     throw new Error("Erro");
-   }
+  if (!website) {
+    throw new Error("Erro");
+  }
 
-  
   const file = formData.get("image") as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
@@ -43,6 +42,12 @@ export async function create(formData: FormData) {
   revalidatePath("/arquivos");
 }
 
+function excludeCommonPath(basePath: string, excludePath: string): string {
+  const remainingPath = excludePath.substring(basePath.length);
+
+  return remainingPath;
+}
+
 export const createWebsiteFolder = async (id: string) => {
   await cloudinary.v2.api.create_folder(`E-Gab/Websites/Website ${id}`);
 };
@@ -58,8 +63,12 @@ export async function setAsFavoriteAction(
   }
 }
 
-export async function addImageToAlbum(image: SearchResult, album: string) {
-  await cloudinary.v2.api.create_folder(album);
+export async function addImageToAlbum(
+  image: SearchResult,
+  album: string,
+  websiteCloudinaryDir: string,
+) {
+  await cloudinary.v2.api.create_folder(`${websiteCloudinaryDir}/${album}`);
 
   let parts = image.public_id.split("/");
   if (parts.length > 1) {
@@ -67,5 +76,11 @@ export async function addImageToAlbum(image: SearchResult, album: string) {
   }
   const publicId = parts.join("/");
 
-  await cloudinary.v2.uploader.rename(image.public_id, `${album}/${publicId}`);
+  await cloudinary.v2.uploader.rename(
+    image.public_id,
+    `${websiteCloudinaryDir}/${album}/${excludeCommonPath(
+      websiteCloudinaryDir,
+      publicId,
+    )}`,
+  );
 }

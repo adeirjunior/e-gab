@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addImageToAlbum } from "@/lib/actions/image/image.create.action";
+import { getSession } from "@/lib/auth/get-session";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
 import { FolderPlus } from "lucide-react";
 import { useState } from "react";
@@ -18,9 +20,11 @@ import { useState } from "react";
 export function AddToAlbumDialog({
   image,
   onClose,
+  websiteCloudinaryDir
 }: {
   image: SearchResult;
   onClose: () => void;
+  websiteCloudinaryDir: string;
 }) {
   const [albumName, setAlbumName] = useState("");
   const [open, setOpen] = useState(false);
@@ -66,7 +70,7 @@ export function AddToAlbumDialog({
             onClick={async () => {
               onClose();
               setOpen(false);
-              await addImageToAlbum(image, albumName);
+              await addImageToAlbum(image, albumName, websiteCloudinaryDir);
             }}
             type="submit"
           >

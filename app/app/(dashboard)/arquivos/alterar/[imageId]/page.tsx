@@ -6,6 +6,22 @@ import { Button } from "@/components/ui/button";
 import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 
+function extractLastPartOfPath(link: string): string | null {
+    try {
+        const lastSlashIndex = link.lastIndexOf("/");
+        if (lastSlashIndex !== -1) {
+            const lastPartOfPath = link.substring(lastSlashIndex + 1);
+            return lastPartOfPath;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error("Error while extracting the last part of the path:", error);
+        return null;
+    }
+}
+
+
 export default function EditPage({
   params: { imageId },
 }: {
@@ -22,19 +38,18 @@ export default function EditPage({
     | "bg-remove"
   >();
 
-  const [pendingPrompt, setPendingPrompt] = useState("");
-  const [prompt, setPrompt] = useState("");
+  const decodedImageId = decodeURIComponent(imageId)
 
   return (
     <section>
       <div className="flex flex-col gap-8">
         <div className="flex justify-between">
-          <h1 className="text-4xl font-bold">Edit {imageId}</h1>
+          <h1 className="text-4xl font-bold">Alterar {extractLastPartOfPath(decodedImageId)}</h1>
         </div>
 
         <div className="flex gap-4">
           <Button variant="ghost" onClick={() => setTransformation(undefined)}>
-            Clear All
+            Limpar
           </Button>
 
           <Button onClick={() => setTransformation("blur")}>Borrar</Button>
@@ -49,11 +64,16 @@ export default function EditPage({
         </div>
 
         <div className="grid grid-cols-2 gap-12">
-          <CldImage src={imageId} width="400" height="300" alt="some image" />
+          <CldImage
+            src={decodedImageId}
+            width="400"
+            height="300"
+            alt="some image"
+          />
 
           {transformation === "blur" && (
             <CldImage
-              src={imageId}
+              src={decodedImageId}
               width="1200"
               height="1400"
               blur="800"
@@ -63,7 +83,7 @@ export default function EditPage({
 
           {transformation === "grayscale" && (
             <CldImage
-              src={imageId}
+              src={decodedImageId}
               width="1200"
               height="1400"
               grayscale
@@ -73,7 +93,7 @@ export default function EditPage({
 
           {transformation === "pixelate" && (
             <CldImage
-              src={imageId}
+              src={decodedImageId}
               width="1200"
               height="1400"
               pixelate

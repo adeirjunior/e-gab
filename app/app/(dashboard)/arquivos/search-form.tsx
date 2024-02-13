@@ -31,7 +31,7 @@ export function SearchForm({ initialSearch }: { initialSearch: string }) {
           id="tag-name"
           value={tagName}
         />
-        <Button type="submit">Search</Button>
+        <Button type="submit">Pesquisar</Button>
       </div>
     </form>
   );

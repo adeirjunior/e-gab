@@ -17,12 +17,12 @@ export function AlbumCard({ folder }: { folder: Folder }) {
     <Card>
       <CardHeader>
         <CardTitle>{folder.name}</CardTitle>
-        <CardDescription>All your {folder.name} images</CardDescription>
+        <CardDescription>Todos os arquivos do album {folder.name}</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
       <CardFooter className="flex justify-between">
         <Button asChild>
-          <Link href={`/albums/${folder.name}`}>View Album</Link>
+          <Link href={`/arquivos/albums/${folder.name}`}>Ver Album</Link>
         </Button>
       </CardFooter>
     </Card>
