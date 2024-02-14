@@ -1,8 +1,16 @@
-import { createChatRoom } from "@/lib/actions/chatRoom/chatRoom.create.action";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
-import { Button, Card, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Chip,
+  Divider,
+  Link,
+} from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
@@ -50,38 +58,51 @@ export default async function Page({ params }: { params: { domain: string } }) {
     return null;
   }
 
-  const createRoom = async (formData: FormData) => {
-    "use server";
-
-    const response = await createChatRoom(client.clientId!, website.id!, formData);
-
-    if ("error" in response) {
-      console.error(response.error);
-      return null;
-    }
-
-    return redirect(getCurrentDomain(subdomain!, `/ouvidoria/${response.id}`));
-  };
-
   return (
-    <Card className="space-y-6 bg-transparent p-6">
-      <Grid numItems={1} numItemsSm={2} numItemsMd={3} numItemsLg={4}>
-        {rooms.map((room) => (
-          <Card shadow="md" key={room.id}>
-            <Title>Sala</Title>
-            <Button
-              as={Link}
-              href={getCurrentDomain(subdomain!, `/ouvidoria/${room.id}`)}
-            >
-              Entrar
-            </Button>
-          </Card>
-        ))}
-      </Grid>
+    <Card className="min-h-screen space-y-6 bg-transparent p-6">
+      <FormModal subdomain={subdomain} />
+      <Divider />
+      {rooms.length > 0 ? (
+        <Grid
+          numItems={1}
+          numItemsSm={2}
+          numItemsMd={3}
+          numItemsLg={4}
+          className="gap-4"
+        >
+          {rooms.map((room) => {
+            const status =
+              room.status === "pending"
+                ? "Solicitado"
+                : room.status === "active"
+                  ? "Ativo"
+                  : "Outro";
 
-      <form action={createRoom}>
-        <FormModal subdomain={subdomain}/>
-      </form>
+            return (
+              <Card shadow="md" className="border-3" key={room.id}>
+                <CardHeader>
+                  <div className="flex w-full items-center justify-between">
+                    <Title>{room.title}</Title>
+                    <Chip color="primary">{status}</Chip>
+                  </div>
+                </CardHeader>
+                <CardBody></CardBody>
+                <CardFooter>
+                  <Button
+                    as={Link}
+                    href={getCurrentDomain(subdomain!, `/ouvidoria/${room.id}`)}
+                    variant="flat"
+                  >
+                    Entrar
+                  </Button>
+                </CardFooter>
+              </Card>
+            );
+          })}
+        </Grid>
+      ) : (
+        <Title>Não possui salas</Title>
+      )}
     </Card>
   );
 }

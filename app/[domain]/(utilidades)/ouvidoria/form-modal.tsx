@@ -178,7 +178,12 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
           )}
         </ModalContent>
       </Modal>
-      <Button onPress={onOpen}>Criar Sala</Button>
+
+<div className="w-full flex justify-between items-center">
+  <Title>Ouvidoria</Title>
+  <Button className="w-36" onPress={onOpen}>Criar Sala</Button>
+</div>
+      
     </>
   );
 }

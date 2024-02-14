@@ -2,7 +2,8 @@ import MessageField from "@/components/MessageField";
 import Messages from "@/components/Messages";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader, Input, Skeleton } from "@nextui-org/react";
+import { Text, Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 
 interface PageProps {
@@ -29,6 +30,7 @@ const page = async ({ params }: PageProps) => {
       notFound();
     }
 
+    
   const existingMessages = await prisma.message.findMany({
     where: {
       chatRoomId: roomId,
@@ -52,7 +54,16 @@ const page = async ({ params }: PageProps) => {
         <Messages roomId={roomId} sessionUserId={session.user.id} initialMessages={serializedMessages} />
       </CardBody>
       <CardFooter>
-        <MessageField userId={session.user.id} roomId={roomId} />
+         {
+          chatRoom.status === "pending" ? (<><Title>{chatRoom.status}</Title>
+            <Text>Aguarde até que aceitem sua conversa para poder mandar mensagens</Text>
+          </>
+            
+          ) :""
+        }
+        {
+          chatRoom.status === "accepted" && <MessageField userId={session.user.id} roomId={roomId} />
+        }
       </CardFooter>
     </Card>
   );
