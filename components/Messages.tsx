@@ -1,8 +1,7 @@
 "use client";
 import { pusherClient } from "@/lib/configs/pusher";
 import { Card } from "@nextui-org/react";
-import { FC, useState } from "react";
-import { useEffectOnce } from "usehooks-ts";
+import { FC, useEffect, useState } from "react";
 
 interface MessagesProps {
   initialMessages: {
@@ -19,24 +18,20 @@ const Messages: FC<MessagesProps> = ({
   roomId,
   sessionUserId,
 }) => {
-  const [mounted, setMounted] = useState(false);
-  const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<string[]>([]);
 
-  useEffectOnce(() => {
+  useEffect(() => {
     pusherClient.subscribe(roomId);
 
     pusherClient.bind("incoming-message", (text: string) => {
-      setIncomingMessages((prev) => [...prev, text]);
+      setMessages([...messages, text]);
     });
-
-    setMounted(true);
 
     return () => {
       pusherClient.unsubscribe(roomId);
     };
-  });
+  }, [messages, roomId]);
 
-  if (!mounted) return null;
 
   return (
     <div className="space-y-8 overflow-y-scroll">
@@ -65,7 +60,7 @@ const Messages: FC<MessagesProps> = ({
           )}
         </>
       ))}
-      {incomingMessages.map((text, i) => (
+      {messages.map((text, i) => (
         <Card className="rounded-full px-6 py-4" isPressable key={i}>
           {text}
         </Card>

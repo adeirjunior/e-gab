@@ -27,8 +27,6 @@ export default function LoginForm() {
          await signIn("credentials", { email, password, role, redirect: false });
          const session = await getSession()
 
-         console.log(session);
-
          if (!session) {
            toast.error("Esta conta não existe.");
          } else {

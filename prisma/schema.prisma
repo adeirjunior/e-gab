@@ -417,10 +417,11 @@ model ChatRoom {
   title         String
   description   String
   address       String
-  neighborhood  String
-  cep           String
-  quality       Int            @default(0)
-  startingFiles String[]
+  city          String?
+  neighborhood  String?
+  cep           String?
+  stars         Int            @default(0)
+  startingFiles ChatRoomFile[]
   clientId      String
   secretaryId   String?
   politicianId  String?
@@ -433,6 +434,14 @@ model ChatRoom {
   secretary     Secretary?     @relation(fields: [secretaryId], references: [id])
   politician    Politician?    @relation(fields: [politicianId], references: [id])
   status        ChatRoomStatus @default(pending)
+}
+
+model ChatRoomFile {
+  id         String   @id @default(cuid())
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  chatRoomId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 enum ChatRoomStatus {

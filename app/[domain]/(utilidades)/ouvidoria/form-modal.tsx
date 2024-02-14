@@ -1,9 +1,12 @@
-"use client"
+"use client";
 
+import LoadingDots from "@/components/icons/loading-dots";
+import { createChatRoom } from "@/lib/actions/chatRoom/chatRoom.create.action";
+import { getSession } from "@/lib/auth/get-session";
+import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
+import { getClientByUser } from "@/lib/fetchers/user";
 import {
   Button,
-  Card,
-  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,10 +14,41 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { Divider, Grid, TextInput } from "@tremor/react";
+import { Text, TextInput, Textarea, Title } from "@tremor/react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export default function FormModal() {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function FormModal({ subdomain }: { subdomain: string }) {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [isPendingRoomCreation, startRoomCreation] = useTransition();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (fData) => {
+    const data = new FormData();
+
+    for (const key in fData) {
+      data.append(key, fData[key]);
+    }
+
+    try {
+      startRoomCreation(async () => {
+        const session = await getSession();
+        const website = await getWebsiteBySubdomain(subdomain);
+
+        if (!session) {
+          toast.error("Esta conta não existe.");
+        } else {
+          const client = await getClientByUser(session.user.id)
+          await createChatRoom(client.id, website.id, data);
+          onClose()
+        }
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
@@ -22,47 +56,35 @@ export default function FormModal() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                <Title>Detalhes da Sala</Title>
+                <Text>
+                  Escreva suas infomações básicas e passe em uma mensagem curta
+                  descrevendo sobre o que você quer falar.
+                </Text>
               </ModalHeader>
               <ModalBody>
-                <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6">
+                <form
+                  id="room"
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6"
+                >
                   <div className="col-span-full sm:col-span-3">
                     <label
-                      htmlFor="first-name"
+                      htmlFor="full-name"
                       className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                     >
-                      Nome
+                      Nome completo
                       <span className="text-red-500">*</span>
                     </label>
                     <TextInput
                       type="text"
-                      id="first-name"
-                      name="first-name"
-                      autoComplete="first-name"
-                      placeholder="Nome"
+                      {...register("fullname")}
+                      placeholder="Nome completo"
                       className="mt-2"
                       required
                     />
                   </div>
                   <div className="col-span-full sm:col-span-3">
-                    <label
-                      htmlFor="last-name"
-                      className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                    >
-                      Sobrenome
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <TextInput
-                      type="text"
-                      id="last-name"
-                      name="last-name"
-                      autoComplete="last-name"
-                      placeholder="Sobrenome"
-                      className="mt-2"
-                      required
-                    />
-                  </div>
-                  <div className="col-span-full">
                     <label
                       htmlFor="email"
                       className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
@@ -72,15 +94,29 @@ export default function FormModal() {
                     </label>
                     <TextInput
                       type="email"
-                      id="email"
-                      name="email"
-                      autoComplete="email"
+                      {...register("email")}
                       placeholder="Email"
                       className="mt-2"
                       required
                     />
                   </div>
-                  <div className="col-span-full">
+                  <div className="col-span-full sm:col-span-3">
+                    <label
+                      htmlFor="email"
+                      className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                    >
+                      Whatsapp
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <TextInput
+                      type="text"
+                      {...register("tel")}
+                      placeholder="Seu número no whatsapp"
+                      className="mt-2"
+                      required
+                    />
+                  </div>
+                  <div className="col-span-full sm:col-span-3">
                     <label
                       htmlFor="address"
                       className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
@@ -89,68 +125,53 @@ export default function FormModal() {
                     </label>
                     <TextInput
                       type="text"
-                      id="address"
-                      name="address"
-                      autoComplete="street-address"
+                      {...register("address")}
                       placeholder="Endereço"
                       className="mt-2"
                     />
                   </div>
-                    <div className="col-span-full ">
-                      <label
-                        htmlFor="city"
-                        className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                      >
-                        Cidade
-                      </label>
-                      <TextInput
-                        type="text"
-                        id="city"
-                        name="city"
-                        autoComplete="address-level2"
-                        placeholder="Cidade"
-                        className="mt-2"
-                      />
-                    </div>
-                    <div className="col-span-full">
-                      <label
-                        htmlFor="state"
-                        className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                      >
-                        Estado
-                      </label>
-                      <TextInput
-                        type="text"
-                        id="state"
-                        name="state"
-                        autoComplete="address-level1"
-                        placeholder="Estado"
-                        className="mt-2"
-                      />
-                    </div>
-                    <div className="col-span-full">                                                                                                                                                                                                                                                                                                                                         
-                      <label
-                        htmlFor="postal-code"
-                        className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-                      >
-                        CEP
-                      </label>
-                      <TextInput
-                        id="postal-code"
-                        name="postal-code"
-                        autoComplete="postal-code"
-                        placeholder="CEP"
-                        className="mt-2"
-                      />
-                    </div>
-                </div>
+                  <div className="col-span-full">
+                    <label
+                      htmlFor="postal-code"
+                      className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                    >
+                      Título
+                    </label>
+                    <TextInput
+                      type="text"
+                      {...register("title")}
+                      placeholder="Título"
+                      className="mt-2"
+                    />
+                  </div>
+                  <div className="col-span-full">
+                    <label
+                      htmlFor="postal-code"
+                      className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                    >
+                      Mensagem
+                    </label>
+                    <Textarea
+                      {...register("description")}
+                      placeholder="Mensagem"
+                      className="mt-2 max-h-40"
+                    />
+                  </div>
+                </form>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                 Fechar
+                  Fechar
                 </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
-                  Criar
+                <Button
+                  form="room"
+                  color="primary"
+                  type="submit"
+                  disabled={isPendingRoomCreation}
+                  spinner={<LoadingDots color="#808080" />}
+                  isLoading={isPendingRoomCreation}
+                >
+                  {isPendingRoomCreation ? "" : "Criar"}
                 </Button>
               </ModalFooter>
             </>

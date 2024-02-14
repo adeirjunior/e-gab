@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
+import { revalidatePath } from "next/cache";
 
 export const createMessage = async (text: string, userId: string, chatRoomId: string) => {
   const session = await getSession();
@@ -15,9 +16,9 @@ export const createMessage = async (text: string, userId: string, chatRoomId: st
         text,
         chatRoomId,
         userId
-
     },
   });
 
+  revalidatePath(`/ouvidoria/${chatRoomId}`)
   return response;
 };

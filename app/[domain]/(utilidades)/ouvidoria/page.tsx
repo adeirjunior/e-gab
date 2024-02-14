@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
       </Grid>
 
       <form action={createRoom}>
-        <FormModal />
+        <FormModal subdomain={subdomain}/>
       </form>
     </Card>
   );

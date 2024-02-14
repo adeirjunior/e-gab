@@ -1,33 +1,24 @@
-import { getSession } from "@/lib/auth/get-session";
+"use server"
+
 import prisma from "@/lib/configs/prisma";
+import { revalidatePath } from "next/cache";
 
 export const createChatRoom = async (
   clientId: string,
   websiteId: string,
   formData: FormData
 ) => {
-  const session = await getSession();
 
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const address = formData.get("address") as string;
-  const neighborhood = formData.get("neighborhood") as string;
-  const cep = formData.get("cep") as string;
-
-  if (!session?.user.id) {
-    return {
-      error: "Not authenticated",
-    };
-  }
 
   if (
     !clientId ||
     !websiteId ||
     !title ||
     !description ||
-    !address ||
-    !neighborhood ||
-    !cep
+    !address
   ) {
     return {
       error: "One or more required fields are empty",
@@ -41,10 +32,9 @@ export const createChatRoom = async (
       title,
       description,
       address,
-      neighborhood,
-      cep,
     },
   });
 
+  revalidatePath("/ouvidoria")
   return response;
 };
