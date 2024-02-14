@@ -5,6 +5,7 @@ import cloudinary from "@/lib/configs/cloudinary";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function create(formData: FormData) {
   const session = await getSession();
@@ -66,8 +67,18 @@ export async function setAsFavoriteAction(
 export async function addImageToAlbum(
   image: SearchResult,
   album: string,
-  websiteCloudinaryDir: string,
 ) {
+   const session = await getSession();
+
+   if (!session) {
+    redirect("/login")
+     return {
+      error: "Você não está logado."
+     }
+   }
+
+   const {cloudinaryDir: websiteCloudinaryDir } = await getWebsiteByUserId(session.user.id);
+
   await cloudinary.v2.api.create_folder(`${websiteCloudinaryDir}/${album}`);
 
   let parts = image.public_id.split("/");

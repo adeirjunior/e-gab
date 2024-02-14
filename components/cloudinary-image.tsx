@@ -11,14 +11,13 @@ import { ImageMenu } from "./image-menu";
 
 export function CloudinaryImage(
   props: {
-    websiteCloudinaryDir: string;
     imageData: SearchResult;
     onUnheart?: (unheartedResource: SearchResult) => void;
   } & Omit<CldImageProps, "src">,
 ) {
   const [transition, startTransition] = useTransition();
 
-  const { imageData, onUnheart, websiteCloudinaryDir } = props;
+  const { imageData, onUnheart } = props;
 
   const [isFavorited, setIsFavorited] = useState(
     imageData.tags.includes("favorite"),
@@ -51,7 +50,6 @@ export function CloudinaryImage(
       )}
       <ImageMenu
         image={imageData}
-        websiteCloudinaryDir={websiteCloudinaryDir}
       />
     </div>
   );

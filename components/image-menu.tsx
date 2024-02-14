@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,10 +16,8 @@ import { SearchResult } from "@/lib/types/types";
 
 export function ImageMenu({
   image,
-  websiteCloudinaryDir,
 }: {
   image: SearchResult;
-  websiteCloudinaryDir: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -32,7 +32,6 @@ export function ImageMenu({
         <DropdownMenuContent className="w-40">
           <DropdownMenuItem asChild>
             <AddToAlbumDialog
-              websiteCloudinaryDir={websiteCloudinaryDir}
               image={image}
               onClose={() => setOpen(false)}
             />

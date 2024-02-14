@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,20 +13,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addImageToAlbum } from "@/lib/actions/image/image.create.action";
-import { getSession } from "@/lib/auth/get-session";
-import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
 import { FolderPlus } from "lucide-react";
 import { useState } from "react";
 
 export function AddToAlbumDialog({
   image,
-  onClose,
-  websiteCloudinaryDir
+  onClose
 }: {
   image: SearchResult;
   onClose: () => void;
-  websiteCloudinaryDir: string;
 }) {
   const [albumName, setAlbumName] = useState("");
   const [open, setOpen] = useState(false);
@@ -42,14 +40,14 @@ export function AddToAlbumDialog({
       <DialogTrigger>
         <Button variant="ghost">
           <FolderPlus className="mr-2 h-4 w-4" />
-          <span>Add to Album</span>
+          <span>Adicionar a Album</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add to Album</DialogTitle>
+          <DialogTitle>Adicionar a Album</DialogTitle>
           <DialogDescription>
-            Type an album you want to move this image into
+            Escreva o album que você quer mover este arquivo.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -70,11 +68,11 @@ export function AddToAlbumDialog({
             onClick={async () => {
               onClose();
               setOpen(false);
-              await addImageToAlbum(image, albumName, websiteCloudinaryDir);
+              await addImageToAlbum(image, albumName);
             }}
             type="submit"
           >
-            Add to Album
+            Adicionar a album
           </Button>
         </DialogFooter>
       </DialogContent>

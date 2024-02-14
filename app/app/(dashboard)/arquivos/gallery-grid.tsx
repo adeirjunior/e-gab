@@ -17,7 +17,6 @@ export default function GalleryGrid({
       getImage={(imageData: SearchResult) => {
         return (
           <CloudinaryImage
-            websiteCloudinaryDir={websiteCloudinaryDir}
             key={imageData.public_id}
             imageData={imageData}
             width="400"
