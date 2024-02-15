@@ -20,7 +20,7 @@ export const createSite = async (formData: FormData) => {
   try {
     const politician = await prisma.politician.findUnique({
       where: {
-        id: session.user.id
+        userId: session.user.id
       }
     })
 
