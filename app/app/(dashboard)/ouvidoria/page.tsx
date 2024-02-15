@@ -12,7 +12,7 @@ import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Pie from "./pie";
 import PendingRoomCard from "./pending-room-card";
-import { countRoomsWithStatus, getRoomsWithLimit } from "@/lib/fetchers/room";
+import { countRoomsWithStatus, getRoomsWithLimitAndStatus } from "@/lib/fetchers/room";
 
 export default async function Page() {
   const session = await getSession();
@@ -23,7 +23,7 @@ export default async function Page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  const rooms = await getRoomsWithLimit(website.id, 4)
+  const rooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending")
 
   const pendingRooms = await countRoomsWithStatus(website.id, "pending")
 

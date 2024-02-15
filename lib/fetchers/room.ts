@@ -44,11 +44,12 @@ export async function countRoomsWithStatus(websiteId: string, status: ChatRoomSt
 }
 
 
-export async function getRoomsWithLimit(websiteId: string, take: number) {
+export async function getRoomsWithLimitAndStatus(websiteId: string, take: number, status: ChatRoomStatus) {
   try {
     const rooms = await prisma.chatRoom.findMany({
     where: {
       websiteId,
+      status
     },
     include: {
       client: {
