@@ -13,9 +13,10 @@ import {
 } from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/configs/prisma";
 import { Grid, Title } from "@tremor/react";
 import FormModal from "./form-modal";
+import { getRooms } from "@/lib/fetchers/room";
+import { getClientByUser } from "@/lib/fetchers/user";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",
@@ -36,22 +37,14 @@ export default async function Page({ params }: { params: { domain: string } }) {
 
   const website = await getWebsiteBySubdomain(subdomain!);
 
-  const client = await prisma.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-  });
+  const client = await getClientByUser(session.user.id)
 
   if (!website || !client) {
     console.error("Site não encontrado.");
     return null;
   }
 
-  const rooms = await prisma.chatRoom.findMany({
-    where: {
-      websiteId: website.id,
-    },
-  });
+  const rooms = await getRooms(website.id)
 
   if (!rooms) {
     console.error("Erro ao encontrar salas.");
