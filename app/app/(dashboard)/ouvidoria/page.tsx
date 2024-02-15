@@ -1,24 +1,18 @@
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import {
-  Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Divider,
   Skeleton,
 } from "@nextui-org/react";
-import { Bold, Grid, Text, Title } from "@tremor/react";
+import { Bold, Grid } from "@tremor/react";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Pie from "./pie";
-import ViewModal from "./view-modal";
-import { updateChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
-import { ChatRoomStatus } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import { toast } from "sonner";
 import PendingRoomCard from "./pending-room-card";
+import { countRoomsWithStatus, getRoomsWithLimit } from "@/lib/fetchers/room";
 
 export default async function Page() {
   const session = await getSession();
@@ -29,39 +23,11 @@ export default async function Page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  const rooms = await prisma.chatRoom.findMany({
-    where: {
-      websiteId: website?.id,
-    },
-    include: {
-      client: {
-        select: {
-          user: {
-            select: {
-              email: true,
-              name: true,
-            },
-          },
-        },
-      },
-    },
-    take: 4,
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
+  const rooms = await getRoomsWithLimit(website.id, 4)
 
-  const pendingRooms = await prisma.chatRoom.count({
-    where: {
-      status: "pending",
-    },
-  });
+  const pendingRooms = await countRoomsWithStatus(website.id, "pending")
 
-  const activeRooms = await prisma.chatRoom.count({
-    where: {
-      status: "active",
-    },
-  });
+  const activeRooms = await countRoomsWithStatus(website.id, "active")
 
   return (
     <div className="flex flex-col space-y-12 p-8">
