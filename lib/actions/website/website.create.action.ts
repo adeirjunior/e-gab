@@ -18,12 +18,16 @@ export const createSite = async (formData: FormData) => {
   const subdomain = formData.get("subdomain") as string;
 
   try {
-    const politician = await createPolitician();
+    const politician = await prisma.politician.findUnique({
+      where: {
+        id: session.user.id
+      }
+    })
 
-    if ("error" in politician) {
-      return {
-        error: "Você já está registrado como um político",
-      };
+    if (!politician) {
+       return {
+         error: "Não é político",
+       };
     }
 
     const response = await prisma.website.create({
@@ -39,8 +43,8 @@ export const createSite = async (formData: FormData) => {
           },
         },
         contact: {
-          create: {}
-        }
+          create: {},
+        },
       },
     });
 
