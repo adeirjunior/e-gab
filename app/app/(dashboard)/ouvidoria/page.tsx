@@ -9,10 +9,16 @@ import {
   Divider,
   Skeleton,
 } from "@nextui-org/react";
-import { Bold, DonutChart, Grid, Text, Title } from "@tremor/react";
+import { Bold, Grid, Text, Title } from "@tremor/react";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Pie from "./pie";
+import ViewModal from "./view-modal";
+import { updateChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
+import { ChatRoomStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { toast } from "sonner";
+import PendingRoomCard from "./pending-room-card";
 
 export default async function Page() {
   const session = await getSession();
@@ -73,7 +79,9 @@ export default async function Page() {
         <Card className="w-full border-3 border-stone-300">
           <CardHeader>Salas abertas</CardHeader>
           <CardBody>
-            <Bold className="text-3xl">{activeRooms > 0 ? activeRooms : "0"}</Bold>
+            <Bold className="text-3xl">
+              {activeRooms > 0 ? activeRooms : "0"}
+            </Bold>
           </CardBody>
         </Card>
         <Card className="w-full border-3 border-stone-300">
@@ -102,7 +110,7 @@ export default async function Page() {
       <Suspense
         fallback={
           <Skeleton>
-            <div className="w-40 h-40 rounded-full"></div>
+            <div className="h-40 w-40 rounded-full"></div>
           </Skeleton>
         }
       >
@@ -115,40 +123,9 @@ export default async function Page() {
       </div>
       <Divider />
       {rooms.length > 0 ? (
-        <Grid numItems={2} numItemsSm={3} numItemsLg={4} className="gap-4">
+        <Grid numItems={1} numItemsLg={2} className="gap-4 xl:grid-cols-3">
           {rooms.map((room) => (
-            <div key={room.id}>
-              <span className="relative z-40 flex h-4 w-4 -mb-3 -ml-3 float-end">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-                <span className="relative inline-flex h-4 w-4 rounded-full bg-sky-500"></span>
-              </span>
-              <Card>
-              
-              <CardHeader>
-                <div className="flex flex-col">
-                  <Title>
-                    Sala de{" "}
-                    <Bold>
-                      {room.client.user?.name || room.client.user?.email}
-                    </Bold>
-                  </Title>
-                  <Text className="dark:text-gray-400">{room.title}</Text>
-                </div>
-              </CardHeader>
-              <CardBody>
-                <Text className="dark:text-gray-400">{room.description}</Text>
-              </CardBody>
-              <CardFooter>
-                <div className="flex w-full justify-between">
-                  <div className="space-x-2">
-                    <Button color="primary">Aceitar</Button>
-                    <Button color="danger">Rejeitar</Button>
-                  </div>
-                  <Button variant="light">Visualizar</Button>
-                </div>
-              </CardFooter>
-            </Card></div>
-            
+            <PendingRoomCard key={room.id} id={room.id} room={room as any}/>
           ))}
         </Grid>
       ) : (

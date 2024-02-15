@@ -62,7 +62,7 @@ const page = async ({ params }: PageProps) => {
           ) :""
         }
         {
-          chatRoom.status === "accepted" && <MessageField userId={session.user.id} roomId={roomId} />
+          chatRoom.status === "active" && <MessageField userId={session.user.id} roomId={roomId} />
         }
       </CardFooter>
     </Card>

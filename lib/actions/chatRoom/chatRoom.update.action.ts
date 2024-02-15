@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
+import { revalidatePath } from "next/cache";
 
 export const updateOneKeyChatRoom = async (
   formData: FormData,
@@ -59,6 +60,7 @@ export const updateChatRoom = async (
       },
     });
 
+    revalidatePath("/ouvidoria");
     return response;
   } catch (error: any) {
     if (error.code === "P2002") {

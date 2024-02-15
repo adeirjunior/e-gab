@@ -4,6 +4,7 @@ import prisma from "@/lib/configs/prisma";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getCurrentDomain } from "@/lib/utils";
 import { Button, Card, Input, Link } from "@nextui-org/react";
+import { Grid } from "@tremor/react";
 import { redirect } from "next/navigation";
 
 const Page = async () => {
@@ -17,7 +18,8 @@ const Page = async () => {
 
   const rooms = await prisma.chatRoom.findMany({
     where: {
-      websiteId: website?.id
+      websiteId: website?.id,
+      status: "active"
     },
     include: {
       client: {
@@ -35,6 +37,7 @@ const Page = async () => {
 
   return (
     <Card className="space-y-6 bg-transparent p-6">
+      {rooms.length > 0 ? (<Grid numItems={2} numItemsMd={3} numItemsLg={4}>
       {rooms.map((room) => (
         <Card key={room.id}>
           <h3>Sala de {room.client.user?.name || room.client.user?.email}</h3>
@@ -43,6 +46,9 @@ const Page = async () => {
           </Button>
         </Card>
       ))}
+      </Grid>) : "Sem salas abertas"}
+      
+      
     </Card>
   );
 };
