@@ -37,20 +37,20 @@ export default async function Page({ params }: { params: { domain: string } }) {
 
   const website = await getWebsiteBySubdomain(subdomain!);
 
-  const client = await getClientByUser(session.user.id)
+  const client = await getClientByUser(session.user.id);
 
   if (!website || !client) {
     console.error("Site não encontrado.");
     return null;
   }
 
-  const rooms = await getRooms(website.id)
+  const rooms = await getRooms(website.id);
 
   if (!rooms) {
     console.error("Erro ao encontrar salas.");
     return null;
   }
-
+  
   return (
     <Card className="min-h-screen space-y-6 bg-transparent p-6">
       <FormModal subdomain={subdomain} />

@@ -1,6 +1,7 @@
 "use server"
 
 import { ChatRoomStatus } from "@prisma/client";
+import prisma from "../configs/prisma";
 
 export async function getRooms(websiteId: string) {
     try {
