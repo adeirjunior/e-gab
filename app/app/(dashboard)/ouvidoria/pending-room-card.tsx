@@ -14,6 +14,7 @@ import { updateChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
 import LoadingDots from "@/components/icons/loading-dots";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function PendingRoomCard({
   room,
@@ -23,6 +24,7 @@ export default function PendingRoomCard({
   id: string;
 }) {
   const [isPending, start] = useTransition();
+  const router = useRouter()
 
   const updateAccept = (status: ChatRoomStatus) => {
     const formData = new FormData();
@@ -32,7 +34,7 @@ export default function PendingRoomCard({
       if("error" in room) {
         toast.error(room.error)
       } else {
-        toast.success("Atualizado.")
+        router.refresh()
       }
     });
   };
