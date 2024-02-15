@@ -10,6 +10,7 @@ import { createUser } from "../actions/user/user.create.action";
 import { createPolitician } from "../actions/politician/politician.create.action";
 import { createClient } from "../actions/client/client.create.action";
 import { createCustomerIfNull } from "../helpers/billing";
+import { createEveryUserVariant } from "../utils/createEveryUserVariant";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -97,46 +98,7 @@ export const authOptions: NextAuthOptions = {
       const isNotFound = "error" in user;
       if (isNotFound) return false;
 
-      const dbUser = await prisma.user.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
-
-      if (!dbUser) {
-        return false;
-      }
-
-      if (!dbUser.cloudinaryDir) {
-        await prisma.user.update({
-          where: {
-            id: user.id
-          },
-          data: {
-            cloudinaryDir: `E-Gab/Users/User ${user.id}`
-          }
-        })
-      }
-
-      if (dbUser.role === "Politician") {
-        const politician = await prisma.politician.findUnique({
-          where: {
-            userId: user.id,
-          },
-        });
-
-        if (!politician) {
-          await prisma.politician.create({
-            data: {
-              userId: user.id,
-            },
-          });
-
-          await createCustomerIfNull(
-            user.id,
-          )
-        }
-      }
+      await createEveryUserVariant(user.id)
 
       return true;
     },
