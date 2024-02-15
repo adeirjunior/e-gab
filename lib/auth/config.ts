@@ -107,6 +107,17 @@ export const authOptions: NextAuthOptions = {
         return false;
       }
 
+      if (!dbUser.cloudinaryDir) {
+        await prisma.user.update({
+          where: {
+            id: user.id
+          },
+          data: {
+            cloudinaryDir: `E-Gab/Users/User ${user.id}`
+          }
+        })
+      }
+
       if (dbUser.role === "Politician") {
         const politician = await prisma.politician.findUnique({
           where: {
