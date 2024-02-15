@@ -16,7 +16,7 @@ export default async function CurrentActivePlanCard({
   plan: string;
   session: any;
 }) {
-  const stripeCustomerId = await createCustomerIfNull(session) as string;
+  const stripeCustomerId = await createCustomerIfNull(session.user.id) as string;
 
   const manage_link = await generateCustomerPortalLink(stripeCustomerId) as string;
   const checkout_link = await createCheckoutLink(stripeCustomerId) as string;

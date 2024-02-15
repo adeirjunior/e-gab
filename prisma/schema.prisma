@@ -15,6 +15,7 @@ model User {
   email            String?        @unique
   emailVerified    DateTime?
   image            String?
+  cloudinaryDir     String
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   accounts         Account[]
@@ -66,7 +67,7 @@ model Secretary {
 
 model Politician {
   id             String      @id @default(cuid()) @map("_id")
-  party          String
+  party          String?
   User           User        @relation(fields: [userId], references: [id])
   userId         String      @unique
   secretaries    Secretary[]

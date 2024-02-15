@@ -6,6 +6,10 @@ import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
 import { AuthenticatedUser } from "../types/types";
 import { ErrorType, userService } from "../services/user.service";
+import { createUser } from "../actions/user/user.create.action";
+import { createPolitician } from "../actions/politician/politician.create.action";
+import { createClient } from "../actions/client/client.create.action";
+import { createCustomerIfNull } from "../helpers/billing";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -72,7 +76,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
-    error: "/login", 
+    error: "/login",
     newUser: "/new",
   },
   adapter: PrismaAdapter(prisma),
@@ -91,8 +95,37 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const isNotFound = "error" in user;
-
       if (isNotFound) return false;
+
+      const dbUser = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (!dbUser) {
+        return false;
+      }
+
+      if (dbUser.role === "Politician") {
+        const politician = await prisma.politician.findUnique({
+          where: {
+            userId: user.id,
+          },
+        });
+
+        if (!politician) {
+          await prisma.politician.create({
+            data: {
+              userId: user.id,
+            },
+          });
+
+          await createCustomerIfNull(
+            user.id,
+          )
+        }
+      }
 
       return true;
     },
@@ -100,17 +133,17 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         const dbUser = await prisma.user.findUnique({
           where: {
-            id: user.id
-          }
-        })
+            id: user.id,
+          },
+        });
 
         token.user = user as any;
 
         if (!dbUser) {
-          return token
+          return token;
         }
-        
-        token.user.role = dbUser.role
+
+        token.user.role = dbUser.role;
       }
 
       return token;

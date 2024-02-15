@@ -3,8 +3,6 @@ import { getCurrentDomain } from "../utils";
 import { stripe } from "../configs/stripe";
 import prisma from "../configs/prisma";
 
-//price_1NarR3APMZcBliJSoefCKTi5
-
 export async function hasSubscription() {
   const session = await getSession();
 
@@ -55,11 +53,11 @@ export async function createCheckoutLink(customer: string) {
   return checkout.url;
 }
 
-export async function createCustomerIfNull(session: any) {
+export async function createCustomerIfNull(id: string) {
 
-  if (session) {
+  if (id) {
     const user = await prisma.user.findFirst({
-      where: { id: session.user?.id },
+      where: { id },
     });
 
     if (!user?.stripeCustomerId) {
@@ -77,7 +75,7 @@ export async function createCustomerIfNull(session: any) {
       });
     }
     const user2 = await prisma.user.findFirst({
-      where: { id: session.user?.id },
+      where: { id },
     });
     return user2?.stripeCustomerId;
   }
