@@ -16,7 +16,7 @@ export const createPolitician = async () => {
     const response: Politician = await prisma.politician.create({
       data: {
         party: "Partido Genérico",
-        User: {
+        user: {
           connect: {
             id: session.user.id,
           },
