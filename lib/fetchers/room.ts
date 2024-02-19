@@ -23,11 +23,48 @@ export async function getRooms(websiteId: string) {
     }
 }
 
+export async function getRoomsWithStatus(websiteId: string, status: ChatRoomStatus) {
+    try {
+      const rooms = await prisma.chatRoom.findMany({
+        where: {
+          websiteId,
+          status,
+        },
+        include: {
+          client: {
+            select: {
+              user: {
+                select: {
+                  email: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
+      if (!rooms) {
+        console.log("Website não encontrado.");
+        return null;
+      }
+      return rooms;
+    } catch (error) {
+      console.error("Erro ao buscar o site:", error);
+      throw error;
+    } finally {
+      await prisma.$disconnect();
+    }
+}
+
 export async function countRoomsWithStatus(websiteId: string, status: ChatRoomStatus) {
     try {
       const rooms = await prisma.chatRoom.count({
     where: {
       status,
+      websiteId
     },
   });
       if (!rooms) {

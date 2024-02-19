@@ -1,9 +1,11 @@
-import MessageField from "@/components/MessageField";
 import Messages from "@/components/Messages";
+import ChatFooter from "@/components/chat/chat-footer";
+import ChatHeader from "@/components/chat/chat-header";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import { Card, CardBody, CardFooter, CardHeader, Input, Skeleton } from "@nextui-org/react";
-import { Text, Title } from "@tremor/react";
+import { Message } from "@/lib/validations/message";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { User } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
 
 interface PageProps {
@@ -20,15 +22,41 @@ const page = async ({ params }: PageProps) => {
     return redirect("/")
   }
 
-  const chatRoom = await prisma.chatRoom.findUnique({
-    where: {
-        id: roomId
-    }
-  })
+const data = await prisma.chatRoom.findUnique({
+  where: {
+    id: roomId,
+  },
+  select: {
+    client: {
+      include: {
+        user: {
+          select: {
+            image: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    },
+    politician: {
+      include: {
+        user: true,
+      },
+    },
+    secretary: {
+      include: {
+        user: true,
+      },
+    },
+  },
+});
 
-    if (!chatRoom) {
-      notFound();
-    }
+
+const chatPartner: User = data.politician?.user || data.secretary?.user;
+
+if (!data || !chatPartner) {
+  notFound();
+}
 
     
   const existingMessages = await prisma.message.findMany({
@@ -37,33 +65,31 @@ const page = async ({ params }: PageProps) => {
     },
   });
 
-  const serializedMessages = existingMessages.map((message) => ({
+  const serializedMessages: Message[] = existingMessages.map((message) => ({
     text: message.text,
     id: message.id,
-    userId: message.userId
+    userId: message.userId,
+    timestamp: message.createdAt
   }));
 
   return (
-    <Card className="flex max-h-screen flex-col justify-between bg-transparent">
-      <CardHeader>
-        <Card className="w-full px-4 py-6">
-          <h2 className="m-0 p-0 text-gray-300">Mensagens:</h2>
-        </Card>
+    <Card className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6">
+      <CardHeader className="flex justify-between border-b-2 border-gray-200 py-3 sm:items-center">
+        <ChatHeader />
       </CardHeader>
-      <CardBody>
-        <Messages roomId={roomId} sessionUserId={session.user.id} initialMessages={serializedMessages} />
+      <CardBody
+        id="messages"
+        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex h-full flex-col justify-end space-y-4 overflow-y-auto p-3"
+      >
+        <Messages
+          sessionUserId={session.user.id}
+          chatPartner={chatPartner}
+          initialMessages={serializedMessages}
+          roomId={roomId}
+        />
       </CardBody>
-      <CardFooter>
-         {
-          chatRoom.status === "pending" ? (<><Title>{chatRoom.status}</Title>
-            <Text>Aguarde até que aceitem sua conversa para poder mandar mensagens</Text>
-          </>
-            
-          ) :""
-        }
-        {
-          chatRoom.status === "active" && <MessageField userId={session.user.id} roomId={roomId} />
-        }
+      <CardFooter className="mb-2 border-t-2 border-gray-200 px-0 pt-4 sm:mb-0">
+        <ChatFooter userId={session.user.id} roomId={roomId} />
       </CardFooter>
     </Card>
   );

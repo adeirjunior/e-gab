@@ -50,7 +50,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
     console.error("Erro ao encontrar salas.");
     return null;
   }
-  
+
   return (
     <Card className="min-h-screen space-y-6 bg-transparent p-6">
       <FormModal subdomain={subdomain} />
@@ -81,13 +81,24 @@ export default async function Page({ params }: { params: { domain: string } }) {
                 </CardHeader>
                 <CardBody></CardBody>
                 <CardFooter>
-                  <Button
-                    as={Link}
-                    href={getCurrentDomain(subdomain!, `/ouvidoria/${room.id}`)}
-                    variant="flat"
-                  >
-                    Entrar
-                  </Button>
+                  {room.status === "disabled" ||
+                  room.status === "pending" ||
+                  room.status === "denied" ? (
+                    <Button disabled variant="flat">
+                      Entrar
+                    </Button>
+                  ) : (
+                    <Button
+                      as={Link}
+                      href={getCurrentDomain(
+                        subdomain!,
+                        `/ouvidoria/${room.id}`,
+                      )}
+                      variant="flat"
+                    >
+                      Entrar
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             );

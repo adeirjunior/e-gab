@@ -68,7 +68,7 @@ model Secretary {
 model Politician {
   id             String      @id @default(cuid()) @map("_id")
   party          String?
-  User           User        @relation(fields: [userId], references: [id])
+  user           User        @relation(fields: [userId], references: [id])
   userId         String      @unique
   secretaries    Secretary[]
   description    String?
@@ -77,7 +77,7 @@ model Politician {
   donation       Donation[]
   billingAddress Json?
   paymentMethod  Json?
-  ChatRoom       ChatRoom[]
+  chatRoom       ChatRoom[]
 }
 
 model Subscription {

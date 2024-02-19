@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     channelName,
     presenceData,
   );
+  
 
   return new Response(JSON.stringify(auth));
 }

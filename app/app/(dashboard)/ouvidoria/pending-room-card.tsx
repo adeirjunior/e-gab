@@ -50,7 +50,10 @@ export default function PendingRoomCard({
           <div className="flex flex-col">
             <Title>
               Sala de{" "}
-              <Bold>{room.client.user?.name || room.client.user?.email}</Bold>
+              <Bold>
+                {room.client.user?.name ||
+                  room.client.user?.email}
+              </Bold>
             </Title>
             <Text className="dark:text-gray-400">{room.title}</Text>
           </div>

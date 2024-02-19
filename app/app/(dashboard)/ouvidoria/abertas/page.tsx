@@ -6,6 +6,7 @@ import { getCurrentDomain } from "@/lib/utils";
 import { Button, Card, Input, Link } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 import { redirect } from "next/navigation";
+import ActionsDropDown from "./[roomId]/actions-dropdown";
 
 const Page = async () => {
   const session = await getSession()
@@ -40,7 +41,7 @@ const Page = async () => {
       {rooms.length > 0 ? (<Grid numItems={2} numItemsMd={3} numItemsLg={4}>
       {rooms.map((room) => (
         <Card key={room.id}>
-          <h3>Sala de {room.client.user?.name || room.client.user?.email}</h3>
+          <div className="flex flex-row justify-between"><h3>Sala de {room.client.user?.name || room.client.user?.email}</h3> <ActionsDropDown id={room.id} /></div>
           <Button as={Link} href={getCurrentDomain("app", `/ouvidoria/abertas/${room.id}`)}>
             Entrar
           </Button>

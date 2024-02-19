@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { pusherClient } from "@/lib/configs/pusher";
-import { Message } from "@/lib/validations/message";
-import { Avatar } from "@nextui-org/react";
-import { FC, useEffect, useRef, useState } from "react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { User } from "@prisma/client";
+import { pusherClient } from '@/lib/configs/pusher';
+import { cn } from '@/lib/utils';
+import { Message } from '@/lib/validations/message';
+import { Avatar } from '@nextui-org/react';
+import { User } from '@prisma/client';
+import { format } from 'date-fns';
+import { FC, useEffect, useRef, useState } from 'react';
 
-export interface MessagesProps {
+interface MessagesProps {
   initialMessages: Message[];
   roomId: string;
   sessionUserId: string;
@@ -21,7 +21,7 @@ const Messages: FC<MessagesProps> = ({
   sessionUserId,
   chatPartner
 }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   useEffect(() => {
     pusherClient.subscribe(roomId);
@@ -101,8 +101,7 @@ const Messages: FC<MessagesProps> = ({
                 })}
               >
                 <Avatar
-                  src={chatPartner.image
-                  }
+                  src={chatPartner.image}
                   alt="Profile picture"
                   className="rounded-full"
                 />
@@ -113,6 +112,4 @@ const Messages: FC<MessagesProps> = ({
       })}
     </div>
   );
-};
-
-export default Messages;
+}

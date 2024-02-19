@@ -55,10 +55,29 @@ export const updateChatRoom = async (
   const value = formData.get(key) as string;
 
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id
+      }
+    })
+
+    const userRole = user.role
+
+    const userRoleContent = userRole === 'Politician' ? await prisma.politician.findUnique({
+      where: {
+        userId: session.user.id
+      }
+    }) : await prisma.secretary.findUnique({
+      where: {
+        userId: session.user.id
+      }
+    })
+
     const response = await prisma.chatRoom.update({
       where: { id },
       data: {
         [key]: value,
+        [userRole === 'Politician' ? 'politicianId' : 'secretaryId']: userRoleContent.id
       },
     });
 
