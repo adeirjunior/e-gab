@@ -20,8 +20,10 @@ import {
 import { Website } from "@prisma/client";
 import { Cross } from "hamburger-react";
 import { signOut, useSession } from "next-auth/react";
+import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import BlurImage from "../blur-image";
 
 export default function Header({
   data
@@ -55,7 +57,7 @@ export default function Header({
         <NavbarBrand>
           <Link className="block text-teal-600" href="/">
             <span className="sr-only">Home</span>
-            <Image
+            <CldImage
               alt={`logo de ${data.name}`}
               src={data.logo}
               width={50}
@@ -212,11 +214,12 @@ export default function Header({
         {status === "authenticated" ? (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
+              <CldImage
+              alt=""
                 className="transition-transform"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                width={50}
+                height={50}
+                src={session.user.image}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">

@@ -80,6 +80,14 @@ export default async function SiteLayout({
     return redirect(`https://${data.customDomain}`);
   }
 
+  const socials = await prisma.socialMedia.findMany({
+    where: {
+      website: {
+        id: data.id,
+      },
+    },
+  });
+
   return (
     <NextThemeProvider attribute="class" defaultTheme="light">
       <div className={fontMapper[data.font]}>
@@ -87,7 +95,7 @@ export default async function SiteLayout({
 
         <div className="container mt-20">{children}</div>
 
-        <Footer data={data} />
+        <Footer data={data} socials={socials} />
       </div>
     </NextThemeProvider>
   );

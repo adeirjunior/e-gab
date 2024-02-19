@@ -1,9 +1,10 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
-import { Metric, Title, Subtitle, Bold, Italic, Text } from "@tremor/react";
+import { Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
+import { Metric, Title, Subtitle, Bold, Text } from "@tremor/react";
 import { signOut } from "next-auth/react";
+import { CldImage } from "next-cloudinary";
 
 export default function Profile({
   user,
@@ -20,20 +21,17 @@ export default function Profile({
   return (
     <Dropdown placement="top-start">
       <DropdownTrigger>
-        <User
-          as="button"
-          avatarProps={{
-            isBordered: true,
-            src: user.image ?? `https://avatar.vercel.sh/${user.email}`,
-          }}
-          className="transition-transform"
-          classNames={{
-            name: "dark:text-gray-300",
-            description: "dark:text-gray-100",
-          }}
-          description="@tonyreichert"
-          name={user.name}
+        <Card>
+          <CldImage
+        alt=""
+          src={ user.image}
+          width={50}
+          height={50}
         />
+        <Title>{user.name}</Title>
+        <Subtitle>@username</Subtitle>
+        </Card>
+        
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="profile" className="gap-2">

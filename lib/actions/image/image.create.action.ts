@@ -7,40 +7,61 @@ import { SearchResult } from "@/lib/types/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function create(formData: FormData) {
+export async function create(formData: FormData, type?: "logo" | "gallery") {
   const session = await getSession();
 
   if (!session) {
     throw new Error("Erro");
   }
 
-  const website = await getWebsiteByUserId(session.user.id);
-
-  if (!website) {
-    throw new Error("Erro");
-  }
-
-  const file = formData.get("image") as File;
+  const file = formData.get(type === 'logo' ? type : "image") as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
-  await new Promise((resolve, reject) => {
-    cloudinary.v2.uploader
-      .upload_stream(
-        {
-          tags: ["nextjs-server-actions-upload-sneakers"],
-          folder: `E-Gab/Websites/Website ${website.id}`,
-        },
-        function (error: any, result: unknown) {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(result);
-        },
-      )
-      .end(buffer);
-  });
-  revalidatePath("/arquivos");
+
+  try {
+    let path: string;
+    const filename = "profile_image";
+
+    const upload = async () =>
+      await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader
+          .upload_stream(
+            {
+              tags: ["nextjs-server-actions-upload-sneakers"],
+              folder: path,
+              ...(type === "logo" && {
+                unique_filename: true,
+                public_id: filename,
+                discard_original_filename: true
+              }),
+            },
+            function (error: any, result: unknown) {
+              if (error) {
+                reject(error);
+                return;
+              }
+              resolve(result);
+            },
+          )
+          .end(buffer);
+      });
+
+    if (type === "logo") {
+      path = `E-Gab/Users/User ${session.user.id}`;
+      await upload()
+      revalidatePath("/configuracoes");
+    } else {
+      const website = await getWebsiteByUserId(session.user.id);
+      if (!website) {
+        throw new Error("Erro");
+      }
+      path = `E-Gab/Websites/Website ${website.id}`;
+      await upload();
+      revalidatePath("/arquivos");
+    }
+
+    return type === 'logo' ? `${path}/${filename}` : path;
+  } catch (error) {}
 }
 
 function excludeCommonPath(basePath: string, excludePath: string): string {
@@ -64,20 +85,19 @@ export async function setAsFavoriteAction(
   }
 }
 
-export async function addImageToAlbum(
-  image: SearchResult,
-  album: string,
-) {
-   const session = await getSession();
+export async function addImageToAlbum(image: SearchResult, album: string) {
+  const session = await getSession();
 
-   if (!session) {
-    redirect("/login")
-     return {
-      error: "Você não está logado."
-     }
-   }
+  if (!session) {
+    redirect("/login");
+    return {
+      error: "Você não está logado.",
+    };
+  }
 
-   const {cloudinaryDir: websiteCloudinaryDir } = await getWebsiteByUserId(session.user.id);
+  const { cloudinaryDir: websiteCloudinaryDir } = await getWebsiteByUserId(
+    session.user.id,
+  );
 
   await cloudinary.v2.api.create_folder(`${websiteCloudinaryDir}/${album}`);
 

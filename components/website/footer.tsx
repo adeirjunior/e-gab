@@ -1,19 +1,15 @@
-import { Image, Link } from "@nextui-org/react";
-import { Website } from "@prisma/client";
-import prisma from "@/lib/configs/prisma";
+"use client"
+
+import { Link } from "@nextui-org/react";
+import { SocialMedia, Website } from "@prisma/client";
 import { Instagram, Youtube } from "lucide-react";
 import Facebook from "./svg/facebook.svg";
 import Tiktok from "./svg/tiktok.svg";
 import Twitter from "./svg/twitter.svg";
+import { CldImage } from "next-cloudinary";
 
-export default async function Footer({ data }: { data: Website }) {
-  const socials = await prisma.socialMedia.findMany({
-    where: {
-      website: {
-        id: data.id,
-      },
-    },
-  });
+export default function Footer({ data, socials }: { data: Website, socials: SocialMedia[] }) {
+  
 
   return (
     <footer className="bg-gray-100">
@@ -21,7 +17,7 @@ export default async function Footer({ data }: { data: Website }) {
         <div className="flex justify-center text-teal-600">
           <Link className="block text-teal-600" href="/">
             <span className="sr-only">Home</span>
-            <Image
+            <CldImage
               alt={`logo de ${data.name}`}
               src={data.logo}
               width={50}

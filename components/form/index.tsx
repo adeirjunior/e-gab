@@ -2,7 +2,6 @@
 
 import LoadingDots from "@/components/icons/loading-dots";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
@@ -23,7 +22,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { Suspense } from "react";
-import { useEffectOnce } from "usehooks-ts";
+import { useSession } from "next-auth/react";
 
 export default function Form({
   title,
@@ -66,8 +65,8 @@ export default function Form({
             console.error(res.error);
           } else {
             va.track(`Updated ${inputAttrs.name}`);
-              await update();
-              router.refresh();
+            await update();
+            router.refresh();
             toast.success(`Atualizado ${inputAttrs.name} com sucesso!`);
           }
         });
@@ -75,7 +74,7 @@ export default function Form({
     >
       <Card className="rounded-lg border-3 border-stone-200 bg-white dark:border-stone-700 dark:bg-black">
         <CardHeader>
-          <h2 className="m-3 p-0 font-cal text-xl dark:text-white">{title}</h2>
+          <h2 className="font-cal m-3 p-0 text-xl dark:text-white">{title}</h2>
         </CardHeader>
         <CardBody className="relative flex flex-col space-y-4 p-5 sm:p-10 sm:pt-0">
           <Suspense
@@ -209,7 +208,7 @@ export default function Form({
         {inputAttrs.name === "customDomain" && inputAttrs.defaultValue && (
           <DomainConfiguration domain={inputAttrs.defaultValue} />
         )}
-        <CardFooter className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-stone-200 bg-stone-50 p-3 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10 dark:border-stone-700 dark:bg-stone-800">
+        <CardFooter className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-stone-200 bg-stone-50 p-3 dark:border-stone-700 dark:bg-stone-800 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10">
           <p className="text-sm text-stone-500 dark:text-stone-400">
             {helpText}
           </p>

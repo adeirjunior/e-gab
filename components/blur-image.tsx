@@ -1,16 +1,16 @@
 "use client";
 
 import cn from "clsx";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 
 import type { ComponentProps } from "react";
 
-export default function BlurImage(props: ComponentProps<typeof Image>) {
+export default function BlurImage(props: ComponentProps<typeof CldImage>) {
   const [isLoading, setLoading] = useState(true);
 
   return (
-    <Image
+    <CldImage
       {...props}
       alt={props.alt}
       className={cn(

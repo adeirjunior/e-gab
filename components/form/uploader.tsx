@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { CldImage } from "next-cloudinary";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -27,9 +28,10 @@ export default function Uploader({
       } else if (
         !file.type.includes("png") &&
         !file.type.includes("jpg") &&
-        !file.type.includes("jpeg")
+        !file.type.includes("jpeg") &&
+        !file.type.includes("webp")
       ) {
-        toast.error("Invalid file type (must be .png, .jpg, or .jpeg)");
+        toast.error("Invalid file type (must be .png, .jpg, .jpeg, or .webp)");
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -108,16 +110,18 @@ export default function Uploader({
             <path d="m16 16-4-4-4 4"></path>
           </svg>
           <p className="mt-2 text-center text-sm text-gray-500">
-            Drag and drop or click to upload.
+            Arraste e solte ou clique para fazer o upload.
           </p>
           <p className="mt-2 text-center text-sm text-gray-500">
-            Max file size: 50MB
+            Tamanho máximo de arquivo: 5MB
           </p>
-          <span className="sr-only">Photo upload</span>
+          <span className="sr-only">Upload de imagem</span>
         </div>
         {data[name] && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <CldImage
+          width={500}
+          height={5000}
             src={data[name] as string}
             alt="Preview"
             className="h-full w-full rounded-md object-cover"
