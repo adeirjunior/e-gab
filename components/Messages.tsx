@@ -106,7 +106,7 @@ const Messages: FC<MessagesProps> = ({
                 </span>
               </div>
 
-              {!isCurrentUser && (
+             
                 <div
                   className={cn("relative h-6 w-6", {
                     "order-2": isCurrentUser,
@@ -122,7 +122,7 @@ const Messages: FC<MessagesProps> = ({
                     className="rounded-full"
                   />
                 </div>
-              )}
+             
             </div>
           </div>
         );
