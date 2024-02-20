@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { NextThemeProvider } from "../next-themes-provider";
 import Header from "@/components/website/header";
 import Footer from "@/components/website/footer";
+import prisma from "@/lib/configs/prisma";
 
 export async function generateMetadata({
   params,
