@@ -11,6 +11,7 @@ import Banner from "@/components/website/banner";
 import PostCard from "@/components/website/post-card";
 import { Grid } from "@tremor/react";
 import CarouselWebsite from "@/components/modal/carousel";
+import { CalendarDemo } from "@/components/website/calendar-demo";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -59,8 +60,14 @@ export default async function SiteHomePage({
         <Banner />
         <CarouselWebsite />
         <StatsGrid websiteId={data.id} />
-        {posts.length > 0 ? (<Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2"> {posts.map((post, index) => <PostCard key={index} post={post}/>)}</Grid>) 
-         : (
+        {posts.length > 0 ? (
+          <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
+            {" "}
+            {posts.map((post, index) => (
+              <PostCard key={index} post={post} />
+            ))}
+          </Grid>
+        ) : (
           <div className="flex flex-col items-center justify-center py-20">
             <Image
               alt="missing post"
@@ -86,7 +93,7 @@ export default async function SiteHomePage({
       {proposals.length > 0 && (
         <section>
           <SectionHeadingTitles
-          id="propostas"
+            id="propostas"
             subtitle="Meus objetivos"
             title="Quais são as principais areas que quero impulsionar"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
@@ -97,6 +104,15 @@ export default async function SiteHomePage({
             ))}
         </section>
       )}
+      <section>
+        <SectionHeadingTitles
+          id="calendario"
+          subtitle="Eventos próximos"
+          title="Fique atento aos próximos eventos"
+          description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+        />
+        <CalendarDemo />
+      </section>
     </>
   );
 }

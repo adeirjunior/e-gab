@@ -35,17 +35,19 @@ export default function Header({
   const router = useRouter()
 
   const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
+    { title: "Agenda", href: "/agenda" },
+    { title: "Bibliografia", href: "/bibliografia" },
+    { title: "Emendas", href: "/emendas" },
+    { title: "Galeria", href: "/galeria" },
+    { title: "Projetos", href: "/projetos" },
+    { title: "Leis", href: "/leis" },
+    { title: "Ouvidoria", href: "/ouvidoria" },
+    { title: "Enquetes", href: "/enquetes" },
+    { title: "Pesquisas", href: "/pesquisas" },
+    { title: "Contato", href: "/contato" },
+    { title: "Posts", href: "/posts" },
   ];
+
 
   return (
     <Navbar
@@ -215,7 +217,7 @@ export default function Header({
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <CldImage
-              alt=""
+                alt=""
                 className="transition-transform"
                 width={50}
                 height={50}
@@ -268,12 +270,7 @@ export default function Header({
               </Button>
             </NavbarItem>
           </>
-        )}
-      </NavbarContent>
-
-      <NavbarContent>
-        <NavbarMenuToggle
-          icon={<Cross onToggle={setIsMenuOpen} toggled={isMenuOpen} />}
+        )}<NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
@@ -291,10 +288,10 @@ export default function Header({
                     : "foreground"
               }
               className="w-full"
-              href="#"
+              href={item.href}
               size="lg"
             >
-              {item}
+              {item.title}
             </Link>
           </NavbarMenuItem>
         ))}
