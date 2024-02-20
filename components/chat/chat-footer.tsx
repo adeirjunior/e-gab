@@ -21,7 +21,7 @@ export default function ChatFooter({roomId, userId}: MessageFieldProps) {
   return (
     <>
       <div className="relative flex w-full">
-        <form action={sendMessage}>
+        <form className="w-full" action={sendMessage}>
           <span className="absolute inset-y-0 flex items-center">
             <Button
               type="button"
