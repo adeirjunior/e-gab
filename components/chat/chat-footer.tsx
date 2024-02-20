@@ -1,4 +1,5 @@
 import { createMessage } from "@/lib/actions/message/message.create.action";
+import { getCurrentDomain } from "@/lib/utils";
 import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
 
@@ -13,7 +14,7 @@ export default function ChatFooter({roomId, userId}: MessageFieldProps) {
       "use server";
       const text = formData.get("message") as string;
       
-      await axios.post("/api/message", { text, roomId });
+      await axios.post(getCurrentDomain(null, '/api/message'), { text, roomId });
       await createMessage(text, userId, roomId);
     };
 
@@ -45,6 +46,7 @@ export default function ChatFooter({roomId, userId}: MessageFieldProps) {
           </span>
           <Input
             type="text"
+            name="message"
             placeholder="Escreva sua mensagem!"
             className="w-full rounded-md bg-gray-200 py-3 pl-12 text-gray-600 placeholder-gray-600 focus:placeholder-gray-400 focus:outline-none"
           />

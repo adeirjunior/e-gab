@@ -4,7 +4,7 @@ export const messageValidator = z.object({
   id: z.string(),
   userId: z.string(),
   text: z.string(),
-  timestamp: z.date(),
+  createdAt: z.date(),
 });
 
 export const messageArrayValidator = z.array(messageValidator);

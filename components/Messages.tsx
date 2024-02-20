@@ -44,6 +44,7 @@ const Messages: FC<MessagesProps> = ({
    return format(timestamp, "HH:mm");
  };
 
+
   return (
     <div
       id="messages"
@@ -60,7 +61,7 @@ const Messages: FC<MessagesProps> = ({
         return (
           <div
             className="chat-message"
-            key={`${message.id}-${message.timestamp}`}
+            key={`${message.id}-${message.createdAt}`}
           >
             <div
               className={cn("flex items-end", {
@@ -88,7 +89,7 @@ const Messages: FC<MessagesProps> = ({
                 >
                   {message.text}{" "}
                   <span className="ml-2 text-xs text-gray-400">
-                    {formatTimestamp(message.timestamp)}
+                    {formatTimestamp(message.createdAt)}
                   </span>
                 </span>
               </div>

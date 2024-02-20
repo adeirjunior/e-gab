@@ -1,14 +1,8 @@
 import MessageField from "@/components/MessageField";
 import Messages from "@/components/Messages";
-import { AddNoteIcon } from "@/components/icons/AddNoteIcon";
-import { CopyDocumentIcon } from "@/components/icons/CopyDocumentIcon";
-import { DeleteDocumentIcon } from "@/components/icons/DeleteDocumentIcon";
-import { EditDocumentIcon } from "@/components/icons/EditDocumentIcon";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import { cn } from "@/lib/utils";
-import { Message } from "@/lib/validations/message";
-import { Button, Card, CardBody, CardFooter, CardHeader, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
+import {  Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
@@ -69,14 +63,10 @@ if (!data || !chatPartner) {
     where: {
       chatRoomId: roomId,
     },
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
-
-  const serializedMessages: Message[] = existingMessages.map((message) => ({
-    text: message.text,
-    id: message.id,
-    userId: message.userId,
-    timestamp: message.createdAt
-  }));
 
 
   return (
@@ -94,7 +84,7 @@ if (!data || !chatPartner) {
           chatPartner={chatPartner}
           sessionUserId={session.user.id}
           roomId={roomId}
-          initialMessages={serializedMessages}
+          initialMessages={existingMessages}
         />
       </CardBody>
       <CardFooter>

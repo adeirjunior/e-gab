@@ -3,7 +3,6 @@ import ChatFooter from "@/components/chat/chat-footer";
 import ChatHeader from "@/components/chat/chat-header";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import { Message } from "@/lib/validations/message";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { User } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
@@ -63,19 +62,15 @@ if (!data || !chatPartner) {
     where: {
       chatRoomId: roomId,
     },
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
-
-  const serializedMessages: Message[] = existingMessages.map((message) => ({
-    text: message.text,
-    id: message.id,
-    userId: message.userId,
-    timestamp: message.createdAt
-  }));
 
   return (
     <Card className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6">
       <CardHeader className="flex justify-between border-b-2 border-gray-200 py-3 sm:items-center">
-        <ChatHeader />
+        <ChatHeader chatPartner={chatPartner}/>
       </CardHeader>
       <CardBody
         id="messages"
@@ -84,7 +79,7 @@ if (!data || !chatPartner) {
         <Messages
           sessionUserId={session.user.id}
           chatPartner={chatPartner}
-          initialMessages={serializedMessages}
+          initialMessages={existingMessages}
           roomId={roomId}
         />
       </CardBody>

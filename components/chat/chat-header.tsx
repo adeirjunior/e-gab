@@ -1,7 +1,10 @@
-import { Avatar, Button } from '@nextui-org/react';
-import Image from 'next/image';
+"use client"
 
-export default function ChatHeader() {
+import { Button } from '@nextui-org/react';
+import { User } from '@prisma/client';
+import { CldImage } from 'next-cloudinary';
+
+export default function ChatHeader({ chatPartner }: { chatPartner : User}) {
   return (
     <>
       <div className="relative flex items-center space-x-4">
@@ -11,13 +14,11 @@ export default function ChatHeader() {
               <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
             </svg>
           </span>
-          <Avatar size='lg' src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+          <CldImage className='rounded-full' src={chatPartner.image} width={50} height={50} alt="" />
         </div>
         <div className="flex flex-col leading-tight">
           <div className="mt-1 flex items-center text-2xl">
-            <span className="mr-3 text-gray-700">
-              Vereador Claudinho da Cascalheira
-            </span>
+            <span className="mr-3 text-gray-700">{chatPartner.name}</span>
           </div>
           <span className="text-lg text-gray-600">Sendo atendido por</span>
         </div>

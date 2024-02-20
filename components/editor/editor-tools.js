@@ -4,7 +4,7 @@ import Delimiter from "@editorjs/delimiter";
 import Embed from "@editorjs/embed";
 import InlineCode from "@editorjs/inline-code";
 import Link from "@editorjs/link";
-import SimpleImage from "@/components/editor/image/image"
+import ImageTool from "@editorjs/image"
 import List from "@editorjs/list";
 import Quote from "@editorjs/quote";
 import Paragraph from "@editorjs/paragraph";
@@ -23,7 +23,15 @@ export const EDITOR_TOOLS = {
   paragraph: Paragraph,
   checklist: CheckList,
   embed: Embed,
-  image:  SimpleImage,
+  image: {
+    class: ImageTool,
+    config: {
+      endpoints: {
+        byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+      },
+    },
+  },
   inlineCode: InlineCode,
   link: Link,
   list: List,
