@@ -2,23 +2,31 @@
 
 import { pusherClient } from "@/lib/configs/pusher";
 import { Message } from "@/lib/validations/message";
-import { Avatar } from "@nextui-org/react";
 import { FC, useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { User } from "@prisma/client";
+import { User, UserRole } from "@prisma/client";
+import { CldImage } from "next-cloudinary";
 
 export interface MessagesProps {
   initialMessages: Message[];
   roomId: string;
-  sessionUserId: string;
+  sessionUser: {
+    id: string;
+    name: string;
+    username: string;
+    email: string;
+    image: string;
+    stripeCustomerId: string;
+    role: UserRole;
+  };
   chatPartner: User;
 }
 
 const Messages: FC<MessagesProps> = ({
   initialMessages,
   roomId,
-  sessionUserId,
+  sessionUser,
   chatPartner
 }) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -40,7 +48,10 @@ const Messages: FC<MessagesProps> = ({
 
  const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
- const formatTimestamp = (timestamp: Date) => {
+ const formatTimestamp = (timestamp?: Date) => {
+  if(!timestamp) {
+    return format(new Date(), "HH:mm");
+  }
    return format(timestamp, "HH:mm");
  };
 
@@ -53,7 +64,8 @@ const Messages: FC<MessagesProps> = ({
       <div ref={scrollDownRef} />
 
       {messages.map((message, index) => {
-        const isCurrentUser = message.userId === sessionUserId;
+        const isCurrentUser = message.userId === sessionUser.id;
+        const isDifferenttUser = message.userId === chatPartner.id;
 
         const hasNextMessageFromSameUser =
           messages[index - 1]?.userId === messages[index].userId;
@@ -94,20 +106,23 @@ const Messages: FC<MessagesProps> = ({
                 </span>
               </div>
 
-              <div
-                className={cn("relative h-6 w-6", {
-                  "order-2": isCurrentUser,
-                  "order-1": !isCurrentUser,
-                  invisible: hasNextMessageFromSameUser,
-                })}
-              >
-                <Avatar
-                  src={chatPartner.image
-                  }
-                  alt="Profile picture"
-                  className="rounded-full"
-                />
-              </div>
+              {!isCurrentUser && (
+                <div
+                  className={cn("relative h-6 w-6", {
+                    "order-2": isCurrentUser,
+                    "order-1": !isCurrentUser,
+                    invisible: hasNextMessageFromSameUser,
+                  })}
+                >
+                  <CldImage
+                    src={isDifferenttUser ? chatPartner.image : sessionUser.image}
+                    width={50}
+                    height={50}
+                    alt="Profile picture"
+                    className="rounded-full"
+                  />
+                </div>
+              )}
             </div>
           </div>
         );

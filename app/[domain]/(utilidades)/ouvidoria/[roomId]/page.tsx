@@ -77,7 +77,7 @@ if (!data || !chatPartner) {
         className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex h-full flex-col justify-end space-y-4 overflow-y-auto p-3"
       >
         <Messages
-          sessionUserId={session.user.id}
+          sessionUser={session.user}
           chatPartner={chatPartner}
           initialMessages={existingMessages}
           roomId={roomId}

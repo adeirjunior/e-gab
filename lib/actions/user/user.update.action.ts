@@ -22,10 +22,15 @@ export const editUser = async (
   try {
     let response: User;
     if (key === "image" || key === "logo") {
-      if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      if (
+        !process.env.CLOUDINARY_UPLOAD_PRESET ||
+        !process.env.CLOUDINARY_API_SECRET ||
+        !process.env.CLOUDINARY_API_KEY ||
+        !process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+      ) {
         return {
           error:
-            "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
+            "Variáveis de ambiente da Cloudinary não foram encontradas.",
         };
       }
 

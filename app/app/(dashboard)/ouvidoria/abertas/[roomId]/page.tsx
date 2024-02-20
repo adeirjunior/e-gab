@@ -82,7 +82,7 @@ if (!data || !chatPartner) {
       <CardBody>
         <Messages
           chatPartner={chatPartner}
-          sessionUserId={session.user.id}
+          sessionUser={session.user}
           roomId={roomId}
           initialMessages={existingMessages}
         />

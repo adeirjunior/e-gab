@@ -16,7 +16,7 @@ export async function create(formData: FormData, type?: "logo" | "gallery") {
 
   const file = formData.get(type === 'logo' ? type : "image") as File;
   const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
+  const buffer = Buffer.from(arrayBuffer);
 
   try {
     let path: string;
