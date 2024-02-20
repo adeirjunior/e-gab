@@ -9,9 +9,12 @@ import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
 import Banner from "@/components/website/banner";
 import PostCard from "@/components/website/post-card";
-import { Grid } from "@tremor/react";
+import { Grid, Text, Title } from "@tremor/react";
 import CarouselWebsite from "@/components/modal/carousel";
 import { CalendarDemo } from "@/components/website/calendar-demo";
+import { Card, CardBody, CardFooter, CardHeader, Divider, Link } from "@nextui-org/react";
+import MessageSvg from "@/components/demo/svg/message.svg";
+import ListSvg from "@/components/demo/svg/list.svg";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -58,7 +61,6 @@ export default async function SiteHomePage({
     <>
       <div className="mb-20 w-full">
         <Banner />
-        <CarouselWebsite />
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
@@ -112,6 +114,37 @@ export default async function SiteHomePage({
           description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
         />
         <CalendarDemo />
+      </section>
+      <Divider className="my-4" />
+      <Grid numItems={2}>
+        <Card>
+          <CardHeader className="flex flex-col">
+            <MessageSvg />
+            <Title>Fale comigo</Title>
+          </CardHeader>
+          <CardBody>
+            <Text>Envie suas reclamações e sugestões</Text>
+          </CardBody>
+          <CardFooter>
+            <Link href="#">Saiba mais {" >"}</Link>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-col">
+            <ListSvg />
+            <Title>Meus projetos</Title>
+          </CardHeader>
+          <CardBody>
+            <Text>Fique por dentro dos trabalhos que tenho feito</Text>
+          </CardBody>
+          <CardFooter>
+            <Link href="#">Saiba mais {" >"}</Link>
+          </CardFooter>
+        </Card>
+      </Grid>
+      <Divider className="my-4" />
+      <section>
+        <CarouselWebsite />
       </section>
     </>
   );
