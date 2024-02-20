@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/components/ModalC";
+import Modal from "@/components/modal/ModalC";
 import { useLastViewedPhoto } from "@/lib/utils/useLastViewedPhoto";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

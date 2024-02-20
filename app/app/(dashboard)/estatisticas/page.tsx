@@ -1,6 +1,7 @@
 import { hasSubscription } from "@/lib/helpers/billing";
 import OnboardingExample from "@/components/onboarding";
 import ButtonC from "./button";
+import UploadImageModal from "@/components/modal/upload-image";
 
 export default async function page() {
   const hasSub = await hasSubscription()
@@ -11,6 +12,7 @@ export default async function page() {
       </h1>
       <OnboardingExample />
       <ButtonC hasSub={hasSub} />
+      <UploadImageModal/>
     </div>
   );
 }

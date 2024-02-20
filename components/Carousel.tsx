@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import useKeypress from "react-use-keypress";
-import SharedModal from "@/components/SharedModal";
+import SharedModal from "@/components/modal/SharedModal";
 import { ImageProps } from "@/lib/types/types";
 import { useLastViewedPhoto } from "@/lib/utils/useLastViewedPhoto";
 

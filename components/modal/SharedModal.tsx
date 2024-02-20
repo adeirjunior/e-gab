@@ -14,7 +14,7 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
-import Twitter from "./icons/Twitter";
+import Twitter from "../icons/Twitter";
 import downloadPhoto from "@/lib/utils/downloadPhoto";
 import { range } from "@/lib/utils/range";
 
