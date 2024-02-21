@@ -5,6 +5,8 @@ import { SearchResult } from "@/lib/types/types";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FullHeart } from "@/components/icons/full-heart";
 
 export default async function FavoritesPage() {
 const session = await getSession();
@@ -30,6 +32,12 @@ const website = await getWebsiteByUserId(session.user.id);
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold">Imagens Favoritas</h1>
         </div>
+        <Alert>
+          <AlertTitle>Atenção!</AlertTitle>
+          <AlertDescription>
+            Todos os arquivos que forem colocados nos favoritos irão aparecer na galeria do site do político.
+          </AlertDescription>
+        </Alert>
 
         <FavoritesList initialResources={results.resources} />
       </div>
