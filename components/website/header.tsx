@@ -50,7 +50,7 @@ export default function Header({
 
 
   return <>
-  <div className="w-2 h-40"></div>
+  <div className="w-2 h-20"></div>
     <Navbar
       position="static"
       onMenuOpenChange={setIsMenuOpen}

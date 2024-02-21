@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingDots from "@/components/icons/loading-dots";
+import Uploader from "@/components/uploader";
 import { createChatRoom } from "@/lib/actions/chatRoom/chatRoom.create.action";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
@@ -14,7 +15,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { Text, TextInput, Textarea, Title } from "@tremor/react";
+import { Grid, Text, TextInput, Textarea, Title } from "@tremor/react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -51,7 +52,7 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
 
   return (
     <>
-      <Modal isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
+      <Modal scrollBehavior="inside" isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -157,6 +158,11 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
                       className="mt-2 max-h-40"
                     />
                   </div>
+                  <Grid className="col-span-full gap-4" numItems={2}>
+                    <Uploader />
+                  <Uploader />
+                  </Grid>
+                  
                 </form>
               </ModalBody>
               <ModalFooter>
@@ -179,11 +185,12 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
         </ModalContent>
       </Modal>
 
-<div className="w-full flex justify-between items-center">
-  <Title>Ouvidoria</Title>
-  <Button className="w-36" onPress={onOpen}>Criar Sala</Button>
-</div>
-      
+      <div className="flex w-full items-center justify-between">
+        <Title>Ouvidoria</Title>
+        <Button className="w-36" onPress={onOpen}>
+          Criar Sala
+        </Button>
+      </div>
     </>
   );
 }

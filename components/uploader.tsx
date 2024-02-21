@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, ChangeEvent } from "react";
 import { toast } from "sonner";
 import LoadingDots from "@/components/icons/loading-dots";
 import { Button } from "@nextui-org/react";
+import { Grid } from "@tremor/react";
 
 export default function Uploader() {
   const [data, setData] = useState<{
@@ -19,8 +20,8 @@ export default function Uploader() {
     (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.currentTarget.files && event.currentTarget.files[0];
       if (file) {
-        if (file.size / 1024 / 1024 > 50) {
-          toast.error("File size too big (max 50MB)");
+        if (file.size / 1024 / 1024 > 5) {
+          toast.error("Arquivo muito grande (max 5MB)");
         } else {
           setFile(file);
           const reader = new FileReader();
@@ -41,49 +42,15 @@ export default function Uploader() {
   }, [data.image, saving]);
 
   return (
-    <form
+    <Grid
       className="grid gap-6"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        setSaving(true);
-        fetch("/api/upload", {
-          method: "POST",
-          headers: { "content-type": file?.type || "application/octet-stream" },
-          body: file,
-        }).then(async (res) => {
-          if (res.status === 200) {
-            const { url } = await res.json();
-            toast(
-              <div className="relative">
-                <div className="p-2">
-                  <p className="font-semibold text-gray-900">File uploaded!</p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Your file has been uploaded to{" "}
-                    <a
-                      className="font-medium text-gray-900 underline"
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {url}
-                    </a>
-                  </p>
-                </div>
-              </div>,
-            );
-          } else {
-            const error = await res.text();
-            toast.error(error);
-          }
-          setSaving(false);
-        });
-      }}
+      
     >
       <div>
         <div className="mb-4 space-y-1">
-          <h2 className="text-xl font-semibold">Upload a file</h2>
+          <h2 className="text-xl font-semibold">Upload de arquivo</h2>
           <p className="text-sm text-gray-500">
-            Accepted formats: .png, .jpg, .gif, .mp4
+            Formatos aceitos: .png, .jpg, .gif, .mp4
           </p>
         </div>
         <label
@@ -158,12 +125,12 @@ export default function Uploader() {
               <path d="m16 16-4-4-4 4"></path>
             </svg>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Drag and drop or click to upload.
+              Arraste e solte ou clique para fazer upload.
             </p>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Max file size: 50MB
+              Tamanho máximo: 5MB
             </p>
-            <span className="sr-only">Photo upload</span>
+            <span className="sr-only">Upload de arquivo</span>
           </div>
           {data.image && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -198,9 +165,9 @@ export default function Uploader() {
         {saving ? (
           <LoadingDots color="#808080" />
         ) : (
-          <p className="text-sm">Confirm upload</p>
+          <p className="text-sm">Confirme upload</p>
         )}
       </Button>
-    </form>
+    </Grid>
   );
 }
