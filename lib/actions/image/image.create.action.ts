@@ -7,7 +7,7 @@ import { SearchResult } from "@/lib/types/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function create(formData: FormData, type?: "logo" | "gallery") {
+export async function create(formData: FormData, type?: "logo" | "image") {
   const session = await getSession();
 
   if (!session) {

@@ -29,6 +29,7 @@ export interface DomainResponse {
 export type SearchResult = {
   public_id: string;
   tags: string[];
+  resource_type: 'auto' | 'video' | 'image' | 'raw'
 };
 
 export type UploadResult = {

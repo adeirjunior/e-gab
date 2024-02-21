@@ -40,9 +40,12 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
         if (!session) {
           toast.error("Esta conta não existe.");
         } else {
-          const client = await getClientByUser(session.user.id)
-          await createChatRoom(client.id, website.id, data);
-          onClose()
+          const client = await getClientByUser(session.user.id);
+          const response = await createChatRoom(client.id, website.id, data);
+          if('error' in response) {
+            toast.error(response.error)
+          }
+          onClose();
         }
       });
     } catch (error) {
@@ -52,7 +55,12 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
 
   return (
     <>
-      <Modal scrollBehavior="inside" isOpen={isOpen} placement="auto" onOpenChange={onOpenChange}>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={isOpen}
+        placement="auto"
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -159,10 +167,9 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
                     />
                   </div>
                   <Grid className="col-span-full gap-4" numItems={2}>
-                    <Uploader />
-                  <Uploader />
+                    <Uploader {...register("image-upload")} />
+                    <Uploader {...register("image-upload2")} />
                   </Grid>
-                  
                 </form>
               </ModalBody>
               <ModalFooter>

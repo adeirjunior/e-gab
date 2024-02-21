@@ -6,7 +6,7 @@ import LoadingDots from "@/components/icons/loading-dots";
 import { Button } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 
-export default function Uploader() {
+export default function Uploader({name}: {name: string;}) {
   const [data, setData] = useState<{
     image: string | null;
   }>({
@@ -42,10 +42,7 @@ export default function Uploader() {
   }, [data.image, saving]);
 
   return (
-    <Grid
-      className="grid gap-6"
-      
-    >
+    <Grid className="grid gap-6">
       <div>
         <div className="mb-4 space-y-1">
           <h2 className="text-xl font-semibold">Upload de arquivo</h2>
@@ -54,7 +51,7 @@ export default function Uploader() {
           </p>
         </div>
         <label
-          htmlFor="image-upload"
+          htmlFor={name}
           className="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"
         >
           <div
@@ -143,8 +140,8 @@ export default function Uploader() {
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
           <input
-            id="image-upload"
-            name="image"
+            id={name}
+            name={name}
             type="file"
             accept="image/*"
             className="sr-only"
@@ -153,21 +150,7 @@ export default function Uploader() {
         </div>
       </div>
 
-      <Button
-      type="submit"
-        disabled={saveDisabled}
-        className={`${
-          saveDisabled
-            ? "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400"
-            : "border-black bg-black text-white hover:bg-white hover:text-black"
-        } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
-      >
-        {saving ? (
-          <LoadingDots color="#808080" />
-        ) : (
-          <p className="text-sm">Confirme upload</p>
-        )}
-      </Button>
+      
     </Grid>
   );
 }

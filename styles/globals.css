@@ -19,6 +19,10 @@
   padding: 0;
 }
 
+.vjs-cloudinary-button {
+  display: none !important
+}
+
 .ProseMirror .is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;

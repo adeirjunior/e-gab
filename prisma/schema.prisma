@@ -14,8 +14,8 @@ model User {
   gh_username      String?
   email            String?        @unique
   emailVerified    DateTime?
-  image            String @default("E-Gab/Users/default")
-  cloudinaryDir     String?
+  image            String         @default("E-Gab/Users/default")
+  cloudinaryDir    String?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   accounts         Account[]
@@ -419,9 +419,9 @@ model ChatRoom {
   description   String
   address       String
   cep           String?
-  tel String?
+  tel           String?
   stars         Int            @default(0)
-  startingFiles ChatRoomFile[]
+  startingFiles String[]
   clientId      String
   secretaryId   String?
   politicianId  String?
@@ -437,11 +437,10 @@ model ChatRoom {
 }
 
 model ChatRoomFile {
-  id         String   @id @default(cuid())
-  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
-  chatRoomId String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  file      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ChatRoomStatus {

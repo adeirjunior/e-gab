@@ -2,12 +2,13 @@
 
 import { SearchResult } from "@/lib/types/types";
 import CldImage from "./demo/cloudinary-image";
-import { CldImageProps } from "next-cloudinary";
+import { CldImageProps, CldVideoPlayer } from "next-cloudinary";
 import { useState, useTransition } from "react";
 import { FullHeart } from "./icons/full-heart";
 import { setAsFavoriteAction } from "@/lib/actions/image/image.create.action";
 import { Heart } from "./icons/heart";
 import { ImageMenu } from "./arquives/image-menu";
+import "next-cloudinary/dist/cld-video-player.css";
 
 export function CloudinaryImage(
   props: {
@@ -25,7 +26,16 @@ export function CloudinaryImage(
 
   return (
     <div className="relative">
-      <CldImage {...props} src={imageData.public_id} />
+      {imageData.resource_type === "video" ? (
+        <CldVideoPlayer
+          width="1920"
+          height="1080"
+          src={imageData.public_id}
+        />
+      ) : (
+        <CldImage {...props} src={imageData.public_id} />
+      )}
+
       {isFavorited ? (
         <FullHeart
           onClick={() => {
@@ -48,9 +58,7 @@ export function CloudinaryImage(
           className="absolute left-2 top-2 cursor-pointer hover:text-red-500"
         />
       )}
-      <ImageMenu
-        image={imageData}
-      />
+      <ImageMenu image={imageData} />
     </div>
   );
 }
