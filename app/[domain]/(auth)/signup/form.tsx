@@ -48,7 +48,7 @@ const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
 
     const formData = new FormData(event.target as HTMLFormElement);
 
-    const name = formData.get("name") as string;
+    const name = formData.get("username") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 

@@ -15,7 +15,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Grid, Title } from "@tremor/react";
 import FormModal from "./form-modal";
-import { getRooms } from "@/lib/fetchers/room";
+import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
 
 export const metadata: Metadata = {
@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
     return null;
   }
 
-  const rooms = await getRooms(website.id);
+  const rooms = await getRoomsByUser(website.id, session.user.id);
 
   if (!rooms) {
     console.error("Erro ao encontrar salas.");
