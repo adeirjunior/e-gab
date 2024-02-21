@@ -23,7 +23,7 @@ import { signOut, useSession } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import BlurImage from "../blur-image";
+import BlurImage from "../arquives/blur-image";
 
 export default function Header({
   data
@@ -49,11 +49,12 @@ export default function Header({
   ];
 
 
-  return (
+  return <>
+  <div className="w-2 h-40"></div>
     <Navbar
       position="static"
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-white"
+      className="absolute top-0 left-0 bg-white z-20"
     >
       <NavbarContent>
         <NavbarBrand>
@@ -297,5 +298,5 @@ export default function Header({
         ))}
       </NavbarMenu>
     </Navbar>
-  );
+  </>
 }

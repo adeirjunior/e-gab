@@ -4,7 +4,7 @@ import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import CreateLawButton from "@/components/button/generic-dashboard-button";
 import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
-import Laws from "@/components/laws";
+import Laws from "@/components/content/laws";
 import { createLaw } from "@/lib/actions/law/law.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
 

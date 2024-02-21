@@ -7,7 +7,7 @@ import { useState, useTransition } from "react";
 import { FullHeart } from "./icons/full-heart";
 import { setAsFavoriteAction } from "@/lib/actions/image/image.create.action";
 import { Heart } from "./icons/heart";
-import { ImageMenu } from "./image-menu";
+import { ImageMenu } from "./arquives/image-menu";
 
 export function CloudinaryImage(
   props: {

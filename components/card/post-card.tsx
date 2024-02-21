@@ -1,4 +1,4 @@
-import BlurImage from "@/components/blur-image";
+import BlurImage from "@/components/arquives/blur-image";
 import { getCurrentDomain, placeholderBlurhash } from "@/lib/utils";
 import { Post, Website } from "@prisma/client";
 import Link from "next/link";

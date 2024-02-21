@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import OverviewStats from "@/components/stats/overview-stats";
-import Posts from "@/components/posts";
+import Posts from "@/components/content/posts";
 import PlaceholderCard from "@/components/card/placeholder-card";
 
 export default function Overview() {

@@ -1,4 +1,4 @@
-import BlurImage from "../blur-image";
+import BlurImage from "../arquives/blur-image";
 import type { Law } from "@prisma/client";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import { Card, Link } from "@nextui-org/react";

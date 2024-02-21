@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
-import Posts from "@/components/posts";
+import Posts from "@/components/content/posts";
 import CreateButton from "@/components/button/generic-dashboard-button";
 import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
 import { Metadata } from "next";

@@ -1,7 +1,7 @@
 import { placeholderBlurhash } from "@/lib/utils";
 import { Link } from "@nextui-org/react";
 import { Post } from "@prisma/client";
-import BlurImage from "../blur-image";
+import BlurImage from "../arquives/blur-image";
 
 export default function PostCard({
   post,

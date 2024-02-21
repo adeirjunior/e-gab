@@ -1,6 +1,7 @@
 "use client";
 
 import { SearchResult } from "@/lib/types/types";
+import { Grid } from "@tremor/react";
 import { ReactNode } from "react";
 
 const MAX_COLUMNS = 4;
@@ -17,7 +18,7 @@ export function ImageGrid({
   }
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <Grid numItems={2} numItemsMd={3} numItemsLg={4} className="gap-4">
       {[getColumns(0), getColumns(1), getColumns(2), getColumns(3)].map(
         (column, idx) => (
           <div key={idx} className="flex flex-col gap-4">
@@ -25,6 +26,6 @@ export function ImageGrid({
           </div>
         )
       )}
-    </div>
+    </Grid>
   );
 }

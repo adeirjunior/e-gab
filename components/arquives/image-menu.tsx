@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu } from "./icons/menu";
-import { AddToAlbumDialog } from "./add-to-album-dialog";
+import { Menu } from "../icons/menu";
+import { AddToAlbumDialog } from "../add-to-album-dialog";
 import { useState } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";

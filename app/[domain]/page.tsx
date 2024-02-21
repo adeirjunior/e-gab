@@ -15,6 +15,7 @@ import { CalendarDemo } from "@/components/website/calendar-demo";
 import { Card, CardBody, CardFooter, CardHeader, Divider, Link } from "@nextui-org/react";
 import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
+import PoliticianBanner from "@/components/demo/politician-banner";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -59,7 +60,8 @@ export default async function SiteHomePage({
 
   return (
     <>
-      <div className="mb-20 w-full">
+      <PoliticianBanner />
+      <div className="mb-20 mt-[500px] w-full space-y-6">
         <Banner />
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (

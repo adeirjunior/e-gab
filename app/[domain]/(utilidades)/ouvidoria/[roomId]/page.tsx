@@ -1,4 +1,4 @@
-import Messages from "@/components/Messages";
+import Messages from "@/components/chat/Messages";
 import ChatFooter from "@/components/chat/chat-footer";
 import ChatHeader from "@/components/chat/chat-header";
 import { getSession } from "@/lib/auth/get-session";

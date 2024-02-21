@@ -1,5 +1,5 @@
-import MessageField from "@/components/MessageField";
-import Messages from "@/components/Messages";
+import MessageField from "@/components/chat/MessageField";
+import Messages from "@/components/chat/Messages";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import {  Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
