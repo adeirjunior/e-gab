@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { ProposalTypes } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
@@ -12,8 +12,8 @@ export async function getProposalByType(type: ProposalTypes) {
 
   if (!proposal) {
     return {
-      error: "Proposta esta vazia."
-    }
+      error: "Proposta esta vazia.",
+    };
   }
 
   return proposal;

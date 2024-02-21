@@ -1,9 +1,13 @@
-export default function Twitter({className}: {className?: React.ReactNode}) {
+export default function Twitter({
+  className,
+}: {
+  className?: React.ReactNode;
+}) {
   return (
     <svg
       width="1200"
       height="1227"
-      className={`w-4 h-4 ${className}`}
+      className={`h-4 w-4 ${className}`}
       viewBox="0 0 1200 1227"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

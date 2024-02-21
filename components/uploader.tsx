@@ -6,7 +6,7 @@ import LoadingDots from "@/components/icons/loading-dots";
 import { Button } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 
-export default function Uploader({name}: {name: string;}) {
+export default function Uploader({ name }: { name: string }) {
   const [data, setData] = useState<{
     image: string | null;
   }>({
@@ -149,8 +149,6 @@ export default function Uploader({name}: {name: string;}) {
           />
         </div>
       </div>
-
-      
     </Grid>
   );
 }

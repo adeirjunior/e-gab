@@ -10,22 +10,15 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
-    <Card className="container py-10 space-y-6">
+    <Card className="container space-y-6 py-10">
       <h2 className=" m-0 text-xl text-gray-300">Ocorreu algum erro!</h2>
-      <p className="text-gray-400 m-0">{error.message}</p>
-      <Button
-        variant="ghost"
-        className="text-gray-400"
-        onClick={
-          () => reset()
-        }
-      >
+      <p className="m-0 text-gray-400">{error.message}</p>
+      <Button variant="ghost" className="text-gray-400" onClick={() => reset()}>
         Tente novamente
       </Button>
     </Card>

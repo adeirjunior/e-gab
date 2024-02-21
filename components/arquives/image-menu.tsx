@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +14,7 @@ import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { SearchResult } from "@/lib/types/types";
 
-export function ImageMenu({
-  image,
-}: {
-  image: SearchResult;
-}) {
+export function ImageMenu({ image }: { image: SearchResult }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,10 +27,7 @@ export function ImageMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-40">
           <DropdownMenuItem asChild>
-            <AddToAlbumDialog
-              image={image}
-              onClose={() => setOpen(false)}
-            />
+            <AddToAlbumDialog image={image} onClose={() => setOpen(false)} />
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Button

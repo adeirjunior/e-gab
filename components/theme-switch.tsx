@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import { useEffectOnce } from "usehooks-ts";
 
-const ThemeSwitch = ({className}: {className?: string}) => {
+const ThemeSwitch = ({ className }: { className?: string }) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 

@@ -12,8 +12,8 @@ export default async function SiteSettingsIndex() {
 
   const data = await getWebsiteByUserId(session.user.id);
 
-  if(!data) {
-    return redirect("/login")
+  if (!data) {
+    return redirect("/login");
   }
 
   return (
@@ -45,8 +45,6 @@ export default async function SiteSettingsIndex() {
         }}
         handleSubmit={updateSite}
       />
-
-
     </div>
   );
 }

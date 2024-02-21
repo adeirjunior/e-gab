@@ -11,16 +11,22 @@ export const metadata: Metadata = {
   title: "Bibliografia",
 };
 
-export default async function FavoritesPage({ params }: { params: { domain: string } }) {
+export default async function FavoritesPage({
+  params,
+}: {
+  params: { domain: string };
+}) {
   const session = await getSession();
 
   if (!session) {
     redirect("/login");
   }
 
- const subdomain = params.domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
-   ? params.domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
-   : null;
+  const subdomain = params.domain.endsWith(
+    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+  )
+    ? params.domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+    : null;
 
   const website = await getWebsiteBySubdomain(subdomain);
 

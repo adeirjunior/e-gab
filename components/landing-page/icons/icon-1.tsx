@@ -1,4 +1,3 @@
-
 export default function Icon1() {
   return (
     <svg

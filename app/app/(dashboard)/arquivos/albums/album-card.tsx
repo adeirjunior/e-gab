@@ -17,7 +17,9 @@ export function AlbumCard({ folder }: { folder: Folder }) {
     <Card>
       <CardHeader>
         <CardTitle>{folder.name}</CardTitle>
-        <CardDescription>Todos os arquivos do album {folder.name}</CardDescription>
+        <CardDescription>
+          Todos os arquivos do album {folder.name}
+        </CardDescription>
       </CardHeader>
       <CardContent></CardContent>
       <CardFooter className="flex justify-between">

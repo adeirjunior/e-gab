@@ -42,8 +42,8 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
         } else {
           const client = await getClientByUser(session.user.id);
           const response = await createChatRoom(client.id, website.id, data);
-          if('error' in response) {
-            toast.error(response.error)
+          if ("error" in response) {
+            toast.error(response.error);
           }
           onClose();
         }

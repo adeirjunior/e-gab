@@ -1,10 +1,24 @@
-"use client"
+"use client";
 
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { Bold, Text, Title } from "@tremor/react";
 
-export default function ViewModal({title, description}: {title: string; description: string;}) {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+export default function ViewModal({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
       <Button onPress={onOpen} variant="light">
@@ -23,8 +37,8 @@ export default function ViewModal({title, description}: {title: string; descript
               </ModalBody>
               <ModalFooter>
                 <Button onPress={onClose} variant="light">
-       Fechar
-      </Button>
+                  Fechar
+                </Button>
               </ModalFooter>
             </>
           )}

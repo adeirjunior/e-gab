@@ -1,7 +1,6 @@
 import { Icon } from "@/components/website/icon";
 import { Proposal, ProposalTypes } from "@prisma/client";
 
-
 const proposalTypeTranslate = (type: ProposalTypes) => {
   switch (type) {
     case "education":
@@ -16,7 +15,6 @@ const proposalTypeTranslate = (type: ProposalTypes) => {
       return "Erro";
   }
 };
-
 
 export default function ProposalSection({ proposal }: { proposal: Proposal }) {
   return (

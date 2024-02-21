@@ -24,7 +24,7 @@ export function ImageGrid({
           <div key={idx} className="flex flex-col gap-4">
             {column.map(getImage)}
           </div>
-        )
+        ),
       )}
     </Grid>
   );

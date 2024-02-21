@@ -44,7 +44,7 @@ export const PT_I18N = {
       Bold: "Negrito",
       Italic: "Itálico",
       InlineCode: "Código em Linha",
-      Image: "Imagem"
+      Image: "Imagem",
     },
 
     /**

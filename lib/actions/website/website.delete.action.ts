@@ -15,8 +15,7 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Website) => {
     revalidateTag(
       `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
     );
-    response.customDomain &&
-      (revalidateTag(`${site.customDomain}-metadata`));
+    response.customDomain && revalidateTag(`${site.customDomain}-metadata`);
     return response;
   } catch (error: any) {
     return {

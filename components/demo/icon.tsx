@@ -10,7 +10,7 @@ export const Icon = ({ name, ...rest }: IconProps) => {
   const icons: Record<string, JSX.ElementType> = {
     saude: Saude,
     educacao: Educacao,
-    infraestrutura: Infraestrutura
+    infraestrutura: Infraestrutura,
   };
 
   const SelectedIcon = icons[name];

@@ -5,7 +5,6 @@ import { BarChart } from "lucide-react";
 import Link from "next/link";
 
 export default function SiteCard({ data }: { data: Website }) {
-  
   const url = getCurrentDomain(data.subdomain!);
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
@@ -23,7 +22,7 @@ export default function SiteCard({ data }: { data: Website }) {
           blurDataURL={data.imageBlurhash ?? placeholderBlurhash}
         />
         <div className="border-t border-stone-200 p-4 dark:border-stone-700">
-          <h3 className="my-0 truncate font-cal text-xl font-bold tracking-wide dark:text-white">
+          <h3 className="font-cal my-0 truncate text-xl font-bold tracking-wide dark:text-white">
             {data.name}
           </h3>
           <p className="mt-2 line-clamp-1 text-sm font-normal leading-snug text-stone-500 dark:text-stone-400">

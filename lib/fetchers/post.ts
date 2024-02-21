@@ -29,7 +29,7 @@ export async function getPostData(domain: string, slug: string) {
           published: true,
         },
         include: {
-          user: true
+          user: true,
         },
       });
 

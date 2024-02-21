@@ -13,7 +13,9 @@ export default function SectionHeadingTitles({
 }: Props) {
   return (
     <div className="mx-auto max-w-3xl text-center">
-      <span className="text-sm font-bold text-[#3B5DD9] sm:text-xl">{subtitle}</span>
+      <span className="text-sm font-bold text-[#3B5DD9] sm:text-xl">
+        {subtitle}
+      </span>
       <h2 id={id} className="text-3xl font-bold text-gray-900 sm:text-4xl">
         {title}
       </h2>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Tab, Tabs } from "@nextui-org/react";
 import { Key } from "react";

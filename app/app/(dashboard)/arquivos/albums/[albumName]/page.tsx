@@ -13,13 +13,13 @@ export default async function GalleryPage({
     albumName: string;
   };
 }) {
-  const session = await getSession()
-  
-  if(!session) {
-    redirect("/login")
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
   }
 
-  const website = await getWebsiteByUserId(session.user.id)
+  const website = await getWebsiteByUserId(session.user.id);
 
   const decodedAlbumName = decodeURIComponent(albumName);
 
@@ -29,7 +29,6 @@ export default async function GalleryPage({
     .with_field("tags")
     .max_results(30)
     .execute()) as { resources: SearchResult[] };
-
 
   return (
     <section>

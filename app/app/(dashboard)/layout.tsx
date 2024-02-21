@@ -23,13 +23,15 @@ export default async function DashboardLayout({
   }
 
   return (
-      <div>
-        <Nav subdomain={site.subdomain!}>
-          <Suspense fallback={<div>Carregando...</div>}>
-            <Profile />
-          </Suspense>
-        </Nav>
-        <div className="min-h-screen bg-white sm:pl-60 dark:bg-black">{children}</div>
+    <div>
+      <Nav subdomain={site.subdomain!}>
+        <Suspense fallback={<div>Carregando...</div>}>
+          <Profile />
+        </Suspense>
+      </Nav>
+      <div className="min-h-screen bg-white dark:bg-black sm:pl-60">
+        {children}
       </div>
+    </div>
   );
 }

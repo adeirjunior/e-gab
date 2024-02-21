@@ -15,62 +15,60 @@ interface PageProps {
 
 const page = async ({ params }: PageProps) => {
   const { roomId } = params;
-  const session = await getSession()
+  const session = await getSession();
 
-  if(!session?.user) {
-    return redirect("/")
+  if (!session?.user) {
+    return redirect("/");
   }
 
-const data = await prisma.chatRoom.findUnique({
-  where: {
-    id: roomId,
-  },
-  select: {
-    client: {
-      include: {
-        user: {
-          select: {
-            image: true,
-            name: true,
-            email: true,
+  const data = await prisma.chatRoom.findUnique({
+    where: {
+      id: roomId,
+    },
+    select: {
+      client: {
+        include: {
+          user: {
+            select: {
+              image: true,
+              name: true,
+              email: true,
+            },
           },
         },
       },
-    },
-    politician: {
-      include: {
-        user: true,
+      politician: {
+        include: {
+          user: true,
+        },
+      },
+      secretary: {
+        include: {
+          user: true,
+        },
       },
     },
-    secretary: {
-      include: {
-        user: true,
-      },
-    },
-  },
-});
+  });
 
+  const chatPartner: User = data.politician?.user || data.secretary?.user;
 
-const chatPartner: User = data.politician?.user || data.secretary?.user;
+  if (!data || !chatPartner) {
+    notFound();
+  }
 
-if (!data || !chatPartner) {
-  notFound();
-}
-
-    
   const existingMessages = await prisma.message.findMany({
     where: {
       chatRoomId: roomId,
     },
     orderBy: {
-      createdAt: 'desc'
-    }
+      createdAt: "desc",
+    },
   });
 
   return (
     <Card className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6">
       <CardHeader className="flex justify-between border-b-2 border-gray-200 py-3 sm:items-center">
-        <ChatHeader chatPartner={chatPartner}/>
+        <ChatHeader chatPartner={chatPartner} />
       </CardHeader>
       <CardBody
         id="messages"

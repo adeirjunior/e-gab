@@ -33,7 +33,6 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
     data.description === law.description &&
     data.content === law.content;
 
-
   useEffect(() => {
     if (isSync) {
       return;

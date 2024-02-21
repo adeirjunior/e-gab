@@ -1,11 +1,9 @@
-
-
 export default function Tiktok() {
   return (
     <svg
       fill="#000000"
       width="800px"
-      className="w-6 h-6"
+      className="h-6 w-6"
       height="800px"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"

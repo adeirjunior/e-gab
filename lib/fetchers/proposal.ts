@@ -87,7 +87,7 @@ export async function getProposalsForSite(domain: string) {
       return prisma.proposal.findMany({
         where: {
           website: subdomain ? { subdomain } : { customDomain: domain },
-        }
+        },
       });
     },
     [`${domain}-proposals`],

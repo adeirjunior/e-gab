@@ -1,4 +1,3 @@
-
 import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleFill,
@@ -81,7 +80,7 @@ export default function OnboardingExample() {
                     </p>
                     <button
                       type="button"
-                      className="mt-4 inline-flex items-center gap-1.5 whitespace-nowrap rounded-tremor-small bg-tremor-brand px-3 py-2 text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
+                      className="rounded-tremor-small mt-4 inline-flex items-center gap-1.5 whitespace-nowrap bg-tremor-brand px-3 py-2 text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
                     >
                       <RiDatabase2Line
                         className="-ml-0.5 h-5 w-5 shrink-0"

@@ -1,3 +1,1 @@
-const env = {
-    
-}
+const env = {};

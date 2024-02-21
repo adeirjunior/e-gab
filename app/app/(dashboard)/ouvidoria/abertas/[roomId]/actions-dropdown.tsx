@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { AddNoteIcon } from "@/components/icons/AddNoteIcon";
 import { CopyDocumentIcon } from "@/components/icons/CopyDocumentIcon";
@@ -21,24 +21,24 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-export default function ActionsDropDown({id}: {id: string}) {
-const [isPending, start] = useTransition();
-const router = useRouter();
-      const iconClasses =
+export default function ActionsDropDown({ id }: { id: string }) {
+  const [isPending, start] = useTransition();
+  const router = useRouter();
+  const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
-     const updateAccept = (status: ChatRoomStatus) => {
-       const formData = new FormData();
-       formData.append("status", status);
-       start(async () => {
-         const room = await updateChatRoom(formData, id, "status");
-         if ("error" in room) {
-           toast.error(room.error);
-         } else {
-           router.push('/ouvidoria/abertas')
-         }
-       });
-     };
+  const updateAccept = (status: ChatRoomStatus) => {
+    const formData = new FormData();
+    formData.append("status", status);
+    start(async () => {
+      const room = await updateChatRoom(formData, id, "status");
+      if ("error" in room) {
+        toast.error(room.error);
+      } else {
+        router.push("/ouvidoria/abertas");
+      }
+    });
+  };
 
   return (
     <Dropdown>
@@ -86,7 +86,7 @@ const router = useRouter();
             className="text-danger"
             color="danger"
             shortcut="⌘⇧D"
-            onPress={() => updateAccept('disabled')}
+            onPress={() => updateAccept("disabled")}
             description="Permanently delete the file"
             startContent={
               <DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />

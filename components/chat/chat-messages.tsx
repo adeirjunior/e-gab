@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { pusherClient } from '@/lib/configs/pusher';
-import { cn } from '@/lib/utils';
-import { Message } from '@/lib/validations/message';
-import { Avatar } from '@nextui-org/react';
-import { User } from '@prisma/client';
-import { format } from 'date-fns';
-import { FC, useEffect, useRef, useState } from 'react';
+import { pusherClient } from "@/lib/configs/pusher";
+import { cn } from "@/lib/utils";
+import { Message } from "@/lib/validations/message";
+import { Avatar } from "@nextui-org/react";
+import { User } from "@prisma/client";
+import { format } from "date-fns";
+import { FC, useEffect, useRef, useState } from "react";
 
 interface MessagesProps {
   initialMessages: Message[];
@@ -19,9 +19,9 @@ const Messages: FC<MessagesProps> = ({
   initialMessages,
   roomId,
   sessionUserId,
-  chatPartner
+  chatPartner,
 }) => {
-   const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   useEffect(() => {
     pusherClient.subscribe(roomId);
@@ -38,11 +38,11 @@ const Messages: FC<MessagesProps> = ({
     };
   }, [roomId]);
 
- const scrollDownRef = useRef<HTMLDivElement | null>(null);
+  const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
- const formatTimestamp = (timestamp: Date) => {
-   return format(timestamp, "HH:mm");
- };
+  const formatTimestamp = (timestamp: Date) => {
+    return format(timestamp, "HH:mm");
+  };
 
   return (
     <div
@@ -112,4 +112,4 @@ const Messages: FC<MessagesProps> = ({
       })}
     </div>
   );
-}
+};

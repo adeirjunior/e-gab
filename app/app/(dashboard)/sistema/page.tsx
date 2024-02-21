@@ -21,7 +21,7 @@ export default async function SettingsPage() {
           Configurações de Sistema
         </h1>
         <ThemeSwitch />
-        </div>
+      </div>
     </div>
   );
 }

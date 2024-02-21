@@ -20,14 +20,14 @@ export const createSite = async (formData: FormData) => {
   try {
     const politician = await prisma.politician.findUnique({
       where: {
-        userId: session.user.id
-      }
-    })
+        userId: session.user.id,
+      },
+    });
 
     if (!politician) {
-       return {
-         error: "Não é político",
-       };
+      return {
+        error: "Não é político",
+      };
     }
 
     const response = await prisma.website.create({
@@ -50,14 +50,14 @@ export const createSite = async (formData: FormData) => {
 
     await prisma.website.update({
       where: {
-        id: response.id
+        id: response.id,
       },
       data: {
-        cloudinaryDir: `E-Gab/Websites/Website ${response.id}`
-      }
-    })
+        cloudinaryDir: `E-Gab/Websites/Website ${response.id}`,
+      },
+    });
 
-    await createWebsiteFolder(response.id)
+    await createWebsiteFolder(response.id);
 
     revalidateTag(
       `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,

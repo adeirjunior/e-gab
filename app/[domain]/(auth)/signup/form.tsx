@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { checkPassStrengthType } from "@/components/form/signup-form";
 import LoadingDots from "@/components/icons/loading-dots";
@@ -22,9 +22,9 @@ export default function Form() {
     id: 0,
     value: "Senha muito fraca",
   });
-const router = useRouter();
+  const router = useRouter();
 
-const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
+  const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
     const id = passwordStrength(pass).id;
     return {
       id,
@@ -57,7 +57,7 @@ const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
     try {
       startUserCreation(async () => {
         const user: User = await createUser(name, email, hashPass);
-        await createClient(user.id)
+        await createClient(user.id);
         if (user) {
           toast.success("Usuário criado");
           router.push("/login");
@@ -79,7 +79,6 @@ const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
       <p className="text-center text-lg font-medium">Registre sua conta</p>
 
       <div>
-
         <div className="relative">
           <Input
             id="username"
@@ -113,7 +112,7 @@ const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
       <div>
         <div className="relative">
           <Input
-          name="email"
+            name="email"
             type="email"
             className="w-full rounded-lg border-gray-200 text-sm shadow-sm"
             isRequired
@@ -143,7 +142,7 @@ const checkPassStrength: (pass: string) => checkPassStrengthType = (pass) => {
       <div>
         <div className="relative">
           <Input
-          name="password"
+            name="password"
             type="password"
             className="w-full rounded-lg border-gray-200 text-sm shadow-sm"
             isRequired

@@ -14,7 +14,7 @@ export async function create(formData: FormData, type?: "logo" | "image") {
     throw new Error("Erro");
   }
 
-  const file = formData.get(type === 'logo' ? type : "image") as File;
+  const file = formData.get(type === "logo" ? type : "image") as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
@@ -32,7 +32,7 @@ export async function create(formData: FormData, type?: "logo" | "image") {
               ...(type === "logo" && {
                 unique_filename: true,
                 public_id: filename,
-                discard_original_filename: true
+                discard_original_filename: true,
               }),
             },
             function (error: any, result: unknown) {
@@ -48,7 +48,7 @@ export async function create(formData: FormData, type?: "logo" | "image") {
 
     if (type === "logo") {
       path = `E-Gab/Users/User ${session.user.id}`;
-      await upload()
+      await upload();
       revalidatePath("/configuracoes");
     } else {
       const website = await getWebsiteByUserId(session.user.id);
@@ -60,7 +60,7 @@ export async function create(formData: FormData, type?: "logo" | "image") {
       revalidatePath("/arquivos");
     }
 
-    return type === 'logo' ? `${path}/${filename}` : path;
+    return type === "logo" ? `${path}/${filename}` : path;
   } catch (error) {}
 }
 

@@ -10,7 +10,7 @@ export function withSiteAuth(action: any) {
         error: "Não autentificado",
       };
     }
-    console.log(key)
+    console.log(key);
     const checkUser = await prisma.user.findUnique({
       where: {
         id: session.user.id,
@@ -52,11 +52,7 @@ export function withPostAuth(
     key: string,
   ) => any,
 ) {
-  return async (
-    formData: FormData,
-    postId: string,
-    key: string,
-  ) => {
+  return async (formData: FormData, postId: string, key: string) => {
     const session = await getSession();
     if (!session?.user.id) {
       return {

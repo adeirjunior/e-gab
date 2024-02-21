@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { withPostAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
@@ -10,7 +10,6 @@ import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
-
     const hasSub = await hasSubscription();
 
     if (!hasSub) {
@@ -61,9 +60,7 @@ export const updatePost = withPostAuth(async (formData, post) => {
   }
 });
 
-
 export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
-
   const hasSub = await hasSubscription();
 
   if (!hasSub) {
@@ -71,7 +68,7 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
   }
-  
+
   const value = formData.get(key) as string;
 
   try {

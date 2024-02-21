@@ -12,7 +12,10 @@ import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import Pie from "./pie";
 import PendingRoomCard from "./pending-room-card";
-import { countRoomsWithStatus, getRoomsWithLimitAndStatus } from "@/lib/fetchers/room";
+import {
+  countRoomsWithStatus,
+  getRoomsWithLimitAndStatus,
+} from "@/lib/fetchers/room";
 
 export default async function Page() {
   const session = await getSession();
@@ -23,11 +26,11 @@ export default async function Page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  const rooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending")
+  const rooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending");
 
-  const pendingRooms = await countRoomsWithStatus(website.id, "pending")
+  const pendingRooms = await countRoomsWithStatus(website.id, "pending");
 
-  const activeRooms = await countRoomsWithStatus(website.id, "active")
+  const activeRooms = await countRoomsWithStatus(website.id, "active");
 
   return (
     <div className="flex flex-col space-y-12 p-8">
@@ -91,7 +94,7 @@ export default async function Page() {
       {rooms.length > 0 ? (
         <Grid numItems={1} numItemsLg={2} className="gap-4 xl:grid-cols-3">
           {rooms.map((room) => (
-            <PendingRoomCard key={room.id} id={room.id} room={room as any}/>
+            <PendingRoomCard key={room.id} id={room.id} room={room as any} />
           ))}
         </Grid>
       ) : (

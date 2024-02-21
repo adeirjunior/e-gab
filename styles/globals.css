@@ -20,7 +20,7 @@
 }
 
 .vjs-cloudinary-button {
-  display: none !important
+  display: none !important;
 }
 
 .ProseMirror .is-editor-empty:first-child::before {
@@ -57,18 +57,18 @@
 
 /* Custom TODO list checkboxes – shoutout to this awesome tutorial: https://moderncss.dev/pure-css-custom-checkbox-style/ */
 
-ul[data-type="taskList"] li>label {
+ul[data-type="taskList"] li > label {
   margin-right: 0.2rem;
   user-select: none;
 }
 
 @media screen and (max-width: 768px) {
-  ul[data-type="taskList"] li>label {
+  ul[data-type="taskList"] li > label {
     margin-right: 0.5rem;
   }
 }
 
-ul[data-type="taskList"] li>label input[type="checkbox"] {
+ul[data-type="taskList"] li > label input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
   background-color: #fff;
@@ -84,11 +84,13 @@ ul[data-type="taskList"] li>label input[type="checkbox"] {
   place-content: center;
 
   &:hover {
-    background-color: #f8f9fa;}
-    &:active {
-      background-color: #e9ecef;}
-    }
- 
+    background-color: #f8f9fa;
+  }
+  &:active {
+    background-color: #e9ecef;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -97,135 +99,134 @@ ul[data-type="taskList"] li>label input[type="checkbox"] {
 
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
- 
+
     --primary: 24 9.8% 10%;
     --primary-foreground: 60 9.1% 97.8%;
- 
+
     --secondary: 60 4.8% 95.9%;
     --secondary-foreground: 24 9.8% 10%;
- 
+
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
- 
+
     --accent: 60 4.8% 95.9%;
     --accent-foreground: 24 9.8% 10%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
 
     --border: 20 5.9% 90%;
     --input: 20 5.9% 90%;
     --ring: 20 14.3% 4.1%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
- 
+
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
- 
+
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
- 
+
     --primary: 60 9.1% 97.8%;
     --primary-foreground: 24 9.8% 10%;
- 
+
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;
- 
+
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
- 
+
     --accent: 12 6.5% 15.1%;
     --accent-foreground: 60 9.1% 97.8%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
- 
+
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;
     --ring: 24 5.7% 82.9%;
   }
 }
- 
+
 @layer base {
   * {
-    @apply p-0 m-0;
+    @apply m-0 p-0;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
 
-    &::before {
-      content: "";
-      width: 0.65em;
-      height: 0.65em;
-      transform: scale(0);
-      transition: 120ms transform ease-in-out;
-      box-shadow: inset 1em 1em;
-      transform-origin: center;
-      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-    }
-  
-    &:checked::before {
-      transform: scale(1);
-    }
-    
-  
-    ul[data-type="taskList"] li[data-checked="true"]>div>p {
-      color: #a8a29e;
-      text-decoration: line-through;
-      text-decoration-thickness: 2px;
-    }
-  
-    .custom-drag-drop {
-      @apply relative w-full;
-    }
-  
-    .custom-drag-drop input[type="file"] {
-      @apply absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer;
-    }
-  
-    .custom-drag-drop input[type="file"]:focus~.drag-drop-container,
-    .drag-drop-container.active {
-      @apply border-purple-600 bg-purple-600/10;
-    }
-  
-    .custom-drag-drop .drag-drop-container .drag-drop-content {
-      @apply flex flex-col items-center gap-4;
-    }
-  
-    .custom-drag-drop .drag-drop-container .drag-drop-text {
-      @apply text-center;
-    }
-  
-    .drag-file-overlay {
-      @apply absolute top-0 left-0 w-full h-full z-20;
-    }
-  
-    .uploaded-images-cont {
-      @apply flex gap-4 p-4;
-    }
-  
-    .uploaded-image {
-      @apply grow p-2 text-center dark:bg-gray-700;
-    }
-  
-    .uploaded-image>.wrapper {
-      @apply relative flex flex-col gap-2 min-h-[7rem];
-    }
-  
-    .uploaded-image.img-cont img {
-      @apply grow h-60 bg-gray-100 dark:bg-gray-700;
-    }
-  
-    .uploaded-image-overlay {
-      @apply absolute top-0 left-0 flex flex-col items-center justify-center gap-2 text-white w-full h-full bg-gray-900/20;
-    }
+&::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em;
+  transform-origin: center;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+&:checked::before {
+  transform: scale(1);
+}
+
+ul[data-type="taskList"] li[data-checked="true"] > div > p {
+  color: #a8a29e;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.custom-drag-drop {
+  @apply relative w-full;
+}
+
+.custom-drag-drop input[type="file"] {
+  @apply absolute left-0 top-0 h-full w-full cursor-pointer opacity-0;
+}
+
+.custom-drag-drop input[type="file"]:focus ~ .drag-drop-container,
+.drag-drop-container.active {
+  @apply border-purple-600 bg-purple-600/10;
+}
+
+.custom-drag-drop .drag-drop-container .drag-drop-content {
+  @apply flex flex-col items-center gap-4;
+}
+
+.custom-drag-drop .drag-drop-container .drag-drop-text {
+  @apply text-center;
+}
+
+.drag-file-overlay {
+  @apply absolute left-0 top-0 z-20 h-full w-full;
+}
+
+.uploaded-images-cont {
+  @apply flex gap-4 p-4;
+}
+
+.uploaded-image {
+  @apply grow p-2 text-center dark:bg-gray-700;
+}
+
+.uploaded-image > .wrapper {
+  @apply relative flex min-h-[7rem] flex-col gap-2;
+}
+
+.uploaded-image.img-cont img {
+  @apply h-60 grow bg-gray-100 dark:bg-gray-700;
+}
+
+.uploaded-image-overlay {
+  @apply absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-2 bg-gray-900/20 text-white;
+}

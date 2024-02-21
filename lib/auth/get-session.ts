@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "./config";
@@ -13,7 +13,7 @@ export async function getSession() {
       email: string;
       image: string;
       stripeCustomerId: string;
-      role: UserRole
+      role: UserRole;
     };
   } | null>;
 }

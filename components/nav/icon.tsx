@@ -21,7 +21,7 @@ import {
   Files,
   GalleryHorizontal,
   Heart,
-  Album
+  Album,
 } from "lucide-react";
 
 interface IconProps {

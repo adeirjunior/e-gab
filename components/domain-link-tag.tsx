@@ -9,7 +9,7 @@ export default function DomainLinkTag({
   path?: string;
 }) {
   const url = getCurrentDomain(subdomain, path);
-  const cleanUrl = url.replace(/^https?:\/\//, '');
+  const cleanUrl = url.replace(/^https?:\/\//, "");
 
   return (
     <a

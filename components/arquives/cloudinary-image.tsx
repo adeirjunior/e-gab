@@ -1,13 +1,13 @@
 "use client";
 
 import { SearchResult } from "@/lib/types/types";
-import CldImage from "./demo/cloudinary-image";
+import CldImage from "../demo/cloudinary-image";
 import { CldImageProps, CldVideoPlayer } from "next-cloudinary";
 import { useState, useTransition } from "react";
-import { FullHeart } from "./icons/full-heart";
+import { FullHeart } from "../icons/full-heart";
 import { setAsFavoriteAction } from "@/lib/actions/image/image.create.action";
-import { Heart } from "./icons/heart";
-import { ImageMenu } from "./arquives/image-menu";
+import { Heart } from "../icons/heart";
+import { ImageMenu } from "./image-menu";
 import "next-cloudinary/dist/cld-video-player.css";
 
 export function CloudinaryImage(
@@ -27,11 +27,7 @@ export function CloudinaryImage(
   return (
     <div className="relative">
       {imageData.resource_type === "video" ? (
-        <CldVideoPlayer
-          width="1920"
-          height="1080"
-          src={imageData.public_id}
-        />
+        <div className="w-2 h-2"></div>
       ) : (
         <CldImage {...props} src={imageData.public_id} />
       )}

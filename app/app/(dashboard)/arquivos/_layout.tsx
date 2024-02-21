@@ -21,7 +21,7 @@ async function SideMenu() {
   };
 
   return (
-    <div className="pb-12 w-1/5">
+    <div className="w-1/5 pb-12">
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
@@ -31,7 +31,7 @@ async function SideMenu() {
             <Button
               asChild
               variant="ghost"
-              className="w-full justify-start flex gap-2"
+              className="flex w-full justify-start gap-2"
             >
               <Link href="/gallery">
                 <svg
@@ -40,7 +40,7 @@ async function SideMenu() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                 >
                   <path
                     strokeLinecap="round"
@@ -54,7 +54,7 @@ async function SideMenu() {
             <Button
               asChild
               variant="ghost"
-              className="w-full justify-start flex gap-2"
+              className="flex w-full justify-start gap-2"
             >
               <Link href="/arquivos/albums">
                 <svg
@@ -63,7 +63,7 @@ async function SideMenu() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                 >
                   <path
                     strokeLinecap="round"
@@ -79,7 +79,7 @@ async function SideMenu() {
                 variant="ghost"
                 asChild
                 key={folder.name}
-                className="w-full justify-start flex gap-2"
+                className="flex w-full justify-start gap-2"
               >
                 <Link className="pl-8" href={`/albums/${folder.path}`}>
                   {folder.name}
@@ -89,7 +89,7 @@ async function SideMenu() {
             <Button
               asChild
               variant="ghost"
-              className="w-full justify-start flex gap-2"
+              className="flex w-full justify-start gap-2"
             >
               <Link href="/arquivos/favoritos">
                 <Heart />
@@ -112,7 +112,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <div className="border-b">
-          <div className="flex h-16 items-center px-4 container mx-auto">
+          <div className="container mx-auto flex h-16 items-center px-4">
             <Image
               src="/album.png"
               width="50"

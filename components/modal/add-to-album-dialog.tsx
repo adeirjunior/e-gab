@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import { useState } from "react";
 
 export function AddToAlbumDialog({
   image,
-  onClose
+  onClose,
 }: {
   image: SearchResult;
   onClose: () => void;

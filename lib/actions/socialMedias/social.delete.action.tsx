@@ -3,10 +3,9 @@
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { hasSubscription } from "@/lib/helpers/billing";
-import {  SocialMediaTypes } from "@prisma/client";
+import { SocialMediaTypes } from "@prisma/client";
 
 export const deleteSocial = async (type: SocialMediaTypes) => {
-
   const hasSub = await hasSubscription();
 
   if (!hasSub) {
@@ -24,9 +23,9 @@ export const deleteSocial = async (type: SocialMediaTypes) => {
 
   const response = await prisma.socialMedia.delete({
     where: {
-      type
-    }
+      type,
+    },
   });
 
   return response;
-}
+};

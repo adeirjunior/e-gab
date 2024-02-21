@@ -3,41 +3,41 @@
 import { Button, Input, Link } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useTransition } from "react";
-import LoadingDots from "@/components/icons/loading-dots"; 
+import LoadingDots from "@/components/icons/loading-dots";
 import { toast } from "sonner";
 import { getSession } from "@/lib/auth/get-session";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-   const [isPendingUserLogin, startUserLogin] = useTransition();
-   const router = useRouter();
+  const [isPendingUserLogin, startUserLogin] = useTransition();
+  const router = useRouter();
 
-   const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
-     event.preventDefault();
+  const handleFormSubmit = async (event: React.FormEvent<EventTarget>) => {
+    event.preventDefault();
 
-     const formData = new FormData(event.target as HTMLFormElement);
-     formData.append('role', 'Client')
+    const formData = new FormData(event.target as HTMLFormElement);
+    formData.append("role", "Client");
 
-     const email = formData.get("email");
-     const password = formData.get("password");
-     const role = formData.get("role");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const role = formData.get("role");
 
-     try {
-       startUserLogin(async () => {
-         await signIn("credentials", { email, password, role, redirect: false });
-         const session = await getSession()
+    try {
+      startUserLogin(async () => {
+        await signIn("credentials", { email, password, role, redirect: false });
+        const session = await getSession();
 
-         if (!session) {
-           toast.error("Esta conta não existe.");
-         } else {
-           toast.success("Login feito com sucesso.");
-           router.push("/")
-         }
-       });
-     } catch (error: any) {
-       toast.error("Autentificação falhou:", error);
-     }
-   };
+        if (!session) {
+          toast.error("Esta conta não existe.");
+        } else {
+          toast.success("Login feito com sucesso.");
+          router.push("/");
+        }
+      });
+    } catch (error: any) {
+      toast.error("Autentificação falhou:", error);
+    }
+  };
 
   return (
     <form className="space-y-4" onSubmit={handleFormSubmit}>
@@ -134,4 +134,5 @@ export default function LoginForm() {
         </Link>
       </p>
     </form>
-  );}
+  );
+}

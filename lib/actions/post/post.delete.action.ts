@@ -7,7 +7,6 @@ import { Post } from "@prisma/client";
 
 export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
   try {
-
     const hasSub = await hasSubscription();
 
     if (!hasSub) {

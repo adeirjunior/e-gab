@@ -6,7 +6,6 @@ import { hasSubscription } from "@/lib/helpers/billing";
 import { Law } from "@prisma/client";
 
 export const deleteLaw = withPostAuth(async (_: FormData, law: Law) => {
-
   const hasSub = await hasSubscription();
 
   if (!hasSub) {

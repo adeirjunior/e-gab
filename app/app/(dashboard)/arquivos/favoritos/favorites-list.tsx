@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ImageGrid } from "@/components/arquives/image-grid";
-import { CloudinaryImage } from "@/components/cloudinary-image";
+import { CloudinaryImage } from "@/components/arquives/cloudinary-image";
 import { SearchResult } from "@/lib/types/types";
 
 export default function FavoritesList({
@@ -31,8 +31,8 @@ export default function FavoritesList({
               setResources((currentResources) =>
                 currentResources.filter(
                   (resource) =>
-                    resource.public_id !== unheartedResource.public_id
-                )
+                    resource.public_id !== unheartedResource.public_id,
+                ),
               );
             }}
           />

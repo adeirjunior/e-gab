@@ -7,9 +7,9 @@ import Image from "next/image";
 export type contentArray = {
   siteId?: string;
   limit?: number;
-}
+};
 
-export default async function Posts({siteId, limit}: contentArray) {
+export default async function Posts({ siteId, limit }: contentArray) {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");

@@ -6,14 +6,13 @@ import { hasSubscription } from "@/lib/helpers/billing";
 import { ProposalTypes } from "@prisma/client";
 
 export const deleteProposal = async (type: ProposalTypes) => {
-
-  const hasSub = await hasSubscription()
+  const hasSub = await hasSubscription();
 
   if (!hasSub) {
     return {
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
-  } 
+  }
 
   const session = await getSession();
   if (!session?.user.id) {
@@ -24,9 +23,9 @@ export const deleteProposal = async (type: ProposalTypes) => {
 
   const response = await prisma.proposal.delete({
     where: {
-      type
-    }
+      type,
+    },
   });
 
   return response;
-}
+};

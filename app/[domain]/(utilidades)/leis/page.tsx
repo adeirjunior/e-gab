@@ -16,7 +16,13 @@ export default async function Page({ params }: { params: { domain: string } }) {
   return (
     <div>
       {posts.length > 0 ? (
-        <Grid numItems={1} numItemsSm={2} numItemsMd={3} numItemsLg={4} className="gap-2">
+        <Grid
+          numItems={1}
+          numItemsSm={2}
+          numItemsMd={3}
+          numItemsLg={4}
+          className="gap-2"
+        >
           {" "}
           {posts.map((post, index) => (
             <PostCard key={index} post={post} />

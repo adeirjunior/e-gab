@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="p-8">
-      <h1 className="m-0 font-cal text-xl font-bold sm:text-3xl dark:text-white mb-2">
+      <h1 className="font-cal m-0 mb-2 text-xl font-bold dark:text-white sm:text-3xl">
         Usuários
       </h1>
       <UsersTable />

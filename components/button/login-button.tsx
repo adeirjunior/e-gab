@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/react";
 import { useFormStatus } from "react-dom";
 
 export default function LoginButton() {
-   const { pending } = useFormStatus();
+  const { pending } = useFormStatus();
 
   return (
     <Button

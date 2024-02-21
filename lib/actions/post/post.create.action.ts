@@ -16,7 +16,6 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
     };
   }
 
-  
   const session = await getSession();
   if (!session?.user.id) {
     return {
@@ -24,7 +23,6 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
     };
   }
 
-  
   const response = await prisma.post.create({
     data: {
       userId: session.user.id,
@@ -39,4 +37,3 @@ export const createPost = withSiteAuth(async (_: FormData, site: Website) => {
 
   return response;
 });
-

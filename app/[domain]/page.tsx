@@ -12,7 +12,14 @@ import PostCard from "@/components/website/post-card";
 import { Grid, Text, Title } from "@tremor/react";
 import CarouselWebsite from "@/components/modal/carousel";
 import { CalendarDemo } from "@/components/website/calendar-demo";
-import { Card, CardBody, CardFooter, CardHeader, Divider, Link } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+  Link,
+} from "@nextui-org/react";
 import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
 import PoliticianBanner from "@/components/demo/politician-banner";

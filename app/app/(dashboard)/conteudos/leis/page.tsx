@@ -27,7 +27,7 @@ export default async function SitePosts() {
     <>
       <div className="flex w-full flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
         <div className="flex flex-col items-center gap-4 space-y-2 sm:items-start lg:flex-row lg:justify-center">
-          <h1 className="mb-0 w-60 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
+          <h1 className="font-cal mb-0 w-60 truncate text-xl font-bold dark:text-white sm:w-auto sm:text-xl lg:text-3xl">
             Todas as Leis de {data.name}
           </h1>
           <DomainLinkTag subdomain={data.subdomain!} path="/leis" />

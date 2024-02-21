@@ -29,16 +29,15 @@ export const editUser = async (
         !process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
       ) {
         return {
-          error:
-            "Variáveis de ambiente da Cloudinary não foram encontradas.",
+          error: "Variáveis de ambiente da Cloudinary não foram encontradas.",
         };
       }
 
-      const url  = await create(formData, 'logo');
+      const url = await create(formData, "logo");
 
       response = await prisma.user.update({
         where: {
-          id: session.user.id
+          id: session.user.id,
         },
         data: {
           image: url,

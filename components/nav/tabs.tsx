@@ -145,7 +145,6 @@ export const getTabs = (segments: string[], id: string | undefined) => {
     ];
   }
 
-
   return [
     {
       name: "Visão Geral",

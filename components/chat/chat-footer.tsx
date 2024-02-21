@@ -8,15 +8,14 @@ interface MessageFieldProps {
   userId: string;
 }
 
-export default function ChatFooter({roomId, userId}: MessageFieldProps) {
+export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
+  const sendMessage = async (formData: FormData) => {
+    "use server";
+    const text = formData.get("message") as string;
 
-    const sendMessage = async (formData: FormData) => {
-      "use server";
-      const text = formData.get("message") as string;
-      
-      await axios.post(getCurrentDomain(null, '/api/message'), { text, roomId });
-      await createMessage(text, userId, roomId);
-    };
+    await axios.post(getCurrentDomain(null, "/api/message"), { text, roomId });
+    await createMessage(text, userId, roomId);
+  };
 
   return (
     <>

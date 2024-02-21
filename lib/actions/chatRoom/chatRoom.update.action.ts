@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
@@ -57,27 +57,31 @@ export const updateChatRoom = async (
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: session.user.id
-      }
-    })
+        id: session.user.id,
+      },
+    });
 
-    const userRole = user.role
+    const userRole = user.role;
 
-    const userRoleContent = userRole === 'Politician' ? await prisma.politician.findUnique({
-      where: {
-        userId: session.user.id
-      }
-    }) : await prisma.secretary.findUnique({
-      where: {
-        userId: session.user.id
-      }
-    })
+    const userRoleContent =
+      userRole === "Politician"
+        ? await prisma.politician.findUnique({
+            where: {
+              userId: session.user.id,
+            },
+          })
+        : await prisma.secretary.findUnique({
+            where: {
+              userId: session.user.id,
+            },
+          });
 
     const response = await prisma.chatRoom.update({
       where: { id },
       data: {
         [key]: value,
-        [userRole === 'Politician' ? 'politicianId' : 'secretaryId']: userRoleContent.id
+        [userRole === "Politician" ? "politicianId" : "secretaryId"]:
+          userRoleContent.id,
       },
     });
 

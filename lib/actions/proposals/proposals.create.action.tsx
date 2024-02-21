@@ -24,7 +24,7 @@ export const createProposal = async (proposal: FormData) => {
     };
   }
 
-  const site = await getWebsiteByUserId(session.user.id)
+  const site = await getWebsiteByUserId(session.user.id);
 
   if (!site) {
     return {
@@ -45,8 +45,8 @@ export const createProposal = async (proposal: FormData) => {
     data: {
       website: {
         connect: {
-          id: site.id
-        }
+          id: site.id,
+        },
       },
       description,
       type,
@@ -59,4 +59,4 @@ export const createProposal = async (proposal: FormData) => {
   site.customDomain && revalidateTag(`${site.customDomain}-proposals`);
 
   return response;
-}
+};

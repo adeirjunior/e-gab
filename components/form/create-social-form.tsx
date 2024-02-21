@@ -16,8 +16,15 @@ import { FormButton } from ".";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createSocial } from "@/lib/actions/socialMedias/social.create.action";
-import { useState, useEffect, useTransition, memo, Dispatch, SetStateAction } from "react";
-import {  SocialMediaTypes } from "@prisma/client";
+import {
+  useState,
+  useEffect,
+  useTransition,
+  memo,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { SocialMediaTypes } from "@prisma/client";
 import { getSocialByType } from "./get-social";
 import { deleteSocial } from "@/lib/actions/socialMedias/social.delete.action";
 import { AtSign, Instagram, Youtube } from "lucide-react";
@@ -55,7 +62,6 @@ export default function CreateSocialForm() {
     }
     router.refresh();
   }, [router, value]);
-
 
   return (
     <form
@@ -128,7 +134,7 @@ export default function CreateSocialForm() {
 export const ConfirmDeletesocialModal = memo(function ConfirmDeletesocialModal({
   type,
   setSocialExist,
-  setTextareaValue
+  setTextareaValue,
 }: {
   type: Set<SocialMediaTypes>;
   setSocialExist: Dispatch<SetStateAction<boolean>>;

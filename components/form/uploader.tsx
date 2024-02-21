@@ -120,8 +120,8 @@ export default function Uploader({
         {data[name] && (
           // eslint-disable-next-line @next/next/no-img-element
           <CldImage
-          width={500}
-          height={5000}
+            width={500}
+            height={5000}
             src={data[name] as string}
             alt="Preview"
             className="h-full w-full rounded-md object-cover"

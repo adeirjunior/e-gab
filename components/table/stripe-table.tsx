@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { createElement } from "react";
 import { useEffectOnce } from "usehooks-ts";
@@ -21,4 +21,4 @@ const StripePricingTable = () => {
   });
 };
 
-export default StripePricingTable
+export default StripePricingTable;

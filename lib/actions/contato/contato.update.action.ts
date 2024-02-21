@@ -7,7 +7,7 @@ import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updateContact = async (
   formData: FormData,
-  _id:unknown,
+  _id: unknown,
   key: string,
 ) => {
   const session = await getSession();
@@ -16,18 +16,18 @@ export const updateContact = async (
       error: "Not authenticated",
     };
   }
-  const hasSub = await hasSubscription()
+  const hasSub = await hasSubscription();
 
-  if(!hasSub) {
+  if (!hasSub) {
     return {
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
   }
-  
+
   const value = formData.get(key) as string;
 
   try {
-    const site = await getWebsiteByUserId(session.user.id) 
+    const site = await getWebsiteByUserId(session.user.id);
 
     const response = await prisma.contact.update({
       where: {

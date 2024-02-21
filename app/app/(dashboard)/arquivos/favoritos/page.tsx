@@ -9,13 +9,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FullHeart } from "@/components/icons/full-heart";
 
 export default async function FavoritesPage() {
-const session = await getSession();
+  const session = await getSession();
 
-if (!session) {
-  redirect("/login");
-}
+  if (!session) {
+    redirect("/login");
+  }
 
-const website = await getWebsiteByUserId(session.user.id);
+  const website = await getWebsiteByUserId(session.user.id);
 
   const results = (await cloudinary.v2.search
     .expression(`folder="${website.cloudinaryDir}/*" AND tags=favorite`)
@@ -35,7 +35,8 @@ const website = await getWebsiteByUserId(session.user.id);
         <Alert>
           <AlertTitle>Atenção!</AlertTitle>
           <AlertDescription>
-            Todos os arquivos que forem colocados nos favoritos irão aparecer na galeria do site do político.
+            Todos os arquivos que forem colocados nos favoritos irão aparecer na
+            galeria do site do político.
           </AlertDescription>
         </Alert>
 

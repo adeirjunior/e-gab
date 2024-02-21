@@ -18,21 +18,20 @@ const proposalTypeTranslate = (type: ProposalTypes) => {
   }
 };
 
-
 export default function ProposalCard({ data }: { data: Proposal[] }) {
-  
   return (
     <Accordion variant="bordered" selectionMode="multiple">
-      {data && data.map((item, index) => (
-        <AccordionItem
-          key={index}
-          aria-label="Chung Miller"
-          className="text-gray-400"
-          title={proposalTypeTranslate(item.type)}
-        >
-          {item.description}
-        </AccordionItem>
-      ))}
+      {data &&
+        data.map((item, index) => (
+          <AccordionItem
+            key={index}
+            aria-label="Chung Miller"
+            className="text-gray-400"
+            title={proposalTypeTranslate(item.type)}
+          >
+            {item.description}
+          </AccordionItem>
+        ))}
     </Accordion>
   );
 }

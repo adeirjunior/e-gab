@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import prisma from "@/lib/configs/prisma";
 import { revalidatePath } from "next/cache";
@@ -9,46 +9,38 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 export const createChatRoom = async (
   clientId: string,
   websiteId: string,
-  formData: FormData
+  formData: FormData,
 ) => {
-
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const address = formData.get("address") as string;
-const tel = formData.get("tel") as string;
-const image = formData.get("image-upload") as File;
-const image2 = formData.get("image-upload") as File;
-const images = [image,image2]
+  const tel = formData.get("tel") as string;
+  const image = formData.get("image-upload") as File;
+  const image2 = formData.get("image-upload") as File;
+  const images = [image, image2];
 
-
-  if (
-    !clientId ||
-    !websiteId ||
-    !title ||
-    !description ||
-    !address || !tel
-  ) {
+  if (!clientId || !websiteId || !title || !description || !address || !tel) {
     return {
       error: "One or more required fields are empty",
     };
   }
 
-  const startingFiles: string[] = []
+  const startingFiles: string[] = [];
 
   images.map(async (image) => {
-    console.log(JSON.stringify(image))
-    if(image) {
-      const filePath = await create(image)
+    console.log(JSON.stringify(image));
+    if (image) {
+      const filePath = await create(image);
 
-      if(typeof filePath === 'object' && 'error' in filePath) {
+      if (typeof filePath === "object" && "error" in filePath) {
         return {
-          error: filePath.error
-        }
+          error: filePath.error,
+        };
       }
 
-      startingFiles.push(filePath)
+      startingFiles.push(filePath);
     }
-  })
+  });
 
   const response = await prisma.chatRoom.create({
     data: {
@@ -58,11 +50,11 @@ const images = [image,image2]
       description,
       address,
       tel,
-      startingFiles
+      startingFiles,
     },
   });
 
-  revalidatePath("/ouvidoria")
+  revalidatePath("/ouvidoria");
   return response;
 };
 

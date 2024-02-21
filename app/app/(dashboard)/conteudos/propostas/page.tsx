@@ -34,7 +34,7 @@ export default async function Page() {
     <>
       <div className="flex w-full flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
         <div className="flex flex-col items-center gap-4 space-y-2 sm:items-start lg:flex-row lg:justify-center">
-          <h1 className="mb-0 w-60 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
+          <h1 className="font-cal mb-0 w-60 truncate text-xl font-bold dark:text-white sm:w-auto sm:text-xl lg:text-3xl">
             Todas as Propostas de {data.name}
           </h1>
           <DomainLinkTag subdomain={data.subdomain!} path="/#propostas" />
@@ -42,14 +42,17 @@ export default async function Page() {
       </div>
       <CreateProposalForm />
       <div className="w-full">
-        <h2 className="mb-0 truncate font-cal text-xl font-bold sm:w-auto sm:text-xl lg:text-3xl dark:text-white">
+        <h2 className="font-cal mb-0 truncate text-xl font-bold dark:text-white sm:w-auto sm:text-xl lg:text-3xl">
           Propostas Adicionadas
         </h2>
       </div>
-      <Suspense fallback={<div className="w-full h-72 rounded-xl bg-slate-500 animate-pulse"></div>}>
+      <Suspense
+        fallback={
+          <div className="h-72 w-full animate-pulse rounded-xl bg-slate-500"></div>
+        }
+      >
         <ProposalCard data={proposals} />
       </Suspense>
-      
     </>
   );
 }

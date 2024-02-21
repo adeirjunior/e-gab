@@ -6,7 +6,10 @@ export default function ChatTheirMessage() {
     <>
       <div className="chat-message">
         <div className="flex items-end">
-          <Card isPressable className="order-2 mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs">
+          <Card
+            isPressable
+            className="order-2 mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
+          >
             <div>
               <span className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600">
                 Can be verified on any platform using docker

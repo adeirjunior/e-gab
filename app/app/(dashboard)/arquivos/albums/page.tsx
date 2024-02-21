@@ -7,15 +7,17 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 export type Folder = { name: string; path: string };
 
 export default async function AlbumsPage() {
-const session = await getSession()
-  
-  if(!session) {
-    redirect("/login")
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
   }
 
-  const website = await getWebsiteByUserId(session.user.id)
+  const website = await getWebsiteByUserId(session.user.id);
 
-  const { folders } = (await cloudinary.v2.api.sub_folders(website.cloudinaryDir)) as {
+  const { folders } = (await cloudinary.v2.api.sub_folders(
+    website.cloudinaryDir,
+  )) as {
     folders: Folder[];
   };
 

@@ -14,8 +14,11 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
-export const updateSite = async (formData: FormData, _id: unknown, key: string) => {
-
+export const updateSite = async (
+  formData: FormData,
+  _id: unknown,
+  key: string,
+) => {
   const hasSub = await hasSubscription();
 
   if (!hasSub) {
@@ -23,7 +26,7 @@ export const updateSite = async (formData: FormData, _id: unknown, key: string) 
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
   }
-  
+
   const session = await getSession();
   if (!session?.user.id) {
     return {

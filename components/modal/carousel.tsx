@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   CarouselContent,
@@ -7,14 +7,12 @@ import {
   CarouselPrevious,
   Carousel,
 } from "../ui/carousel";
-import { Card, CardContent } from '../ui/card';
-import { useRef } from 'react';
+import { Card, CardContent } from "../ui/card";
+import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function CarouselWebsite() {
-  const plugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true }),
-  );
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   return (
     <Carousel

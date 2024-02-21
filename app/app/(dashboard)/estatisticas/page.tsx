@@ -9,7 +9,7 @@ import { SearchResult } from "@/lib/types/types";
 import cloudinary from "@/lib/configs/cloudinary";
 
 export default async function page() {
-  const hasSub = await hasSubscription()
+  const hasSub = await hasSubscription();
   const session = await getSession();
 
   if (!session) {
@@ -18,7 +18,7 @@ export default async function page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-   const results = (await cloudinary.v2.search
+  const results = (await cloudinary.v2.search
     .expression(`folder="${website.cloudinaryDir}/*"`)
     .sort_by("created_at", "desc")
     .with_field("tags")
@@ -27,7 +27,7 @@ export default async function page() {
 
   return (
     <div className="p-8">
-      <h1 className="m-0 mb-2 font-cal text-xl font-bold sm:text-3xl dark:text-white">
+      <h1 className="font-cal m-0 mb-2 text-xl font-bold dark:text-white sm:text-3xl">
         Estatísticas
       </h1>
       <OnboardingExample />

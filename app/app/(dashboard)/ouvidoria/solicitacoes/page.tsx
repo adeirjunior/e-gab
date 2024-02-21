@@ -14,17 +14,19 @@ export default async function page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  const rooms = await getRoomsWithStatus(website.id, "pending")
+  const rooms = await getRoomsWithStatus(website.id, "pending");
 
   return (
-    <div>{rooms.length > 0 ? (
+    <div>
+      {rooms.length > 0 ? (
         <Grid numItems={1} numItemsLg={2} className="gap-4 xl:grid-cols-3">
           {rooms.map((room) => (
-            <PendingRoomCard key={room.id} id={room.id} room={room as any}/>
+            <PendingRoomCard key={room.id} id={room.id} room={room as any} />
           ))}
         </Grid>
       ) : (
         "Sem salas solicitadas"
-      )}</div>
-  )
+      )}
+    </div>
+  );
 }

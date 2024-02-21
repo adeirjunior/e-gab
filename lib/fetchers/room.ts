@@ -1,39 +1,13 @@
-"use server"
+"use server";
 
 import { ChatRoomStatus } from "@prisma/client";
 import prisma from "../configs/prisma";
 
 export async function getRooms(websiteId: string) {
-    try {
-      const rooms = await prisma.chatRoom.findMany({
-        where: {
-          websiteId,
-        },
-      });
-      if (!rooms) {
-        console.log("Website não encontrado.");
-        return null;
-      }
-      return rooms;
-    } catch (error) {
-      console.error("Erro ao buscar o site:", error);
-      throw error;
-    } finally {
-      await prisma.$disconnect();
-    }
-}
-
-
-export async function getRoomsByUser(websiteId: string, userId: string) {
   try {
     const rooms = await prisma.chatRoom.findMany({
       where: {
         websiteId,
-        client: {
-          user: {
-            id: userId
-          }
-        }
       },
     });
     if (!rooms) {
@@ -49,95 +23,127 @@ export async function getRoomsByUser(websiteId: string, userId: string) {
   }
 }
 
-
-export async function getRoomsWithStatus(websiteId: string, status: ChatRoomStatus) {
-    try {
-      const rooms = await prisma.chatRoom.findMany({
-        where: {
-          websiteId,
-          status,
+export async function getRoomsByUser(websiteId: string, userId: string) {
+  try {
+    const rooms = await prisma.chatRoom.findMany({
+      where: {
+        websiteId,
+        client: {
+          user: {
+            id: userId,
+          },
         },
-        include: {
-          client: {
-            select: {
-              user: {
-                select: {
-                  email: true,
-                  name: true,
-                },
+      },
+    });
+    if (!rooms) {
+      console.log("Website não encontrado.");
+      return null;
+    }
+    return rooms;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function getRoomsWithStatus(
+  websiteId: string,
+  status: ChatRoomStatus,
+) {
+  try {
+    const rooms = await prisma.chatRoom.findMany({
+      where: {
+        websiteId,
+        status,
+      },
+      include: {
+        client: {
+          select: {
+            user: {
+              select: {
+                email: true,
+                name: true,
               },
             },
           },
         },
-        orderBy: {
-          createdAt: "asc",
-        },
-      });
-      if (!rooms) {
-        console.log("Website não encontrado.");
-        return null;
-      }
-      return rooms;
-    } catch (error) {
-      console.error("Erro ao buscar o site:", error);
-      throw error;
-    } finally {
-      await prisma.$disconnect();
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    if (!rooms) {
+      console.log("Website não encontrado.");
+      return null;
     }
+    return rooms;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-export async function countRoomsWithStatus(websiteId: string, status: ChatRoomStatus) {
-    try {
-      const rooms = await prisma.chatRoom.count({
-    where: {
-      status,
-      websiteId
-    },
-  });
-      if (!rooms) {
-        console.log("Website não encontrado.");
-        return 0;
-      }
-      return rooms;
-    } catch (error) {
-      console.error("Erro ao buscar o site:", error);
-      throw error;
-    } finally {
-      await prisma.$disconnect();
+export async function countRoomsWithStatus(
+  websiteId: string,
+  status: ChatRoomStatus,
+) {
+  try {
+    const rooms = await prisma.chatRoom.count({
+      where: {
+        status,
+        websiteId,
+      },
+    });
+    if (!rooms) {
+      console.log("Website não encontrado.");
+      return 0;
     }
+    return rooms;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-
-export async function getRoomsWithLimitAndStatus(websiteId: string, take: number, status: ChatRoomStatus) {
+export async function getRoomsWithLimitAndStatus(
+  websiteId: string,
+  take: number,
+  status: ChatRoomStatus,
+) {
   try {
     const rooms = await prisma.chatRoom.findMany({
-    where: {
-      websiteId,
-      status
-    },
-    include: {
-      client: {
-        select: {
-          user: {
-            select: {
-              email: true,
-              name: true,
+      where: {
+        websiteId,
+        status,
+      },
+      include: {
+        client: {
+          select: {
+            user: {
+              select: {
+                email: true,
+                name: true,
+              },
             },
           },
         },
       },
-    },
-    take,
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
-  return rooms;
+      take,
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    return rooms;
   } catch (error) {
-     console.error("Erro ao buscar o site:", error);
-      throw error;
-    } finally {
-      await prisma.$disconnect();
-    }
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 }
-

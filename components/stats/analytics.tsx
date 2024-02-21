@@ -86,7 +86,7 @@ const categories = [
 
 export default function AnalyticsMockup() {
   return (
-    <div className="grid gap-6 w-full">
+    <div className="grid w-full gap-6">
       <Card>
         <Title>Visitantes</Title>
         <AreaChart

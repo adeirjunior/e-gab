@@ -7,4 +7,4 @@ cloudinary.v2.config({
   secure: true,
 });
 
-export default cloudinary
+export default cloudinary;

@@ -1,7 +1,15 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import { Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
+import {
+  Card,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+  User,
+} from "@nextui-org/react";
 import { Metric, Title, Subtitle, Bold, Text } from "@tremor/react";
 import { signOut } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
@@ -22,16 +30,10 @@ export default function Profile({
     <Dropdown placement="top-start">
       <DropdownTrigger>
         <Card>
-          <CldImage
-        alt=""
-          src={ user.image}
-          width={50}
-          height={50}
-        />
-        <Title>{user.name}</Title>
-        <Subtitle>@username</Subtitle>
+          <CldImage alt="" src={user.image} width={50} height={50} />
+          <Title>{user.name}</Title>
+          <Subtitle>@username</Subtitle>
         </Card>
-        
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="profile" className="gap-2">

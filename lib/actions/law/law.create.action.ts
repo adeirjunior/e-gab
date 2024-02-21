@@ -8,7 +8,6 @@ import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createLaw = withSiteAuth(async (_: FormData, site: Website) => {
-
   const hasSub = await hasSubscription();
 
   if (!hasSub) {

@@ -57,7 +57,6 @@ export async function getLawData(domain: string, slug: string) {
   )();
 }
 
-
 export async function getLawsForSite(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")

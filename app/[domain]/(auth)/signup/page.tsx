@@ -20,7 +20,7 @@ export default async function SignupPage() {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati
           sunt dolores deleniti inventore quaerat mollitia?
         </p>
-       <Form />
+        <Form />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { SocialMediaTypes } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
@@ -12,8 +12,8 @@ export async function getSocialByType(type: SocialMediaTypes) {
 
   if (!proposal) {
     return {
-      error: "Social esta vazia."
-    }
+      error: "Social esta vazia.",
+    };
   }
 
   return proposal;

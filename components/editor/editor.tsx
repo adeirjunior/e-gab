@@ -28,11 +28,10 @@ const Editor = ({ data, onChange, holder = "editorjs" }: Props) => {
         i18n: PT_I18N,
         data,
         async onChange(api, event) {
-          const data = await api.saver.save()
+          const data = await api.saver.save();
           onChange(data);
         },
         placeholder: "Conteúdo",
-        
       });
       ref.current = editor;
     }

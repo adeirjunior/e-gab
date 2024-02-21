@@ -7,20 +7,19 @@ import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 
 function extractLastPartOfPath(link: string): string | null {
-    try {
-        const lastSlashIndex = link.lastIndexOf("/");
-        if (lastSlashIndex !== -1) {
-            const lastPartOfPath = link.substring(lastSlashIndex + 1);
-            return lastPartOfPath;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error("Error while extracting the last part of the path:", error);
-        return null;
+  try {
+    const lastSlashIndex = link.lastIndexOf("/");
+    if (lastSlashIndex !== -1) {
+      const lastPartOfPath = link.substring(lastSlashIndex + 1);
+      return lastPartOfPath;
+    } else {
+      return null;
     }
+  } catch (error) {
+    console.error("Error while extracting the last part of the path:", error);
+    return null;
+  }
 }
-
 
 export default function EditPage({
   params: { imageId },
@@ -38,13 +37,15 @@ export default function EditPage({
     | "bg-remove"
   >();
 
-  const decodedImageId = decodeURIComponent(imageId)
+  const decodedImageId = decodeURIComponent(imageId);
 
   return (
     <section>
       <div className="flex flex-col gap-8">
         <div className="flex justify-between">
-          <h1 className="text-4xl font-bold">Alterar {extractLastPartOfPath(decodedImageId)}</h1>
+          <h1 className="text-4xl font-bold">
+            Alterar {extractLastPartOfPath(decodedImageId)}
+          </h1>
         </div>
 
         <div className="flex gap-4">

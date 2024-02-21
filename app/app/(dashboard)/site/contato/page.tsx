@@ -7,12 +7,12 @@ import { updateContact } from "@/lib/actions/contato/contato.update.action";
 export default async function Page() {
   const session = await getSession();
   const website = await getWebsiteByUserId(session?.user.id!);
-  
+
   const contact = await prisma.contact.findUnique({
     where: {
-      id: website?.contactId
-    }
-  })
+      id: website?.contactId,
+    },
+  });
 
   return (
     <div className="flex flex-col space-y-6">

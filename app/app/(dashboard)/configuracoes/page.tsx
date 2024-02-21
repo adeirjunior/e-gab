@@ -11,7 +11,7 @@ export default async function SettingsPage() {
     redirect("/login");
   }
 
-  const user = session.user
+  const user = session.user;
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -32,17 +32,17 @@ export default async function SettingsPage() {
           }}
           handleSubmit={editUser}
         />
-         <Form
-        title="Logo"
-        description="A logo do seu perfil. Formatos aceitos: .png, .jpg, .jpeg, .webp"
-        helpText="Arquivo de no máximo 5MB. Tamanho recomendado 400x400."
-        inputAttrs={{
-          name: "logo",
-          type: "file",
-          defaultValue: user.image!,
-        }}
-        handleSubmit={editUser}
-      />
+        <Form
+          title="Logo"
+          description="A logo do seu perfil. Formatos aceitos: .png, .jpg, .jpeg, .webp"
+          helpText="Arquivo de no máximo 5MB. Tamanho recomendado 400x400."
+          inputAttrs={{
+            name: "logo",
+            type: "file",
+            defaultValue: user.image!,
+          }}
+          handleSubmit={editUser}
+        />
         <Form
           title="Email"
           description="Seu email nesta plataforma."

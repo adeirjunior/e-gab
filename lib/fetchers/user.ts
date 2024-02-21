@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import prisma from "@/lib/configs/prisma";
 
@@ -26,15 +26,15 @@ export async function getClientByUser(id: string) {
     const user = await prisma.user.findUnique({
       where: { id },
       include: {
-        client: true
-      }
+        client: true,
+      },
     });
 
     if (!user || !user.client) {
       throw new Error("Não foi possível encontrar o usuário");
     }
 
-    return user.client
+    return user.client;
   } catch (error) {
     throw new Error(`Erro ao obter papel do usuário: ${error.message}`);
   } finally {

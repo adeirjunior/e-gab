@@ -1,7 +1,7 @@
-"use server"
+"use server";
 
 import cloudinary from "@/lib/configs/cloudinary";
-import axios from 'axios';
+import axios from "axios";
 import { createHash } from "crypto";
 
 const generateSHA1 = (data: any) => {

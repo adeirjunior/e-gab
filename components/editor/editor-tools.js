@@ -4,7 +4,7 @@ import Delimiter from "@editorjs/delimiter";
 import Embed from "@editorjs/embed";
 import InlineCode from "@editorjs/inline-code";
 import Link from "@editorjs/link";
-import ImageTool from "@editorjs/image"
+import ImageTool from "@editorjs/image";
 import List from "@editorjs/list";
 import Quote from "@editorjs/quote";
 import Paragraph from "@editorjs/paragraph";

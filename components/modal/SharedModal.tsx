@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { variants } from "@/lib/utils/animationVariants";
 import { ImageProps, SharedModalProps } from "@/lib/types/types";
@@ -57,7 +57,7 @@ export default function SharedModal({
       }}
     >
       <div
-        className="relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto"
+        className="wide:h-full xl:taller-than-854:h-auto relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center"
         {...handlers}
       >
         {/* Main image */}
@@ -76,9 +76,9 @@ export default function SharedModal({
                 <Image
                   src={`https://res.cloudinary.com/${
                     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                  }/image/upload/c_scale,${navigation ? "w_1280" : "w_1920"}/${
-                    currentImage?.public_id
-                  }.${currentImage?.format}`}
+                  }/image/upload/c_scale,${
+                    navigation ? "w_1280" : "w_1920"
+                  }/${currentImage?.public_id}.${currentImage?.format}`}
                   width={navigation ? 1280 : 1920}
                   height={navigation ? 853 : 1280}
                   priority
@@ -117,7 +117,7 @@ export default function SharedModal({
                   )}
                 </>
               )}
-              <div className="absolute top-0 right-0 flex items-center gap-2 p-3 text-white">
+              <div className="absolute right-0 top-0 flex items-center gap-2 p-3 text-white">
                 {navigation ? (
                   <a
                     href={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${currentImage?.public_id}.${currentImage?.format}`}
@@ -152,7 +152,7 @@ export default function SharedModal({
                   <ArrowDownTrayIcon className="h-5 w-5" />
                 </button>
               </div>
-              <div className="absolute top-0 left-0 flex items-center gap-2 p-3 text-white">
+              <div className="absolute left-0 top-0 flex items-center gap-2 p-3 text-white">
                 <button
                   onClick={() => closeModal()}
                   className="rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white"
@@ -171,7 +171,7 @@ export default function SharedModal({
             <div className="fixed inset-x-0 bottom-0 z-40 overflow-hidden bg-gradient-to-b from-black/0 to-black/60">
               <motion.div
                 initial={false}
-                className="mx-auto mt-6 mb-6 flex aspect-[3/2] h-14"
+                className="mx-auto mb-6 mt-6 flex aspect-[3/2] h-14"
               >
                 <AnimatePresence initial={false}>
                   {filteredImages?.map(({ public_id, format, id }) => (

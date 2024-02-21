@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
-import "@/components/editor/style.css"
+import "@/components/editor/style.css";
 
 export type PostWithSite = Post & {
   website: { subdomain: string | null } | null;
@@ -63,7 +63,6 @@ export default function Editor({ post }: { post: PostWithSite }) {
         toast.error("Falha ao atualizar o post. Por favor, tente novamente.");
       }
     });
-
   }, [debouncedData, startTransitionSaving]);
 
   const togglePublish = async () => {

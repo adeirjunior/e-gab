@@ -12,8 +12,8 @@ declare module "next-auth/jwt" {
       stripeCustomerId: string;
       username: string;
       gh_username: string;
-      image: string | null
-      email: string
+      image: string | null;
+      email: string;
     };
   }
 }

@@ -8,7 +8,6 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createSocial = async (social: FormData) => {
-
   const hasSub = await hasSubscription();
 
   if (!hasSub) {
@@ -24,7 +23,7 @@ export const createSocial = async (social: FormData) => {
     };
   }
 
-  const site = await getWebsiteByUserId(session.user.id)
+  const site = await getWebsiteByUserId(session.user.id);
 
   if (!site) {
     return {
@@ -45,8 +44,8 @@ export const createSocial = async (social: FormData) => {
     data: {
       website: {
         connect: {
-          id: site.id
-        }
+          id: site.id,
+        },
       },
       handle,
       type,
@@ -59,4 +58,4 @@ export const createSocial = async (social: FormData) => {
   site.customDomain && revalidateTag(`${site.customDomain}-socials`);
 
   return response;
-}
+};

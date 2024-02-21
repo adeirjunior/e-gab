@@ -1,4 +1,8 @@
-export default function InfraestruturaSvg({className}: {className: string}) {
+export default function InfraestruturaSvg({
+  className,
+}: {
+  className: string;
+}) {
   return (
     <svg
       viewBox="0 0 280 280"

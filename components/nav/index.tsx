@@ -52,15 +52,15 @@ export default function Nav({
           segments[0] === "posts" && segments.length === 2 && !showSidebar
             ? "left-5 top-5"
             : "right-5 top-7"
-        } sm:hidden dark:text-gray-300`}
+        } dark:text-gray-300 sm:hidden`}
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
       </button>
       <div
         className={cn(
-          "transform fixed z-10 flex h-full flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all sm:w-60 sm:translate-x-0 dark:border-stone-700 dark:bg-stone-900",
-          showSidebar ? "w-full translate-x-0" : "-translate-x-full"
+          "fixed z-10 flex h-full transform flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0",
+          showSidebar ? "w-full translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="grid gap-2">

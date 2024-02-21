@@ -15,7 +15,7 @@ export default function MobileNavLayout2() {
           color="#fff"
         />
       </div>
-      <nav className={`${isOpen ? '' : 'hidden'} `}>mobile-nav-layout-2</nav>
+      <nav className={`${isOpen ? "" : "hidden"} `}>mobile-nav-layout-2</nav>
     </div>
   );
 }

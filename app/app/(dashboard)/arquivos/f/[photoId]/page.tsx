@@ -17,11 +17,11 @@ const Home = async ({ params }: { params: { photoId: string } }) => {
 
   const reducedResults: ImageProps[] = results.resources.map((result, i) => ({
     id: i,
-      height: result.height,
-      width: result.width,
-      public_id: result.public_id,
-      format: result.format,
-  }))
+    height: result.height,
+    width: result.width,
+    public_id: result.public_id,
+    format: result.format,
+  }));
 
   const photo = reducedResults.find((img) => img.id === Number(params.photoId));
 

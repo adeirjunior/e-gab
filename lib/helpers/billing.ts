@@ -54,7 +54,6 @@ export async function createCheckoutLink(customer: string) {
 }
 
 export async function createCustomerIfNull(id: string) {
-
   if (id) {
     const user = await prisma.user.findFirst({
       where: { id },

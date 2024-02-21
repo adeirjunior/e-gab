@@ -16,7 +16,7 @@ export default function DeletePostForm({ postName }: { postName: string }) {
     <form
       action={async (data: FormData) =>
         window.confirm("Tem certeza que quer deletar seu post?") &&
-        await deletePost(data, id, "delete").then((res: any) => {
+        (await deletePost(data, id, "delete").then((res: any) => {
           if (res.error) {
             toast.error(res.error);
           } else {
@@ -25,7 +25,7 @@ export default function DeletePostForm({ postName }: { postName: string }) {
             router.push(`/site`);
             toast.success(`Post deletado com sucesso!`);
           }
-        })
+        }))
       }
       className="rounded-lg border border-red-600 bg-white dark:bg-black"
     >
@@ -46,7 +46,7 @@ export default function DeletePostForm({ postName }: { postName: string }) {
         />
       </div>
 
-      <div className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10 dark:border-stone-700 dark:bg-stone-800">
+      <div className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 dark:border-stone-700 dark:bg-stone-800 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10">
         <p className="text-center text-sm text-stone-500 dark:text-stone-400">
           Esta ação é irreversível. Favor prosseguir com cautela.
         </p>
@@ -62,7 +62,7 @@ function FormButton() {
   const { pending } = useFormStatus();
   return (
     <Button
-    type="submit"
+      type="submit"
       className={cn(
         "flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10",
         pending

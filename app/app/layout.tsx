@@ -6,7 +6,6 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
-
   return (
     <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
       {children}

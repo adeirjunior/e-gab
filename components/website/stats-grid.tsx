@@ -1,14 +1,12 @@
-
-import SectionHeadingTitles from "./section-heading-titles"
+import SectionHeadingTitles from "./section-heading-titles";
 import prisma from "@/lib/configs/prisma";
 
-export default async function StatsGrid({websiteId}: {websiteId: string}) {
-
+export default async function StatsGrid({ websiteId }: { websiteId: string }) {
   const lawCount = await prisma.law.count({
     where: {
-      websiteId
-    }
-  })
+      websiteId,
+    },
+  });
 
   return (
     <section className="bg-white">
@@ -19,8 +17,6 @@ export default async function StatsGrid({websiteId}: {websiteId: string}) {
           subtitle="Veja"
           description=""
         />
-
-        
 
         <div className="mt-8 sm:mt-12">
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:divide-x sm:divide-gray-100">

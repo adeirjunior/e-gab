@@ -8,11 +8,10 @@ interface MessageFieldProps {
 }
 
 const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
-
   const sendMessage = async (formData: FormData) => {
-    "use server"
+    "use server";
     const text = formData.get("message") as string;
-    await createMessage(text, userId, roomId );
+    await createMessage(text, userId, roomId);
   };
 
   return (

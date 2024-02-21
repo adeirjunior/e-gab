@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { Button } from '@nextui-org/react';
-import { User } from '@prisma/client';
-import { CldImage } from 'next-cloudinary';
+import { Button } from "@nextui-org/react";
+import { User } from "@prisma/client";
+import { CldImage } from "next-cloudinary";
 
-export default function ChatHeader({ chatPartner }: { chatPartner : User}) {
+export default function ChatHeader({ chatPartner }: { chatPartner: User }) {
   return (
     <>
       <div className="relative flex items-center space-x-4">
@@ -14,7 +14,13 @@ export default function ChatHeader({ chatPartner }: { chatPartner : User}) {
               <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
             </svg>
           </span>
-          <CldImage className='rounded-full' src={chatPartner.image} width={50} height={50} alt="" />
+          <CldImage
+            className="rounded-full"
+            src={chatPartner.image}
+            width={50}
+            height={50}
+            alt=""
+          />
         </div>
         <div className="flex flex-col leading-tight">
           <div className="mt-1 flex items-center text-2xl">

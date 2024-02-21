@@ -2,7 +2,7 @@ import MessageField from "@/components/chat/MessageField";
 import Messages from "@/components/chat/Messages";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import {  Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
@@ -18,8 +18,8 @@ const page = async ({ params }: PageProps) => {
   const { roomId } = params;
   const session = await getSession();
 
-  if(!session?.user) {
-    return redirect("/")
+  if (!session?.user) {
+    return redirect("/");
   }
 
   const data = await prisma.chatRoom.findUnique({
@@ -41,33 +41,31 @@ const page = async ({ params }: PageProps) => {
       },
       politician: {
         include: {
-          user: true
+          user: true,
         },
       },
       secretary: {
         include: {
-          user: true
+          user: true,
         },
       },
     },
   });
 
-const chatPartner: User = data.politician?.user || data.secretary?.user;
+  const chatPartner: User = data.politician?.user || data.secretary?.user;
 
-if (!data || !chatPartner) {
-  notFound();
-}
-
+  if (!data || !chatPartner) {
+    notFound();
+  }
 
   const existingMessages = await prisma.message.findMany({
     where: {
       chatRoomId: roomId,
     },
     orderBy: {
-      createdAt: 'desc'
-    }
+      createdAt: "desc",
+    },
   });
-
 
   return (
     <Card className="flex max-h-screen flex-col justify-between bg-transparent">

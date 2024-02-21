@@ -1,8 +1,14 @@
-
-"use client"
+"use client";
 import React, { useState } from "react";
 import CustomDragDrop from "./CustomDragDrop";
-import { Image, Card, CardHeader, Button, CardFooter, CardBody } from "@nextui-org/react";
+import {
+  Image,
+  Card,
+  CardHeader,
+  Button,
+  CardFooter,
+  CardBody,
+} from "@nextui-org/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const ExampleForm = () => {
@@ -37,7 +43,7 @@ const ExampleForm = () => {
   };
 
   return (
-    <Card className="wrapper className=mb-6 rounded border border-slate-200 p-6 mb-6 dark:border-slate-500">
+    <Card className="wrapper className=mb-6 mb-6 rounded border border-slate-200 p-6 dark:border-slate-500">
       <CardHeader className="form-step-header">
         <h3>Faça upload de um novo arquivo</h3>
       </CardHeader>
@@ -60,7 +66,7 @@ const ExampleForm = () => {
                       <p className="text-tiny font-bold uppercase text-white/60">
                         Nome do Arquivo
                       </p>
-                      <h4 className="text-large font-medium text-white truncate">
+                      <h4 className="truncate text-large font-medium text-white">
                         {file.name}
                       </h4>
                     </CardHeader>

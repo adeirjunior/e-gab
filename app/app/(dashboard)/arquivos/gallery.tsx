@@ -8,11 +8,7 @@ import { SetStateAction, useEffect, useRef, useState } from "react";
 import { ImageProps } from "@/lib/types/types";
 import { Image } from "@nextui-org/react";
 
-export default function Gallery({
-  results,
-}: {
-  results: any;
-}) {
+export default function Gallery({ results }: { results: any }) {
   const searchParams = useSearchParams();
   const [images, setImages] = useState<ImageProps[]>([]);
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
@@ -38,7 +34,6 @@ export default function Gallery({
       setLastViewedPhoto(null);
     }
   }, [photoId, lastViewedPhoto, setLastViewedPhoto]);
-
 
   return (
     <div>

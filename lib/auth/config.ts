@@ -68,7 +68,6 @@ export const authOptions: NextAuthOptions = {
           return { error } as ErrorType;
         }
       },
-      
     } as UserCredentialsConfig<{
       email: { label: string; type: string; placeholder: string };
       password: { label: string; type: string };
@@ -99,7 +98,7 @@ export const authOptions: NextAuthOptions = {
       const isNotFound = "error" in user;
       if (isNotFound) return false;
 
-      await createEveryUserVariant(user.id)
+      await createEveryUserVariant(user.id);
 
       return true;
     },
@@ -131,7 +130,9 @@ export const authOptions: NextAuthOptions = {
           id: token.user.id,
           username: token.user.username || token.user.gh_username,
           role: token.user.role,
-          ...(token.picture ? {image: token.picture} : {image: token.user.image} )
+          ...(token.picture
+            ? { image: token.picture }
+            : { image: token.user.image }),
         };
       }
 

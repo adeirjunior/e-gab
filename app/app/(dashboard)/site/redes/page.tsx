@@ -1,6 +1,4 @@
-import {
-  Card,
-} from "@nextui-org/react";
+import { Card } from "@nextui-org/react";
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";

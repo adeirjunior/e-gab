@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { DonutChart } from "@tremor/react";
 
@@ -22,11 +22,5 @@ const onChange = (v) => {
 };
 
 export default function Pie() {
-  return (
-    <DonutChart
-      data={datahero}
-      variant="pie"
-      onValueChange={onChange}
-    />
-  );
+  return <DonutChart data={datahero} variant="pie" onValueChange={onChange} />;
 }

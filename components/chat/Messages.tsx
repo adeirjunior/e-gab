@@ -27,7 +27,7 @@ const Messages: FC<MessagesProps> = ({
   initialMessages,
   roomId,
   sessionUser,
-  chatPartner
+  chatPartner,
 }) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
@@ -46,15 +46,14 @@ const Messages: FC<MessagesProps> = ({
     };
   }, [roomId]);
 
- const scrollDownRef = useRef<HTMLDivElement | null>(null);
+  const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
- const formatTimestamp = (timestamp?: Date) => {
-  if(!timestamp) {
-    return format(new Date(), "HH:mm");
-  }
-   return format(timestamp, "HH:mm");
- };
-
+  const formatTimestamp = (timestamp?: Date) => {
+    if (!timestamp) {
+      return format(new Date(), "HH:mm");
+    }
+    return format(timestamp, "HH:mm");
+  };
 
   return (
     <div
@@ -106,23 +105,21 @@ const Messages: FC<MessagesProps> = ({
                 </span>
               </div>
 
-             
-                <div
-                  className={cn("relative h-6 w-6", {
-                    "order-2": isCurrentUser,
-                    "order-1": !isCurrentUser,
-                    invisible: hasNextMessageFromSameUser,
-                  })}
-                >
-                  <CldImage
-                    src={isDifferenttUser ? chatPartner.image : sessionUser.image}
-                    width={50}
-                    height={50}
-                    alt="Profile picture"
-                    className="rounded-full"
-                  />
-                </div>
-             
+              <div
+                className={cn("relative h-6 w-6", {
+                  "order-2": isCurrentUser,
+                  "order-1": !isCurrentUser,
+                  invisible: hasNextMessageFromSameUser,
+                })}
+              >
+                <CldImage
+                  src={isDifferenttUser ? chatPartner.image : sessionUser.image}
+                  width={50}
+                  height={50}
+                  alt="Profile picture"
+                  className="rounded-full"
+                />
+              </div>
             </div>
           </div>
         );

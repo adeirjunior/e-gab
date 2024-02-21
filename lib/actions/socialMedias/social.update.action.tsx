@@ -1,5 +1,3 @@
 export default function ProposalsUpdateAction() {
-  return (
-    <div>proposals.update.action</div>
-  )
+  return <div>proposals.update.action</div>;
 }

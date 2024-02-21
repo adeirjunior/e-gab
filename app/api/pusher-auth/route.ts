@@ -1,4 +1,4 @@
-import { pusherServer } from "@/lib/configs/pusher"; 
+import { pusherServer } from "@/lib/configs/pusher";
 import { nanoid } from "nanoid";
 
 export async function POST(req: Request) {
@@ -19,7 +19,6 @@ export async function POST(req: Request) {
     channelName,
     presenceData,
   );
-  
 
   return new Response(JSON.stringify(auth));
 }

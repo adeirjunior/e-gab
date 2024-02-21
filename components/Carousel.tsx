@@ -19,7 +19,7 @@ export default function Carousel({
 
   function closeModal() {
     setLastViewedPhoto(currentPhoto.id);
-    router.back()
+    router.back();
   }
 
   function changePhotoId(newVal: number) {

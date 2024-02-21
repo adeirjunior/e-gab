@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card } from "@nextui-org/react";
 import { ImageOffIcon, ImagePlusIcon } from "lucide-react";
@@ -14,7 +14,7 @@ const CustomDragDrop = ({
 }) => {
   // file input ref
   const FileInput = useRef(
-    null
+    null,
   ) as unknown as React.MutableRefObject<HTMLInputElement>;
 
   // drag state
@@ -44,7 +44,7 @@ const CustomDragDrop = ({
 
   // handle change event
   const handleChange = (
-    e: FormEvent<HTMLInputElement> & { target: HTMLInputElement }
+    e: FormEvent<HTMLInputElement> & { target: HTMLInputElement },
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -63,7 +63,7 @@ const CustomDragDrop = ({
   return (
     <Card
       onDragEnter={() => handleDrag}
-      className="custom-drag-drop rounded-lg border-2 border-dashed border-blue-500 bg-slate-50 dark:bg-gray-800 p-8 py-14 my-4"
+      className="custom-drag-drop my-4 rounded-lg border-2 border-dashed border-blue-500 bg-slate-50 p-8 py-14 dark:bg-gray-800"
     >
       <input
         ref={FileInput}

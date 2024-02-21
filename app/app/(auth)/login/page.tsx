@@ -8,7 +8,7 @@ import GoogleIcon from "@/components/icons/google-icon";
 
 export default function LoginPage() {
   return (
-    <div className="mx-auto border border-stone-200 px-3 py-10 sm:w-full sm:max-w-xl sm:rounded-lg sm:shadow-md dark:border-stone-700">
+    <div className="mx-auto border border-stone-200 px-3 py-10 dark:border-stone-700 sm:w-full sm:max-w-xl sm:rounded-lg sm:shadow-md">
       <Image
         alt="Logo E-Gab"
         width={200}

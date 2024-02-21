@@ -219,18 +219,18 @@ export default function App() {
                       aria-label="Accordion 1"
                       title={item.name}
                     >
-                        {item.children.map((child, childIndex) => (
-                          <NavbarMenuItem key={`${child}-${childIndex}`}>
-                            <Link
-                              className="w-full"
-                              color="foreground"
-                              href={`#${child.href}`}
-                              size="lg"
-                            >
-                              {child.name}
-                            </Link>
-                          </NavbarMenuItem>
-                        ))}
+                      {item.children.map((child, childIndex) => (
+                        <NavbarMenuItem key={`${child}-${childIndex}`}>
+                          <Link
+                            className="w-full"
+                            color="foreground"
+                            href={`#${child.href}`}
+                            size="lg"
+                          >
+                            {child.name}
+                          </Link>
+                        </NavbarMenuItem>
+                      ))}
                     </AccordionItem>
                   </Accordion>
                 </NavbarMenuItem>

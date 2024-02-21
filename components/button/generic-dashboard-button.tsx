@@ -48,15 +48,13 @@ export default function GenericDashboardButton({
         }
         const data = await create(null, null);
 
-        if('error' in data) {
-          toast.error(data.error)
+        if ("error" in data) {
+          toast.error(data.error);
         } else {
-           va.track(`Created ${path}`);
-        router.refresh();
-        router.push(`/conteudos/${path}/${data.id}`);
+          va.track(`Created ${path}`);
+          router.refresh();
+          router.push(`/conteudos/${path}/${data.id}`);
         }
-
-       
       }
     });
   };
