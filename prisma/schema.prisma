@@ -418,9 +418,8 @@ model ChatRoom {
   title         String
   description   String
   address       String
-  city          String?
-  neighborhood  String?
   cep           String?
+  tel String?
   stars         Int            @default(0)
   startingFiles ChatRoomFile[]
   clientId      String

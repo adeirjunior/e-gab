@@ -12,13 +12,16 @@ export const createChatRoom = async (
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const address = formData.get("address") as string;
+const tel = formData.get("tel") as string;
+
+
 
   if (
     !clientId ||
     !websiteId ||
     !title ||
     !description ||
-    !address
+    !address || !tel
   ) {
     return {
       error: "One or more required fields are empty",
@@ -32,6 +35,7 @@ export const createChatRoom = async (
       title,
       description,
       address,
+      tel
     },
   });
 
