@@ -94,7 +94,7 @@ export default async function SiteLayout({
       <div className={fontMapper[data.font]}>
         <Header data={data} />
 
-        <div className="container mt-20">{children}</div>
+        <div className="container mt-16">{children}</div>
 
         <Footer data={data} socials={socials} />
       </div>

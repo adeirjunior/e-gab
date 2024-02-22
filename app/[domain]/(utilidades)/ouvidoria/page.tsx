@@ -52,7 +52,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
   }
 
   return (
-    <Card className="min-h-screen space-y-6 bg-transparent">
+    <div className="min-h-screen space-y-6 bg-transparent">
       <FormModal subdomain={subdomain} />
       <Divider />
       {rooms.length > 0 ? (
@@ -107,6 +107,6 @@ export default async function Page({ params }: { params: { domain: string } }) {
       ) : (
         <Title>Não possui salas</Title>
       )}
-    </Card>
+    </div>
   );
 }
