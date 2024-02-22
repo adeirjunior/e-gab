@@ -48,19 +48,6 @@ export default async function SiteSettingsAppearance() {
         }}
         handleSubmit={updateSite}
       />
-      <Form
-        title="Mensagem Página 404"
-        description="Mensagem para mostrar na página 404."
-        helpText="Favor usar no máximo 240 caracteres."
-        inputAttrs={{
-          name: "message404",
-          type: "text",
-          defaultValue: decodeUTF8(data?.message404!),
-          placeholder: "Nossa! Essa página não existe.",
-          maxLength: 240,
-        }}
-        handleSubmit={updateSite}
-      />
     </div>
   );
 }

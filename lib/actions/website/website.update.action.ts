@@ -13,6 +13,7 @@ import { revalidateTag } from "next/cache";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
+import { create } from "../image/image.create.action";
 
 export const updateSite = async (
   formData: FormData,
@@ -108,11 +109,8 @@ export const updateSite = async (
       }
 
       const file = formData.get(key) as File;
-      const filename = `${nanoid()}.${file.type.split("/")[1]}`;
 
-      const { url } = await put(filename, file, {
-        access: "public",
-      });
+      const url = await create(formData, "logo");
 
       const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 
