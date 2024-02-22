@@ -24,6 +24,7 @@ export function CloudinaryImage(
     imageData.tags.includes("favorite"),
   );
 
+  console.log('Dados da Imagem: ',imageData)
   return (
     <div className="relative">
       {imageData.resource_type === "video" ? (

@@ -15,12 +15,13 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { ChatRoom } from "@prisma/client";
 import { Grid, Text, TextInput, Textarea, Title } from "@tremor/react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function FormModal({ subdomain }: { subdomain: string }) {
+export default function FormModal({ subdomain, rooms }: { subdomain: string; rooms: ChatRoom[] }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [isPendingRoomCreation, startRoomCreation] = useTransition();
   const { register, handleSubmit } = useForm();
@@ -52,6 +53,10 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
       toast.error(error.message);
     }
   };
+
+  function isNotDeniedRoom(rooms: ChatRoom[]): boolean {
+  return rooms.some(room => room.status !== "denied");
+}
 
   return (
     <>
@@ -194,9 +199,16 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
 
       <div className="flex flex-col sm:flex-row gap-4 w-full items-center justify-between">
         <Title>Ouvidoria</Title>
-        <Button className="w-full max-w-[280px] sm:w-36" onPress={onOpen}>
+        {isNotDeniedRoom(rooms) ? (
+          <Button className="w-full sm:w-40" disabled>
+          Já possui uma sala ativa
+          </Button>
+        ): (
+          <Button className="w-full max-w-[280px] sm:w-36" onPress={onOpen}>
           Criar Sala
         </Button>
+        )}
+        
       </div>
     </>
   );

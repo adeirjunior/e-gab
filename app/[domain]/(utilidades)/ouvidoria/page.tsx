@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
-import { getCurrentDomain } from "@/lib/utils";
+import { cn, getCurrentDomain } from "@/lib/utils";
 import {
   Button,
   Card,
@@ -10,10 +10,11 @@ import {
   Chip,
   Divider,
   Link,
+  Skeleton,
 } from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Grid, Title } from "@tremor/react";
+import { Bold, Grid, Text, Title } from "@tremor/react";
 import FormModal from "./form-modal";
 import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
@@ -53,7 +54,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
 
   return (
     <div className="min-h-screen space-y-6 bg-transparent">
-      <FormModal subdomain={subdomain} />
+      <FormModal rooms={rooms} subdomain={subdomain} />
       <Divider />
       {rooms.length > 0 ? (
         <Grid
@@ -69,24 +70,28 @@ export default async function Page({ params }: { params: { domain: string } }) {
                 ? "Solicitado"
                 : room.status === "active"
                   ? "Ativo"
+                  : room.status === "denied" ? "Negado"
                   : "Outro";
 
             return (
-              <Card shadow="md" className="border-3" key={room.id}>
+              <Card shadow="md" className="border-3 w-96" key={room.id}>
                 <CardHeader>
                   <div className="flex w-full items-center justify-between">
                     <Title>{room.title}</Title>
-                    <Chip color="primary">{status}</Chip>
+                    <Chip color={room.status === 'denied' ? 'danger' : 'primary'}>{status}</Chip>
                   </div>
                 </CardHeader>
-                <CardBody></CardBody>
+                <CardBody>
+                  <Bold>Resposta:</Bold>
+                  <Text>{room.status === 'denied' && room.reason ? room.reason : ''}</Text>
+                  </CardBody>
                 <CardFooter>
                   {room.status === "disabled" ||
                   room.status === "pending" ||
                   room.status === "denied" ? (
-                    <Button disabled variant="flat">
+                    <Skeleton className="rounded-full"><Button disabled >
                       Entrar
-                    </Button>
+                    </Button></Skeleton>
                   ) : (
                     <Button
                       as={Link}

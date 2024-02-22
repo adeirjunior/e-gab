@@ -68,7 +68,7 @@ export default async function SiteHomePage({
   return (
     <>
       <PoliticianBanner />
-      <div className="mb-20 mt-[500px] w-full space-y-6">
+      <div className="mb-20 mt-[400px] w-full space-y-6">
         <Banner />
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (
