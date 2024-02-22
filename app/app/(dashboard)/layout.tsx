@@ -24,7 +24,7 @@ export default async function DashboardLayout({
 
   return (
     <div>
-      <Nav subdomain={site.subdomain!}>
+      <Nav site={site}>
         <Suspense fallback={<div>Carregando...</div>}>
           <Profile />
         </Suspense>

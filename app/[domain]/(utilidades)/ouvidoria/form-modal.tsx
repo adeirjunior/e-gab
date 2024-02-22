@@ -192,9 +192,9 @@ export default function FormModal({ subdomain }: { subdomain: string }) {
         </ModalContent>
       </Modal>
 
-      <div className="flex w-full items-center justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 w-full items-center justify-between">
         <Title>Ouvidoria</Title>
-        <Button className="w-36" onPress={onOpen}>
+        <Button className="w-full max-w-[280px] sm:w-36" onPress={onOpen}>
           Criar Sala
         </Button>
       </div>

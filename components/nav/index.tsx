@@ -16,13 +16,16 @@ import { NavLink } from "./nav-link";
 import { Icon } from "./icon";
 import { cn, getCurrentDomain } from "@/lib/utils";
 import { useEffectOnce } from "usehooks-ts";
+import EGabLogo from "../icons/EGabLogo";
+import { CldImage } from "next-cloudinary";
+import { Website } from "@prisma/client";
 
 export default function Nav({
   children,
-  subdomain,
+  site,
 }: {
   children: ReactNode;
-  subdomain: string;
+  site: Website;
 }) {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
@@ -34,7 +37,7 @@ export default function Nav({
 
   useEffectOnce(() => {
     const fetchExternalLinks = async () => {
-      const links = await getExternalLinks(subdomain);
+      const links = await getExternalLinks(site.subdomain);
       setExternalLinks(links);
     };
 
@@ -71,31 +74,22 @@ export default function Nav({
               rel="noopener noreferrer"
               className="rounded-lg p-1.5 hover:bg-stone-200 dark:hover:bg-stone-700"
             >
-              <svg
-                width="26"
-                viewBox="0 0 76 65"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-black dark:text-white"
-              >
-                <path
-                  d="M37.5274 0L75.0548 65H0L37.5274 0Z"
-                  fill="currentColor"
-                />
-              </svg>
+              <EGabLogo />
             </Link>
             <div className="h-6 rotate-[30deg] border-l border-stone-400 dark:border-stone-500" />
             <Link
               href="/"
               className="rounded-lg p-2 hover:bg-stone-200 dark:hover:bg-stone-700"
             >
-              <Image
-                src="/logo.png"
-                width={60}
-                height={60}
-                alt="Logo"
-                className="dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
-              />
+              <Link className="block text-teal-600" href="/">
+                <span className="sr-only">Home</span>
+                <CldImage
+                  alt={`logo de ${site.name}`}
+                  src={site.logo}
+                  width={50}
+                  height={50}
+                />
+              </Link>
             </Link>
           </div>
           <div className="grid gap-1">

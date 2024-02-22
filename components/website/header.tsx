@@ -7,7 +7,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Image,
   Link,
   Navbar,
   NavbarBrand,
@@ -18,12 +17,10 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import { Website } from "@prisma/client";
-import { Cross } from "hamburger-react";
 import { signOut, useSession } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import BlurImage from "../arquives/blur-image";
 
 export default function Header({ data }: { data: Website }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,7 +47,7 @@ export default function Header({ data }: { data: Website }) {
       <Navbar
         position="static"
         onMenuOpenChange={setIsMenuOpen}
-        className="absolute left-0 top-0 z-20 bg-white"
+        className="absolute left-0 top-0 z-40 bg-white"
       >
         <NavbarContent>
           <NavbarBrand>
@@ -61,6 +58,7 @@ export default function Header({ data }: { data: Website }) {
                 src={data.logo}
                 width={50}
                 height={50}
+
               />
             </Link>
           </NavbarBrand>
@@ -215,7 +213,7 @@ export default function Header({ data }: { data: Website }) {
               <DropdownTrigger>
                 <CldImage
                   alt=""
-                  className="transition-transform"
+                  className="transition-transform rounded-full"
                   width={50}
                   height={50}
                   src={session.user.image}
@@ -226,13 +224,11 @@ export default function Header({ data }: { data: Website }) {
                   <p className="font-semibold">Entrou como</p>
                   <p className="font-semibold">{session.user?.email}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Settings</DropdownItem>
-                <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                <DropdownItem key="analytics">Analytics</DropdownItem>
-                <DropdownItem key="system">System</DropdownItem>
-                <DropdownItem key="configurations">Configurations</DropdownItem>
-                <DropdownItem key="help_and_feedback">
-                  Help & Feedback
+                <DropdownItem href="/perfil" key="profile">Perfil</DropdownItem>
+                <DropdownItem href="/configuracoes" key="settings">Configurações</DropdownItem>
+                <DropdownItem href="/notificacoes" key="notification">Notificações</DropdownItem>
+                <DropdownItem href="/documentacao" key="documentation">
+                  Documentação
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
