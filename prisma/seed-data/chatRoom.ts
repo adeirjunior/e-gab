@@ -10,6 +10,7 @@ const chatRooms: ChatRoom[] = [
     address: "123 Main St, City, Country",
     cep: "12345-678",
     tel: "+1234567890",
+    reason: "",
     stars: 4,
     startingFiles: ["file1.pdf", "file2.jpg"],
     clientId: "1",
@@ -18,7 +19,7 @@ const chatRooms: ChatRoom[] = [
     websiteId: "1",
     createdAt: new Date(),
     updatedAt: new Date(),
-    status: 'pending',
+    status: "pending",
   },
   {
     id: "2",
@@ -28,6 +29,7 @@ const chatRooms: ChatRoom[] = [
     cep: "98765-432",
     tel: "+9876543210",
     stars: 5,
+    reason: "",
     startingFiles: ["file3.txt", "file4.png"],
     clientId: "2",
     secretaryId: "2",
@@ -35,7 +37,7 @@ const chatRooms: ChatRoom[] = [
     websiteId: "2",
     createdAt: new Date(),
     updatedAt: new Date(),
-    status: 'active',
+    status: "active",
   },
 ];
 

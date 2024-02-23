@@ -1,13 +1,13 @@
 "use server";
 
-import { withPostAuth } from "@/lib/auth";
+import { withProjectAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
-import { Project } from "@prisma/client";
+import { PoliticalProject } from "@prisma/client";
 
-export const deleteProject = withPostAuth(
-  async (_: FormData, project: Project) => {
+export const deleteProject = withProjectAuth(
+  async (_: FormData, project: PoliticalProject) => {
     try {
-      const response = await prisma.project.delete({
+      const response = await prisma.politicalProject.delete({
         where: {
           id: project.id,
         },

@@ -5,23 +5,33 @@ import cloudinary from "@/lib/configs/cloudinary";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
 import { randomUUID } from "crypto";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function create(formData: FormData, type?: "logo" | "image", tags?: string[]) {
+type CreateImageHandleSubmit = (
+  userId: string,
+  filename: string,
+) =>
+  | Promise<{ folderPath: string; filePath: string }>
+  | { folderPath: string; filePath: string };
+
+export async function create(
+  formData: FormData,
+  handleSubmit: CreateImageHandleSubmit,
+  key: string,
+  tags?: string[],
+) {
   const session = await getSession();
 
   if (!session) {
     throw new Error("Erro");
   }
 
-  const file = formData.get(type === "logo" ? type : "image") as File;
+  const file = formData.get(key) as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
   try {
-    let path: string;
-    const filename = type === 'logo' ? "profile_image": randomUUID();
+    const filename = randomUUID();
 
     const upload = async () =>
       await new Promise((resolve, reject) => {
@@ -29,12 +39,10 @@ export async function create(formData: FormData, type?: "logo" | "image", tags?:
           .upload_stream(
             {
               tags: [...tags],
-              folder: path,
+              folder: folderPath,
               public_id: filename,
-              ...(type === "logo" && {
-                unique_filename: true,
-                discard_original_filename: true,
-              }),
+              unique_filename: true,
+              discard_original_filename: true,
             },
             function (error: any, result: unknown) {
               if (error) {
@@ -47,23 +55,35 @@ export async function create(formData: FormData, type?: "logo" | "image", tags?:
           .end(buffer);
       });
 
-    if (type === "logo") {
-      path = `E-Gab/Users/User ${session.user.id}`;
-      await upload();
-      revalidatePath("/configuracoes");
-    } else {
-      const website = await getWebsiteByUserId(session.user.id);
-      if (!website) {
-        throw new Error("Erro");
-      }
-      path = `E-Gab/Websites/Website ${website.id}`;
-      await upload();
-      revalidatePath("/arquivos");
-    }
+    const { folderPath, filePath } = await handleSubmit(
+      session.user.id,
+      filename,
+    );
 
-    return `${path}/${filename}`;
+    await upload();
+    return filePath;
   } catch (error) {}
 }
+
+export const userLogoImagePathCreator = (userId: string, filename: string) => {
+  const folderPath = `E-Gab/Users/User ${userId}`
+  return {
+    folderPath,
+    filePath: `${folderPath}/${filename}`,
+  };
+  }
+
+export const websiteImagePathCreator = async (userId: string, filename: string) => {
+  const website = await getWebsiteByUserId(userId);
+  if (!website) {
+    throw new Error("Erro");
+  }
+  const folderPath = `E-Gab/Websites/Website ${website.id}`;
+  return {
+    folderPath,
+    filePath: `${folderPath}/${filename}`,
+  };
+};
 
 function excludeCommonPath(basePath: string, excludePath: string): string {
   const remainingPath = excludePath.substring(basePath.length);

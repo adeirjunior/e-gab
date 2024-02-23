@@ -2,7 +2,7 @@
 
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
-import { create } from "../image/image.create.action";
+import { create, userLogoImagePathCreator } from "../image/image.create.action";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -33,14 +33,14 @@ export const editUser = async (
         };
       }
 
-      const url = await create(formData, "logo");
+      const url = await create(formData, userLogoImagePathCreator, key, ['user', 'logo']);
 
       response = await prisma.user.update({
         where: {
           id: session.user.id,
         },
         data: {
-          image: url,
+          logo: url,
         },
       });
     } else {

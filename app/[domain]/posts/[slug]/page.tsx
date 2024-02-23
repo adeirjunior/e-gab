@@ -121,11 +121,11 @@ export default async function SitePostPage({
         >
           <div className="my-8">
             <div className="relative inline-block h-8 w-8 overflow-hidden rounded-full align-middle md:h-12 md:w-12">
-              {data.user?.image ? (
+              {data.user?.logo ? (
                 <BlurImage
                   alt={data.user?.name ?? "User Avatar"}
                   height={80}
-                  src={data.user.image}
+                  src={data.user.logo}
                   width={80}
                 />
               ) : (

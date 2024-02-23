@@ -1,4 +1,4 @@
-import { Post, Website } from "@prisma/client";
+import { PoliticalProject, Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
 
@@ -67,9 +67,9 @@ export function withPostAuth(
         website: true,
       },
     });
-    if (!post || post.userId !== session.user.id) {
+    if (post || post.userId !== session.user.id) {
       return {
-        error: "Post não encontrado",
+        error: "post não encontrado",
       };
     }
 
@@ -104,5 +104,32 @@ export function withLawAuth(action: any) {
     }
 
     return action(formData, law, key);
+  };
+}
+
+export function withProjectAuth(
+  action: (
+    formData: FormData,
+    project: PoliticalProject & { website: Website },
+    key: string,
+  ) => any,
+) {
+  return async (formData: FormData, projectId: string, key: string) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Não autentificado",
+      };
+    }
+    const project = await prisma.politicalProject.findUnique({
+      where: {
+        id: projectId,
+      },
+      include: {
+        website: true,
+      },
+    });
+
+    return action(formData, project, key);
   };
 }

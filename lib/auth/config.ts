@@ -117,7 +117,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         token.user.role = dbUser.role;
-        token.user.image = dbUser.image;
+        token.user.image = dbUser.logo;
       }
 
       return token;
