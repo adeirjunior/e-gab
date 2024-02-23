@@ -30,7 +30,7 @@ const page = async ({ params }: PageProps) => {
         include: {
           user: {
             select: {
-              logo: true,
+              image: true,
               name: true,
               email: true,
             },

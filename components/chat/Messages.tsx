@@ -113,7 +113,7 @@ const Messages: FC<MessagesProps> = ({
                 })}
               >
                 <CldImage
-                  src={isDifferenttUser ? chatPartner.logo : sessionUser.image}
+                  src={isDifferenttUser ? chatPartner.image : sessionUser.image}
                   width={50}
                   height={50}
                   alt="Profile picture"

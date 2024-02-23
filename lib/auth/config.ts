@@ -117,7 +117,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         token.user.role = dbUser.role;
-        token.user.image = dbUser.logo;
+        token.user.image = dbUser.image;
       }
 
       return token;
@@ -131,8 +131,8 @@ export const authOptions: NextAuthOptions = {
           username: token.user.username || token.user.gh_username,
           role: token.user.role,
           ...(token.picture
-            ? { logo: token.picture }
-            : { logo: token.user.image }),
+            ? { image: token.picture }
+            : { image: token.user.image }),
         };
       }
 

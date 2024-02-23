@@ -101,7 +101,7 @@ const Messages: FC<MessagesProps> = ({
                 })}
               >
                 <Avatar
-                  src={chatPartner.logo}
+                  src={chatPartner.image}
                   alt="Profile picture"
                   className="rounded-full"
                 />

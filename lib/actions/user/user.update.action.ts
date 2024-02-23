@@ -40,7 +40,7 @@ export const editUser = async (
           id: session.user.id,
         },
         data: {
-          logo: url,
+          image: url,
         },
       });
     } else {
