@@ -131,8 +131,8 @@ export const authOptions: NextAuthOptions = {
           username: token.user.username || token.user.gh_username,
           role: token.user.role,
           ...(token.picture
-            ? { image: token.picture }
-            : { image: token.user.image }),
+            ? { logo: token.picture }
+            : { logo: token.user.image }),
         };
       }
 
