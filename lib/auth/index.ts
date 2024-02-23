@@ -49,8 +49,8 @@ export function withPostAuth(
   action: (
     formData: FormData,
     post: Post & { website: Website },
-    key: string,
-  ) => any,
+    key: string ,
+  ) => Promise<Post | {error: string}>,
 ) {
   return async (formData: FormData, postId: string, key: string) => {
     const session = await getSession();
@@ -59,6 +59,7 @@ export function withPostAuth(
         error: "Não autentificado",
       };
     }
+
     const post = await prisma.post.findUnique({
       where: {
         id: postId,
@@ -67,7 +68,8 @@ export function withPostAuth(
         website: true,
       },
     });
-    if (post || post.userId !== session.user.id) {
+
+    if (!post) {
       return {
         error: "post não encontrado",
       };

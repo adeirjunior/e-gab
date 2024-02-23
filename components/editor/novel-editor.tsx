@@ -55,9 +55,13 @@ export default function Editor({ post }: { post: PostWithSite }) {
           );
         }
 
-        await updatePost(formData, post.id, "post");
+        const res = await updatePost(formData, post.id, "post");
 
-        toast.message("Atualizado com sucesso!");
+        if ("error" in res) {
+          toast.error(res.error);
+        } else {
+          toast.message("Atualizado com sucesso!");
+        }
       } catch (error) {
         console.error("Error updating post:", error);
         toast.error("Falha ao atualizar o post. Por favor, tente novamente.");
@@ -79,7 +83,7 @@ export default function Editor({ post }: { post: PostWithSite }) {
             "published",
           );
 
-          if (response.error) {
+          if ('error' in response) {
             toast.error(response.error);
           } else {
             setData((prev) => ({ ...prev, published: !prev.published }));

@@ -3,9 +3,9 @@
 import { withPostAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
 import { hasSubscription } from "@/lib/helpers/billing";
-import { Post } from "@prisma/client";
+import { revalidateTag } from "next/cache";
 
-export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
+export const deletePost = withPostAuth(async (formData, post) => {
   try {
     const hasSub = await hasSubscription();
 
@@ -18,11 +18,25 @@ export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
     const response = await prisma.post.delete({
       where: {
         id: post.id,
-      },
-      select: {
-        websiteId: true,
-      },
+      }
     });
+
+    if (!response) {
+      throw new Error("Failed to update post.");
+    }
+
+    revalidateTag(
+      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+    );
+    revalidateTag(
+      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
+    );
+
+    if (post.website?.customDomain) {
+      revalidateTag(`${post.website?.customDomain}-posts`);
+      revalidateTag(`${post.website?.customDomain}-${post.slug}`);
+    }
+
     return response;
   } catch (error: any) {
     return {

@@ -16,7 +16,7 @@ export default function ChatHeader({ chatPartner }: { chatPartner: User }) {
           </span>
           <CldImage
             className="rounded-full"
-            src={chatPartner.image}
+            src={chatPartner.logo}
             width={50}
             height={50}
             alt=""

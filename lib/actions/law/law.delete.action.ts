@@ -1,11 +1,11 @@
 "use server";
 
-import { withPostAuth } from "@/lib/auth";
+import { withLawAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
 import { hasSubscription } from "@/lib/helpers/billing";
 import { Law } from "@prisma/client";
 
-export const deleteLaw = withPostAuth(async (_: FormData, law: Law) => {
+export const deleteLaw = withLawAuth(async (_: FormData, law: Law) => {
   const hasSub = await hasSubscription();
 
   if (!hasSub) {

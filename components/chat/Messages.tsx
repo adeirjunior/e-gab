@@ -16,7 +16,7 @@ export interface MessagesProps {
     name: string;
     username: string;
     email: string;
-    logo: string;
+    image: string;
     stripeCustomerId: string;
     role: UserRole;
   };
@@ -113,7 +113,7 @@ const Messages: FC<MessagesProps> = ({
                 })}
               >
                 <CldImage
-                  src={isDifferenttUser ? chatPartner.logo : sessionUser.logo}
+                  src={isDifferenttUser ? chatPartner.logo : sessionUser.image}
                   width={50}
                   height={50}
                   alt="Profile picture"
