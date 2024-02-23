@@ -4,10 +4,11 @@ import { getSession } from "@/lib/auth/get-session";
 import cloudinary from "@/lib/configs/cloudinary";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function create(formData: FormData, type?: "logo" | "image") {
+export async function create(formData: FormData, type?: "logo" | "image", tags?: string[]) {
   const session = await getSession();
 
   if (!session) {
@@ -20,18 +21,18 @@ export async function create(formData: FormData, type?: "logo" | "image") {
 
   try {
     let path: string;
-    const filename = "profile_image";
+    const filename = type === 'logo' ? "profile_image": randomUUID();
 
     const upload = async () =>
       await new Promise((resolve, reject) => {
         cloudinary.v2.uploader
           .upload_stream(
             {
-              tags: ["nextjs-server-actions-upload-sneakers"],
+              tags: [...tags],
               folder: path,
+              public_id: filename,
               ...(type === "logo" && {
                 unique_filename: true,
-                public_id: filename,
                 discard_original_filename: true,
               }),
             },
@@ -60,7 +61,7 @@ export async function create(formData: FormData, type?: "logo" | "image") {
       revalidatePath("/arquivos");
     }
 
-    return type === "logo" ? `${path}/${filename}` : path;
+    return `${path}/${filename}`;
   } catch (error) {}
 }
 

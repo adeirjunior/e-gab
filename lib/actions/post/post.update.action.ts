@@ -7,6 +7,7 @@ import { nanoid } from "..";
 import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
 import { hasSubscription } from "@/lib/helpers/billing";
+import { create } from "../image/image.create.action";
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
@@ -74,12 +75,10 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
   try {
     let response;
     if (key === "image") {
-      const file = formData.get("image") as File;
-      const filename = `${nanoid()}.${file.type.split("/")[1]}`;
 
-      const { url } = await put(filename, file, {
-        access: "public",
-      });
+      const url  = await create(formData, 'image', ['posts']);
+
+      console.log("Caminho do arquivo: ", url)
 
       const blurhash = await getBlurDataURL(url);
 
