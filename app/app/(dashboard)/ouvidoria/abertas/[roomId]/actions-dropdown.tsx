@@ -54,27 +54,19 @@ export default function ActionsDropDown({ id }: { id: string }) {
         </Button>
       </DropdownTrigger>
       <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-        <DropdownSection title="Actions" showDivider>
+        <DropdownSection title="Ações" showDivider>
           <DropdownItem
             key="new"
             shortcut="⌘N"
-            description="Create a new file"
+            description="Escolha o que fazer"
             startContent={<AddNoteIcon className={iconClasses} />}
           >
             New file
           </DropdownItem>
           <DropdownItem
-            key="copy"
-            shortcut="⌘C"
-            description="Copy the file link"
-            startContent={<CopyDocumentIcon className={iconClasses} />}
-          >
-            Copy link
-          </DropdownItem>
-          <DropdownItem
             key="edit"
             shortcut="⌘⇧E"
-            description="Allows you to edit the file"
+            description="Rejeitar"
             startContent={<EditDocumentIcon className={iconClasses} />}
           >
             Edit file
@@ -87,7 +79,7 @@ export default function ActionsDropDown({ id }: { id: string }) {
             color="danger"
             shortcut="⌘⇧D"
             onPress={() => updateAccept("disabled")}
-            description="Permanently delete the file"
+            description="Desativar esta conversa"
             startContent={
               <DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />
             }

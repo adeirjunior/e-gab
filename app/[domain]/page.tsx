@@ -7,7 +7,6 @@ import { getProposalsForSite } from "@/lib/fetchers/proposal";
 import ProposalSection from "@/components/website/proposal-section";
 import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
-import Banner from "@/components/website/banner";
 import PostCard from "@/components/website/post-card";
 import { Grid, Text, Title } from "@tremor/react";
 import CarouselWebsite from "@/components/modal/carousel";
@@ -68,8 +67,7 @@ export default async function SiteHomePage({
   return (
     <>
       <PoliticianBanner />
-      <div className="mb-20 mt-[500px] w-full space-y-6">
-        <Banner />
+      <div className="mb-20 mt-[400px] w-full space-y-6">
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">

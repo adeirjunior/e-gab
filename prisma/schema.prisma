@@ -232,7 +232,7 @@ model Website {
   cloudinaryDir String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  contact       Contact?       @relation(fields: [contactId], references: [id])
+  contact       Contact?      @relation(fields: [contactId], references: [id])
   laws          Law[]
   events        Event[]
   projects      Project[]
@@ -434,6 +434,7 @@ model ChatRoom {
   secretary     Secretary?     @relation(fields: [secretaryId], references: [id])
   politician    Politician?    @relation(fields: [politicianId], references: [id])
   status        ChatRoomStatus @default(pending)
+  reason        String?
 }
 
 model ChatRoomFile {

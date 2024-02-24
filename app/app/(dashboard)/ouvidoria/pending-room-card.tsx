@@ -11,6 +11,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Textarea,
   useDisclosure,
 } from "@nextui-org/react";
 import { Bold, Text, Title } from "@tremor/react";
@@ -21,6 +22,7 @@ import LoadingDots from "@/components/icons/loading-dots";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 export default function PendingRoomCard({
   room,
@@ -32,18 +34,45 @@ export default function PendingRoomCard({
   const [isPending, start] = useTransition();
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { register, handleSubmit } = useForm();
 
   const updateAccept = (status: ChatRoomStatus) => {
     const formData = new FormData();
     formData.append("status", status);
-    start(async () => {
-      const room = await updateChatRoom(formData, id, "status");
-      if ("error" in room) {
-        toast.error(room.error);
-      } else {
-        router.refresh();
-      }
-    });
+    try {
+      start(async () => {
+        const room = await updateChatRoom(formData, id, "status");
+        if ("error" in room) {
+          toast.error(room.error);
+        } else {
+          router.refresh();
+        }
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const onSubmit = (fData: { reason: string }) => {
+    const name = Object.keys(fData)[0];
+    const formData = new FormData();
+    formData.append(name, fData.reason);
+    const statusFormData = new FormData();
+    statusFormData.append("status", "denied");
+
+    try {
+      start(async () => {
+        const room = await updateChatRoom(formData, id, name);
+        await updateChatRoom(statusFormData, id, "status");
+        if ("error" in room) {
+          toast.error(room.error);
+        } else {
+          router.refresh();
+        }
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -56,22 +85,28 @@ export default function PendingRoomCard({
                 Tem certeza?
               </ModalHeader>
               <ModalBody>
-                <Text className="text-gray-300">
+                <p>
                   Ao rejeitar este contato você poderá estar recusando de ouvir
                   as reclamações de um eleitor
-                </Text>
+                </p>
+                <form id="reason" onSubmit={handleSubmit(onSubmit)}>
+                  <Textarea
+                    {...register("reason")}
+                    required
+                    placeholder="Escreva o motivo desta sala ter sido rejeitada."
+                  />
+                </form>
               </ModalBody>
               <ModalFooter>
-                <form action={() => updateAccept("denied")}>
-                  <Button
-                    type="submit"
-                    color="danger"
-                    variant="light"
-                    onPress={onClose}
-                  >
-                    Confirmar
-                  </Button>
-                </form>
+                <Button
+                  form="reason"
+                  type="submit"
+                  color="danger"
+                  variant="light"
+                  onPress={onClose}
+                >
+                  Confirmar
+                </Button>
 
                 <Button color="primary" onPress={onClose}>
                   Cancelar

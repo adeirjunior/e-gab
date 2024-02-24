@@ -58,7 +58,6 @@ export default function Header({ data }: { data: Website }) {
                 src={data.logo}
                 width={50}
                 height={50}
-
               />
             </Link>
           </NavbarBrand>
@@ -213,7 +212,7 @@ export default function Header({ data }: { data: Website }) {
               <DropdownTrigger>
                 <CldImage
                   alt=""
-                  className="transition-transform rounded-full"
+                  className="rounded-full transition-transform"
                   width={50}
                   height={50}
                   src={session.user.image}
@@ -224,11 +223,20 @@ export default function Header({ data }: { data: Website }) {
                   <p className="font-semibold">Entrou como</p>
                   <p className="font-semibold">{session.user?.email}</p>
                 </DropdownItem>
-                <DropdownItem href="/perfil" key="profile">Perfil</DropdownItem>
-                <DropdownItem href="/configuracoes" key="settings">Configurações</DropdownItem>
-                <DropdownItem href="/notificacoes" key="notification">Notificações</DropdownItem>
-                <DropdownItem href="/documentacao" key="documentation">
-                  Documentação
+                <DropdownItem as={Link} href="/perfil" key="profile">
+                  Perfil
+                </DropdownItem>
+                <DropdownItem as={Link} href="/configuracoes" key="settings">
+                  Configurações
+                </DropdownItem>
+                <DropdownItem as={Link} href="/notificacoes" key="notification">
+                  Notificações
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  href="/documentacao"
+                  key="documentation"
+                > Documentação
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
