@@ -40,7 +40,7 @@ export default function Form({
     defaultValue: string;
     placeholder?: string;
     maxLength?: number;
-    pattern?: string;
+    pattern?: string
   };
   handleSubmit: any;
 }) {
