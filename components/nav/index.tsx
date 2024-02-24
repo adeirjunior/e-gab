@@ -37,7 +37,7 @@ export default function Nav({
 
   useEffectOnce(() => {
     const fetchExternalLinks = async () => {
-      const links = await getExternalLinks(site.subdomain);
+      const links = await getExternalLinks(site.subdomain!);
       setExternalLinks(links);
     };
 

@@ -1,4 +1,5 @@
 "use server"
+import prisma from "../configs/prisma";
 
 import { unstable_cache } from "next/cache";
 
@@ -16,6 +17,12 @@ export async function getPoliticianDataByDomain(domain: string) {
   const website = await prisma.website.findUnique({
     where: subdomain ? { subdomain } : { customDomain: domain },
   });
+
+  if (!website) {
+    // Trate o caso em que domain é undefined
+    console.error("O parâmetro 'website' não pode ser undefined.");
+    return null; // ou lançar uma exceção, dependendo do seu caso
+  }
 
   
   return await unstable_cache(

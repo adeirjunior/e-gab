@@ -26,7 +26,7 @@ export default function FormModal({ subdomain, rooms }: { subdomain: string; roo
   const [isPendingRoomCreation, startRoomCreation] = useTransition();
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (fData) => {
+  const onSubmit = (fData: any) => {
     const data = new FormData();
 
     for (const key in fData) {
@@ -38,6 +38,7 @@ export default function FormModal({ subdomain, rooms }: { subdomain: string; roo
         const session = await getSession();
         const website = await getWebsiteBySubdomain(subdomain);
 
+        if (website) {
         if (!session) {
           toast.error("Esta conta não existe.");
         } else {
@@ -48,8 +49,9 @@ export default function FormModal({ subdomain, rooms }: { subdomain: string; roo
           }
           onClose();
         }
+      }
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };

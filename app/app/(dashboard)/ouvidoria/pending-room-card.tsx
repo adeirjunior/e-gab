@@ -49,7 +49,7 @@ export default function PendingRoomCard({
           router.refresh();
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };
@@ -71,7 +71,7 @@ export default function PendingRoomCard({
           router.refresh();
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };
@@ -90,7 +90,7 @@ export default function PendingRoomCard({
                   Ao rejeitar este contato você poderá estar recusando de ouvir
                   as reclamações de um eleitor.
                 </p>
-                <form id="reason" onSubmit={handleSubmit(onSubmit)}>
+                <form id="reason" onSubmit={handleSubmit(onSubmit as any)}>
                   <Textarea
                     {...register("reason")}
                     required

@@ -215,7 +215,7 @@ export default function Header({ data }: { data: Website }) {
                   className="rounded-full transition-transform"
                   width={50}
                   height={50}
-                  src={session.user.image}
+                  src={session.user.image!}
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">

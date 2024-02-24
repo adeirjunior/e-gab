@@ -132,6 +132,12 @@ export function withProjectAuth(
       },
     });
 
+    if(!project) {
+      return {
+        error: "Projeto não encontrado"
+      }
+    }
+
     return action(formData, project, key);
   };
 }

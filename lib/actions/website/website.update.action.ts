@@ -110,6 +110,12 @@ export const updateSite = async (
 
       const url = await create(formData, websiteImagePathCreator, key, ['website', 'image']);
 
+      if(!url) {
+        return {
+          error: "Falhou em coletar url"
+        }
+      }
+
       const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 
       response = await prisma.website.update({

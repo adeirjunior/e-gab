@@ -28,10 +28,10 @@ export default async function FavoritesPage({
     ? params.domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
 
-  const website = await getWebsiteBySubdomain(subdomain);
+  const website = await getWebsiteBySubdomain(subdomain!);
 
   const results = (await cloudinary.v2.search
-    .expression(`folder="${website.cloudinaryDir}/*" AND tags=favorite`)
+    .expression(`folder="${website?.cloudinaryDir}/*" AND tags=favorite`)
     .sort_by("created_at", "desc")
     .with_field("tags")
     .max_results(30)

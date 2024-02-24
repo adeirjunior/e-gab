@@ -52,9 +52,13 @@ const page = async ({ params }: PageProps) => {
     },
   });
 
+  if (!data || !data.politician?.user) {
+    notFound();
+  }
+
   const chatPartner: User = data.politician?.user || data.secretary?.user;
 
-  if (!data || !chatPartner) {
+  if (!chatPartner) {
     notFound();
   }
 

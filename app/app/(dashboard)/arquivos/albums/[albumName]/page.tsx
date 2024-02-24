@@ -21,6 +21,10 @@ export default async function GalleryPage({
 
   const website = await getWebsiteByUserId(session.user.id);
 
+  if (!website) {
+    return null;
+  }
+
   const decodedAlbumName = decodeURIComponent(albumName);
 
   const results = (await cloudinary.v2.search

@@ -32,6 +32,12 @@ export const createChatRoom = async (
 
       const path = await create(formData, websiteImagePathCreator, image, ["chat", "image"]);
 
+      if(!path) {
+        return {
+          error: "Falha ao encontrar pasta"
+        }
+      }
+
       startingFiles.push(path);
     }
   });

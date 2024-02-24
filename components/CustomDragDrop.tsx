@@ -36,8 +36,8 @@ const CustomDragDrop = ({
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      updateFileUpload(e.dataTransfer.files[0]);
+    if (e.dataTransfer?.files && e.dataTransfer?.files.length! > 0) {
+      updateFileUpload(e.dataTransfer?.files[0]!);
       setDragActive(false);
     }
   };

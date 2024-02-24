@@ -29,7 +29,7 @@ async function main() {
       data: posts
     });
     await prisma.politician.createMany({
-      data: politicians
+      data: politicians as any
     });
     await prisma.message.createMany({
       data: messages

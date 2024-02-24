@@ -8,7 +8,9 @@ const politicians: Politician[] = [
     description: "Politician Description 1",
     createdAt: new Date(),
     updatedAt: new Date(),
-    billingAddress: "",
+    billingAddress: JSON.stringify({
+      street: "Rua D"
+    }),
     paymentMethod: "",
   },
   {
@@ -18,7 +20,9 @@ const politicians: Politician[] = [
     description: "Politician Description 2",
     createdAt: new Date(),
     updatedAt: new Date(),
-    billingAddress: "",
+    billingAddress: JSON.stringify({
+      street: "Rua D"
+    }),
     paymentMethod: "",
   },
   {
@@ -28,7 +32,9 @@ const politicians: Politician[] = [
     description: "Politician Description 3",
     createdAt: new Date(),
     updatedAt: new Date(),
-    billingAddress: "",
+    billingAddress: JSON.stringify({
+      street: "Rua D"
+    }),
     paymentMethod: "",
   },
 ];

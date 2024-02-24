@@ -15,7 +15,7 @@ const generateSignature = (publicId: string, apiSecret: string) => {
   return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
 };
 
-export const handleDeleteImage = async (publicId) => {
+export const handleDeleteImage = async (publicId: string) => {
   const cloudName = "your_cloud_name";
   const timestamp = new Date().getTime();
   const apiKey = "your_api_key";

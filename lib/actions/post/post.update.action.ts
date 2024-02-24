@@ -76,6 +76,12 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
 
       const url  = await create(formData, websiteImagePathCreator, key, ['post', 'image']);
 
+      if(!url) {
+        return {
+          error: "Erro ao coletar url."
+        }
+      }
+
       console.log("Caminho do arquivo: ", url)
 
       const blurhash = await getBlurDataURL(url);

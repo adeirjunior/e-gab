@@ -13,7 +13,10 @@ export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
     "use server";
     const text = formData.get("message") as string;
 
-    await axios.post(getCurrentDomain(null, "/api/message"), { text, roomId });
+    await axios.post(getCurrentDomain(undefined, "/api/message"), {
+      text,
+      roomId,
+    });
     await createMessage(text, userId, roomId);
   };
 
