@@ -12,6 +12,7 @@ import {
 import { Title, Subtitle, Bold, Text } from "@tremor/react";
 import { signOut } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export default function Profile({
   user,
@@ -29,13 +30,14 @@ export default function Profile({
     <Dropdown placement="top-start">
       <DropdownTrigger>
         <Card>
-          <CldImage
-            alt=""
-            className="rounded-full"
-            src={user.image}
-            width={50}
-            height={50}
-          />
+          <div className="w-10 overflow-hidden rounded-full">
+            <AspectRatio
+              className="grid place-content-center overflow-hidden"
+              ratio={1 / 1}
+            >
+              <CldImage alt="" src={user.image} width={50} height={50} />
+            </AspectRatio>
+          </div>
           <Title>{user.name}</Title>
           <Subtitle>@username</Subtitle>
         </Card>

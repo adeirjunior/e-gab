@@ -6,14 +6,13 @@ import {
   validDomainRegex,
 } from "@/lib/domains";
 import prisma from "@/lib/configs/prisma";
-import { nanoid } from "..";
-import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 import { create } from "../image/image.create.action";
+import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
 
 export const updateSite = async (
   formData: FormData,
@@ -108,9 +107,10 @@ export const updateSite = async (
         };
       }
 
-      const file = formData.get(key) as File;
-
-      const url = await create(formData, "logo");
+       const url = await create(formData, websiteImagePathCreator, key, [
+         "website",
+         "image",
+       ]);
 
       const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 

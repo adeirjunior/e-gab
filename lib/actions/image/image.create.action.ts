@@ -4,36 +4,45 @@ import { getSession } from "@/lib/auth/get-session";
 import cloudinary from "@/lib/configs/cloudinary";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { SearchResult } from "@/lib/types/types";
-import { revalidatePath } from "next/cache";
+import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 
-export async function create(formData: FormData, type?: "logo" | "image") {
+type CreateImageHandleSubmit = (
+  userId: string,
+  filename: string,
+) =>
+  | Promise<{ folderPath: string; filePath: string }>
+  | { folderPath: string; filePath: string };
+
+export async function create(
+  formData: FormData,
+  handleSubmit: CreateImageHandleSubmit,
+  key: string,
+  tags?: string[],
+) {
   const session = await getSession();
 
   if (!session) {
     throw new Error("Erro");
   }
 
-  const file = formData.get(type === "logo" ? type : "image") as File;
+  const file = formData.get(key) as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
   try {
-    let path: string;
-    const filename = "profile_image";
+    const filename = randomUUID();
 
     const upload = async () =>
       await new Promise((resolve, reject) => {
         cloudinary.v2.uploader
           .upload_stream(
             {
-              tags: ["nextjs-server-actions-upload-sneakers"],
-              folder: path,
-              ...(type === "logo" && {
-                unique_filename: true,
-                public_id: filename,
-                discard_original_filename: true,
-              }),
+              tags: [...tags],
+              folder: folderPath,
+              public_id: filename,
+              unique_filename: true,
+              discard_original_filename: true,
             },
             function (error: any, result: unknown) {
               if (error) {
@@ -46,21 +55,13 @@ export async function create(formData: FormData, type?: "logo" | "image") {
           .end(buffer);
       });
 
-    if (type === "logo") {
-      path = `E-Gab/Users/User ${session.user.id}`;
-      await upload();
-      revalidatePath("/configuracoes");
-    } else {
-      const website = await getWebsiteByUserId(session.user.id);
-      if (!website) {
-        throw new Error("Erro");
-      }
-      path = `E-Gab/Websites/Website ${website.id}`;
-      await upload();
-      revalidatePath("/arquivos");
-    }
+       const { folderPath, filePath } = await handleSubmit(
+         session.user.id,
+         filename,
+       );
 
-    return type === "logo" ? `${path}/${filename}` : path;
+       await upload();
+       return filePath;
   } catch (error) {}
 }
 

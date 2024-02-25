@@ -1,11 +1,11 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Project } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
+import { PoliticalProject } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 
-export const updateProject = async (data: Project) => {
+export const updateProject = async (data: PoliticalProject) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
@@ -35,15 +35,15 @@ export const updateProject = async (data: Project) => {
   }
 
   try {
-    const response = await prisma.project.update({
-      where: {
-        id: data.id,
-      },
-      data: {
-        title: data.title,
-        description: data.description,
-      },
-    });
+   const response = await prisma.politicalProject.update({
+     where: {
+       id: data.id,
+     },
+     data: {
+       title: data.title,
+       description: data.description,
+     },
+   });
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,

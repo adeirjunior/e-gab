@@ -21,7 +21,8 @@ import {
 } from "@nextui-org/react";
 import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
-import PoliticianBanner from "@/components/demo/politician-banner";
+import PoliticianBanner from "@/components/website/politician-banner";
+import { getPoliticianDataByDomain } from "@/lib/fetchers/politician";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -54,10 +55,11 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  const [data, posts, proposals] = await Promise.all([
+  const [data, posts, proposals, politician] = await Promise.all([
     getSiteData(domain),
     getPostsForSite(domain),
     getProposalsForSite(domain),
+    getPoliticianDataByDomain(domain),
   ]);
 
   if (!data) {
@@ -66,7 +68,10 @@ export default async function SiteHomePage({
 
   return (
     <>
-      <PoliticianBanner />
+      <PoliticianBanner
+        name={politician.user.name}
+        src={data.politicianPhoto}
+      />
       <div className="mb-20 mt-[400px] w-full space-y-6">
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (

@@ -1,4 +1,4 @@
-import { Post, Website } from "@prisma/client";
+import { PoliticalProject, Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
 
@@ -50,7 +50,7 @@ export function withPostAuth(
     formData: FormData,
     post: Post & { website: Website },
     key: string,
-  ) => any,
+  ) => Promise<Post | { error: string }>,
 ) {
   return async (formData: FormData, postId: string, key: string) => {
     const session = await getSession();
@@ -104,5 +104,38 @@ export function withLawAuth(action: any) {
     }
 
     return action(formData, law, key);
+  };
+}
+
+export function withProjectAuth(
+  action: (
+    formData: FormData,
+    project: PoliticalProject & { website: Website },
+    key: string,
+  ) => any,
+) {
+  return async (formData: FormData, projectId: string, key: string) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Não autentificado",
+      };
+    }
+    const project = await prisma.politicalProject.findUnique({
+      where: {
+        id: projectId,
+      },
+      include: {
+        website: true,
+      },
+    });
+
+    if (!project) {
+      return {
+        error: "Falhou em coletar projeto",
+      };
+    }
+
+    return action(formData, project, key);
   };
 }
