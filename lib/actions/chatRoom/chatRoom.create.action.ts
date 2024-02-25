@@ -2,10 +2,8 @@
 
 import prisma from "@/lib/configs/prisma";
 import { revalidatePath } from "next/cache";
-import { getSession } from "@/lib/auth/get-session";
-import cloudinary from "@/lib/configs/cloudinary";
-import { getWebsiteByUserId } from "@/lib/fetchers/site";
-import { create, websiteImagePathCreator } from "../image/image.create.action";
+import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
+import { create } from "../image/image.create.action";
 
 export const createChatRoom = async (
   clientId: string,
@@ -29,12 +27,14 @@ export const createChatRoom = async (
   images.map(async (image) => {
     console.log(JSON.stringify(image));
     if (image) {
-
-      const path = await create(formData, websiteImagePathCreator, image, ["chat", "image"]);
+      const path = await create(formData, websiteImagePathCreator, image, [
+        "chat",
+        "image",
+      ]);
 
       if(!path) {
         return {
-          error: "Falha ao encontrar pasta"
+          error: "Falha ao coletar url"
         }
       }
 

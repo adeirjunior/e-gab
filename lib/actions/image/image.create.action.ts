@@ -55,35 +55,15 @@ export async function create(
           .end(buffer);
       });
 
-    const { folderPath, filePath } = await handleSubmit(
-      session.user.id,
-      filename,
-    );
+       const { folderPath, filePath } = await handleSubmit(
+         session.user.id,
+         filename,
+       );
 
-    await upload();
-    return filePath;
+       await upload();
+       return filePath;
   } catch (error) {}
 }
-
-export const userLogoImagePathCreator = (userId: string, filename: string) => {
-  const folderPath = `E-Gab/Users/User ${userId}`
-  return {
-    folderPath,
-    filePath: `${folderPath}/${filename}`,
-  };
-  }
-
-export const websiteImagePathCreator = async (userId: string, filename: string) => {
-  const website = await getWebsiteByUserId(userId);
-  if (!website) {
-    throw new Error("Erro");
-  }
-  const folderPath = `E-Gab/Websites/Website ${website.id}`;
-  return {
-    folderPath,
-    filePath: `${folderPath}/${filename}`,
-  };
-};
 
 function excludeCommonPath(basePath: string, excludePath: string): string {
   const remainingPath = excludePath.substring(basePath.length);
@@ -116,17 +96,15 @@ export async function addImageToAlbum(image: SearchResult, album: string) {
     };
   }
 
-  const website = await getWebsiteByUserId(
-    session.user.id,
-  );
+  const website = await getWebsiteByUserId(session.user.id);
 
-  if(!website) {
+  if (!website) {
     return {
-      error: "Site não foi encontrado."
-    }
+      error: "Site não foi encontrado.",
+    };
   }
 
-  const websiteCloudinaryDir= website.cloudinaryDir
+  const websiteCloudinaryDir = website.cloudinaryDir;
 
   await cloudinary.v2.api.create_folder(`${websiteCloudinaryDir}/${album}`);
 

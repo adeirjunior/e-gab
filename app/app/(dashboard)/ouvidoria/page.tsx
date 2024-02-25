@@ -26,9 +26,9 @@ export default async function Page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  if (!website) {
-    return redirect("/");
-  }
+   if (!website) {
+     return redirect("/");
+   }
 
   const rooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending");
 

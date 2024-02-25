@@ -41,7 +41,7 @@ export default function Gallery({ results }: { results: any }) {
         <Modal
           images={images}
           onClose={() => {
-            setLastViewedPhoto(photoId as any);
+             setLastViewedPhoto(photoId as any);
           }}
         />
       )}

@@ -23,7 +23,7 @@ export default async function GalleryPage({
   const website = await getWebsiteByUserId(session.user.id);
 
   if (!website) {
-    return null
+   return null
   }
 
   const results = (await cloudinary.v2.search

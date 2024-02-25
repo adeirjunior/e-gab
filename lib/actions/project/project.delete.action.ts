@@ -1,7 +1,7 @@
 "use server";
 
-import { withProjectAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
+import { withProjectAuth } from "@/lib/auth";
 import { PoliticalProject } from "@prisma/client";
 
 export const deleteProject = withProjectAuth(

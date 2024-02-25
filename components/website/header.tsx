@@ -236,8 +236,7 @@ export default function Header({ data }: { data: Website }) {
                   as={Link}
                   href="/documentacao"
                   key="documentation"
-                >
-                  Documentação
+                > Documentação
                 </DropdownItem>
                 <DropdownItem
                   key="logout"

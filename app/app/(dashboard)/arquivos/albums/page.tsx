@@ -15,9 +15,9 @@ export default async function AlbumsPage() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  if(!website) {
-    return null
-  }
+    if (!website) {
+      return null;
+    }
 
   const { folders } = (await cloudinary.v2.api.sub_folders(
     website.cloudinaryDir,

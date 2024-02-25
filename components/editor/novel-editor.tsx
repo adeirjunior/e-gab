@@ -83,11 +83,11 @@ export default function Editor({ post }: { post: PostWithSite }) {
             "published",
           );
 
-          if ('error' in response) {
-            toast.error(response.error);
-          } else {
-            setData((prev) => ({ ...prev, published: !prev.published }));
-          }
+           if ("error" in response) {
+             toast.error(response.error);
+           } else {
+             setData((prev) => ({ ...prev, published: !prev.published }));
+           }
         }
       } catch (error) {
         console.error("Erro ao atualizar metadata:", error);

@@ -1,7 +1,7 @@
-"use server"
-import prisma from "../configs/prisma";
+"use server";
 
 import { unstable_cache } from "next/cache";
+import prisma from "../configs/prisma";
 
 export async function getPoliticianDataByDomain(domain: string) {
   if (!domain) {
@@ -18,22 +18,21 @@ export async function getPoliticianDataByDomain(domain: string) {
     where: subdomain ? { subdomain } : { customDomain: domain },
   });
 
-  if (!website) {
-    // Trate o caso em que domain é undefined
-    console.error("O parâmetro 'website' não pode ser undefined.");
-    return null; // ou lançar uma exceção, dependendo do seu caso
-  }
+if (!website) {
+  // Trate o caso em que domain é undefined
+  console.error("O parâmetro 'website' não pode ser undefined.");
+  return null; // ou lançar uma exceção, dependendo do seu caso
+}
 
-  
   return await unstable_cache(
     async () => {
       return prisma.politician.findUnique({
         where: {
-            id: website.politicianId
+          id: website.politicianId,
         },
         include: {
-            user: true
-        }
+          user: true,
+        },
       });
     },
     [`${domain}-metadata`],

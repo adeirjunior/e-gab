@@ -35,15 +35,15 @@ export const updateProject = async (data: PoliticalProject) => {
   }
 
   try {
-    const response = await prisma.politicalProject.update({
-      where: {
-        id: data.id,
-      },
-      data: {
-        title: data.title,
-        description: data.description,
-      },
-    });
+   const response = await prisma.politicalProject.update({
+     where: {
+       id: data.id,
+     },
+     data: {
+       title: data.title,
+       description: data.description,
+     },
+   });
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,

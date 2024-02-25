@@ -34,12 +34,11 @@ export default function PendingRoomCard({
   const [isPending, start] = useTransition();
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
 
   const updateAccept = (status: ChatRoomStatus) => {
     const formData = new FormData();
     formData.append("status", status);
-
     try {
       start(async () => {
         const room = await updateChatRoom(formData, id, "status");
@@ -55,10 +54,10 @@ export default function PendingRoomCard({
   };
 
   const onSubmit = (fData: { reason: string }) => {
-    const name = Object.keys(fData)[0]
+    const name = Object.keys(fData)[0];
     const formData = new FormData();
     formData.append(name, fData.reason);
-    const statusFormData = new FormData()
+    const statusFormData = new FormData();
     statusFormData.append("status", "denied");
 
     try {
@@ -88,7 +87,7 @@ export default function PendingRoomCard({
               <ModalBody>
                 <p>
                   Ao rejeitar este contato você poderá estar recusando de ouvir
-                  as reclamações de um eleitor.
+                  as reclamações de um eleitor
                 </p>
                 <form id="reason" onSubmit={handleSubmit(onSubmit as any)}>
                   <Textarea

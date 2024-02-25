@@ -18,9 +18,9 @@ export default async function page() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  if(!website) {
-    return null
-  }
+   if (!website) {
+     return null;
+   }
 
   const results = (await cloudinary.v2.search
     .expression(`folder="${website.cloudinaryDir}/*"`)

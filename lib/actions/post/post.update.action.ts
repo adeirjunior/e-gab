@@ -5,7 +5,8 @@ import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { getBlurDataURL } from "@/lib/utils";
 import { hasSubscription } from "@/lib/helpers/billing";
-import { create, websiteImagePathCreator } from "../image/image.create.action";
+import { create } from "../image/image.create.action";
+import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
@@ -73,16 +74,16 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
   try {
     let response;
     if (key === "image") {
-
-      const url  = await create(formData, websiteImagePathCreator, key, ['post', 'image']);
+      const url = await create(formData, websiteImagePathCreator, key, [
+        "post",
+        "image",
+      ]);
 
       if(!url) {
         return {
-          error: "Erro ao coletar url."
+          error: 'Falha ao coletar url'
         }
       }
-
-      console.log("Caminho do arquivo: ", url)
 
       const blurhash = await getBlurDataURL(url);
 

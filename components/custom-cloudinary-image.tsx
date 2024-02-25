@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
 import { Image, ImageProps } from "@nextui-org/react";
-import NextImage, {ImageProps as NextImageProps} from "next/image";
+import NextImage, { ImageProps as NextImageProps } from "next/image";
 
 const normalizeSrc = (src: string) => (src[0] === "/" ? src.slice(1) : src);
 

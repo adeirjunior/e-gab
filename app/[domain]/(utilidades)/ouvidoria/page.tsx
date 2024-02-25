@@ -10,7 +10,7 @@ import {
   Chip,
   Divider,
   Link,
-  Skeleton,
+  Skeleton
 } from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -70,21 +70,28 @@ export default async function Page({ params }: { params: { domain: string } }) {
                 ? "Solicitado"
                 : room.status === "active"
                   ? "Ativo"
-                  : room.status === "denied" ? "Negado"
-                  : "Outro";
+                  : room.status === "denied"
+                    ? "Negado"
+                    : "Outro";
 
             return (
-              <Card shadow="md" className="border-3 w-96" key={room.id}>
+              <Card shadow="md" className="w-96 border-3" key={room.id}>
                 <CardHeader>
                   <div className="flex w-full items-center justify-between">
                     <Title>{room.title}</Title>
-                    <Chip color={room.status === 'denied' ? 'danger' : 'primary'}>{status}</Chip>
+                    <Chip
+                      color={room.status === "denied" ? "danger" : "primary"}
+                    >
+                      {status}
+                    </Chip>
                   </div>
                 </CardHeader>
                 <CardBody>
                   <Bold>Resposta:</Bold>
-                  <Text>{room.status === 'denied' && room.reason ? room.reason : ''}</Text>
-                  </CardBody>
+                  <Text>
+                    {room.status === "denied" && room.reason ? room.reason : ""}
+                  </Text>
+                </CardBody>
                 <CardFooter>
                   {room.status === "disabled" ||
                   room.status === "pending" ||

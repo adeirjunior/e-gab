@@ -14,15 +14,14 @@ export const createProject = withSiteAuth(
         error: "Not authenticated",
       };
     }
-    
     const response = await prisma.politicalProject.create({
       data: {
         websiteId: site.id,
-        description: '',
-        startDate: '',
-        endDate: '',
-        objectives: '',
-        title: ''
+        description: "",
+        startDate: "",
+        endDate: "",
+        objectives: "",
+        title: "",
       },
     });
 

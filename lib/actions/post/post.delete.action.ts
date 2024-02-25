@@ -21,22 +21,6 @@ export const deletePost = withPostAuth(async (formData, post) => {
       }
     });
 
-    if (!response) {
-      throw new Error("Failed to update post.");
-    }
-
-    revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
-    );
-    revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
-    );
-
-    if (post.website?.customDomain) {
-      revalidateTag(`${post.website?.customDomain}-posts`);
-      revalidateTag(`${post.website?.customDomain}-${post.slug}`);
-    }
-
     return response;
   } catch (error: any) {
     return {

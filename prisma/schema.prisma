@@ -14,7 +14,7 @@ model User {
   gh_username      String?
   email            String?        @unique
   emailVerified    DateTime?
-  image             String         @default("E-Gab/Users/default")
+  image            String         @default("E-Gab/Users/default")
   cloudinaryDir    String?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
@@ -217,7 +217,7 @@ model Post {
 }
 
 model Website {
-  id               String             @id @default(cuid()) @map("_id")
+    id               String             @id @default(cuid()) @map("_id")
   politicianId     String             @unique
   name             String?
   description      String?
@@ -262,32 +262,12 @@ enum WebsiteThemeType {
   violet
 }
 
-model Contact {
-  id        String    @id @default(cuid()) @map("_id")
-  phone     String?
-  email     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  website   Website[]
-}
-
-model SocialMedia {
-  id        String            @id @default(cuid()) @map("_id")
-  type      SocialMediaTypes? @unique
-  handle    String?
-  link      String?
-  website   Website           @relation(fields: [websiteId], references: [id])
-  websiteId String
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-}
-
 model PoliticianMotion {
-  id           String       @id @default(cuid()) @map("_id")
+  id           String    @id @default(cuid()) @map("_id")
   politicianId String
   title        String
   description  String
-  status       MotionStatus
+    status       MotionStatus
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
@@ -297,6 +277,7 @@ enum MotionStatus {
   approved
   rejected
   withdrawn
+  // Adicione outros estados conforme necessário
 }
 
 model LegislativeIndication {
@@ -315,7 +296,10 @@ enum IndicationStatus {
   approved
   rejected
   withdrawn
+  // Adicione outros estados conforme necessário
 }
+
+// ... (Outros modelos relacionados, como votos, comentários, etc., podem ser adicionados conforme necessário)
 
 model PoliticalProject {
   id          String        @id @default(cuid()) @map("_id")
@@ -335,6 +319,27 @@ enum ProjectStatus {
   pending
   in_progress
   completed
+  // Adicione outros estados conforme necessário
+}
+
+model Contact {
+  id        String    @id @default(cuid()) @map("_id")
+  phone     String?
+  email     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  website   Website[]
+}
+
+model SocialMedia {
+  id        String            @id @default(cuid()) @map("_id")
+  type      SocialMediaTypes? @unique
+  handle    String?
+  link      String?
+  website   Website           @relation(fields: [websiteId], references: [id])
+  websiteId String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 }
 
 enum SocialMediaTypes {
@@ -389,9 +394,9 @@ model Plan {
   id            String         @id @default(cuid()) @map("_id")
   name          String
   description   String
-  amount        Float
+  amount        Float // Monthly subscription amount
   currency      String
-  interval      String
+  interval      String // Billing interval, e.g., "month", "year"
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]

@@ -31,11 +31,13 @@ export default function Profile({
       <DropdownTrigger>
         <Card>
           <div className="w-10 overflow-hidden rounded-full">
-            <AspectRatio className="overflow-hidden grid place-content-center" ratio={1 / 1}>
+            <AspectRatio
+              className="grid place-content-center overflow-hidden"
+              ratio={1 / 1}
+            >
               <CldImage alt="" src={user.image} width={50} height={50} />
             </AspectRatio>
           </div>
-
           <Title>{user.name}</Title>
           <Subtitle>@username</Subtitle>
         </Card>

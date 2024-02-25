@@ -58,9 +58,9 @@ const page = async ({ params }: PageProps) => {
 
   const chatPartner: User = data.politician?.user || data.secretary?.user;
 
-  if (!chatPartner) {
-    notFound();
-  }
+ if (!chatPartner) {
+   notFound();
+ }
 
   const existingMessages = await prisma.message.findMany({
     where: {

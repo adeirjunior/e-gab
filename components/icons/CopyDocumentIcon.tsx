@@ -1,5 +1,5 @@
 import React from "react";
-export const CopyDocumentIcon = (props:any) => (
+export const CopyDocumentIcon = (props: any) => (
   <svg
     aria-hidden="true"
     fill="none"

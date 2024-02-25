@@ -21,7 +21,14 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function FormModal({ subdomain, rooms }: { subdomain: string; rooms: ChatRoom[] }) {
+
+export default function FormModal({
+  subdomain,
+  rooms,
+}: {
+  subdomain: string;
+  rooms: ChatRoom[];
+}) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [isPendingRoomCreation, startRoomCreation] = useTransition();
   const { register, handleSubmit } = useForm();
@@ -39,26 +46,28 @@ export default function FormModal({ subdomain, rooms }: { subdomain: string; roo
         const website = await getWebsiteBySubdomain(subdomain);
 
         if (website) {
-        if (!session) {
-          toast.error("Esta conta não existe.");
-        } else {
-          const client = await getClientByUser(session.user.id);
-          const response = await createChatRoom(client.id, website.id, data);
-          if ("error" in response) {
-            toast.error(response.error);
+
+          if (!session) {
+            toast.error("Esta conta não existe.");
+          } else {
+            const client = await getClientByUser(session.user.id);
+            const response = await createChatRoom(client.id, website.id, data);
+            if ("error" in response) {
+              toast.error(response.error);
+            }
+            onClose();
           }
-          onClose();
         }
-      }
-      });
-    } catch (error: any) {
+      })
+      } catch (error: any) {
       toast.error(error.message);
     }
   };
 
   function isNotDeniedRoom(rooms: ChatRoom[]): boolean {
-  return rooms.some(room => room.status !== "denied");
-}
+
+    return rooms.some((room) => room.status !== "denied");
+  }
 
   return (
     <>
@@ -199,18 +208,17 @@ export default function FormModal({ subdomain, rooms }: { subdomain: string; roo
         </ModalContent>
       </Modal>
 
-      <div className="flex flex-col sm:flex-row gap-4 w-full items-center justify-between">
+      <div className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
         <Title>Ouvidoria</Title>
         {isNotDeniedRoom(rooms) ? (
           <Button className="w-full sm:w-40" disabled>
-          Já possui uma sala ativa
+            Já possui uma sala ativa
           </Button>
-        ): (
+        ) : (
           <Button className="w-full max-w-[280px] sm:w-36" onPress={onOpen}>
-          Criar Sala
-        </Button>
+            Criar Sala
+          </Button>
         )}
-        
       </div>
     </>
   );

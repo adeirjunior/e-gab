@@ -59,7 +59,7 @@ export default async function SiteHomePage({
     getSiteData(domain),
     getPostsForSite(domain),
     getProposalsForSite(domain),
-    getPoliticianDataByDomain(domain)
+    getPoliticianDataByDomain(domain),
   ]);
 
   if (!data || !politician) {
@@ -68,7 +68,10 @@ export default async function SiteHomePage({
 
   return (
     <>
-      <PoliticianBanner name={politician.user.name!} src={data.politicianPhoto} />
+      <PoliticianBanner
+        name={politician.user.name!}
+        src={data.politicianPhoto}
+      />
       <div className="mb-20 mt-[400px] w-full space-y-6">
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (

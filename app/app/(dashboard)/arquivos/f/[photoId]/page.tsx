@@ -14,8 +14,8 @@ const Home = async ({ params }: { params: { photoId: string } }) => {
 
   const website = await getWebsiteByUserId(session.user.id);
 
-  if(!website) {
-    return null
+    if (!website) {
+    return null;
   }
 
   const results = await getResults(website.cloudinaryDir);

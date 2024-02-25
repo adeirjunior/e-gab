@@ -49,8 +49,8 @@ export function withPostAuth(
   action: (
     formData: FormData,
     post: Post & { website: Website },
-    key: string ,
-  ) => Promise<Post | {error: string}>,
+    key: string,
+  ) => Promise<Post | { error: string }>,
 ) {
   return async (formData: FormData, postId: string, key: string) => {
     const session = await getSession();
@@ -59,7 +59,6 @@ export function withPostAuth(
         error: "Não autentificado",
       };
     }
-
     const post = await prisma.post.findUnique({
       where: {
         id: postId,
@@ -68,10 +67,9 @@ export function withPostAuth(
         website: true,
       },
     });
-
-    if (!post) {
+    if (!post || post.userId !== session.user.id) {
       return {
-        error: "post não encontrado",
+        error: "Post não encontrado",
       };
     }
 
@@ -132,10 +130,10 @@ export function withProjectAuth(
       },
     });
 
-    if(!project) {
+    if (!project) {
       return {
-        error: "Projeto não encontrado"
-      }
+        error: "Falhou em coletar projeto",
+      };
     }
 
     return action(formData, project, key);

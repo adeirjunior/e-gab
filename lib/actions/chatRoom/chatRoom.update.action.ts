@@ -61,11 +61,11 @@ export const updateChatRoom = async (
       },
     });
 
-    if(!user) {
-      return {
-        error: "Falhar ao encontrar usuário."
-      }
-    }
+     if (!user) {
+       return {
+         error: "Falhar ao encontrar usuário.",
+       };
+     }
 
     const userRole = user.role;
 
@@ -82,19 +82,19 @@ export const updateChatRoom = async (
             },
           });
 
-          if (!userRoleContent) {
-            return {
-              error: "Falhar em coletar papel do usuário"
-            }
-          }
-            const response = await prisma.chatRoom.update({
-              where: { id },
-              data: {
-                [key]: value,
-                [userRole === "Politician" ? "politicianId" : "secretaryId"]:
-                  userRoleContent.id,
-              },
-            });
+     if (!userRoleContent) {
+       return {
+         error: "Falhar em coletar papel do usuário",
+       };
+     }
+     const response = await prisma.chatRoom.update({
+       where: { id },
+       data: {
+         [key]: value,
+         [userRole === "Politician" ? "politicianId" : "secretaryId"]:
+           userRoleContent.id,
+       },
+     });
 
     revalidatePath("/ouvidoria");
     return response;
