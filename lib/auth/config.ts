@@ -6,10 +6,6 @@ import Credentials from "next-auth/providers/credentials";
 import { UserRole } from "@prisma/client";
 import { AuthenticatedUser } from "../types/types";
 import { ErrorType, userService } from "../services/user.service";
-import { createUser } from "../actions/user/user.create.action";
-import { createPolitician } from "../actions/politician/politician.create.action";
-import { createClient } from "../actions/client/client.create.action";
-import { createCustomerIfNull } from "../helpers/billing";
 import { createEveryUserVariant } from "../utils/createEveryUserVariant";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;

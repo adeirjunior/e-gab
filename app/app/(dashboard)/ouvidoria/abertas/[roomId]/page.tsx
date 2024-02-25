@@ -52,11 +52,15 @@ const page = async ({ params }: PageProps) => {
     },
   });
 
-  const chatPartner: User = data.politician?.user || data.secretary?.user;
-
-  if (!data || !chatPartner) {
+  if (!data || !data.politician?.user) {
     notFound();
   }
+
+  const chatPartner: User = data.politician?.user || data.secretary?.user;
+
+ if (!chatPartner) {
+   notFound();
+ }
 
   const existingMessages = await prisma.message.findMany({
     where: {

@@ -112,6 +112,12 @@ export const updateSite = async (
          "image",
        ]);
 
+         if (!url) {
+           return {
+             error: "Erro ao coletar url.",
+           };
+         }
+
       const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 
       response = await prisma.website.update({

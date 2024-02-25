@@ -17,7 +17,7 @@ const datahero = [
   },
 ];
 
-const onChange = (v) => {
+const onChange = (v: any) => {
   console.log(v);
 };
 

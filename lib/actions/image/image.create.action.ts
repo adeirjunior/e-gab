@@ -38,7 +38,7 @@ export async function create(
         cloudinary.v2.uploader
           .upload_stream(
             {
-              tags: [...tags],
+              tags: tags ? [...tags] : [],
               folder: folderPath,
               public_id: filename,
               unique_filename: true,
@@ -96,9 +96,15 @@ export async function addImageToAlbum(image: SearchResult, album: string) {
     };
   }
 
-  const { cloudinaryDir: websiteCloudinaryDir } = await getWebsiteByUserId(
-    session.user.id,
-  );
+  const website = await getWebsiteByUserId(session.user.id);
+
+  if (!website) {
+    return {
+      error: "Site não foi encontrado.",
+    };
+  }
+
+  const websiteCloudinaryDir = website.cloudinaryDir;
 
   await cloudinary.v2.api.create_folder(`${websiteCloudinaryDir}/${album}`);
 

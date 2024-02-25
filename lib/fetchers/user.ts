@@ -35,7 +35,7 @@ export async function getClientByUser(id: string) {
     }
 
     return user.client;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Erro ao obter papel do usuário: ${error.message}`);
   } finally {
     await prisma.$disconnect();

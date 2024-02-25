@@ -54,7 +54,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
 
   return (
     <div className="min-h-screen space-y-6 bg-transparent">
-      <FormModal rooms={rooms} subdomain={subdomain} />
+      <FormModal rooms={rooms} subdomain={subdomain!} />
       <Divider />
       {rooms.length > 0 ? (
         <Grid

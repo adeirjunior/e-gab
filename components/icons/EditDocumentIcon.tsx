@@ -1,5 +1,5 @@
 import React from "react";
-export const EditDocumentIcon = (props) => (
+export const EditDocumentIcon = (props: any) => (
   <svg
     aria-hidden="true"
     fill="none"

@@ -17,6 +17,11 @@ export default async function FavoritesPage() {
 
   const website = await getWebsiteByUserId(session.user.id);
 
+  
+  if (!website) {
+    return null;
+  }
+
   const results = (await cloudinary.v2.search
     .expression(`folder="${website.cloudinaryDir}/*" AND tags=favorite`)
     .sort_by("created_at", "desc")

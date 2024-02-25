@@ -32,7 +32,7 @@ export default function FormModal({
   const [isPendingRoomCreation, startRoomCreation] = useTransition();
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (fData) => {
+  const onSubmit = (fData: any) => {
     const data = new FormData();
 
     for (const key in fData) {
@@ -44,18 +44,20 @@ export default function FormModal({
         const session = await getSession();
         const website = await getWebsiteBySubdomain(subdomain);
 
-        if (!session) {
-          toast.error("Esta conta não existe.");
-        } else {
-          const client = await getClientByUser(session.user.id);
-          const response = await createChatRoom(client.id, website.id, data);
-          if ("error" in response) {
-            toast.error(response.error);
+        if (website) {
+          if (!session) {
+            toast.error("Esta conta não existe.");
+          } else {
+            const client = await getClientByUser(session.user.id);
+            const response = await createChatRoom(client.id, website.id, data);
+            if ("error" in response) {
+              toast.error(response.error);
+            }
+            onClose();
           }
-          onClose();
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };

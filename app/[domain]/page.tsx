@@ -62,14 +62,14 @@ export default async function SiteHomePage({
     getPoliticianDataByDomain(domain),
   ]);
 
-  if (!data) {
+  if (!data || !politician) {
     notFound();
   }
 
   return (
     <>
       <PoliticianBanner
-        name={politician.user.name}
+        name={politician.user.name!}
         src={data.politicianPhoto}
       />
       <div className="mb-20 mt-[400px] w-full space-y-6">
