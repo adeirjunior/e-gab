@@ -217,7 +217,7 @@ model Post {
 }
 
 model Website {
-    id               String             @id @default(cuid()) @map("_id")
+  id               String             @id @default(cuid()) @map("_id")
   politicianId     String             @unique
   name             String?
   description      String?
@@ -263,11 +263,11 @@ enum WebsiteThemeType {
 }
 
 model PoliticianMotion {
-  id           String    @id @default(cuid()) @map("_id")
+  id           String       @id @default(cuid()) @map("_id")
   politicianId String
   title        String
   description  String
-    status       MotionStatus
+  status       MotionStatus
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
@@ -475,27 +475,38 @@ model Survey {
 }
 
 model ChatRoom {
-  id            String         @id @default(cuid())
-  title         String
-  description   String
-  address       String
-  cep           String?
-  tel           String?
-  stars         Int            @default(0)
-  startingFiles String[]
-  clientId      String
-  secretaryId   String?
-  politicianId  String?
-  websiteId     String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  messages      Message[]
-  website       Website        @relation(fields: [websiteId], references: [id])
-  client        Client         @relation(fields: [clientId], references: [id])
-  secretary     Secretary?     @relation(fields: [secretaryId], references: [id])
-  politician    Politician?    @relation(fields: [politicianId], references: [id])
-  status        ChatRoomStatus @default(pending)
-  reason        String?
+  id              String                   @id @default(cuid())
+  title           String
+  description     String
+  address         String
+  tel             String
+  cep             String?
+  stars           Int                      @default(0)
+  startingFiles   String[]
+  clientId        String
+  secretaryId     String?
+  politicianId    String?
+  websiteId       String
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  messages        Message[]
+  website         Website                  @relation(fields: [websiteId], references: [id])
+  client          Client                   @relation(fields: [clientId], references: [id])
+  secretary       Secretary?               @relation(fields: [secretaryId], references: [id])
+  politician      Politician?              @relation(fields: [politicianId], references: [id])
+  status          ChatRoomStatus           @default(pending)
+  acceptedRequest AcceptedChatRoomRequest?
+  reason          String?
+}
+
+model AcceptedChatRoomRequest {
+  id         String    @id @default(cuid())
+  from       DateTime
+  to         DateTime?
+  chatRoom   ChatRoom  @relation(fields: [chatRoomId], references: [id])
+  chatRoomId String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model ChatRoomFile {

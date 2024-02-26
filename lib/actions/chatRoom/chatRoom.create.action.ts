@@ -32,10 +32,10 @@ export const createChatRoom = async (
         "image",
       ]);
 
-      if(!path) {
+      if (!path) {
         return {
-          error: "Falha ao coletar url"
-        }
+          error: "Falha ao coletar url",
+        };
       }
 
       startingFiles.push(path);
@@ -55,5 +55,51 @@ export const createChatRoom = async (
   });
 
   revalidatePath("/ouvidoria");
+  return response;
+};
+
+export const createOrUpdateAcceptedRequest = async (
+  chatRoomId: string,
+  formData: FormData,
+) => {
+  const from = formData.get("from") as unknown as Date;
+  const to = formData.get("to") as unknown as Date;
+
+  if (!from) {
+    return {
+      error: "Data de entrega esta vazia.",
+    };
+  }
+
+  const response = await prisma.acceptedChatRoomRequest.upsert({
+    create: {
+      from,
+      ...(to && { to }),
+      chatRoomId,
+    },
+    update: {
+      from,
+      ...(to && { to }),
+    },
+    where: {
+      chatRoomId,
+    },
+  });
+
+  await prisma.chatRoom.update({
+    where: {
+      id: chatRoomId
+    },
+    data: {
+      status: 'accepted'
+    }
+  })
+
+  if (!response) {
+    return {
+      error: "Falha ao criar sala aceita.",
+    };
+  }
+
   return response;
 };

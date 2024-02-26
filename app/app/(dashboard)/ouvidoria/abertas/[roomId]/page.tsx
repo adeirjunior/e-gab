@@ -3,7 +3,7 @@ import Messages from "@/components/chat/Messages";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
-import { User } from "@prisma/client";
+import { AcceptedChatRoomRequest, ChatRoom, User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 import ActionsDropDown from "./actions-dropdown";
@@ -22,21 +22,14 @@ const page = async ({ params }: PageProps) => {
     return redirect("/");
   }
 
-  const data = await prisma.chatRoom.findUnique({
+  const data = (await prisma.chatRoom.findUnique({
     where: {
       id: roomId,
     },
-    select: {
-      id: true,
+    include: {
       client: {
         include: {
-          user: {
-            select: {
-              image: true,
-              name: true,
-              email: true,
-            },
-          },
+          user: true,
         },
       },
       politician: {
@@ -49,8 +42,9 @@ const page = async ({ params }: PageProps) => {
           user: true,
         },
       },
+      acceptedRequest: true,
     },
-  });
+  }));
 
   if (!data || !data.politician?.user) {
     notFound();
@@ -75,10 +69,14 @@ const page = async ({ params }: PageProps) => {
     <Card className="flex max-h-screen flex-col justify-between bg-transparent">
       <CardHeader>
         <Card className="flex w-full flex-row items-center justify-between px-4 py-6">
-          <Title className="m-0 p-0 dark:text-gray-300">
-            {data?.client.user?.name || data?.client.user?.email}
+          <Card>
+            <Title className="m-0 p-0 dark:text-gray-300">
+            {data?.client.user?.name || data?.client.user?.email}:
           </Title>
-          <ActionsDropDown id={data.id} />
+          <Title>{data.title}</Title>
+          </Card>
+          
+          <ActionsDropDown chatRoom={data} />
         </Card>
       </CardHeader>
       <CardBody>

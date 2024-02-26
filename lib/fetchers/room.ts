@@ -34,6 +34,9 @@ export async function getRoomsByUser(websiteId: string, userId: string) {
           },
         },
       },
+      include: {
+        acceptedRequest: true
+      }
     });
     if (!rooms) {
       console.log("Website não encontrado.");

@@ -10,7 +10,7 @@ import {
   Chip,
   Divider,
   Link,
-  Skeleton
+  Skeleton,
 } from "@nextui-org/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -18,6 +18,8 @@ import { Bold, Grid, Text, Title } from "@tremor/react";
 import FormModal from "./form-modal";
 import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",
@@ -72,7 +74,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                   ? "Ativo"
                   : room.status === "denied"
                     ? "Negado"
-                    : "Outro";
+                    : room.status === "accepted"
+                      ? "Pedido Aceito"
+                      : "Outro";
 
             return (
               <Card shadow="md" className="w-96 border-3" key={room.id}>
@@ -80,25 +84,51 @@ export default async function Page({ params }: { params: { domain: string } }) {
                   <div className="flex w-full items-center justify-between">
                     <Title>{room.title}</Title>
                     <Chip
-                      color={room.status === "denied" ? "danger" : "primary"}
+                      color={
+                        room.status === "denied"
+                          ? "danger"
+                          : room.status === "accepted"
+                            ? "success"
+                            : "primary"
+                      }
                     >
                       {status}
                     </Chip>
                   </div>
                 </CardHeader>
                 <CardBody>
-                  <Bold>Resposta:</Bold>
-                  <Text>
-                    {room.status === "denied" && room.reason ? room.reason : ""}
-                  </Text>
+                  {room.status === "denied" && (
+                    <>
+                      {" "}
+                      <Bold>Resposta:</Bold>
+                      <Text>{room.reason ? room.reason : ""}</Text>
+                    </>
+                  )}
+                  {room.status === "accepted" && (
+                    <>
+                      <Bold>Estimativa de entrega:</Bold>
+                      {room.acceptedRequest && (
+                        <Text>
+                          Será entregue entre{" "}
+                          {format(room.acceptedRequest.from, "PPP", {
+                            locale: ptBR,
+                          })}{" "}
+                          e{" "}
+                          {format(room.acceptedRequest.to!, "PPP", {
+                            locale: ptBR,
+                          })}
+                        </Text>
+                      )}
+                    </>
+                  )}
                 </CardBody>
                 <CardFooter>
                   {room.status === "disabled" ||
                   room.status === "pending" ||
                   room.status === "denied" ? (
-                    <Skeleton className="rounded-full"><Button disabled >
-                      Entrar
-                    </Button></Skeleton>
+                    <Skeleton className="rounded-full">
+                      <Button disabled>Entrar</Button>
+                    </Skeleton>
                   ) : (
                     <Button
                       as={Link}
@@ -108,7 +138,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       )}
                       variant="flat"
                     >
-                      Entrar
+                      {room.status === "accepted" ? "Ver histórico" : "Entrar"}
                     </Button>
                   )}
                 </CardFooter>

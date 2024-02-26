@@ -32,6 +32,7 @@ const Page = async () => {
           },
         },
       },
+      acceptedRequest: true,
     },
   });
 
@@ -45,7 +46,7 @@ const Page = async () => {
                 <h3>
                   Sala de {room.client.user?.name || room.client.user?.email}
                 </h3>{" "}
-                <ActionsDropDown id={room.id} />
+                <ActionsDropDown chatRoom={room} />
               </div>
               <Button
                 as={Link}
