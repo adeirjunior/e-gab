@@ -20,6 +20,7 @@ import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
 import { ptBR } from "date-fns/locale";
 import { format } from "date-fns";
+import DemandsTable from "../../../app/(dashboard)/ouvidoria/demands-table";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",

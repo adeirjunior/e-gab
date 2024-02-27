@@ -16,6 +16,7 @@ import {
   countRoomsWithStatus,
   getRoomsWithLimitAndStatus,
 } from "@/lib/fetchers/room";
+import DemandsTable from "./demands-table";
 
 export default async function Page() {
   const session = await getSession();
@@ -104,6 +105,10 @@ export default async function Page() {
       ) : (
         "Sem salas solicitadas"
       )}
+
+      <section>
+        <DemandsTable />
+      </section>
     </div>
   );
 }
