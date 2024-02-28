@@ -64,10 +64,16 @@ export default function FormModal({
     }
   };
 
-  function isNotDeniedRoom(rooms: ChatRoom[]): boolean {
+ function isNotDeniedRoom(rooms: ChatRoom[]): boolean {
+   const result = rooms.some(
+     (room) =>
+       room.status !== "accepted" &&
+       room.status !== "denied" &&
+       room.status !== "completed",
+   );
+   return result;
+ }
 
-    return rooms.some((room) => room.status !== "denied");
-  }
 
   return (
     <>

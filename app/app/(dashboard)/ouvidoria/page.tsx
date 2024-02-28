@@ -16,6 +16,7 @@ import {
   countRoomsWithStatus,
   getRooms,
   getRoomsWithLimitAndStatus,
+  getRoomsWithStatus,
 } from "@/lib/fetchers/room";
 import DemandsTable from "./demands-table";
 
@@ -38,7 +39,7 @@ export default async function Page() {
 
   const activeRooms = await countRoomsWithStatus(website.id, "active");
 
-  const demands = await getRooms(website.id)
+  const demands = await getRoomsWithStatus(website.id, "accepted")
 
   return (
     <div className="flex flex-col space-y-12 p-8">

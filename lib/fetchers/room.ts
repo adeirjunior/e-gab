@@ -75,39 +75,44 @@ export async function getRoomsWithStatus(
   websiteId: string,
   status: ChatRoomStatus,
 ) {
-  try {
-    const rooms = await prisma.chatRoom.findMany({
-      where: {
-        websiteId,
-        status,
-      },
-      include: {
-        client: {
-          select: {
-            user: {
-              select: {
-                email: true,
-                name: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
-    if (!rooms) {
-      console.log("getRoomsWithStatus falhou.");
-      return null;
-    }
-    return rooms;
-  } catch (error) {
-    console.error("Erro getRoomsWithStatus:", error);
-    throw error;
-  } finally {
-    await prisma.$disconnect();
-  }
+ try {
+   const rooms = await prisma.chatRoom.findMany({
+     where: {
+       websiteId,
+       status
+     },
+     include: {
+       acceptedRequest: true,
+       client: {
+         include: {
+           user: true,
+         },
+       },
+       politician: {
+         include: {
+           user: true,
+         },
+       },
+       secretary: {
+         include: {
+           user: true,
+         },
+       },
+     },
+   });
+
+   if (!rooms) {
+     console.log("getRooms falhou.");
+     return null;
+   }
+
+   return rooms;
+ } catch (error) {
+   console.error("Erro getRooms: ", error);
+   throw error;
+ } finally {
+   await prisma.$disconnect();
+ }
 }
 
 export async function countRoomsWithStatus(

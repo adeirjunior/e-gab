@@ -20,7 +20,6 @@ import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
 import { ptBR } from "date-fns/locale";
 import { format } from "date-fns";
-import DemandsTable from "../../../app/(dashboard)/ouvidoria/demands-table";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",
@@ -65,7 +64,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
           numItemsSm={2}
           numItemsMd={3}
           numItemsLg={4}
-          className="gap-4"
+          className="gap-4 w-full"
         >
           {rooms.map((room) => {
             const status =
@@ -80,7 +79,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       : "Outro";
 
             return (
-              <Card shadow="md" className="w-96 border-3" key={room.id}>
+              <Card shadow="md" className="w-full border-3" key={room.id}>
                 <CardHeader>
                   <div className="flex w-full items-center justify-between">
                     <Title>{room.title}</Title>

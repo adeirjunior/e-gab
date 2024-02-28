@@ -140,8 +140,28 @@ export default function DemandsTable({ demands }: { demands: any }) {
           return (
             <div className="relative flex items-center gap-2">
               <Title>
-                Entre {format(demandsFormatted.from, "PPP",{ locale: ptBR})} e {" "}
-                {format(demandsFormatted.to, "PPP",{ locale: ptBR})}
+                {demandsFormatted.from &&
+                  (demandsFormatted.to ? (
+                    <>
+                      <p>
+                        Será entregue em{" "}
+                        {format(demandsFormatted.from, "PPP", {
+                          locale: ptBR,
+                        })}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        Será entregue dentre{" "}
+                        {format(demandsFormatted.from, "PPP", {
+                          locale: ptBR,
+                        })}{" "}
+                        e{" "}
+                        {format(demandsFormatted.to, "PPP", { locale: ptBR })}
+                      </p>
+                    </>
+                  ))}
               </Title>
             </div>
           );
@@ -162,7 +182,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
     >
       <Card className={cn(handle.active && "grow")}>
         <CardHeader>
-          <Card className="mb-4 flex w-full flex-row items-center justify-between p-4">
+          <Card className="mb-4 flex w-full flex-row items-center justify-between p-4" shadow="lg">
             <Title>Demandas</Title>
             {handle.active ? (
               <Button
@@ -191,8 +211,6 @@ export default function DemandsTable({ demands }: { demands: any }) {
             selectionBehavior="toggle"
             classNames={{
               base: cn(handle.active ? "h-full" : "max-h-[85vh]"),
-              table: "min-h-[420px]",
-              td: "h-fit"
             }}
           >
             <TableHeader columns={columns}>
