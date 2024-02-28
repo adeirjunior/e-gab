@@ -30,13 +30,13 @@ export async function getRooms(websiteId: string) {
     });
 
     if (!rooms) {
-      console.log("Website não encontrado.");
+      console.log("getRooms falhou.");
       return null;
     }
 
     return rooms;
   } catch (error) {
-    console.error("Erro ao buscar o site:", error);
+    console.error("Erro getRooms: ", error);
     throw error;
   } finally {
     await prisma.$disconnect();
@@ -59,12 +59,12 @@ export async function getRoomsByUser(websiteId: string, userId: string) {
       }
     });
     if (!rooms) {
-      console.log("Website não encontrado.");
+      console.log("getRoomsByUser falhou.");
       return null;
     }
     return rooms;
   } catch (error) {
-    console.error("Erro ao buscar o site:", error);
+    console.error("Erro getRoomsByUser:", error);
     throw error;
   } finally {
     await prisma.$disconnect();
@@ -98,12 +98,12 @@ export async function getRoomsWithStatus(
       },
     });
     if (!rooms) {
-      console.log("Website não encontrado.");
+      console.log("getRoomsWithStatus falhou.");
       return null;
     }
     return rooms;
   } catch (error) {
-    console.error("Erro ao buscar o site:", error);
+    console.error("Erro getRoomsWithStatus:", error);
     throw error;
   } finally {
     await prisma.$disconnect();
