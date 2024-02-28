@@ -14,6 +14,7 @@ import Pie from "./pie";
 import PendingRoomCard from "./pending-room-card";
 import {
   countRoomsWithStatus,
+  getRooms,
   getRoomsWithLimitAndStatus,
 } from "@/lib/fetchers/room";
 import DemandsTable from "./demands-table";
@@ -31,11 +32,13 @@ export default async function Page() {
      return redirect("/");
    }
 
-  const rooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending");
+  const limitedRooms = await getRoomsWithLimitAndStatus(website.id, 4, "pending");
 
   const pendingRooms = await countRoomsWithStatus(website.id, "pending");
 
   const activeRooms = await countRoomsWithStatus(website.id, "active");
+
+  const demands = await getRooms(website.id)
 
   return (
     <div className="flex flex-col space-y-12 p-8">
@@ -96,9 +99,9 @@ export default async function Page() {
         </Bold>
       </div>
       <Divider />
-      {rooms.length > 0 ? (
+      {limitedRooms.length > 0 ? (
         <Grid numItems={1} numItemsLg={2} className="gap-4 xl:grid-cols-3">
-          {rooms.map((room) => (
+          {limitedRooms.map((room) => (
             <PendingRoomCard key={room.id} id={room.id} room={room as any} />
           ))}
         </Grid>
@@ -107,7 +110,7 @@ export default async function Page() {
       )}
 
       <section>
-        <DemandsTable />
+        <DemandsTable demands={demands} />
       </section>
     </div>
   );

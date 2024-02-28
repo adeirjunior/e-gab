@@ -9,11 +9,31 @@ export async function getRooms(websiteId: string) {
       where: {
         websiteId,
       },
+      include: {
+        acceptedRequest: true,
+        client: {
+          include: {
+            user: true,
+          },
+        },
+        politician: {
+          include: {
+            user: true,
+          },
+        },
+        secretary: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
+
     if (!rooms) {
       console.log("Website não encontrado.");
       return null;
     }
+
     return rooms;
   } catch (error) {
     console.error("Erro ao buscar o site:", error);
