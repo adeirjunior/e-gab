@@ -6,6 +6,7 @@ import cloudinary from "@/lib/configs/cloudinary";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { redirect } from "next/navigation";
+import UploadImageFormModal from "./upload-image-form-modal";
 
 export default async function GalleryPage({
   searchParams: { search },
@@ -38,12 +39,11 @@ export default async function GalleryPage({
     .execute()) as { resources: SearchResult[] };
 
   return (
-    <section>
-      <div className="flex flex-col gap-8">
-        <div className="flex justify-between">
+      <div className="flex flex-col gap-8 p-6">
+        <header className="flex justify-between">
           <h1 className="text-4xl font-bold">Galeria</h1>
-          <UploadButton websiteCloudinaryDir={website.cloudinaryDir} />
-        </div>
+          <UploadImageFormModal />
+        </header>
 
         <SearchForm initialSearch={search} />
 
@@ -52,6 +52,5 @@ export default async function GalleryPage({
           images={results.resources}
         />
       </div>
-    </section>
   );
 }

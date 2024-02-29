@@ -4,7 +4,7 @@ import Modal from "@/components/modal/ModalC";
 import { useLastViewedPhoto } from "@/lib/utils/useLastViewedPhoto";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ImageProps } from "@/lib/types/types";
 import { Image } from "@nextui-org/react";
 

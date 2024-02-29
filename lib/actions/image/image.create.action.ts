@@ -27,8 +27,20 @@ export async function create(
   }
 
   const file = formData.get(key) as File;
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const fileName = file.name;
+  const fileType = file.type;
+
+  const imageReader = file.stream().getReader();
+  const imageDataU8: any[] = [];
+
+  while (true) {
+    const { done, value } = await imageReader.read();
+    if (done) break;
+
+    imageDataU8.push(...value);
+  }
+
+  const imageBinary = Buffer.from(imageDataU8 as any, "binary");
 
   try {
     const filename = randomUUID();
@@ -52,7 +64,7 @@ export async function create(
               resolve(result);
             },
           )
-          .end(buffer);
+          .end(imageBinary);
       });
 
        const { folderPath, filePath } = await handleSubmit(

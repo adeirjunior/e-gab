@@ -28,7 +28,8 @@ export function CloudinaryImage(
   return (
     <div className="relative">
       {imageData.resource_type === "video" ? (
-        <div className="w-2 h-2"></div>
+        // @ts-ignore
+        <CldVideoPlayer {...props} src={imageData.public_id} />
       ) : (
         <CldImage {...props} src={imageData.public_id} />
       )}

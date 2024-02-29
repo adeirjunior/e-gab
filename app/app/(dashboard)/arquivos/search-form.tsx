@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -18,20 +16,19 @@ export function SearchForm({ initialSearch }: { initialSearch: string }) {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        router.replace(`/gallery?search=${encodeURIComponent(tagName)}`);
+        router.replace(`/arquivos?q=${encodeURIComponent(tagName)}`);
         router.refresh();
       }}
     >
-      <Label htmlFor="tag-name" className="text-right">
-        Search By Tag
-      </Label>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <Input
           onChange={(e) => setTagName(e.currentTarget.value)}
+          label="Pesquisar por tag"
+          placeholder="Pesquisar..."
           id="tag-name"
           value={tagName}
         />
-        <Button type="submit">Pesquisar</Button>
+        <Button className="grow" type="submit">Pesquisar</Button>
       </div>
     </form>
   );

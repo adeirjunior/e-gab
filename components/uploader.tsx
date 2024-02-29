@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useCallback, useMemo, ChangeEvent } from "react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
-import LoadingDots from "@/components/icons/loading-dots";
-import { Button } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
+import { cn } from "@/lib/utils";
 
 export default function Uploader({ name }: { name: string }) {
   const [data, setData] = useState<{
@@ -12,34 +12,31 @@ export default function Uploader({ name }: { name: string }) {
   }>({
     image: null,
   });
-  const [file, setFile] = useState<File | null>(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [dragActive, setDragActive] = useState(false);
 
-  const onChangePicture = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.currentTarget.files && event.currentTarget.files[0];
-      if (file) {
-        if (file.size / 1024 / 1024 > 5) {
-          toast.error("Arquivo muito grande (max 5MB)");
-        } else {
-          setFile(file);
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            setData((prev) => ({ ...prev, image: e.target?.result as string }));
-          };
-          reader.readAsDataURL(file);
-        }
+  const handleUpload = (file: File | null) => {
+    if (file) {
+      if (file.size / 1024 / 1024 > 5) {
+        toast.error("File size too big (max 5MB)");
+      } else if (
+        !file.type.includes("png") &&
+        !file.type.includes("jpg") &&
+        !file.type.includes("jpeg") &&
+        !file.type.includes("webp")
+      ) {
+        toast.error("Invalid file type (must be .png, .jpg, .jpeg, or .webp)");
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setData((prev) => ({ ...prev, [name]: e.target?.result as string }));
+        };
+        reader.readAsDataURL(file);
       }
-    },
-    [setData],
-  );
-
-  const [saving, setSaving] = useState(false);
-
-  const saveDisabled = useMemo(() => {
-    return !data.image || saving;
-  }, [data.image, saving]);
+    }
+  };
 
   return (
     <Grid className="grid gap-6">
@@ -52,7 +49,7 @@ export default function Uploader({ name }: { name: string }) {
         </div>
         <label
           htmlFor={name}
-          className="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"
+          className="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md shadow-sm transition-all"
         >
           <div
             className="absolute z-[5] h-full w-full rounded-md"
@@ -73,40 +70,28 @@ export default function Uploader({ name }: { name: string }) {
             }}
             onDrop={(e) => {
               e.preventDefault();
-              e.stopPropagation();
-              setDragActive(false);
+            e.stopPropagation();
+            setDragActive(false);
 
-              const file = e.dataTransfer.files && e.dataTransfer.files[0];
-              if (file) {
-                if (file.size / 1024 / 1024 > 50) {
-                  toast.error("File size too big (max 50MB)");
-                } else {
-                  setFile(file);
-                  const reader = new FileReader();
-                  reader.onload = (e) => {
-                    setData((prev) => ({
-                      ...prev,
-                      image: e.target?.result as string,
-                    }));
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }
+            const file = e.dataTransfer.files && e.dataTransfer.files[0];
+            inputRef.current!.files = e.dataTransfer.files; // set input file to dropped file
+            handleUpload(file);
             }}
           />
           <div
-            className={`${
-              dragActive ? "border-2 border-black" : ""
-            } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-md px-10 transition-all ${
+            className={cn(
+              "absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-md border-3 border-stone-900 px-10 transition-all dark:border-stone-600 dark:bg-stone-800",
+              dragActive && "border-4 border-black",
               data.image
                 ? "bg-white/80 opacity-0 hover:opacity-100 hover:backdrop-blur-md"
-                : "bg-white opacity-100 hover:bg-gray-50"
-            }`}
+                : "bg-white opacity-100 hover:bg-gray-50",
+            )}
           >
             <svg
-              className={`${
-                dragActive ? "scale-110" : "scale-100"
-              } h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
+              className={cn(
+                dragActive ? "scale-110" : "scale-100",
+                "h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95 dark:border-stone-500",
+              )}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -121,10 +106,10 @@ export default function Uploader({ name }: { name: string }) {
               <path d="M12 12v9"></path>
               <path d="m16 16-4-4-4 4"></path>
             </svg>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-gray-500 dark:border-stone-500">
               Arraste e solte ou clique para fazer upload.
             </p>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-gray-500 dark:border-stone-500">
               Tamanho máximo: 5MB
             </p>
             <span className="sr-only">Upload de arquivo</span>
@@ -139,13 +124,16 @@ export default function Uploader({ name }: { name: string }) {
           )}
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <input
+          <Input
             id={name}
             name={name}
             type="file"
             accept="image/*"
             className="sr-only"
-            onChange={onChangePicture}
+            onChange={(e) => {
+            const file = e.currentTarget.files && e.currentTarget.files[0];
+            handleUpload(file);
+          }}
           />
         </div>
       </div>
