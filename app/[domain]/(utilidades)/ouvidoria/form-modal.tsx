@@ -73,21 +73,20 @@ export default function FormModal({
                          if (!session) {
                            toast.error("Esta conta não existe.");
                          } else {
-                           const client = await getClientByUser(
-                             session.user.id,
-                           );
-                           const response = await createChatRoom(
-                             client.id,
-                             website.id,
-                             data,
-                           );
-                           if ("error" in response) {
-                             toast.error(response.error);
-                           }
-                           update()
-                           router.refresh();
-                           onClose();
-                           toast.success("Sala criada.")
+                          createChatRoom(client.id, website.id, data)
+                            .then((response) => {
+                              if ("error" in response) {
+                                toast.error(response.error);
+                              } else {
+                                toast.success("Sala criada.");
+                                update();
+                                router.refresh();
+                                onClose();
+                              }
+                            })
+                            .catch((error) => {
+                              console.error("Erro ao criar sala:", error);
+                            });
                          }
                        }
                      });
