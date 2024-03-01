@@ -73,6 +73,10 @@ export default function FormModal({
                          if (!session) {
                            toast.error("Esta conta não existe.");
                          } else {
+                           const client = await getClientByUser(
+                             session.user.id,
+                           );
+                           
                           createChatRoom(client.id, website.id, data)
                             .then((response) => {
                               if ("error" in response) {
