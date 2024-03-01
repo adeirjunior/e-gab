@@ -25,9 +25,10 @@ export default function Uploader({ name }: { name: string }) {
         !file.type.includes("png") &&
         !file.type.includes("jpg") &&
         !file.type.includes("jpeg") &&
-        !file.type.includes("webp")
+        !file.type.includes("webp") && 
+        !file.type.includes("mp4")
       ) {
-        toast.error("Invalid file type (must be .png, .jpg, .jpeg, or .webp)");
+        toast.error("Invalid file type (must be .png, .jpg, .jpeg, .mp4, or .webp)");
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -70,12 +71,12 @@ export default function Uploader({ name }: { name: string }) {
             }}
             onDrop={(e) => {
               e.preventDefault();
-            e.stopPropagation();
-            setDragActive(false);
+              e.stopPropagation();
+              setDragActive(false);
 
-            const file = e.dataTransfer.files && e.dataTransfer.files[0];
-            inputRef.current!.files = e.dataTransfer.files; // set input file to dropped file
-            handleUpload(file);
+              const file = e.dataTransfer.files && e.dataTransfer.files[0];
+              inputRef.current!.files = e.dataTransfer.files; // set input file to dropped file
+              handleUpload(file);
             }}
           />
           <div
@@ -128,12 +129,12 @@ export default function Uploader({ name }: { name: string }) {
             id={name}
             name={name}
             type="file"
-            accept="image/*"
+            accept="image/*,video/mp4,video/*"
             className="sr-only"
             onChange={(e) => {
-            const file = e.currentTarget.files && e.currentTarget.files[0];
-            handleUpload(file);
-          }}
+              const file = e.currentTarget.files && e.currentTarget.files[0];
+              handleUpload(file);
+            }}
           />
         </div>
       </div>

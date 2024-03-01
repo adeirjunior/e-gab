@@ -115,6 +115,9 @@ export default function AcceptModal({
                     selected={date}
                     onSelect={setDate}
                     numberOfMonths={2}
+                    disabled={(date) =>
+                      date < new Date(new Date().setHours(0, 0, 0, 0))
+                    }
                     classNames={{
                       row: "flex justify-center",
                       head_row: "flex justify-center",

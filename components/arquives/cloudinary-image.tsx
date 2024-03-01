@@ -24,7 +24,6 @@ export function CloudinaryImage(
     imageData.tags.includes("favorite"),
   );
 
-  console.log('Dados da Imagem: ',imageData)
   return (
     <div className="relative">
       {imageData.resource_type === "video" ? (
@@ -33,7 +32,6 @@ export function CloudinaryImage(
       ) : (
         <CldImage {...props} src={imageData.public_id} />
       )}
-
       {isFavorited ? (
         <FullHeart
           onClick={() => {

@@ -16,12 +16,22 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { DeleteDocumentIcon } from "@/components/icons/DeleteDocumentIcon";
 import { EditIcon, EyeIcon, Maximize, Minimize } from "lucide-react";
 import { columns } from "@/lib/data/demands";
-import { Title } from "@tremor/react";
+import { Bold, Text, Title } from "@tremor/react";
 import { cn } from "@/lib/utils";
 import {
   AcceptedChatRoomRequest,
@@ -33,6 +43,7 @@ import {
 } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { VerticalDotsIcon } from "@/components/icons/VerticalDotsIcon";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   accepted: "success",
@@ -51,6 +62,7 @@ type DemandFormatted = ChatRoom & {
 
 export default function DemandsTable({ demands }: { demands: any }) {
   const handle = useFullScreenHandle();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const demandsFormatted: DemandFormatted[] = demands.map(
     (
@@ -119,21 +131,57 @@ export default function DemandsTable({ demands }: { demands: any }) {
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-              <Tooltip content="Ver detalhes">
-                <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
-                  <EyeIcon />
-                </span>
-              </Tooltip>
-              <Tooltip content="Editar">
-                <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
-                  <EditIcon />
-                </span>
-              </Tooltip>
-              <Tooltip color="danger" content="Descartar">
-                <span className="cursor-pointer text-lg text-danger active:opacity-50">
-                  <DeleteDocumentIcon />
-                </span>
-              </Tooltip>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem
+                    className="cursor-pointer text-lg text-default-400 active:opacity-50"
+                    startContent={<EyeIcon />}
+                    onPress={onOpen}
+                  >
+                    Ver detalhes
+                  </DropdownItem>
+                  <DropdownItem
+                    className="cursor-pointer text-lg text-default-400 active:opacity-50"
+                    startContent={<EditIcon />}
+                  >
+                    Editar
+                  </DropdownItem>
+                  <DropdownItem
+                    className="cursor-pointer text-lg text-danger active:opacity-50"
+                    color="danger"
+                    startContent={<DeleteDocumentIcon />}
+                  >
+                    Deletar
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        <Title>{demandsFormatted.title}</Title>
+                      </ModalHeader>
+                      <ModalBody>
+                        <Bold className="dark:text-gray-400">Descrição:</Bold>
+                        <Text className="dark:text-gray-400">
+                          {demandsFormatted.description}
+                        </Text>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button onPress={onClose} variant="light">
+                          Fechar
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
             </div>
           );
         case "expected":
@@ -157,8 +205,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
                         {format(demandsFormatted.from, "PPP", {
                           locale: ptBR,
                         })}{" "}
-                        e{" "}
-                        {format(demandsFormatted.to, "PPP", { locale: ptBR })}
+                        e {format(demandsFormatted.to, "PPP", { locale: ptBR })}
                       </p>
                     </>
                   ))}
@@ -169,7 +216,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
           return <Title>{cellValue}</Title>;
       }
     },
-    [],
+    [isOpen, onOpen, onOpenChange],
   );
 
   return (
@@ -182,7 +229,10 @@ export default function DemandsTable({ demands }: { demands: any }) {
     >
       <Card className={cn(handle.active && "grow")}>
         <CardHeader>
-          <Card className="mb-4 flex w-full flex-row items-center justify-between p-4" shadow="lg">
+          <Card
+            className="mb-4 flex w-full flex-row items-center justify-between p-4"
+            shadow="lg"
+          >
             <Title>Demandas</Title>
             {handle.active ? (
               <Button
@@ -205,6 +255,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
         </CardHeader>
         <CardBody>
           <Table
+            isStriped
             isHeaderSticky
             aria-label="Example table with custom cells"
             selectionMode="multiple"
@@ -212,6 +263,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
             classNames={{
               base: cn(handle.active ? "h-full" : "max-h-[85vh]"),
             }}
+            onRowAction={(key) => alert(`Opening item ${key}...`)}
           >
             <TableHeader columns={columns}>
               {(column) => (

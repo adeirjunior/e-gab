@@ -3,7 +3,6 @@
 import LoadingDots from "@/components/icons/loading-dots";
 import Uploader from "@/components/uploader";
 import { createChatRoom } from "@/lib/actions/chatRoom/chatRoom.create.action";
-import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
 import { getClientByUser } from "@/lib/fetchers/user";
 import {
@@ -17,10 +16,10 @@ import {
 } from "@nextui-org/react";
 import { ChatRoom } from "@prisma/client";
 import { Grid, Text, TextInput, Textarea, Title } from "@tremor/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
 
 export default function FormModal({
   subdomain,
@@ -29,40 +28,10 @@ export default function FormModal({
   subdomain: string;
   rooms: ChatRoom[];
 }) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+   const { update, data: session } = useSession();
   const [isPendingRoomCreation, startRoomCreation] = useTransition();
-  const { register, handleSubmit } = useForm();
-
-  const onSubmit = (fData: any) => {
-    const data = new FormData();
-
-    for (const key in fData) {
-      data.append(key, fData[key]);
-    }
-
-    try {
-      startRoomCreation(async () => {
-        const session = await getSession();
-        const website = await getWebsiteBySubdomain(subdomain);
-
-        if (website) {
-
-          if (!session) {
-            toast.error("Esta conta não existe.");
-          } else {
-            const client = await getClientByUser(session.user.id);
-            const response = await createChatRoom(client.id, website.id, data);
-            if ("error" in response) {
-              toast.error(response.error);
-            }
-            onClose();
-          }
-        }
-      })
-      } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+   const router = useRouter();
 
  function isNotDeniedRoom(rooms: ChatRoom[]): boolean {
    const result = rooms.some(
@@ -73,7 +42,6 @@ export default function FormModal({
    );
    return result;
  }
-
 
   return (
     <>
@@ -96,7 +64,37 @@ export default function FormModal({
               <ModalBody>
                 <form
                   id="room"
-                  onSubmit={handleSubmit(onSubmit)}
+                  action={async (data: FormData) => {
+                   try {
+                     startRoomCreation(async () => {
+                       const website = await getWebsiteBySubdomain(subdomain);
+
+                       if (website) {
+                         if (!session) {
+                           toast.error("Esta conta não existe.");
+                         } else {
+                           const client = await getClientByUser(
+                             session.user.id,
+                           );
+                           const response = await createChatRoom(
+                             client.id,
+                             website.id,
+                             data,
+                           );
+                           if ("error" in response) {
+                             toast.error(response.error);
+                           }
+                           update()
+                           router.refresh();
+                           onClose();
+                           toast.success("Sala criada.")
+                         }
+                       }
+                     });
+                   } catch (error: any) {
+                     toast.error(error.message);
+                   }
+                  }}
                   className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6"
                 >
                   <div className="col-span-full sm:col-span-3">
@@ -109,7 +107,7 @@ export default function FormModal({
                     </label>
                     <TextInput
                       type="text"
-                      {...register("fullname")}
+                      name="fullname"
                       placeholder="Nome completo"
                       className="mt-2"
                       required
@@ -125,7 +123,7 @@ export default function FormModal({
                     </label>
                     <TextInput
                       type="email"
-                      {...register("email")}
+                      name="email"
                       placeholder="Email"
                       className="mt-2"
                       required
@@ -141,7 +139,7 @@ export default function FormModal({
                     </label>
                     <TextInput
                       type="text"
-                      {...register("tel")}
+                      name="tel"
                       placeholder="Seu número no whatsapp"
                       className="mt-2"
                       required
@@ -156,7 +154,7 @@ export default function FormModal({
                     </label>
                     <TextInput
                       type="text"
-                      {...register("address")}
+                      name="address"
                       placeholder="Endereço"
                       className="mt-2"
                     />
@@ -170,7 +168,7 @@ export default function FormModal({
                     </label>
                     <TextInput
                       type="text"
-                      {...register("title")}
+                      name="title"
                       placeholder="Título"
                       className="mt-2"
                     />
@@ -183,14 +181,13 @@ export default function FormModal({
                       Mensagem
                     </label>
                     <Textarea
-                      {...register("description")}
+                      name="description"
                       placeholder="Mensagem"
                       className="mt-2 max-h-40"
                     />
                   </div>
-                  <Grid className="col-span-full gap-4" numItems={2}>
-                    <Uploader {...register("image-upload")} />
-                    <Uploader {...register("image-upload2")} />
+                  <Grid className="col-span-full gap-4" numItems={1}>
+                    <Uploader name="image" />
                   </Grid>
                 </form>
               </ModalBody>

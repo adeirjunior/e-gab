@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/configs/prisma";
 import { revalidatePath } from "next/cache";
-import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
+import { websiteImagePathCreatorWithSubdomain } from "@/lib/utils/cloudinary-path-creators";
 import { create } from "../image/image.create.action";
 
 export const createChatRoom = async (
@@ -14,7 +14,6 @@ export const createChatRoom = async (
   const description = formData.get("description") as string;
   const address = formData.get("address") as string;
   const tel = formData.get("tel") as string;
-  const images = ["image-upload", "image2-upload"];
 
   if (!clientId || !websiteId || !title || !description || !address || !tel) {
     return {
@@ -22,25 +21,18 @@ export const createChatRoom = async (
     };
   }
 
-  const startingFiles: string[] = [];
+  const path = await create(
+    formData,
+    websiteImagePathCreatorWithSubdomain,
+    "image",
+    ["chat", "image"],
+  );
 
-  images.map(async (image) => {
-    console.log(JSON.stringify(image));
-    if (image) {
-      const path = await create(formData, websiteImagePathCreator, image, [
-        "chat",
-        "image",
-      ]);
-
-      if (!path) {
-        return {
-          error: "Falha ao coletar url",
-        };
-      }
-
-      startingFiles.push(path);
-    }
-  });
+  if (!path) {
+    return {
+      error: "Falha ao coletar url",
+    };
+  }
 
   const response = await prisma.chatRoom.create({
     data: {
@@ -50,7 +42,7 @@ export const createChatRoom = async (
       description,
       address,
       tel,
-      startingFiles,
+      startingFiles: [path],
     },
   });
 
@@ -88,12 +80,12 @@ export const createOrUpdateAcceptedRequest = async (
 
   await prisma.chatRoom.update({
     where: {
-      id: chatRoomId
+      id: chatRoomId,
     },
     data: {
-      status: 'accepted'
-    }
-  })
+      status: "accepted",
+    },
+  });
 
   if (!response) {
     return {

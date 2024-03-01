@@ -38,7 +38,7 @@ export default async function GalleryPage({
     <section>
       <ForceRefresh />
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 p-6">
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold">Album {decodedAlbumName}</h1>
         </div>

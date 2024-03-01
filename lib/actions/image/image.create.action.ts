@@ -27,8 +27,6 @@ export async function create(
   }
 
   const file = formData.get(key) as File;
-  const fileName = file.name;
-  const fileType = file.type;
 
   const imageReader = file.stream().getReader();
   const imageDataU8: any[] = [];
