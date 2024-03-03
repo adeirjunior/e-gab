@@ -46,6 +46,12 @@ export const createChatRoom = async (
     },
   });
 
+if(!response) {
+  return {
+    error: "Não foi possível criar a sala."
+  }
+}
+
   revalidatePath("/ouvidoria");
   return response;
 };
