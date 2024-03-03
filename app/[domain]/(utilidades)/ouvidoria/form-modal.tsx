@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import { ChatRoom } from "@prisma/client";
 import { Grid, Text, TextInput, Textarea, Title } from "@tremor/react";
+import { RollerCoaster } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -76,12 +77,14 @@ export default function FormModal({
                            const client = await getClientByUser(
                              session.user.id,
                            );
-                           
+
                           createChatRoom(client.id, website.id, data)
                             .then((response) => {
-                              if ("error" in response) {
+                              if (response && "error" in response) {
                                 toast.error(response.error);
-                              } else {
+                              } else if (!response) {
+                                toast.error("Sala esta indefinida")
+                              }else {
                                 toast.success("Sala criada.");
                                 update();
                                 router.refresh();
