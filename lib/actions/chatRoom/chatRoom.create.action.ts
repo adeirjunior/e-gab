@@ -14,6 +14,7 @@ export const createChatRoom = async (
   const description = formData.get("description") as string;
   const address = formData.get("address") as string;
   const tel = formData.get("tel") as string;
+  const image = formData.get("image") as File;
 
   if (!clientId || !websiteId || !title || !description || !address || !tel) {
     return {
@@ -21,17 +22,23 @@ export const createChatRoom = async (
     };
   }
 
-  const path = await create(
-    formData,
-    websiteImagePathCreatorWithSubdomain,
-    "image",
-    ["chat", "image"],
-  );
+  let path: string | undefined = "";
 
-  if (!path) {
-    return {
-      error: "Falha ao coletar url",
-    };
+  if (image.size >= 1) {
+    console.log(image)
+
+    path = await create(
+      formData,
+      websiteImagePathCreatorWithSubdomain,
+      "image",
+      ["chat", "image"],
+    );
+
+    if (!path) {
+      return {
+        error: "Falha ao coletar url",
+      };
+    }
   }
 
   const response = await prisma.chatRoom.create({
@@ -42,19 +49,20 @@ export const createChatRoom = async (
       description,
       address,
       tel,
-      startingFiles: [path],
+      startingFiles: path ? [path] : [],
     },
   });
 
-if(!response) {
-  return {
-    error: "Não foi possível criar a sala."
+  if (!response) {
+    return {
+      error: "Não foi possível criar a sala.",
+    };
   }
-}
 
   revalidatePath("/ouvidoria");
   return response;
 };
+
 
 export const createOrUpdateAcceptedRequest = async (
   chatRoomId: string,
