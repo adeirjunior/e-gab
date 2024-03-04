@@ -31,7 +31,7 @@ export default function UploadImageFormModal() {
       <Button startContent={<Upload />} onPress={onOpen} color="primary">
         Upload
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} >
         <ModalContent>
           {(onClose) => (
             <>

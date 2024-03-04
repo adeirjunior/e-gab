@@ -1,4 +1,3 @@
-import UploadButton from "./upload-button";
 import GalleryGrid from "./gallery-grid";
 import { SearchForm } from "./search-form";
 import { SearchResult } from "@/lib/types/types";

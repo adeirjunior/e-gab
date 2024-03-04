@@ -25,7 +25,6 @@ export const createChatRoom = async (
   let path: string | undefined = "";
 
   if (image.size >= 1) {
-    console.log(image)
 
     path = await create(
       formData,
