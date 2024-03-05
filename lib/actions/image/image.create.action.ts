@@ -56,7 +56,7 @@ export async function create(
             },
             function (error: any, result: unknown) {
               if (error) {
-                reject(error);
+                reject(JSON.stringify(error));
                 return;
               }
               resolve(result);
