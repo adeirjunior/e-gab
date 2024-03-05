@@ -11,7 +11,6 @@ import {
 } from "@nextui-org/react";
 import { Title } from "@tremor/react";
 import { Website } from "@prisma/client";
-import UploadButton from "@/app/app/(dashboard)/arquivos/upload-button";
 import { SearchResult } from "@/lib/types/types";
 import GalleryGrid from "@/app/app/(dashboard)/arquivos/gallery-grid";
 
@@ -34,7 +33,6 @@ export default function UploadImageModal({
               <ModalHeader className="flex flex-col gap-1">
                 <div className="flex flex-row items-center justify-between">
                   <Title>Galeria de Arquivos</Title>
-                  <UploadButton websiteCloudinaryDir={website.cloudinaryDir} />
                 </div>
               </ModalHeader>
               <ModalBody>
