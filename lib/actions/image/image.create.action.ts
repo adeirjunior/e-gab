@@ -29,41 +29,40 @@ export async function create(
 
     const file = formData.get(key) as File;
 
-    const imageReader = file.stream().getReader();
-    const imageDataU8: any[] = [];
+    const fileBuffer = await file.arrayBuffer();
 
-    while (true) {
-      const { done, value } = await imageReader.read();
-      if (done) break;
-
-      imageDataU8.push(...value);
-    }
-
-    const imageBinary = Buffer.from(imageDataU8 as any, "binary");
+    var mime = file.type;
+    var encoding = "base64";
+    var base64Data = Buffer.from(fileBuffer).toString("base64");
+    var fileUri = "data:" + mime + ";" + encoding + "," + base64Data;
 
     const filename = randomUUID();
 
     const upload = async () =>
-      await new Promise((resolve, reject) => {
-        cloudinary.v2.uploader.upload_stream(
-          {
-            tags: tags ? [...tags] : [],
+      new Promise((resolve, reject) => {
+        cloudinary.v2.uploader
+          .upload(fileUri, {
+            invalidate: true,
             folder: folderPath,
             public_id: filename,
             unique_filename: true,
             discard_original_filename: true,
-          },
-          function (error: any, result: unknown) {
-            if (error) {
-              reject(JSON.stringify(error));
-              return;
-            }
+            tags: tags ? [...tags] : [],
+          })
+          .then((result) => {
+            console.log(result);
             resolve(result);
-          },
-        ).end(imageBinary);
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error);
+          });
       });
 
-    const { folderPath, filePath } = await handleSubmit(session.user.id, filename);
+    const { folderPath, filePath } = await handleSubmit(
+      session.user.id,
+      filename,
+    );
 
     await upload();
     return filePath;
@@ -72,7 +71,6 @@ export async function create(
     throw error;
   }
 }
-
 
 function excludeCommonPath(basePath: string, excludePath: string): string {
   const remainingPath = excludePath.substring(basePath.length);
