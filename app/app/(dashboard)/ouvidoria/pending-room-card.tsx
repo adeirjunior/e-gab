@@ -157,7 +157,7 @@ export default function PendingRoomCard({
                 {isPending ? "" : "Rejeitar"}
               </Button>
             </div>
-            <ViewModal title={room.title} description={room.description} />
+            <ViewModal room={room}  />
           </div>
         </CardFooter>
       </Card>
