@@ -201,7 +201,6 @@ export default function DemandsTable({ demands }: { demands: any }) {
             classNames={{
               base: cn(handle.active ? "h-full" : "max-h-[85vh]"),
             }}
-            onRowAction={(key) => alert(`Opening item ${key}...`)}
           >
             <TableHeader columns={columns}>
               {(column) => (
