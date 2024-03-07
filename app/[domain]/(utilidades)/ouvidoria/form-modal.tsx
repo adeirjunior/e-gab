@@ -39,7 +39,8 @@ export default function FormModal({
      (room) =>
        room.status !== "accepted" &&
        room.status !== "denied" &&
-       room.status !== "completed",
+       room.status !== "completed" && 
+       room.status !== "disabled"
    );
    return result;
  }

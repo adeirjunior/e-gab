@@ -56,7 +56,10 @@ export async function getRoomsByUser(websiteId: string, userId: string) {
       },
       include: {
         acceptedRequest: true
-      }
+      },
+     orderBy: {
+      createdAt: 'desc'
+     }
     });
     if (!rooms) {
       console.log("getRoomsByUser falhou.");
@@ -99,6 +102,9 @@ export async function getRoomsWithStatus(
          },
        },
      },
+     orderBy: {
+      createdAt: 'desc'
+     }
    });
 
    if (!rooms) {

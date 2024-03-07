@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
                     ? "Negado"
                     : room.status === "accepted"
                       ? "Pedido Aceito"
-                      : "Outro";
+                      : room.status === "disabled" ? "Desativado" : "Outro";
 
             return (
               <Card shadow="md" className="w-full border-3" key={room.id}>
@@ -85,9 +85,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                     <Title>{room.title}</Title>
                     <Chip
                       color={
-                        room.status === "denied"
+                        room.status === "denied" || room.status === "disabled"
                           ? "danger"
-                          : room.status === "accepted"
+                          : room.status === "accepted" || room.status === "completed"
                             ? "success"
                             : "primary"
                       }

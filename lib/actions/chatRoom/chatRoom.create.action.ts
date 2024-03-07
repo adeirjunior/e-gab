@@ -25,7 +25,6 @@ export const createChatRoom = async (
   let path: string | undefined = "";
 
   if (image.size >= 1) {
-
     path = await create(
       formData,
       websiteImagePathCreatorWithSubdomain,
@@ -62,7 +61,6 @@ export const createChatRoom = async (
   return response;
 };
 
-
 export const createOrUpdateAcceptedRequest = async (
   chatRoomId: string,
   formData: FormData,
@@ -76,16 +74,13 @@ export const createOrUpdateAcceptedRequest = async (
     };
   }
 
+  const createData = { from, chatRoomId };
+
+  const updateData = { from};
+
   const response = await prisma.acceptedChatRoomRequest.upsert({
-    create: {
-      from,
-      ...(to && { to }),
-      chatRoomId,
-    },
-    update: {
-      from,
-      ...(to && { to }),
-    },
+    create: createData,
+    update: updateData,
     where: {
       chatRoomId,
     },

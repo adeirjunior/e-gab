@@ -10,7 +10,6 @@ import {
   TableCell,
   User,
   Chip,
-  ChipProps,
   Button,
   Card,
   CardHeader,
@@ -33,12 +32,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DemandsTableActions from "./demands-table-actions";
 
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  accepted: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
 type DemandFormatted = ChatRoom & {
   clientAvatar: string;
   clientEmail: string;
@@ -48,9 +41,18 @@ type DemandFormatted = ChatRoom & {
   to: Date;
 };
 
+const today = (hour?: number, minutes?: number) => {
+  const date = new Date()
+
+  if(hour) {
+    date.setHours(hour, minutes)
+  }
+
+  return date
+}
+
 export default function DemandsTable({ demands }: { demands: any }) {
   const handle = useFullScreenHandle();
-  
 
   const demandsFormatted: DemandFormatted[] = demands.map(
     (
@@ -109,17 +111,30 @@ export default function DemandsTable({ demands }: { demands: any }) {
           return (
             <Chip
               className="capitalize"
-              color={statusColorMap[demandsFormatted.status]}
+              color={
+                demandsFormatted.from > today()
+                  ? "success"
+                  : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                    ? "danger"
+                    : "warning"
+              }
               size="sm"
               variant="flat"
             >
-              {cellValue}
+              {demandsFormatted.from > today()
+                ? "Adiantado"
+                : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                  ? "Atrasado"
+                  : "Período previsto"}
             </Chip>
           );
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-              <DemandsTableActions isFullscreen={handle.active} demandsFormatted={demandsFormatted} />
+              <DemandsTableActions
+                isFullscreen={handle.active}
+                demandsFormatted={demandsFormatted}
+              />
             </div>
           );
         case "expected":
@@ -127,11 +142,11 @@ export default function DemandsTable({ demands }: { demands: any }) {
             <div className="relative flex items-center gap-2">
               <Title>
                 {demandsFormatted.from &&
-                  (demandsFormatted.to ? (
+                  (!demandsFormatted.to ? (
                     <>
                       <p>
-                        Será entregue em{" "}
-                        {format(demandsFormatted.from, "PPP", {
+                        Em{" "}
+                        {format(demandsFormatted.from, "P", {
                           locale: ptBR,
                         })}
                       </p>
@@ -139,11 +154,11 @@ export default function DemandsTable({ demands }: { demands: any }) {
                   ) : (
                     <>
                       <p>
-                        Será entregue dentre{" "}
-                        {format(demandsFormatted.from, "PPP", {
+                        Entre{" "}
+                        {format(demandsFormatted.from, "P", {
                           locale: ptBR,
                         })}{" "}
-                        e {format(demandsFormatted.to, "PPP", { locale: ptBR })}
+                        e {format(demandsFormatted.to, "P", { locale: ptBR })}
                       </p>
                     </>
                   ))}
