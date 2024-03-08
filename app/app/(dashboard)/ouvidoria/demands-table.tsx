@@ -114,18 +114,22 @@ export default function DemandsTable({ demands }: { demands: any }) {
               color={
                 demandsFormatted.from > today()
                   ? "success"
-                  : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                  : !demandsFormatted.to && demandsFormatted.from < today()
                     ? "danger"
-                    : "warning"
+                    : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                      ? "danger"
+                      : "warning"
               }
               size="sm"
               variant="flat"
             >
               {demandsFormatted.from > today()
                 ? "Adiantado"
-                : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                : !demandsFormatted.to && demandsFormatted.from < today()
                   ? "Atrasado"
-                  : "Período previsto"}
+                  : demandsFormatted.to && demandsFormatted.to < today(1, 0)
+                    ? "Atrasado"
+                    : "Período previsto"}
             </Chip>
           );
         case "actions":

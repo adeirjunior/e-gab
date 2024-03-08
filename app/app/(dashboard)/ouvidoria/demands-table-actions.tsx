@@ -14,11 +14,13 @@ import {
   ModalHeader,
   Tooltip,
   useDisclosure,
+  Link,
 } from "@nextui-org/react";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { DeleteDocumentIcon } from "@/components/icons/DeleteDocumentIcon";
 import { Bold, Text, Title } from "@tremor/react";
 import BlurImage from "@/components/arquives/blur-image";
+import { getCurrentDomain } from "@/lib/utils";
 
 export default function DemandsTableActions({
   demandsFormatted,
@@ -70,6 +72,11 @@ export default function DemandsTableActions({
             <DropdownItem
               className="cursor-pointer text-lg text-default-400 active:opacity-50"
               startContent={<EditIcon />}
+              as={Link}
+              href={getCurrentDomain(
+                "app",
+                `/ouvidoria/demandas/${demandsFormatted.id}`,
+              )}
             >
               Editar
             </DropdownItem>
