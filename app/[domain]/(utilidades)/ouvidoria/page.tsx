@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
           numItemsSm={2}
           numItemsMd={3}
           numItemsLg={4}
-          className="gap-4 w-full"
+          className="w-full gap-4"
         >
           {rooms.map((room) => {
             const status =
@@ -76,7 +76,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                     ? "Negado"
                     : room.status === "accepted"
                       ? "Pedido Aceito"
-                      : room.status === "disabled" ? "Desativado" : "Outro";
+                      : room.status === "disabled"
+                        ? "Desativado"
+                        : "Outro";
 
             return (
               <Card shadow="md" className="w-full border-3" key={room.id}>
@@ -87,7 +89,8 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       color={
                         room.status === "denied" || room.status === "disabled"
                           ? "danger"
-                          : room.status === "accepted" || room.status === "completed"
+                          : room.status === "accepted" ||
+                              room.status === "completed"
                             ? "success"
                             : "primary"
                       }
@@ -108,16 +111,27 @@ export default async function Page({ params }: { params: { domain: string } }) {
                     <>
                       <Bold>Estimativa de entrega:</Bold>
                       {room.acceptedRequest && (
-                        <Text>
-                          Será entregue entre{" "}
-                          {format(room.acceptedRequest.from, "PPP", {
-                            locale: ptBR,
-                          })}{" "}
-                          e{" "}
-                          {format(room.acceptedRequest.to!, "PPP", {
-                            locale: ptBR,
-                          })}
-                        </Text>
+                        <>
+                          {room.acceptedRequest.to ? (
+                            <Text>
+                              Será entregue entre{" "}
+                              {format(room.acceptedRequest.from, "PPP", {
+                                locale: ptBR,
+                              })}{" "}
+                              e{" "}
+                              {format(room.acceptedRequest.to!, "PPP", {
+                                locale: ptBR,
+                              })}
+                            </Text>
+                          ) : (
+                            <Text>
+                              Será entregue em{" "}
+                              {format(room.acceptedRequest.from, "PPP", {
+                                locale: ptBR,
+                              })}
+                            </Text>
+                          )}
+                        </>
                       )}
                     </>
                   )}
