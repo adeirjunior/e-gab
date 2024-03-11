@@ -99,7 +99,7 @@ export const updateSite = async (
           
           */
       }
-    } else if (key === "image" || key === "logo") {
+    } else if (key === "image" || key === "logo" || key === "politicianPhoto") {
       if (!process.env.BLOB_READ_WRITE_TOKEN) {
         return {
           error:
@@ -107,16 +107,16 @@ export const updateSite = async (
         };
       }
 
-       const url = await create(formData, websiteImagePathCreator, key, [
-         "website",
-         "image",
-       ]);
+      const url = await create(formData, websiteImagePathCreator, key, [
+        "website",
+        "image",
+      ]);
 
-         if (!url) {
-           return {
-             error: "Erro ao coletar url.",
-           };
-         }
+      if (!url) {
+        return {
+          error: "Erro ao coletar url.",
+        };
+      }
 
       const blurhash = key === "image" ? await getBlurDataURL(url) : null;
 

@@ -38,6 +38,17 @@ export default async function SiteSettingsAppearance() {
         handleSubmit={updateSite}
       />
       <Form
+        title="Foto do político"
+        description="A logo do seu site. Formatos aceitos: .png, .jpg, .jpeg"
+        helpText="Arquivo de no máximo 5MB. Tamanho recomendado 400x400."
+        inputAttrs={{
+          name: "politicianPhoto",
+          type: "file",
+          defaultValue: data?.politicianPhoto!,
+        }}
+        handleSubmit={updateSite}
+      />
+      <Form
         title="Fonte"
         description="A fonte para o texto do seu site."
         helpText="Favor selecionar uma fonte."

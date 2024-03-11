@@ -91,7 +91,9 @@ export default function Form({
             </p>
           </Suspense>
 
-          {inputAttrs.name === "image" || inputAttrs.name === "logo" ? (
+          {inputAttrs.name === "image" ||
+          inputAttrs.name === "logo" ||
+          inputAttrs.name === "politicianPhoto" ? (
             <Suspense
               fallback={
                 <Skeleton>

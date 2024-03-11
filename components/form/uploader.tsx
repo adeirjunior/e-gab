@@ -10,7 +10,7 @@ export default function Uploader({
   name,
 }: {
   defaultValue: string | null;
-  name: "image" | "logo";
+  name: "image" | "logo" | "politicianPhoto";
 }) {
   const aspectRatio = name === "image" ? "aspect-video" : "aspect-square";
 
