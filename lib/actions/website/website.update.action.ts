@@ -100,10 +100,10 @@ export const updateSite = async (
           */
       }
     } else if (key === "image" || key === "logo" || key === "politicianPhoto") {
-      if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      if (!process.env.CLOUDINARY_API_KEY) {
         return {
           error:
-            "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
+            "Missing CLOUDINARY_API_KEY token.",
         };
       }
 
