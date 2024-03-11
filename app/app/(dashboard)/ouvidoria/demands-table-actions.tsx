@@ -14,13 +14,18 @@ import {
   ModalHeader,
   Tooltip,
   useDisclosure,
-  Link,
 } from "@nextui-org/react";
 import { EditIcon, EyeIcon } from "lucide-react";
 import { DeleteDocumentIcon } from "@/components/icons/DeleteDocumentIcon";
 import { Bold, Text, Title } from "@tremor/react";
 import BlurImage from "@/components/arquives/blur-image";
-import { getCurrentDomain } from "@/lib/utils";
+import AcceptModal from "../../../../components/modal/accept-modal";
+import RejectModal from "./reject-modal";
+import { updateChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
+import { toast } from "sonner";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { ChatRoomStatus } from "@prisma/client";
 
 export default function DemandsTableActions({
   demandsFormatted,
@@ -30,9 +35,54 @@ export default function DemandsTableActions({
   isFullscreen: boolean;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenAcceptModal,
+    onOpen: onOpenAcceptModal,
+    onOpenChange: onOpenChangeAcceptModal,
+    onClose: onCloseAcceptModal,
+  } = useDisclosure();
+   const {
+     isOpen: isOpenRejectModal,
+     onOpen: onOpenRejectModal,
+     onOpenChange: onOpenChangeRejectModal,
+   } = useDisclosure();
+  const router = useRouter();
+   const [isPending, start] = useTransition();
+
+  const updateAccept = (status: ChatRoomStatus) => {
+    const formData = new FormData();
+    formData.append("status", status);
+    try {
+      start(async () => {
+        const room = await updateChatRoom(formData, demandsFormatted.id, "status");
+        if ("error" in room) {
+          toast.error(room.error);
+        } else {
+          router.refresh();
+        }
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
+      <AcceptModal
+        fullChatRoom={demandsFormatted}
+        isOpen={isOpenAcceptModal}
+        onOpen={onOpenAcceptModal}
+        onOpenChange={onOpenChangeAcceptModal}
+        onClose={onCloseAcceptModal}
+      />
+      <RejectModal
+        isOpen={isOpenRejectModal}
+        fullChatRoom={demandsFormatted}
+        id={demandsFormatted.id}
+        updateAccept={updateAccept}
+        onOpen={onOpenRejectModal}
+        onOpenChange={onOpenChangeRejectModal}
+      />
       {isFullscreen ? (
         <>
           <Tooltip content="Ver detalhes">
@@ -71,21 +121,18 @@ export default function DemandsTableActions({
             </DropdownItem>
             <DropdownItem
               className="cursor-pointer text-lg text-default-400 active:opacity-50"
+              onPress={onOpenAcceptModal}
               startContent={<EditIcon />}
-              as={Link}
-              href={getCurrentDomain(
-                "app",
-                `/ouvidoria/demandas/${demandsFormatted.id}`,
-              )}
             >
-              Editar
+              Alterar entrega
             </DropdownItem>
             <DropdownItem
               className="cursor-pointer text-lg text-danger active:opacity-50"
               color="danger"
+              onPress={onOpenRejectModal}
               startContent={<DeleteDocumentIcon />}
             >
-              Deletar
+              Cancelar
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

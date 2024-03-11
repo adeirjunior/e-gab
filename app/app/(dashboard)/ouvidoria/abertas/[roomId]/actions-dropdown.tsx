@@ -20,7 +20,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import AcceptModal from "./accept-modal";
+import AcceptModal from "../../../../../../components/modal/accept-modal";
 
 export default function ActionsDropDown({ chatRoom }: { chatRoom: any }) {
   const [isPending, start] = useTransition();
@@ -73,7 +73,7 @@ export default function ActionsDropDown({ chatRoom }: { chatRoom: any }) {
               key="new"
               shortcut="⌘N"
               onPress={onOpen}
-              description="Clique aqui para ceitar o pedido feito."
+              description="Clique aqui para aceitar o pedido feito."
               startContent={<AddNoteIcon className={iconClasses} />}
             >
               Aceitar

@@ -15,7 +15,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Bold, Text, Title } from "@tremor/react";
-import ViewModal from "./view-modal";
+import ViewModal from "../../../../components/modal/view-modal";
 import { ChatRoom, ChatRoomStatus, Client, User } from "@prisma/client";
 import { updateChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
 import LoadingDots from "@/components/icons/loading-dots";
@@ -23,6 +23,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import RejectModal from "./reject-modal";
 
 export default function PendingRoomCard({
   room,
@@ -34,7 +35,7 @@ export default function PendingRoomCard({
   const [isPending, start] = useTransition();
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { register, handleSubmit } = useForm();
+    
 
   const updateAccept = (status: ChatRoomStatus) => {
     const formData = new FormData();
@@ -53,69 +54,16 @@ export default function PendingRoomCard({
     }
   };
 
-  const onSubmit = (fData: { reason: string }) => {
-    const name = Object.keys(fData)[0];
-    const formData = new FormData();
-    formData.append(name, fData.reason);
-    const statusFormData = new FormData();
-    statusFormData.append("status", "denied");
-
-    try {
-      start(async () => {
-        const room = await updateChatRoom(formData, id, name);
-        await updateChatRoom(statusFormData, id, "status");
-        if ("error" in room) {
-          toast.error(room.error);
-        } else {
-          router.refresh();
-        }
-      });
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
-
   return (
     <div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Tem certeza?
-              </ModalHeader>
-              <ModalBody>
-                <p>
-                  Ao rejeitar este contato você poderá estar recusando de ouvir
-                  as reclamações de um eleitor
-                </p>
-                <form id="reason" onSubmit={handleSubmit(onSubmit as any)}>
-                  <Textarea
-                    {...register("reason")}
-                    required
-                    placeholder="Escreva o motivo desta sala ter sido rejeitada."
-                  />
-                </form>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  form="reason"
-                  type="submit"
-                  color="danger"
-                  variant="light"
-                  onPress={onClose}
-                >
-                  Confirmar
-                </Button>
-
-                <Button color="primary" onPress={onClose}>
-                  Cancelar
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <RejectModal
+        isOpen={isOpen}
+        id={id}
+        updateAccept={updateAccept}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+        fullChatRoom={room}
+      />
       <span className="relative z-40 float-end -mb-3 -ml-3 flex h-4 w-4">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
         <span className="relative inline-flex h-4 w-4 rounded-full bg-sky-500"></span>
@@ -157,7 +105,7 @@ export default function PendingRoomCard({
                 {isPending ? "" : "Rejeitar"}
               </Button>
             </div>
-            <ViewModal room={room}  />
+            <ViewModal room={room} />
           </div>
         </CardFooter>
       </Card>
