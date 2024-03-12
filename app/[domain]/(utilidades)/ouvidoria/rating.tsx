@@ -59,6 +59,7 @@ const Rating = (props: any) => {
 
   const handleClick = (index: any) => {
     onClick(index + 1);
+    onShoot()
     setActiveStar(index);
   };
 
@@ -150,7 +151,6 @@ const onShoot = () => {
         )}
       </div>
       <Fireworks onInit={onInitHandler} />
-      <Button onClick={onShoot}>Shoot</Button>
     </>
   );
 };
