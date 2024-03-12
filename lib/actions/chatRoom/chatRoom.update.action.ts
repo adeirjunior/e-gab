@@ -16,13 +16,13 @@ export const updateOneKeyChatRoom = async (
     };
   }
 
-  const value = formData.get(key) as string;
+  const value = formData.get(key) as String;
 
   try {
     const response = await prisma.chatRoom.update({
       where: { id },
       data: {
-        [key]: value,
+        [key]: key === 'stars' ? Number(value) : value,
       },
     });
 

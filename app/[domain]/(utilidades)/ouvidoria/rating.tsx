@@ -1,11 +1,13 @@
-"use client"
+"use client";
 
-import React, { useRef, useState } from "react";
-import { string, number, func, bool } from "prop-types";
+import React, { useRef, useState, useTransition } from "react";
+import { string, number, func, bool, object } from "prop-types";
 import defaultClasses from "./rating.module.css";
 import IconComponent from "./IconComponent";
-import Fireworks from  'react-canvas-confetti/dist/presets/realistic'
-import { Button } from "@nextui-org/react";
+import Fireworks from "react-canvas-confetti/dist/presets/realistic";
+import { updateOneKeyChatRoom } from "@/lib/actions/chatRoom/chatRoom.update.action";
+import { toast } from "sonner";
+import { ChatRoom } from "@prisma/client";
 
 const SIZES = {
   SMALL: {
@@ -31,14 +33,16 @@ const Rating = (props: any) => {
     showOutOf,
     enableUserInteraction,
     onClick,
+    room,
   } = props;
 
-  const [activeStar, setActiveStar] = useState(-1);
+  const [activeStar, setActiveStar] = useState(room.stars ?? -1);
   const decimal = ratingInPercent / 20;
   const nonFraction = Math.trunc(decimal);
   const fraction = Number((decimal - nonFraction).toFixed(2));
   const fractionPercent = fraction * 100;
   const controller = useRef<any>();
+  const [isLoading, start] = useTransition();
 
   const classes = defaultClasses;
 
@@ -59,7 +63,19 @@ const Rating = (props: any) => {
 
   const handleClick = (index: any) => {
     onClick(index + 1);
-    onShoot()
+    const formData = new FormData();
+    formData.append("stars", index);
+
+    start(async () => {
+      const chatRoom = await updateOneKeyChatRoom(formData, room.id, "stars");
+
+      if ("error" in chatRoom) {
+        toast.error(chatRoom.error);
+      } else {
+        onShoot();
+      }
+    });
+
     setActiveStar(index);
   };
 
@@ -71,9 +87,9 @@ const Rating = (props: any) => {
     controller.current = conductor;
   };
 
-const onShoot = () => {
-  controller.current?.shoot();
-};
+  const onShoot = () => {
+    controller.current?.shoot();
+  };
 
   let isShow = true;
   const getStar = (index: any) => {
@@ -124,7 +140,7 @@ const onShoot = () => {
     return (
       <div
         style={{ position: "relative" }}
-        onClick={() => handleClick(index)}
+        onClick={() => activeStar >= 0 ? null : handleClick(index)}
         key={index}
       >
         <div
@@ -161,6 +177,7 @@ Rating.propTypes = {
   showOutOf: bool.isRequired,
   enableUserInteraction: bool.isRequired,
   onClick: func,
+  room: object
 };
 
 Rating.defaultProps = {
@@ -169,6 +186,7 @@ Rating.defaultProps = {
   onClick: () => null,
   showOutOf: false,
   enableUserInteraction: false,
+  room: object
 };
 
 export default Rating;

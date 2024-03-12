@@ -139,7 +139,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
                     </>
                   )}
                   {room.status === "completed" && (
-                    <Rating enableUserInteraction showOutOf />
+                    <Rating room={room} enableUserInteraction showOutOf />
                   )}
                 </CardBody>
                 <CardFooter>
