@@ -1,0 +1,11 @@
+.root {
+  display: grid;
+  left: 0;
+  grid-auto-flow: row;
+
+  display: inline-flex;
+  position: relative;
+  cursor: pointer;
+  text-align: left;
+  gap: 8px;
+}

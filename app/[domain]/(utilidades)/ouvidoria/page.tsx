@@ -20,6 +20,7 @@ import { getRoomsByUser } from "@/lib/fetchers/room";
 import { getClientByUser } from "@/lib/fetchers/user";
 import { ptBR } from "date-fns/locale";
 import { format } from "date-fns";
+import Rating from "./rating";
 
 export const metadata: Metadata = {
   title: "Ouvidoria",
@@ -137,6 +138,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       )}
                     </>
                   )}
+                 { room.status === "completed" && (
+                  <Rating />
+                 )}
                 </CardBody>
                 <CardFooter>
                   {room.status === "disabled" ||
