@@ -138,9 +138,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       )}
                     </>
                   )}
-                 { room.status === "completed" && (
-                  <Rating />
-                 )}
+                  {room.status === "completed" && (
+                    <Rating enableUserInteraction showOutOf />
+                  )}
                 </CardBody>
                 <CardFooter>
                   {room.status === "disabled" ||
@@ -158,7 +158,9 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       )}
                       variant="flat"
                     >
-                      {room.status === "accepted" || room.status === "completed" ? "Ver histórico" : "Entrar"}
+                      {room.status === "accepted" || room.status === "completed"
+                        ? "Ver histórico"
+                        : "Entrar"}
                     </Button>
                   )}
                 </CardFooter>
