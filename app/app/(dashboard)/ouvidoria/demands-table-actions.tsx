@@ -15,7 +15,7 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { EditIcon, EyeIcon } from "lucide-react";
+import { Check, EditIcon, EyeIcon } from "lucide-react";
 import { DeleteDocumentIcon } from "@/components/icons/DeleteDocumentIcon";
 import { Bold, Text, Title } from "@tremor/react";
 import BlurImage from "@/components/arquives/blur-image";
@@ -118,6 +118,13 @@ export default function DemandsTableActions({
               className="cursor-pointer text-lg text-default-400 active:opacity-50"
             >
               Ver detalhes
+            </DropdownItem>
+             <DropdownItem
+              startContent={<Check/>}
+              onPress={() => updateAccept('completed')}
+              className="cursor-pointer text-lg text-default-400 active:opacity-50"
+            >
+              Completo
             </DropdownItem>
             <DropdownItem
               className="cursor-pointer text-lg text-default-400 active:opacity-50"

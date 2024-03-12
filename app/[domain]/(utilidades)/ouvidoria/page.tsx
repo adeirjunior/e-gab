@@ -78,6 +78,8 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       ? "Pedido Aceito"
                       : room.status === "disabled"
                         ? "Desativado"
+                        : room.status === "completed"
+                        ? "Completo"
                         : "Outro";
 
             return (
@@ -152,7 +154,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
                       )}
                       variant="flat"
                     >
-                      {room.status === "accepted" ? "Ver histórico" : "Entrar"}
+                      {room.status === "accepted" || room.status === "completed" ? "Ver histórico" : "Entrar"}
                     </Button>
                   )}
                 </CardFooter>
