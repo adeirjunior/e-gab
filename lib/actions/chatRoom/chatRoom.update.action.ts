@@ -101,7 +101,7 @@ export const updateChatRoom = async (
   } catch (error: any) {
     if (error.code === "P2002") {
       return {
-        error: `This ${key} is already in use`,
+        error: `This ${key} is already in uso`,
       };
     } else {
       return {
