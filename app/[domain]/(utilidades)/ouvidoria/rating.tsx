@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { string, number, func, bool } from "prop-types";
 import defaultClasses from "./rating.module.css";
 import IconComponent from "./IconComponent";
+import Fireworks from  'react-canvas-confetti/dist/presets/realistic'
+import { Button } from "@nextui-org/react";
 
 const SIZES = {
   SMALL: {
@@ -36,6 +38,7 @@ const Rating = (props: any) => {
   const nonFraction = Math.trunc(decimal);
   const fraction = Number((decimal - nonFraction).toFixed(2));
   const fractionPercent = fraction * 100;
+  const controller = useRef<any>();
 
   const classes = defaultClasses;
 
@@ -62,6 +65,14 @@ const Rating = (props: any) => {
   const showDefaultStar = (index: any) => {
     return RatingDefault;
   };
+
+  const onInitHandler = ({ conductor }: any) => {
+    controller.current = conductor;
+  };
+
+const onShoot = () => {
+  controller.current?.shoot();
+};
 
   let isShow = true;
   const getStar = (index: any) => {
@@ -130,13 +141,17 @@ const Rating = (props: any) => {
   };
 
   return (
-    <div className={classes.root}>
-      {[...new Array(numberOfStar)].map((arr, index) =>
-        enableUserInteraction
-          ? withUserInteraction(index)
-          : withoutUserInteraction(index),
-      )}
-    </div>
+    <>
+      <div className={classes.root}>
+        {[...new Array(numberOfStar)].map((arr, index) =>
+          enableUserInteraction
+            ? withUserInteraction(index)
+            : withoutUserInteraction(index),
+        )}
+      </div>
+      <Fireworks onInit={onInitHandler} />
+      <Button onClick={onShoot}>Shoot</Button>
+    </>
   );
 };
 
