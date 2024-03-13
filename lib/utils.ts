@@ -9,6 +9,20 @@ export function toPusherKey(key: string) {
   return key.replace(/:/g, "__");
 }
 
+export function calculateAverage(numbers: number[]): string {
+  if (numbers.length <= 0) {
+    return "0.0";
+  }
+
+  const sum: number = numbers.reduce((acc, val) => acc + val, 0);
+  const average: number = sum / numbers.length;
+  const formattedAverage: string = average.toFixed(1);
+
+  return formattedAverage;
+}
+
+
+
 export function chatHrefConstructor(id1: string, id2: string) {
   const sortedIds = [id1, id2].sort();
   return `${sortedIds[0]}--${sortedIds[1]}`;

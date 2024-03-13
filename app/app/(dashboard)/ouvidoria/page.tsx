@@ -19,6 +19,7 @@ import {
   getRoomsWithStatus,
 } from "@/lib/fetchers/room";
 import DemandsTable from "./demands-table";
+import { calculateAverage } from "@/lib/utils";
 
 export default async function Page() {
   const session = await getSession();
@@ -40,6 +41,12 @@ export default async function Page() {
   const activeRooms = await countRoomsWithStatus(website.id, "active");
 
   const demands = await getRoomsWithStatus(website.id, "accepted")
+
+   const completedRoomsRaw = await getRoomsWithStatus(website.id, "completed");
+
+    const completedRooms = (completedRoomsRaw ?? [])
+        .map((room) => room.stars)
+        .filter((star): star is number => star !== null && star >= 0);
 
   return (
     <div className="flex flex-col space-y-12 p-8">
@@ -81,7 +88,7 @@ export default async function Page() {
         <Card className="w-full border-3 border-stone-300">
           <CardHeader>Média de estrelas</CardHeader>
           <CardBody>
-            <Bold className="text-3xl">4.3</Bold>
+            <Bold className="text-3xl">{calculateAverage(completedRooms)}</Bold>
           </CardBody>
         </Card>
       </Grid>
