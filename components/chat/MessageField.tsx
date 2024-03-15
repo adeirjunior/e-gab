@@ -1,4 +1,5 @@
-import { createMessage } from "@/lib/actions/message/message.create.action";
+"use client"
+
 import { Button, Card, Input } from "@nextui-org/react";
 import { FC } from "react";
 
@@ -9,13 +10,16 @@ interface MessageFieldProps {
 
 const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
   const sendMessage = async (formData: FormData) => {
-    "use server";
     const text = formData.get("message") as string;
-    await createMessage(text, userId, roomId);
+
+   await fetch("/api/message", {
+     method: "POST",
+     body: JSON.stringify({ text, roomId, userId }),
+   });
   };
 
   return (
-    <form className="w-full" action={sendMessage}>
+    <form className="w-full" method="POST" action={sendMessage}>
       <Card className="flex w-full flex-row items-center justify-center gap-2 p-4">
         <Input
           name="message"

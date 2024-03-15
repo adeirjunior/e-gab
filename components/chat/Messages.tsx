@@ -1,6 +1,6 @@
 "use client";
 
-import { pusherClient } from "@/lib/configs/pusher";
+import { pusherClient } from "@/lib/configs/pusherClient";
 import { Message } from "@/lib/validations/message";
 import { FC, useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
@@ -35,7 +35,7 @@ const Messages: FC<MessagesProps> = ({
     pusherClient.subscribe(roomId);
 
     const messageHandler = (message: Message) => {
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => [message, ...prev]);
     };
 
     pusherClient.bind("incoming-message", messageHandler);

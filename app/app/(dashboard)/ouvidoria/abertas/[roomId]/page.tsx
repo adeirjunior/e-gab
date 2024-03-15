@@ -50,7 +50,7 @@ const page = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const chatPartner: User = data.politician?.user || data.secretary?.user;
+  const chatPartner: User = data.client?.user as User;
 
  if (!chatPartner) {
    notFound();

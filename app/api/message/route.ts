@@ -1,12 +1,17 @@
-import { pusherServer } from "@/lib/configs/pusher";
+"use server";
+import { createMessage } from "@/lib/actions/message/message.create.action";
+import { pusherServer } from "@/lib/configs/pusherServer";
 
 export async function POST(req: Request) {
-  const { text, roomId } = await req.json();
+  const { text, roomId, userId } = await req.json();
 
-  // trigger a pusher event named "incoming-message" that will
-  // update the state of the messages for everyone.
+  const { id, createdAt } = await createMessage(text, userId, roomId);
+
   pusherServer.trigger(roomId, "incoming-message", {
-    message: text,
+    id,
+    text,
+    userId,
+    createdAt,
   });
 
   return new Response(JSON.stringify({ success: true }));

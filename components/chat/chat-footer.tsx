@@ -1,7 +1,6 @@
-import { createMessage } from "@/lib/actions/message/message.create.action";
-import { getCurrentDomain } from "@/lib/utils";
+"use client"
+
 import { Button, Input } from "@nextui-org/react";
-import axios from "axios";
 
 interface MessageFieldProps {
   roomId: string;
@@ -10,14 +9,12 @@ interface MessageFieldProps {
 
 export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
   const sendMessage = async (formData: FormData) => {
-    "use server";
     const text = formData.get("message") as string;
 
-    await axios.post(getCurrentDomain(undefined, "/api/message"), {
-      text,
-      roomId,
-    });
-    await createMessage(text, userId, roomId);
+   await fetch("/api/message", {
+     method: "POST",
+     body: JSON.stringify({ text, roomId, userId }),
+   });
   };
 
   return (
