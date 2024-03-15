@@ -1,6 +1,12 @@
 "use client"
 
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { default as emojiData } from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import i18n from "@emoji-mart/data/i18n/pt.json";
+import { useState, useTransition } from "react";
+import LoadingDots from "../icons/loading-dots";
+i18n.search_no_results_1 = "Escolha um emoji...";
 
 interface MessageFieldProps {
   roomId: string;
@@ -8,13 +14,25 @@ interface MessageFieldProps {
 }
 
 export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
+const [inputText, setInputText] = useState<string>('')
+const [pending, start] = useTransition()
+
   const sendMessage = async (formData: FormData) => {
     const text = formData.get("message") as string;
 
-   await fetch("/api/message", {
+    try {
+      start(async() => {
+        await fetch("/api/message", {
      method: "POST",
      body: JSON.stringify({ text, roomId, userId }),
    });
+      })
+      
+    } catch (error) {
+      
+    }
+   
+   setInputText('')
   };
 
   return (
@@ -44,6 +62,9 @@ export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
             </Button>
           </span>
           <Input
+          onChange={(e) => setInputText(e.target.value)}
+          value={inputText}
+          disabled={pending}
             type="text"
             name="message"
             placeholder="Escreva sua mensagem!"
@@ -96,31 +117,48 @@ export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
                 ></path>
               </svg>
             </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button
+                  type="button"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition duration-500 ease-in-out hover:bg-gray-300 focus:outline-none"
+                  isIconOnly
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-6 w-6 text-gray-600"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Picker
+                  i18n={i18n}
+                  data={emojiData}
+                  onEmojiSelect={(e:any) => setInputText((prev) => prev + String(e.native))}
+                  locale="pt"
+                  theme="light"
+                />
+              </PopoverContent>
+            </Popover>
+
             <Button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition duration-500 ease-in-out hover:bg-gray-300 focus:outline-none"
-              isIconOnly
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="h-6 w-6 text-gray-600"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </Button>
-            <Button
-              type="submit"
+              disabled={pending || inputText.length <= 0}
+      type="submit"
+      spinner={<LoadingDots color="#fff" />}
+      isLoading={pending}
               className="inline-flex items-center justify-center rounded-lg bg-blue-500 px-4 py-3 text-white transition duration-500 ease-in-out hover:bg-blue-400 focus:outline-none"
             >
-              <span className="font-bold">Enviar</span>
+              {!pending && (<><span className="font-bold">Enviar</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -128,7 +166,7 @@ export default function ChatFooter({ roomId, userId }: MessageFieldProps) {
                 className="ml-2 h-6 w-6 rotate-90 transform"
               >
                 <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-              </svg>
+              </svg></>)}
             </Button>
           </div>
         </form>
