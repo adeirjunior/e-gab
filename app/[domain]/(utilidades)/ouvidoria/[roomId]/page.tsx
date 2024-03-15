@@ -71,7 +71,7 @@ const page = async ({ params }: PageProps) => {
   });
 
   return (
-    <Card className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6">
+    <Card className="flex h-screen flex-1 flex-col justify-between sm:p-6">
       <CardHeader className="flex justify-between border-b-2 border-gray-200 py-3 sm:items-center">
         <ChatHeader chatPartner={chatPartner} />
       </CardHeader>
