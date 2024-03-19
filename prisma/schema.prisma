@@ -21,7 +21,7 @@ model User {
   accounts         Account[]
   sessions         Session[]
   password         String?
-  role             UserRole       @default(Politician)
+  role             UserRole       @default(politician)
   politician       Politician?
   secretary        Secretary?
   client           Client?        @relation(fields: [clientId], references: [id])
@@ -36,11 +36,10 @@ model User {
 }
 
 enum UserRole {
-  Admin
-  Manager
-  Politician
-  Secretary
-  Client
+  admin
+  politician
+  client
+  invited
 }
 
 model Client {
@@ -78,6 +77,7 @@ model Politician {
   billingAddress Json?
   paymentMethod  Json?
   chatRoom       ChatRoom[]
+  website        Website?
 }
 
 model Subscription {
@@ -104,14 +104,14 @@ model Subscription {
 }
 
 enum SubscriptionStatus {
-  TRIALING
-  ACTIVE
-  CANCELED
-  INCOMPLETE
-  INCOMPLETE_EXPIRED
-  PAST_DUE
-  UNPAID
-  PAUSED
+  trialing
+  active
+  canceled
+  incomplete
+  incomplete_expired
+  past_due
+  unpaid
+  paused
 }
 
 model Price {
@@ -131,15 +131,15 @@ model Price {
 }
 
 enum PricingType {
-  ONE_TIME
-  RECURRING
+  one_time
+  recurring
 }
 
 enum PricingPlanInterval {
-  DAY
-  WEEK
-  MONTH
-  YEAR
+  day
+  week
+  month
+  year
 }
 
 model Product {
@@ -149,7 +149,7 @@ model Product {
   description String
   image       String
   metadata    Json
-  Price       Price[]
+  price       Price[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -170,8 +170,7 @@ model Account {
   session_state            String?
   oauth_token_secret       String?
   oauth_token              String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -218,22 +217,21 @@ model Post {
 
 model Website {
   id               String             @id @default(cuid()) @map("_id")
-  politicianId     String             @unique
-  name             String?
+  name             String
+  contactId        String
+  cloudinaryDir    String
   description      String?
   myHistory        String?
-  politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
   theme            WebsiteThemeType   @default(blue)
+  politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
   logo             String             @default("E-Gab/Websites/default_logo")
   font             String             @default("font-cal")
   image            String             @default("E-Gab/Websites/default_image")
-  imageBlurhash    String             @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
-  subdomain        String?            @unique
-  customDomain     String?            @unique
+  imageBlurhash    String             @default("E-Gab/Websites/default_post_image")
   message404       String             @default("Parabéns! Você encontrou uma página que não existe.")
-  cloudinaryDir    String
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  politicianId     String             @unique
+  subdomain        String             @unique
+  customDomain     String?            @unique
   contact          Contact?           @relation(fields: [contactId], references: [id])
   laws             Law[]
   events           Event[]
@@ -244,11 +242,13 @@ model Website {
   expenditures     Expenditure[]
   posts            Post[]
   donations        Donation[]
-  user             User[]
-  contactId        String
+  admins           User[]
   chatRoom         ChatRoom[]
   socialMedia      SocialMedia[]
   politicalProject PoliticalProject[]
+  politician       Politician         @relation(fields: [politicianId], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 enum WebsiteThemeType {
@@ -277,7 +277,6 @@ enum MotionStatus {
   approved
   rejected
   withdrawn
-  // Adicione outros estados conforme necessário
 }
 
 model LegislativeIndication {
@@ -296,10 +295,7 @@ enum IndicationStatus {
   approved
   rejected
   withdrawn
-  // Adicione outros estados conforme necessário
 }
-
-// ... (Outros modelos relacionados, como votos, comentários, etc., podem ser adicionados conforme necessário)
 
 model PoliticalProject {
   id          String        @id @default(cuid()) @map("_id")
@@ -319,7 +315,6 @@ enum ProjectStatus {
   pending
   in_progress
   completed
-  // Adicione outros estados conforme necessário
 }
 
 model Contact {
@@ -394,9 +389,9 @@ model Plan {
   id            String         @id @default(cuid()) @map("_id")
   name          String
   description   String
-  amount        Float // Monthly subscription amount
+  amount        Float
   currency      String
-  interval      String // Billing interval, e.g., "month", "year"
+  interval      String
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
