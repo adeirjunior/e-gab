@@ -20,7 +20,7 @@ export const createClient = async (id: string) => {
         id,
       },
       data: {
-        role: "Client",
+        role: "client",
       },
     });
 

@@ -1,7 +1,6 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { createPolitician } from "../politician/politician.create.action";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { createWebsiteFolder } from "../image/image.create.action";
@@ -32,19 +31,14 @@ export const createSite = async (formData: FormData) => {
 
     const response = await prisma.website.create({
       data: {
+        contact: {
+          create: {}
+        },
         name,
         description,
         subdomain,
         cloudinaryDir: "",
         politicianId: politician.id,
-        user: {
-          connect: {
-            id: session.user.id,
-          },
-        },
-        contact: {
-          create: {},
-        },
       },
     });
 

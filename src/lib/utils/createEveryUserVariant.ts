@@ -23,7 +23,7 @@ export const createEveryUserVariant = async (id: string) => {
     });
   }
 
-  if (dbUser.role === "Politician") {
+  if (dbUser.role === "politician") {
     const politician = await prisma.politician.findUnique({
       where: {
         userId: id,

@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useModal } from "../modal/provider";
 
 export default function NewUserForm() {
-  const [selected, setSelected] = useState<UserRole>("Politician");
+  const [selected, setSelected] = useState<UserRole>("politician");
   const router = useRouter();
   const modal = useModal();
   return (
@@ -31,7 +31,7 @@ export default function NewUserForm() {
           selectedKey={selected}
           onSelectionChange={(key: Key) => setSelected(key as UserRole)}
         >
-          <Tab key="Politician" title="Político">
+          <Tab key="politician" title="Político">
             <form
               action={async (data: FormData) =>
                 createSite(data).then((res: any) => {

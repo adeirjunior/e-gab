@@ -70,7 +70,7 @@ export const updateChatRoom = async (
     const userRole = user.role;
 
     const userRoleContent =
-      userRole === "Politician"
+      userRole === "politician"
         ? await prisma.politician.findUnique({
             where: {
               userId: session.user.id,
@@ -91,7 +91,7 @@ export const updateChatRoom = async (
        where: { id },
        data: {
          [key]: value,
-         [userRole === "Politician" ? "politicianId" : "secretaryId"]:
+         [userRole === "politician" ? "politicianId" : "secretaryId"]:
            userRoleContent.id,
        },
      });
