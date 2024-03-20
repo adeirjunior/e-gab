@@ -10,8 +10,9 @@ export const ButtonContainerLg = () => {
      setActiveStep,
      setDirection,
      setFirstStepErrors,
-     userData,
+     selectedRole,
    } = useNewUserSteps();
+   
   return (
     <div
       className={`bg-neutral-White mt-3 hidden  w-full items-center lg:flex ${
@@ -36,7 +37,7 @@ export const ButtonContainerLg = () => {
         onClick={() => {
           if (activeStep === 1) {
             try {
-              const validatedData = FirstStepValidationSchema.parse(userData);
+              const validatedData = FirstStepValidationSchema.parse(selectedRole);
               console.log(validatedData);
               setFirstStepErrors([]);
 

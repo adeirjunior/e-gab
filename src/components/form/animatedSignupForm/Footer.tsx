@@ -9,7 +9,7 @@ export const Footer = () => {
     setActiveStep,
     setDirection,
     setFirstStepErrors,
-    userData,
+    selectedRole,
   } = useNewUserSteps();
   return (
     <footer
@@ -35,7 +35,7 @@ export const Footer = () => {
         onClick={() => {
           if (activeStep === 1) {
             try {
-              const validatedData = FirstStepValidationSchema.parse(userData);
+              const validatedData = FirstStepValidationSchema.parse(selectedRole);
               console.log(validatedData);
               setFirstStepErrors([]);
 

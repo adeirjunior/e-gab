@@ -20,7 +20,7 @@ export const Step2 = () => {
           label="Selecione seu plano"
           description="Você tem a opção de pagamento mensal ou anual."
           value={selectedPlan.name}
-          onChange={setSelectedPlan}
+          onChange={(e) => setSelectedPlan(e.target.value)}
         >
           {plansData.map((p, index: number) => (
             <CustomRadio key={index} description={p.description} value={p.name}>

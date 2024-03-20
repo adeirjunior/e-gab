@@ -14,6 +14,7 @@ import { Step4 } from "./FormSteps/step-4";
 import { Step5 } from "./FormSteps/step-5";
 import { Footer } from "./Footer";
 import { Sidebar } from "./Sidebar";
+import CreateSiteModal from "@/components/modal/create-site";
 
 export const AppContainer = () => {
   const { activeStep, direction } = useNewUserSteps();
@@ -44,7 +45,7 @@ export const AppContainer = () => {
 
             {activeStep === 3 && <Step3 />}
 
-            {activeStep === 4 && <Step4 />}
+            {activeStep === 4 && <CreateSiteModal />}
 
             {activeStep === 5 && <Step5 />}
           </motion.div>

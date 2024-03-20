@@ -2,25 +2,14 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { plansData } from "../constants/plansData";
-
-type UserData = {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-  party: string;
-  cpf: string;
-  tel: string;
-  address: string;
-};
+import { UserRole } from "@prisma/client";
 
 type NewUserStepsContextType = {
-  userData: UserData;
-  setUserData: React.Dispatch<React.SetStateAction<UserData>>;
+  selectedRole: UserRole;
+  setSelectedRole: React.Dispatch<React.SetStateAction<UserRole>>;
   firstStepErrors: string[];
   setFirstStepErrors: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedPlan: typeof plansData[0];
+  selectedPlan: (typeof plansData)[0];
   setSelectedPlan: React.Dispatch<React.SetStateAction<any>>;
   selectedAddOns: any[];
   setSelectedAddOns: React.Dispatch<React.SetStateAction<any[]>>;
@@ -34,18 +23,8 @@ type NewUserStepsContextType = {
 };
 
 export const NewUserStepsContext = createContext<NewUserStepsContextType>({
-  userData: {
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    role: "politician",
-    party: "",
-    cpf: "",
-    tel: "",
-    address: "",
-  },
-  setUserData: () => {},
+  selectedRole: "invited",
+  setSelectedRole: () => {},
   firstStepErrors: [],
   setFirstStepErrors: () => {},
   selectedPlan: plansData[0],
@@ -62,17 +41,7 @@ export const NewUserStepsContext = createContext<NewUserStepsContextType>({
 });
 
 export function NewUserStepsContextProvider({ children }: { children: ReactNode }) {
-  const [firstStepData, setFirstStepData] = useState<UserData>({
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    role: "politician",
-    party: "",
-    cpf: "",
-    tel: "",
-    address: "",
-  });
+  const [firstStepData, setFirstStepData] = useState<UserRole>("invited");
 
   const [firstStepErrors, setFirstStepErrors] = useState<string[]>([]);
 
@@ -99,8 +68,8 @@ export function NewUserStepsContextProvider({ children }: { children: ReactNode 
   return (
     <NewUserStepsContext.Provider
       value={{
-        userData: firstStepData,
-        setUserData: setFirstStepData,
+        selectedRole: firstStepData,
+        setSelectedRole: setFirstStepData,
         firstStepErrors,
         setFirstStepErrors,
         selectedPlan,

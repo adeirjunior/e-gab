@@ -40,7 +40,6 @@ export default function CreateSiteModal() {
           } else {
             va.track("Created Site");
             router.refresh();
-            router.push(`/site`);
             modal?.hide();
             toast.success(`Site criado com sucesso!`);
           }

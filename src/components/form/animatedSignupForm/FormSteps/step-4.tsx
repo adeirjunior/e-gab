@@ -9,7 +9,6 @@ export const Step4 = () => {
     billing,
     selectedAddOns,
     CalcTotalAmount,
-    activeStep,
     setActiveStep,
     setDirection,
   } = useNewUserSteps();
@@ -21,7 +20,7 @@ export const Step4 = () => {
         <div className="border-neutral-Light_gray flex items-center justify-between border-b">
           <div className="flex flex-col">
             <h3>
-              {selectedPlan.name} (
+              {selectedPlan.title} (
               {billing === "monthly" ? "Mensalmente" : "Anualmente"})
             </h3>
             <span

@@ -1,104 +1,72 @@
 "use client";
 
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
-import { ErrorMessage } from "../ErrorMessage";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import { ButtonContainerLg } from "../ButtonContainerLg";
-import { Input } from "@nextui-org/react";
 
-export const Step1 = () => {
-  const {
-    userData,
-    setUserData,
-    firstStepErrors,
-  } = useNewUserSteps();
+export function Step1() {
+   const { selectedRole, setSelectedRole } = useNewUserSteps();
 
-  const IsAnyError = (path: any) =>
-    firstStepErrors.some((err: any) => err.path === path);
+  const tabs = [
+    {
+      id: "politician",
+      label: "Político",
+      content:
+        "Você é um político ou representante que quer ter sua própria plataforma para entrar com contato com a população.",
+    },
+    {
+      id: "invited",
+      label: "Convidado",
+      content:
+        "Você foi convidado por um político ou administrador para visualizar ou adminstrar a plataforma do site do político.",
+    },
+  ];
 
   return (
-    <>
-      <h4 onClick={() => console.log(firstStepErrors)}>Informações pessoais</h4>
-      <p>Por favor forneça seu nome, email, e telefone.</p>
-      <div>
-        <div className="mb-5 flex flex-col">
-          <div className="flex w-full flex-col lg:flex-row lg:items-center lg:justify-between">
-            {firstStepErrors?.map((err: any, index: number) =>
-              err.path === "name" ? (
-                <ErrorMessage key={index} errMessage={err.message} />
-              ) : null,
-            )}
-          </div>
-
-          <Input
-            value={userData.name}
-            onChange={(e) =>
-              setUserData({
-                ...userData,
-                name: e.target.value,
-              })
-            }
-            label="Nome"
+    <div className="mx-auto max-w-[550px] rounded-lg border-3 p-12 dark:border-gray-600 ">
+      <motion.div
+        className="flex w-full flex-col gap-4 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.h1 className="text-3xl font-bold dark:text-gray-200">
+          Bem-vindo ao E-Gab!
+        </motion.h1>
+        <motion.h2 className="text-xl font-bold dark:text-gray-200">
+          O que você é?
+        </motion.h2>
+        <motion.div
+          initial={{ y: 50 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Tabs
             variant="bordered"
-            color={IsAnyError("name") ? "danger" : "default"}
-            type="text"
-            placeholder="João Paulo"
-            id="name"
-          />
-        </div>
-        <div className="mb-5 flex flex-col">
-          <div className="flex w-full flex-col lg:flex-row lg:items-center lg:justify-between">
-            {firstStepErrors?.map((err: any, index: number) =>
-              err.path === "email" ? (
-                <ErrorMessage key={index} errMessage={err.message} />
-              ) : null,
+            aria-label="Options"
+            selectedKey={selectedRole}
+            onSelectionChange={setSelectedRole as any}
+            classNames={{
+              panel: "py-6",
+            }}
+            items={tabs}
+          >
+            {(item) => (
+              <Tab key={item.id} title={item.label}>
+                <Card>
+                  <CardBody>
+                    <p className="text-center text-lg font-semibold dark:text-gray-200">
+                      {item.content}
+                    </p>
+                  </CardBody>
+                </Card>
+              </Tab>
             )}
-          </div>
-
-          <Input
-            value={userData.email}
-            variant="bordered"
-            label="Email"
-            onChange={(e) =>
-              setUserData({
-                ...userData,
-                email: e.target.value,
-              })
-            }
-            color={IsAnyError("email") ? "danger" : "default"}
-            type="text"
-            placeholder="joaopaulo@exemplo.com"
-            id="email"
-          />
-        </div>
-        <div className="mb-5 flex flex-col">
-          <div className="flex w-full flex-col lg:flex-row lg:items-center lg:justify-between">
-            {firstStepErrors?.map((err: any, index: number) =>
-              err.path === "tel" ? (
-                <ErrorMessage key={index} errMessage={err.message} />
-              ) : null,
-            )}
-          </div>
-
-          <Input
-            value={userData.tel}
-            onChange={(e) =>
-              setUserData({
-                ...userData,
-                tel: e.target.value,
-              })
-            }
-            label="Telefone"
-            variant="bordered"
-            color={IsAnyError("tel") ? "danger" : "default"}
-            type="number"
-            placeholder="+55 11 955553333"
-            id="phone"
-          />
-        </div>
-        <ButtonContainerLg/>
-      </div>
-
-      {/* <div className="hidden w-full lg:flex lg:ite"></div> */}
-    </>
+          </Tabs>
+        </motion.div>
+      </motion.div>
+      <ButtonContainerLg />
+    </div>
   );
-};
+}
