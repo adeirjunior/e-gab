@@ -229,10 +229,10 @@ model Website {
   imageBlurhash    String             @default("E-Gab/Websites/default_post_image")
   message404       String             @default("Parabéns! Você encontrou uma página que não existe.")
   politicianId     String             @unique
-  contactId        String             @unique
+  contactId        String?            @unique
   subdomain        String             @unique
   customDomain     String?            @unique
-  contact          Contact            @relation(fields: [contactId], references: [id])
+  contact          Contact?           @relation(fields: [contactId], references: [id])
   laws             Law[]
   events           Event[]
   polls            Poll[]

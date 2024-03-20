@@ -31,16 +31,13 @@ export const createSite = async (formData: FormData) => {
 
     const response = await prisma.website.create({
       data: {
-        contact: {
-          create: {}
-        },
         name,
         description,
         subdomain,
         cloudinaryDir: "",
         politicianId: politician.id,
       },
-    });
+    }); 
 
     await prisma.website.update({
       where: {

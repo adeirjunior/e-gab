@@ -13,9 +13,10 @@ export default async function SiteContactPage({
 }) {
   const domain = decodeURIComponent(params.domain);
   const website = await getSiteData(domain);
+
   const contact = await prisma.contact.findUnique({
     where: {
-      id: website?.contactId,
+      id: website?.contactId ?? undefined,
     },
   });
 

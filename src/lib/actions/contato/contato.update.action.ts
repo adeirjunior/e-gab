@@ -29,13 +29,16 @@ export const updateContact = async (
   try {
     const site = await getWebsiteByUserId(session.user.id);
 
-    const response = await prisma.contact.update({
+    const response = await prisma.contact.upsert({
+      create: {
+[key]: value,
+      },
       where: {
-        id: site?.contactId,
+        id: site?.contactId ?? undefined,
       },
-      data: {
+      update: {
         [key]: value,
-      },
+      }
     });
 
     return response;

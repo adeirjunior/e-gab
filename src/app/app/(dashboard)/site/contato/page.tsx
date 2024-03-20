@@ -10,7 +10,7 @@ export default async function Page() {
 
   const contact = await prisma.contact.findUnique({
     where: {
-      id: website?.contactId,
+      id: website?.contactId ?? undefined
     },
   });
 
