@@ -37,7 +37,7 @@ const page = async ({ params }: PageProps) => {
           user: true,
         },
       },
-      secretary: {
+      admin: {
         include: {
           user: true,
         },

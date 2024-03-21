@@ -1,5 +1,7 @@
 "use client"
 
+import { createPolitician } from "@/lib/actions/politician/politician.create.action";
+import { editOneKeyUser } from "@/lib/actions/user/user.update.action";
 import {useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { FirstStepValidationSchema } from "@/lib/validations/FirstStepValidation.";
 import { Button } from "@nextui-org/react";
@@ -34,7 +36,7 @@ export const ButtonContainerLg = () => {
 
       <Button
         variant="bordered"
-        onClick={() => {
+        onClick={async() => {
           if (activeStep === 1) {
             try {
               const validatedData = FirstStepValidationSchema.parse(selectedRole);
@@ -49,14 +51,19 @@ export const ButtonContainerLg = () => {
                 console.log(err.message);
               }
             }
+          } else if(activeStep === 3 && selectedRole === "politician") {
+            await editOneKeyUser(selectedRole, "role");
+            await createPolitician();
+            setActiveStep((prev: number) => prev + 1);
+            setDirection(1);
           } else {
             setActiveStep((prev: number) => prev + 1);
             setDirection(1);
           }
         }}
-        color={activeStep === 4 ? "primary" : "default"}
+        color={activeStep === 3 ? "primary" : "default"}
       >
-        {activeStep === 4 || activeStep === 5 ? "Confirmar" : "Próximo"}
+        {activeStep === 3 || activeStep === 4 ? "Confirmar" : "Próximo"}
       </Button>
     </div>
   );

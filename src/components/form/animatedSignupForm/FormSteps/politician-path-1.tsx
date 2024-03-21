@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { plansData } from "@/lib/constants/plansData";
 import { ButtonContainerLg } from "../ButtonContainerLg";
 import { RadioGroup, Switch } from "@nextui-org/react";
 import { CustomRadio } from "../radio-group";
+import { toast } from "sonner";
 
-export const Step2 = () => {
+export const PoliticianPath1 = () => {
   const [isShowing, setIsShowing] = useState(false);
 
   const { selectedPlan, setSelectedPlan, billing, setBilling } =
@@ -20,7 +21,7 @@ export const Step2 = () => {
           label="Selecione seu plano"
           description="Você tem a opção de pagamento mensal ou anual."
           value={selectedPlan.name}
-          onChange={(e) => setSelectedPlan(e.target.value)}
+          onChange={(e) => setSelectedPlan(plansData.filter((plan) => plan.name === e.target.value)[0])}
         >
           {plansData.map((p, index: number) => (
             <CustomRadio key={index} description={p.description} value={p.name}>

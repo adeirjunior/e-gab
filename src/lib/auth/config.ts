@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: profile.role ?? 'client'
+          role: profile.role ?? "client",
         };
       },
     }),
@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
     signIn: `/login`,
     verifyRequest: `/login`,
     error: "/login",
-    newUser: "/new",
+    newUser: "/novo-usuario",
   },
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },

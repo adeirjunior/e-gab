@@ -3,7 +3,7 @@
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { ButtonContainerLg } from "../ButtonContainerLg";
 
-export const Step4 = () => {
+export const PoliticianPath3 = () => {
   const {
     selectedPlan,
     billing,
@@ -66,7 +66,7 @@ export const Step4 = () => {
           {billing === "monthly" ? `/mês` : `/ano`}
         </span>
       </div>
-      <ButtonContainerLg/>
+      <ButtonContainerLg />
     </>
   );
 };

@@ -25,7 +25,7 @@ import {
   ChatRoom,
   Client,
   Politician,
-  Secretary,
+  Admin,
   User as UserType,
 } from "@prisma/client";
 import { format } from "date-fns";
@@ -58,7 +58,7 @@ export default function DemandsTable({ demands }: { demands: any }) {
     (
       demand: ChatRoom & { client: Client & { user: UserType } } & {
         politician: Politician & { user: UserType };
-      } & { secretary: Secretary & { user: UserType } } & {
+      } & { admin: Admin & { user: UserType } } & {
         acceptedRequest: AcceptedChatRoomRequest;
       },
     ) => ({
@@ -67,9 +67,9 @@ export default function DemandsTable({ demands }: { demands: any }) {
       clientEmail: demand.client.user.email,
       clientName: demand.client.user.name,
       partnerAvatar:
-        demand.politician.user.image || demand.secretary.user.image,
-      partnerEmail: demand.politician.user.email || demand.secretary.user.email,
-      partnerName: demand.politician.user.name || demand.secretary.user.name,
+        demand.politician.user.image || demand.admin.user.image,
+      partnerEmail: demand.politician.user.email || demand.admin.user.email,
+      partnerName: demand.politician.user.name || demand.admin.user.name,
       from: demand.acceptedRequest.from,
       to: demand.acceptedRequest.to,
     }),

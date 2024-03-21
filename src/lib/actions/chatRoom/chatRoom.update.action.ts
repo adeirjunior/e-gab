@@ -76,7 +76,7 @@ export const updateChatRoom = async (
               userId: session.user.id,
             },
           })
-        : await prisma.secretary.findUnique({
+        : await prisma.admin.findUnique({
             where: {
               userId: session.user.id,
             },

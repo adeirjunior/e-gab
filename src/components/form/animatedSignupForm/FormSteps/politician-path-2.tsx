@@ -4,12 +4,8 @@ import { add_ons_Data } from "@/lib/constants/add_onsData";
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { ButtonContainerLg } from "../ButtonContainerLg";
 
-export const Step3 = () => {
-  const {
-    selectedAddOns,
-    setSelectedAddOns,
-    billing
-  } = useNewUserSteps();
+export const PoliticianPath2 = () => {
+  const { selectedAddOns, setSelectedAddOns, billing } = useNewUserSteps();
 
   const handleCheck = (event: any, selectedCheckbox: any) => {
     var updatedList = [...selectedAddOns];
@@ -34,13 +30,13 @@ export const Step3 = () => {
             key={index}
             className={`${
               isChecked(ao) ? "active-checkbox" : "not-checked-item"
-            }  p-2 rounded flex items-center justify-between mb-4 cursor-pointer hover:ring-1 hover:ring-primary-Marine_blue `}
+            }  hover:ring-primary-Marine_blue mb-4 flex cursor-pointer items-center justify-between rounded p-2 hover:ring-1 `}
           >
             <input
-            title="a"
+              title="a"
               type="checkbox"
               value={ao as any}
-              className="h-4 w-4 rounded-sm  shadow bg-primary-Purplish_blue checked:ring-1 checked:ring-primary-Purplish_blue cursor-pointer "
+              className="bg-primary-Purplish_blue checked:ring-primary-Purplish_blue h-4  w-4 cursor-pointer rounded-sm shadow checked:ring-1 "
               onChange={(event) => handleCheck(event, ao)}
               checked={isChecked(ao)}
             />
@@ -59,7 +55,7 @@ export const Step3 = () => {
           </div>
         ))}
       </div>
-      <ButtonContainerLg/>
+      <ButtonContainerLg />
     </>
   );
 };

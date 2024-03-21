@@ -34,10 +34,10 @@ export const editUser = async (
         };
       }
 
-       const url = await create(formData, userLogoImagePathCreator, key, [
-         "user",
-         "logo",
-       ]);
+      const url = await create(formData, userLogoImagePathCreator, key, [
+        "user",
+        "logo",
+      ]);
 
       response = await prisma.user.update({
         where: {
@@ -70,4 +70,24 @@ export const editUser = async (
       };
     }
   }
+};
+
+export const editOneKeyUser = async (value: any, key: string) => {
+  const session = await getSession();
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: session.user.id,
+      },
+      data: {
+        [key]: value,
+      },
+    });
+  } catch (error) {}
 };

@@ -21,7 +21,7 @@ export async function getRooms(websiteId: string) {
             user: true,
           },
         },
-        secretary: {
+        admin: {
           include: {
             user: true,
           },
@@ -96,7 +96,7 @@ export async function getRoomsWithStatus(
            user: true,
          },
        },
-       secretary: {
+       admin: {
          include: {
            user: true,
          },

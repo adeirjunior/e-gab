@@ -1,6 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import LoadingSpinner from "../../loading-spinner";
+import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
+import { useEffectOnce } from "usehooks-ts";
+import { useRouter } from "next/navigation";
 
 const childVariants = {
   hidden: {
@@ -14,6 +18,21 @@ const childVariants = {
   },
 };
 export const Step5 = () => {
+const router = useRouter()
+  const {
+    selectedRole,
+  } = useNewUserSteps();
+
+  useEffectOnce(() => {
+    setTimeout(() => {
+if(selectedRole === "politician") {
+router.push("/criar-site")
+} else {
+
+}
+    }, 500)
+  })
+
   return (
     <div className="flex flex-col items-center justify-center">
       <motion.h4 variants={childVariants}>Obrigado!</motion.h4>
@@ -22,6 +41,7 @@ export const Step5 = () => {
         plataforma. Se tiver qualquer dúvida no funcionamento da plataforma,
         consulte a nossa documentação.
       </motion.p>
+      <LoadingSpinner/>
     </div>
   );
 };

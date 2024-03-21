@@ -38,7 +38,7 @@ const page = async ({ params }: PageProps) => {
           user: true,
         },
       },
-      secretary: {
+      admin: {
         include: {
           user: true,
         },
@@ -51,7 +51,7 @@ const page = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const chatPartner: User = data.politician?.user || data.secretary?.user;
+  const chatPartner: User = data.politician?.user || data.admin?.user;
 
   if (!chatPartner) {
     notFound();
@@ -72,7 +72,7 @@ const page = async ({ params }: PageProps) => {
         <Card className="flex w-full flex-row items-center justify-between px-4 py-6">
           <Card>
             <Title className="m-0 p-0 dark:text-gray-300">
-              {data?.client.user?.name || data?.client.user?.email}:
+              {data?.admin?.user?.name || data?.admin?.user?.email}:
             </Title>
             <Title>{data.title}</Title>
           </Card>

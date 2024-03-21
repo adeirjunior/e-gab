@@ -8,16 +8,16 @@ import { confirmVariants } from "@/lib/variants/confirmVariants";
 import { containerVariants } from "@/lib/variants/containerVariants";
 import { firstStepVariants } from "@/lib/variants/firstStepVariants";
 import { Step1 } from "./FormSteps/step-1";
-import { Step2 } from "./FormSteps/step-2";
-import { Step3 } from "./FormSteps/step-3";
-import { Step4 } from "./FormSteps/step-4";
+import { PoliticianPath1 } from "./FormSteps/politician-path-1";
 import { Step5 } from "./FormSteps/step-5";
 import { Footer } from "./Footer";
 import { Sidebar } from "./Sidebar";
-import CreateSiteModal from "@/components/modal/create-site";
+import { InvitedPath1 } from "./FormSteps/invited-path-1";
+import { PoliticianPath2 } from "./FormSteps/politician-path-2";
+import { PoliticianPath3 } from "./FormSteps/politician-path-3";
 
 export const AppContainer = () => {
-  const { activeStep, direction } = useNewUserSteps();
+  const { activeStep, selectedRole, direction } = useNewUserSteps();
 
   return (
     <>
@@ -41,16 +41,30 @@ export const AppContainer = () => {
           >
             {activeStep === 1 && <Step1 />}
 
-            {activeStep === 2 && <Step2 />}
+            {activeStep === 2 && (
+              <>
+                {selectedRole === "politician" ? (
+                  <PoliticianPath1 />
+                ) : (
+                  <InvitedPath1 />
+                )}
+              </>
+            )}
 
-            {activeStep === 3 && <Step3 />}
+            {activeStep === 3 && (
+              <>
+                {selectedRole === "politician" ? (
+                  <PoliticianPath2 />
+                ) : (
+                  <Step5 />
+                )}
+              </>
+            )}
 
-            {activeStep === 4 && <CreateSiteModal />}
-
-            {activeStep === 5 && <Step5 />}
+            {activeStep === 4 && <Step5 />}
           </motion.div>
         </AnimatePresence>
-        {activeStep <= 4 && <Footer />}
+        {activeStep <= 3 && <Footer />}
       </div>
 
       <div className=" hidden w-full lg:flex lg:min-h-screen lg:items-center lg:justify-center">
@@ -66,13 +80,27 @@ export const AppContainer = () => {
             >
               {activeStep === 1 && <Step1 />}
 
-              {activeStep === 2 && <Step2 />}
+              {activeStep === 2 && (
+                <>
+                  {selectedRole === "politician" ? (
+                    <PoliticianPath1 />
+                  ) : (
+                    <InvitedPath1 />
+                  )}
+                </>
+              )}
 
-              {activeStep === 3 && <Step3 />}
+              {activeStep === 3 && (
+                <>
+                  {selectedRole === "politician" ? (
+                    <PoliticianPath3 />
+                  ) : (
+                    <Step5 />
+                  )}
+                </>
+              )}
 
-              {activeStep === 4 && <Step4 />}
-
-              {activeStep === 5 && <Step5 />}
+              {activeStep === 4 && <Step5 />}
             </motion.div>
           </AnimatePresence>
         </div>

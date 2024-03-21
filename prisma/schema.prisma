@@ -12,27 +12,27 @@ model User {
   name             String?
   username         String?
   gh_username      String?
+  password         String?
   email            String?        @unique
+  websiteId        String?
+  stripeCustomerId String?        @unique
+  clientId         String?        @unique
   emailVerified    DateTime?
   image            String         @default("E-Gab/Users/default")
   cloudinaryDir    String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  accounts         Account[]
-  sessions         Session[]
-  password         String?
-  role             UserRole       @default(politician)
+  role             UserRole       @default(invited)
   politician       Politician?
-  secretary        Secretary?
+  admin            Admin?
+  website          Website?       @relation(fields: [websiteId], references: [id])
   client           Client?        @relation(fields: [clientId], references: [id])
   posts            Post[]
-  website          Website?       @relation(fields: [websiteId], references: [id])
-  websiteId        String?
-  isActive         Boolean        @default(false)
-  stripeCustomerId String?        @unique
   subscriptions    Subscription[]
-  clientId         String?        @unique
   message          Message[]
+  accounts         Account[]
+  sessions         Session[]
+  isActive         Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
 enum UserRole {
@@ -53,7 +53,7 @@ model Client {
   chatRoom  ChatRoom[]
 }
 
-model Secretary {
+model Admin {
   id           String     @id @default(cuid()) @map("_id")
   politician   Politician @relation(fields: [politicianId], references: [id])
   politicianId String
@@ -65,14 +65,14 @@ model Secretary {
 }
 
 model Politician {
-  id             String      @id @default(cuid()) @map("_id")
+  id             String     @id @default(cuid()) @map("_id")
   party          String?
-  user           User        @relation(fields: [userId], references: [id])
-  userId         String      @unique
-  secretaries    Secretary[]
+  user           User       @relation(fields: [userId], references: [id])
+  userId         String     @unique
+  admins         Admin[]
   description    String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   donation       Donation[]
   billingAddress Json?
   paymentMethod  Json?
@@ -479,7 +479,7 @@ model ChatRoom {
   stars           Int                      @default(-1)
   startingFiles   String[]
   clientId        String
-  secretaryId     String?
+  adminId         String?
   politicianId    String?
   websiteId       String
   createdAt       DateTime                 @default(now())
@@ -487,7 +487,7 @@ model ChatRoom {
   messages        Message[]
   website         Website                  @relation(fields: [websiteId], references: [id])
   client          Client                   @relation(fields: [clientId], references: [id])
-  secretary       Secretary?               @relation(fields: [secretaryId], references: [id])
+  admin           Admin?                   @relation(fields: [adminId], references: [id])
   politician      Politician?              @relation(fields: [politicianId], references: [id])
   status          ChatRoomStatus           @default(pending)
   acceptedRequest AcceptedChatRoomRequest?

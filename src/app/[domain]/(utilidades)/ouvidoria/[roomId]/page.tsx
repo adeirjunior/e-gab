@@ -42,7 +42,7 @@ const page = async ({ params }: PageProps) => {
           user: true,
         },
       },
-      secretary: {
+      admin: {
         include: {
           user: true,
         },
@@ -55,7 +55,7 @@ const page = async ({ params }: PageProps) => {
       notFound();
     }
 
-  const chatPartner: User = data.politician?.user || data.secretary?.user;
+  const chatPartner: User = data.politician?.user || data.admin?.user;
 
   if (!chatPartner) {
     notFound();

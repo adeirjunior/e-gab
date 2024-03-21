@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { ButtonContainerLg } from "../ButtonContainerLg";
 
 export function Step1() {
-   const { selectedRole, setSelectedRole } = useNewUserSteps();
+  const { selectedRole, setSelectedRole } = useNewUserSteps();
 
   const tabs = [
     {

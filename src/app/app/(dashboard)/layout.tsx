@@ -19,7 +19,7 @@ export default async function DashboardLayout({
   const site = await getWebsiteByUserId(session.user.id);
 
   if (!site) {
-    redirect("/new");
+    redirect("/novo-usuario");
   }
 
   return (

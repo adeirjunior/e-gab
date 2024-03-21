@@ -23,7 +23,10 @@ export async function getWebsiteByUserId(userId: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { website: true }, // Certifique-se de que o relacionamento está correto no seu modelo
+      include: { politician: {
+        include: {
+          website: true}
+      } }, // Certifique-se de que o relacionamento está correto no seu modelo
     });
 
     if (!user) {
@@ -31,7 +34,7 @@ export async function getWebsiteByUserId(userId: string) {
       return null;
     }
 
-    const website = user.website;
+    const website = user.politician?.website;
 
     if (!website) {
       console.log("Usuário não tem um site associado.");
