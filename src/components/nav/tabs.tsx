@@ -93,6 +93,28 @@ export const getTabs = (segments: string[], id: string | undefined) => {
         icon: "Vote",
       },
     ];
+  } else if (segments[0] === "usuarios") {
+    return [
+      { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
+      {
+        name: "Administradores",
+        href: `/${segments[0]}`,
+        isActive: segments.length === 1,
+        icon: "Edit3",
+      },
+      {
+        name: "Clientes",
+        href: `/${segments[0]}/clientes`,
+        isActive: segments.includes("clientes") && segments.length === 2,
+        icon: "Edit3",
+      },
+      {
+        name: "Convites",
+        href: `/${segments[0]}/convites`,
+        isActive: segments.includes("convites") && segments.length === 2,
+        icon: "Edit3",
+      },
+    ];
   } else if (segments[0] === "ouvidoria") {
     return [
       { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
