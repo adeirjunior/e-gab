@@ -1,7 +1,7 @@
 "use client"
 
 import LoadingDots from "@/components/icons/loading-dots";
-import { sendInviteEmail } from "@/lib/actions/email/send-email";
+import { sendInviteEmail } from "@/lib/actions/email/send-invite-email";
 import { Button, Input } from "@nextui-org/react";
 import { Mail } from "lucide-react";
 import { useState } from "react";

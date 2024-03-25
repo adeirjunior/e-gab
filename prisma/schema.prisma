@@ -8,31 +8,45 @@ generator client {
 }
 
 model User {
-  id               String         @id @default(cuid()) @map("_id")
-  name             String?
-  username         String?
-  gh_username      String?
-  password         String?
-  email            String?        @unique
-  websiteId        String?
-  stripeCustomerId String?        @unique
-  clientId         String?        @unique
-  emailVerified    DateTime?
-  image            String         @default("E-Gab/Users/default")
-  cloudinaryDir    String?
-  role             UserRole       @default(invited)
-  politician       Politician?
-  admin            Admin?
-  website          Website?       @relation(fields: [websiteId], references: [id])
-  client           Client?        @relation(fields: [clientId], references: [id])
-  posts            Post[]
-  subscriptions    Subscription[]
-  message          Message[]
-  accounts         Account[]
-  sessions         Session[]
-  isActive         Boolean        @default(false)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id                       String         @id @default(cuid()) @map("_id")
+  name                     String?
+  username                 String?
+  gh_username              String?
+  password                 String?
+  email                    String?        @unique
+  websiteId                String?
+  stripeCustomerId         String?        @unique
+  clientId                 String?        @unique
+  resetPasswordToken       String?        @unique
+  resetPasswordTokenExpiry DateTime?
+  emailVerified            Boolean        @default(false)
+  emailVerificationToken   String?        @unique
+  image                    String         @default("E-Gab/Users/default")
+  cloudinaryDir            String?
+  role                     UserRole       @default(invited)
+  politician               Politician?
+  admin                    Admin?
+  website                  Website?       @relation(fields: [websiteId], references: [id])
+  client                   Client?        @relation(fields: [clientId], references: [id])
+  posts                    Post[]
+  subscriptions            Subscription[]
+  message                  Message[]
+  accounts                 Account[]
+  sessions                 Session[]
+  isActive                 Boolean        @default(false)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+}
+
+model UserInvite {
+  id                String   @id @default(cuid()) @map("_id")
+  invitedEmail      String
+  toAdminWebsite    Website  @relation(fields: [websiteId], references: [id])
+  inviteToken       String   @unique
+  inviteTokenExpiry DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  websiteId         String
 }
 
 enum UserRole {
@@ -249,6 +263,7 @@ model Website {
   politician       Politician         @relation(fields: [politicianId], references: [id])
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
+  userInvite       UserInvite[]
 }
 
 enum WebsiteThemeType {

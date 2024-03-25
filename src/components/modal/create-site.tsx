@@ -39,9 +39,9 @@ export default function CreateSiteModal() {
             toast.error(res.error);
           } else {
             va.track("Created Site");
-            router.refresh();
             modal?.hide();
             toast.success(`Site criado com sucesso!`);
+            router.push('/')
           }
         })
       }

@@ -77,16 +77,11 @@ export async function getPoliticianSiteByUser(userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-        website: {
+        politician: {
           include: {
-            admins: true,
-            politician: {
-              include: {
-                user: true
-              }
-            }
-          },
-        },
+            website: true
+          }
+        }
       },
     });
     
@@ -95,7 +90,7 @@ export async function getPoliticianSiteByUser(userId: string) {
       return null;
     }
 
-    const site = user.website;
+    const site = user.politician?.website;
 
     return site;
   } catch (error) {
