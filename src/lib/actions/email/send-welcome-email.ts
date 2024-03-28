@@ -17,10 +17,17 @@ export const sendWelcomeEmail = async (formData: FormData) => {
 const user = await prisma.user.findUnique({
   where: {
     id: session.user.id
+  },
+  include: {
+    politician: {include: {
+      website: true
+    }},
+    admin: true
   }
 })
 
-const websiteId = user?.websiteId || ""
+const websiteId =
+  user?.politician?.website?.id || user?.admin?.websiteId!;
 const inviteTokenExpiry = new Date();
 inviteTokenExpiry.setMinutes(inviteTokenExpiry.getMinutes() + 15);
 

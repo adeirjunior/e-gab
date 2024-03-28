@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { Bold } from "@tremor/react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import prisma from "@/lib/configs/prisma";
 
 export const metadata: Metadata = {
   title: "Usuários",
@@ -14,13 +15,26 @@ if(!session) {
   redirect('/')
 }
 
+const getAdmins = async () => {
+  "use server"
+
+  const admins = await prisma.admin.findMany({
+    include: {
+      user: true
+    }
+  })
+
+  return admins
+}
+
+const admins = await getAdmins()
+
   return (
-    <div className="p-8">
+    <div className="w-full">
       <h1 className="font-cal m-0 mb-2 text-xl font-bold dark:text-white sm:text-3xl">
         Usuários
       </h1>
-      <Bold>Você é um {session.user.role === 'politician' ? "Político" : "Usuário"}</Bold>
-      <UsersTable />
+      <UsersTable admins={admins} />
     </div>
   );
 }

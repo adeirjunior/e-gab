@@ -20,6 +20,8 @@ type NewUserStepsContextType = {
   direction: number;
   setDirection: React.Dispatch<React.SetStateAction<number>>;
   CalcTotalAmount: () => any;
+  invitedUserToken: string;
+  setInvitedUserToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const NewUserStepsContext = createContext<NewUserStepsContextType>({
@@ -38,9 +40,12 @@ export const NewUserStepsContext = createContext<NewUserStepsContextType>({
   direction: 0,
   setDirection: () => {},
   CalcTotalAmount: () => {},
+  invitedUserToken: "",
+  setInvitedUserToken: () => {}
 });
 
 export function NewUserStepsContextProvider({ children }: { children: ReactNode }) {
+  const [invitedUserToken, setInvitedUserToken] = useState<string>("");
   const [firstStepData, setFirstStepData] = useState<UserRole>("invited");
 
   const [firstStepErrors, setFirstStepErrors] = useState<string[]>([]);
@@ -83,6 +88,8 @@ export function NewUserStepsContextProvider({ children }: { children: ReactNode 
         direction,
         setDirection,
         CalcTotalAmount,
+        invitedUserToken,
+        setInvitedUserToken,
       }}
     >
       {children}

@@ -19,9 +19,17 @@ export const sendInviteEmail = async (formData: FormData) => {
     where: {
       id: session.user.id,
     },
+    include: {
+      admin: true,
+      politician: {
+        include: {
+          website: true
+        }
+      }
+    }
   });
 
-  const websiteId = user?.websiteId || "";
+  const websiteId = user?.admin?.websiteId! || user?.politician?.website?.id!;
   const inviteTokenExpiry = new Date();
   inviteTokenExpiry.setMinutes(inviteTokenExpiry.getMinutes() + 15);
 

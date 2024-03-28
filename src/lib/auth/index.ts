@@ -15,6 +15,14 @@ export function withSiteAuth(action: any) {
       where: {
         id: session.user.id,
       },
+      include: {
+        politician: { 
+          include: {
+            website: true
+          }
+        },
+        admin: true
+      }
     });
 
     if (!checkUser) {
@@ -23,7 +31,10 @@ export function withSiteAuth(action: any) {
       };
     }
 
-    if (checkUser.websiteId === null) {
+    if (
+      checkUser.admin?.websiteId === null &&
+      checkUser.politician?.website?.id === null
+    ) {
       return {
         error: "Não há website",
       };
@@ -31,7 +42,7 @@ export function withSiteAuth(action: any) {
 
     const site = await prisma.website.findUnique({
       where: {
-        id: checkUser.websiteId,
+        id: checkUser.admin?.websiteId || checkUser.politician?.website?.id,
       },
     });
 
