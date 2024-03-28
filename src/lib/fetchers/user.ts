@@ -46,6 +46,10 @@ export async function getUserById(id: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id },
+      include: {
+        admin: true,
+        politician: true
+      }
     });
 
     if (!user) {

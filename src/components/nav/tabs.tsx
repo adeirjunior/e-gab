@@ -1,4 +1,17 @@
-export const getTabs = (segments: string[], id: string | undefined) => {
+import { Admin, Politician, Session, User } from "@prisma/client";
+
+interface getTabsInterface {
+  name: string;
+  href: string;
+  isActive?: boolean;
+  icon: string;
+}
+
+export const getTabs: (
+  segments: string[],
+  id: string | undefined,
+  user: User & { politician: Politician; admin: Admin },
+) => getTabsInterface[] = (segments, id, user) => {
   if (segments[0] === "conteudos") {
     if (segments[1] === "posts" && id) {
       return [
@@ -210,29 +223,46 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       isActive: segments.includes("conteudos"),
       icon: "Newspaper",
     },
-    {
-      name: "Arquivos",
-      href: `/arquivos`,
-      isActive: segments.includes("arquivos"),
-      icon: "Files",
-    },
-    {
-      name: "Estatísticas",
-      href: `/estatisticas`,
-      isActive: segments.includes("estatisticas"),
-      icon: "BarChart3",
-    },
-    {
-      name: "Ouvidoria",
-      href: `/ouvidoria`,
-      isActive: segments.includes("ouvidoria"),
-      icon: "BarChart3",
-    },
-    {
-      name: "Usuários",
-      href: "/usuarios",
-      isActive: segments[0] === "usuarios",
-      icon: "Users",
-    },
+
+    ...(user.admin?.canViewArchives || user.role === "politician"
+      ? [
+          {
+            name: "Arquivos",
+            href: `/arquivos`,
+            isActive: segments.includes("arquivos"),
+            icon: "Files",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewStatistics || user.role === "politician"
+      ? [
+          {
+            name: "Estatísticas",
+            href: `/estatisticas`,
+            isActive: segments.includes("estatisticas"),
+            icon: "BarChart3",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewChatRoom || user.role === "politician"
+      ? [
+          {
+            name: "Ouvidoria",
+            href: `/ouvidoria`,
+            isActive: segments.includes("ouvidoria"),
+            icon: "BarChart3",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewAdmins || user.role === "politician"
+      ? [
+          {
+            name: "Usuários",
+            href: "/usuarios",
+            isActive: segments[0] === "usuarios",
+            icon: "Users",
+          },
+        ]
+      : []),
   ];
 };

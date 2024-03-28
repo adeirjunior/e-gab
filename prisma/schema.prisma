@@ -81,6 +81,8 @@ model Admin {
   canEditSurvey Boolean @default(false)
   canViewMotion Boolean @default(false)
   canEditMotion Boolean @default(false)
+  canViewStatistics Boolean @default(false)
+  canEditStatistics Boolean @default(false)
   canViewChatRoom Boolean @default(false)
   canEditChatRoom Boolean @default(false)
   canViewAdmins Boolean @default(false)
