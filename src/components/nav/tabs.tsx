@@ -94,6 +94,24 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       },
     ];
   } else if (segments[0] === "usuarios") {
+    if (id) {
+      return [
+        { name: "Voltar para Usuários", href: `/usuarios`, icon: "ArrowLeft" },
+        {
+          name: "Ver",
+          href: `/usuarios/${id}`,
+          isActive: segments.length === 2,
+          icon: "Edit3",
+        },
+        {
+          name: "Editar",
+          href: `/usuarios/${id}/edit`,
+          isActive: segments.includes("edit") && segments.length === 3,
+          icon: "Edit3",
+        },
+      ];
+    }
+
     return [
       { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
       {

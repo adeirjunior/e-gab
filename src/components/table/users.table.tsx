@@ -10,12 +10,18 @@ import {
   Chip,
   User,
   ChipProps,
-  Tooltip,
+  Dropdown,
+  DropdownTrigger,
+  Button,
+  DropdownMenu,
+  DropdownItem,
+  Link
 } from "@nextui-org/react";
 import { columns } from "@/lib/data";
 import { useCallback } from "react";
 import { Admin as AdminType, User as UserType } from "@prisma/client";
 import { DeleteIcon, EditIcon, EyeIcon } from "lucide-react";
+import { VerticalDotsIcon } from "../icons/VerticalDotsIcon";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   true: "success",
@@ -65,22 +71,23 @@ export default function UsersTable({ admins }: { admins: Admin[] }) {
         );
       case "actions":
         return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
-              <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
-                <EyeIcon />
-              </span>
-            </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
-                <EditIcon />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="cursor-pointer text-lg text-danger active:opacity-50">
-                <DeleteIcon />
-              </span>
-            </Tooltip>
+          <div className="relative flex items-center justify-end gap-2">
+            <Dropdown className="border-1 border-default-200 bg-background">
+              <DropdownTrigger>
+                <Button isIconOnly radius="full" size="sm" variant="light">
+                  <VerticalDotsIcon className="text-default-400" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem href={`/usuarios/${admin.id}`} as={Link}>
+                  View
+                </DropdownItem>
+                <DropdownItem href={`/usuarios/${admin.id}/edit`} as={Link}>
+                  Edit
+                </DropdownItem>
+                <DropdownItem>Delete</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         );
       default:
