@@ -55,7 +55,7 @@ export const sendInviteEmail = async (formData: FormData) => {
     });
 
     return await resend.emails.send({
-      from: "E-Gab <onboarding@resend.dev>",
+      from: "E-Gab <no-reply@simplesgov.com.br>",
       to: invite.invitedEmail,
       subject: `Você foi convidado por ${session.user.name} para administrar o site do político ${invite.toAdminWebsite.politician.user.name}`,
       react: InviteUserEmail({ validationCode: invite.inviteToken }),

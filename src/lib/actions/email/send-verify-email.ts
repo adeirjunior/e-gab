@@ -19,7 +19,7 @@ export const sendVerifyEmail = async (id: string) => {
     });
 
     return await resend.emails.send({
-      from: "E-Gab <onboarding@resend.dev>",
+      from: "E-Gab <no-reply@simplesgov.com.br>",
       to: user.email!,
       subject: `Verifique seu email ${user.name}.`,
       react: VerifyEmail({
