@@ -1,0 +1,39 @@
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div {
+  @apply dark:text-gray-300;
+}
+
+.ce-popover,
+.ce-popover-item__icon,
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn,
+.cdx-checklist__item-checkbox-check,
+.cdx-quote {
+  background-color: black !important;
+  color: white;
+}
+
+.ce-block__content {
+  min-width: 100% !important;
+
+  @apply m-0;
+}
+
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn {
+  @apply border border-stone-700;
+}
+
+.ce-popover {
+  --color-background-item-hover: rgb(29, 29, 29) !important;
+}
+
+.ce-block--selected .ce-block__content {
+  @apply bg-gray-900;
+}

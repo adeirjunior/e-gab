@@ -8,50 +8,189 @@ generator client {
 }
 
 model User {
-  id            String         @id @default(cuid()) @map("_id")
-  name          String?
-  username      String?
-  gh_username   String?
-  email         String?        @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  subscriptions Subscription[]
-  password      String?
-  role          UserRole       @default(Politician)
-  Politician    Politician?
-  Secretary     Secretary?
-  posts         Post[]
-  Website       Website?       @relation(fields: [websiteId], references: [id])
-  websiteId     String?
+  id                       String         @id @default(cuid()) @map("_id")
+  name                     String?
+  username                 String?
+  gh_username              String?
+  password                 String?
+  email                    String?        @unique
+  stripeCustomerId         String?        @unique
+  clientId                 String?        @unique
+  resetPasswordToken       String?        @unique
+  resetPasswordTokenExpiry DateTime?
+  emailVerified            Boolean        @default(false)
+  emailVerificationToken   String?        @unique
+  image                    String         @default("E-Gab/Users/default")
+  cloudinaryDir            String?
+  role                     UserRole       @default(invited)
+  politician               Politician?
+  admin                    Admin?
+  client                   Client?        @relation(fields: [clientId], references: [id])
+  posts                    Post[]
+  subscriptions            Subscription[]
+  message                  Message[]
+  accounts                 Account[]
+  sessions                 Session[]
+  isActive                 Boolean        @default(false)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+}
+
+model UserInvite {
+  id                String   @id @default(cuid()) @map("_id")
+  invitedEmail      String
+  toAdminWebsite    Website  @relation(fields: [websiteId], references: [id])
+  inviteToken       String   @unique
+  inviteTokenExpiry DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  websiteId         String
 }
 
 enum UserRole {
-  Politician
-  Secretary
+  admin
+  politician
+  client
+  invited
 }
 
-model Secretary {
-  id           String     @id @default(cuid()) @map("_id")
-  Politician   Politician @relation(fields: [politicianId], references: [id])
-  politicianId String
-  User         User       @relation(fields: [userId], references: [id])
-  userId       String     @unique
+model Client {
+  id        String     @id @default(cuid()) @map("_id")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  cpf       String?
+  tel       String?
+  address   String?
+  user      User?
+  chatRoom  ChatRoom[]
+}
+
+model Admin {
+  id        String     @id @default(cuid()) @map("_id")
+  website   Website    @relation(fields: [websiteId], references: [id])
+  websiteId String
+  canViewPosts Boolean @default(false)
+  canEditPosts Boolean @default(false)
+  canViewLaws Boolean @default(false)
+  canEditLaws Boolean @default(false)
+  canViewProposals Boolean @default(false)
+  canEditProposals Boolean @default(false)
+  canViewPoll Boolean @default(false)
+  canEditPoll Boolean @default(false)
+  canViewSurvey Boolean @default(false)
+  canEditSurvey Boolean @default(false)
+  canViewMotion Boolean @default(false)
+  canEditMotion Boolean @default(false)
+  canViewChatRoom Boolean @default(false)
+  canEditChatRoom Boolean @default(false)
+  canViewAdmins Boolean @default(false)
+  canEditAdmins Boolean @default(false)
+  canViewArchives Boolean @default(false)
+  canEditArchives Boolean @default(false)
+  canViewGeralSettings Boolean @default(false)
+  canEditGeralSettings Boolean @default(false)
+  canViewDesignSettings Boolean @default(false)
+  canEditDesignSettings Boolean @default(false)
+  canViewDomainSettings Boolean @default(false)
+  canEditDomainSettings Boolean @default(false)
+  canViewContactSettings Boolean @default(false)
+  canEditContactSettings Boolean @default(false)
+  canViewSocialMediaSettings Boolean @default(false)
+  canEditSocialMediaSettings Boolean @default(false)
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  chatRoom  ChatRoom[]
 }
 
 model Politician {
-  id          String      @id @default(cuid()) @map("_id")
-  party       String
-  User        User        @relation(fields: [userId], references: [id])
-  userId      String      @unique
-  Secretaries Secretary[]
-  description String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  donation    Donation[]
+  id             String     @id @default(cuid()) @map("_id")
+  party          String?
+  user           User       @relation(fields: [userId], references: [id])
+  userId         String     @unique
+  description    String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  donation       Donation[]
+  billingAddress Json?
+  paymentMethod  Json?
+  chatRoom       ChatRoom[]
+  website        Website?
+}
+
+model Subscription {
+  id                   String             @id @default(cuid()) @map("_id")
+  user_id              String
+  status               SubscriptionStatus
+  metadata             Json
+  price_id             String
+  quantity             Int
+  cancel_at_period_end Boolean
+  created              DateTime
+  current_period_start DateTime
+  current_period_end   DateTime
+  ended_at             DateTime?
+  cancel_at            DateTime?
+  canceled_at          DateTime?
+  trial_start          DateTime?
+  trial_end            DateTime?
+  user                 User               @relation(fields: [user_id], references: [id])
+  price                Price              @relation(fields: [price_id], references: [id])
+  politicianId         String?
+  Plan                 Plan?              @relation(fields: [planId], references: [id])
+  planId               String?
+}
+
+enum SubscriptionStatus {
+  trialing
+  active
+  canceled
+  incomplete
+  incomplete_expired
+  past_due
+  unpaid
+  paused
+}
+
+model Price {
+  id                String              @id @default(cuid()) @map("_id")
+  product_id        String
+  active            Boolean
+  description       String
+  unit_amount       Int
+  currency          String
+  pricing_type      PricingType
+  interval          PricingPlanInterval
+  interval_count    Int
+  trial_period_days Int?
+  metadata          Json
+  product           Product             @relation(fields: [product_id], references: [id])
+  subscription      Subscription[]
+}
+
+enum PricingType {
+  one_time
+  recurring
+}
+
+enum PricingPlanInterval {
+  day
+  week
+  month
+  year
+}
+
+model Product {
+  id          String   @id @default(cuid()) @map("_id")
+  active      Boolean
+  name        String
+  description String
+  image       String
+  metadata    Json
+  price       Price[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Account {
@@ -70,8 +209,7 @@ model Account {
   session_state            String?
   oauth_token_secret       String?
   oauth_token              String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -102,7 +240,7 @@ model Post {
   description   String?
   content       String?
   slug          String   @default(cuid())
-  image         String?  @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
+  image         String?  @default("E-Gab/Websites/default_post_image")
   imageBlurhash String?  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -117,29 +255,151 @@ model Post {
 }
 
 model Website {
-  id            String        @id @default(cuid()) @map("_id")
-  politicianId  String        @unique
-  name          String?
-  description   String?
-  logo          String        @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/JRajRyC-PhBHEinQkupt02jqfKacBVHLWJq7Iy.png")
-  font          String        @default("font-cal")
-  image         String        @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png")
-  imageBlurhash String        @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
-  subdomain     String?       @unique
-  customDomain  String?       @unique
-  message404    String        @default("Parabéns! Você encontrou uma página que não existe.")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  laws          Law[]
-  events        Event[]
-  projects      Project[]
-  polls         Poll[]
-  surveys       Survey[]
-  News          News[]
-  expenditures  Expenditure[]
-  posts         Post[]
-  donations     Donation[]
-  User          User[]
+  id               String             @id @default(cuid()) @map("_id")
+  name             String
+  cloudinaryDir    String
+  description      String?
+  myHistory        String?
+  theme            WebsiteThemeType   @default(blue)
+  politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
+  logo             String             @default("E-Gab/Websites/default_logo")
+  font             String             @default("font-cal")
+  image            String             @default("E-Gab/Websites/default_image")
+  imageBlurhash    String             @default("E-Gab/Websites/default_post_image")
+  message404       String             @default("Parabéns! Você encontrou uma página que não existe.")
+  politicianId     String             @unique
+  contactId        String?            @unique
+  subdomain        String             @unique
+  customDomain     String?            @unique
+  contact          Contact?           @relation(fields: [contactId], references: [id])
+  laws             Law[]
+  events           Event[]
+  polls            Poll[]
+  surveys          Survey[]
+  proposals        Proposal[]
+  news             News[]
+  expenditures     Expenditure[]
+  posts            Post[]
+  donations        Donation[]
+  chatRoom         ChatRoom[]
+  socialMedia      SocialMedia[]
+  politicalProject PoliticalProject[]
+  politician       Politician         @relation(fields: [politicianId], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  userInvite       UserInvite[]
+  admins            Admin[]
+}
+
+enum WebsiteThemeType {
+  blue
+  red
+  yellow
+  gray
+  black
+  green
+  pink
+  violet
+}
+
+model PoliticianMotion {
+  id           String       @id @default(cuid()) @map("_id")
+  politicianId String
+  title        String
+  description  String
+  status       MotionStatus
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+enum MotionStatus {
+  pending
+  approved
+  rejected
+  withdrawn
+}
+
+model LegislativeIndication {
+  id             String           @id @default(cuid()) @map("_id")
+  politicianId   String
+  title          String
+  description    String
+  proposedAction String
+  status         IndicationStatus
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+enum IndicationStatus {
+  pending
+  approved
+  rejected
+  withdrawn
+}
+
+model PoliticalProject {
+  id          String        @id @default(cuid()) @map("_id")
+  title       String
+  description String
+  objectives  String
+  status      ProjectStatus @default(pending)
+  startDate   DateTime
+  endDate     DateTime
+  website     Website       @relation(fields: [websiteId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  websiteId   String
+}
+
+enum ProjectStatus {
+  pending
+  in_progress
+  completed
+}
+
+model Contact {
+  id        String    @id @default(cuid()) @map("_id")
+  phone     String?
+  email     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  website   Website[]
+}
+
+model SocialMedia {
+  id        String            @id @default(cuid()) @map("_id")
+  type      SocialMediaTypes? @unique
+  handle    String?
+  link      String?
+  website   Website           @relation(fields: [websiteId], references: [id])
+  websiteId String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+enum SocialMediaTypes {
+  facebook
+  twitter
+  instagram
+  youtube
+  tiktok
+}
+
+model Proposal {
+  id          String        @id @default(cuid()) @map("_id")
+  type        ProposalTypes @unique
+  description String
+  website     Website       @relation(fields: [websiteId], references: [id])
+  websiteId   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum ProposalTypes {
+  health
+  security
+  infrastructure
+  education
 }
 
 model Donation {
@@ -152,8 +412,9 @@ model Donation {
   status       DonationStatus?
   updatedAt    DateTime        @updatedAt
   donator      String
-  Website      Website         @relation(fields: [websiteId], references: [id])
+  website      Website         @relation(fields: [websiteId], references: [id])
   politician   Politician?     @relation(fields: [politicianId], references: [id])
+  createdAt    DateTime        @default(now())
 
   @@index([userId])
 }
@@ -164,44 +425,13 @@ enum DonationStatus {
   failed
 }
 
-model Subscription {
-  id              String              @id @default(cuid()) @map("_id")
-  userId          String
-  planId          String
-  status          SubscriptionStatus?
-  startDate       DateTime            @default(now())
-  endDate         DateTime
-  paymentMethod   String
-  paymentStatus   PaymentStatus?
-  paymentAmount   Float
-  currency        String
-  paymentIntentId String?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  user            User                @relation(fields: [userId], references: [id])
-  plan            Plan                @relation(fields: [planId], references: [id])
-
-  @@index([userId])
-}
-
-enum SubscriptionStatus {
-  active
-  inactive
-}
-
-enum PaymentStatus {
-  pending
-  completed
-  failed
-}
-
 model Plan {
   id            String         @id @default(cuid()) @map("_id")
   name          String
   description   String
-  amount        Float // Monthly subscription amount
+  amount        Float
   currency      String
-  interval      String // Billing interval, e.g., "month", "year"
+  interval      String
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
@@ -216,28 +446,23 @@ model Event {
   location    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Website     Website   @relation(fields: [websiteId], references: [id])
-  websiteId   String
-}
-
-model Project {
-  id          String   @id @default(cuid()) @map("_id")
-  title       String?
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Website     Website  @relation(fields: [websiteId], references: [id])
+  website     Website   @relation(fields: [websiteId], references: [id])
   websiteId   String
 }
 
 model Law {
-  id          String   @id @default(cuid()) @map("_id")
-  title       String?
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Website     Website  @relation(fields: [websiteId], references: [id])
-  websiteId   String
+  id            String   @id @default(cuid()) @map("_id")
+  title         String?
+  content       String?
+  image         String?  @default("E-Gab/Websites/default_law_image")
+  imageBlurhash String?  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  published     Boolean  @default(false)
+  slug          String   @default(cuid())
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  website       Website  @relation(fields: [websiteId], references: [id])
+  websiteId     String
 }
 
 model News {
@@ -245,7 +470,7 @@ model News {
   title       String?
   content     String?
   publishedAt DateTime
-  Website     Website  @relation(fields: [websiteId], references: [id])
+  website     Website  @relation(fields: [websiteId], references: [id])
   websiteId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -258,7 +483,7 @@ model Expenditure {
   date        DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Website     Website   @relation(fields: [websiteId], references: [id])
+  website     Website   @relation(fields: [websiteId], references: [id])
   websiteId   String
 }
 
@@ -270,7 +495,7 @@ model Poll {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   websiteId String
-  Website   Website  @relation(fields: [websiteId], references: [id])
+  website   Website  @relation(fields: [websiteId], references: [id])
 }
 
 model Survey {
@@ -281,5 +506,68 @@ model Survey {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   websiteId String
-  Website   Website  @relation(fields: [websiteId], references: [id])
+  website   Website  @relation(fields: [websiteId], references: [id])
+}
+
+model ChatRoom {
+  id              String                   @id @default(cuid())
+  title           String
+  description     String
+  address         String
+  tel             String
+  cep             String?
+  stars           Int                      @default(-1)
+  startingFiles   String[]
+  clientId        String
+  adminId         String?
+  politicianId    String?
+  websiteId       String
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  messages        Message[]
+  website         Website                  @relation(fields: [websiteId], references: [id])
+  client          Client                   @relation(fields: [clientId], references: [id])
+  admin           Admin?                   @relation(fields: [adminId], references: [id])
+  politician      Politician?              @relation(fields: [politicianId], references: [id])
+  status          ChatRoomStatus           @default(pending)
+  acceptedRequest AcceptedChatRoomRequest?
+  reason          String?
+}
+
+model AcceptedChatRoomRequest {
+  id         String    @id @default(cuid())
+  from       DateTime
+  to         DateTime?
+  chatRoom   ChatRoom  @relation(fields: [chatRoomId], references: [id])
+  chatRoomId String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model ChatRoomFile {
+  id        String   @id @default(cuid())
+  file      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ChatRoomStatus {
+  pending
+  accepted
+  denied
+  active
+  completed
+  disabled
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  text       String
+  file       String?
+  user       User     @relation(fields: [userId], references: [id])
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  chatRoomId String
+  userId     String
 }
