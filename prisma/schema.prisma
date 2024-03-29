@@ -13,7 +13,7 @@ model User {
   username                 String?
   gh_username              String?
   password                 String?
-  email                    String?        @unique
+  email                    String         @unique
   stripeCustomerId         String?        @unique
   clientId                 String?        @unique
   resetPasswordToken       String?        @unique
@@ -66,44 +66,44 @@ model Client {
 }
 
 model Admin {
-  id        String     @id @default(cuid()) @map("_id")
-  website   Website    @relation(fields: [websiteId], references: [id])
-  websiteId String
-  canViewPosts Boolean @default(false)
-  canEditPosts Boolean @default(false)
-  canViewLaws Boolean @default(false)
-  canEditLaws Boolean @default(false)
-  canViewProposals Boolean @default(false)
-  canEditProposals Boolean @default(false)
-  canViewPoll Boolean @default(false)
-  canEditPoll Boolean @default(false)
-  canViewSurvey Boolean @default(false)
-  canEditSurvey Boolean @default(false)
-  canViewMotion Boolean @default(false)
-  canEditMotion Boolean @default(false)
-  canViewStatistics Boolean @default(false)
-  canEditStatistics Boolean @default(false)
-  canViewChatRoom Boolean @default(false)
-  canEditChatRoom Boolean @default(false)
-  canViewAdmins Boolean @default(false)
-  canEditAdmins Boolean @default(false)
-  canViewArchives Boolean @default(false)
-  canEditArchives Boolean @default(false)
-  canViewGeralSettings Boolean @default(false)
-  canEditGeralSettings Boolean @default(false)
-  canViewDesignSettings Boolean @default(false)
-  canEditDesignSettings Boolean @default(false)
-  canViewDomainSettings Boolean @default(false)
-  canEditDomainSettings Boolean @default(false)
-  canViewContactSettings Boolean @default(false)
-  canEditContactSettings Boolean @default(false)
-  canViewSocialMediaSettings Boolean @default(false)
-  canEditSocialMediaSettings Boolean @default(false)
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String     @unique
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  chatRoom  ChatRoom[]
+  id                         String     @id @default(cuid()) @map("_id")
+  website                    Website    @relation(fields: [websiteId], references: [id])
+  websiteId                  String
+  canViewPosts               Boolean    @default(false)
+  canEditPosts               Boolean    @default(false)
+  canViewLaws                Boolean    @default(false)
+  canEditLaws                Boolean    @default(false)
+  canViewProposals           Boolean    @default(false)
+  canEditProposals           Boolean    @default(false)
+  canViewPoll                Boolean    @default(false)
+  canEditPoll                Boolean    @default(false)
+  canViewSurvey              Boolean    @default(false)
+  canEditSurvey              Boolean    @default(false)
+  canViewMotion              Boolean    @default(false)
+  canEditMotion              Boolean    @default(false)
+  canViewStatistics          Boolean    @default(false)
+  canEditStatistics          Boolean    @default(false)
+  canViewChatRoom            Boolean    @default(false)
+  canEditChatRoom            Boolean    @default(false)
+  canViewAdmins              Boolean    @default(false)
+  canEditAdmins              Boolean    @default(false)
+  canViewArchives            Boolean    @default(false)
+  canEditArchives            Boolean    @default(false)
+  canViewGeralSettings       Boolean    @default(false)
+  canEditGeralSettings       Boolean    @default(false)
+  canViewDesignSettings      Boolean    @default(false)
+  canEditDesignSettings      Boolean    @default(false)
+  canViewDomainSettings      Boolean    @default(false)
+  canEditDomainSettings      Boolean    @default(false)
+  canViewContactSettings     Boolean    @default(false)
+  canEditContactSettings     Boolean    @default(false)
+  canViewSocialMediaSettings Boolean    @default(false)
+  canEditSocialMediaSettings Boolean    @default(false)
+  user                       User       @relation(fields: [userId], references: [id])
+  userId                     String     @unique
+  createdAt                  DateTime   @default(now())
+  updatedAt                  DateTime   @updatedAt
+  chatRoom                   ChatRoom[]
 }
 
 model Politician {
@@ -290,7 +290,7 @@ model Website {
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   userInvite       UserInvite[]
-  admins            Admin[]
+  admins           Admin[]
 }
 
 enum WebsiteThemeType {

@@ -1,6 +1,5 @@
 "use server";
 
-import WelcomeEmail from "@/components/emails/welcome-politician";
 import { getSession } from "@/lib/auth/get-session";
 import resend from "@/lib/configs/resend";
 import prisma from "@/lib/configs/prisma";
