@@ -5,6 +5,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getUserById } from "@/lib/fetchers/user";
+import { VerifyAlert } from "@/components/alerts";
 
 export default async function DashboardLayout({
   children,
@@ -12,7 +13,7 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const session = await getSession();
-const user = await getUserById(session?.user.id!)
+  const user = await getUserById(session?.user.id!);
 
   if (!session || !user) {
     redirect("/login");
@@ -32,6 +33,7 @@ const user = await getUserById(session?.user.id!)
         </Suspense>
       </Nav>
       <div className="min-h-screen bg-white dark:bg-black sm:pl-60">
+        {!user.emailVerified && <VerifyAlert />}
         {children}
       </div>
     </div>
