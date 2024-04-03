@@ -18,9 +18,21 @@ export default async function PostSettings({
     where: {
       id: params.id,
     },
+    include: {
+    user: {
+      include: {
+        admin: true
+      }
+    }
+    },
   });
-  if (!data || data.userId !== session.user.id) {
+
+  if (!data) {
     notFound();
+  }
+
+  if(!data.user.admin?.canEditPosts) {
+    throw new Error("Você não tem permissão para editar posts.")
   }
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-6">

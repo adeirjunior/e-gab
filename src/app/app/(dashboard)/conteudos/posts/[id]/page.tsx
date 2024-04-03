@@ -18,11 +18,20 @@ export default async function PostPage({ params }: { params: { id: string } }) {
           subdomain: true,
         },
       },
+    user: {
+      include: {
+        admin: true
+      }
+    }
     },
   });
 
-  if (!data || data.userId !== session.user.id) {
+  if (!data) {
     notFound();
+  }
+
+  if(!data.user.admin?.canEditPosts) {
+    throw new Error("Você não tem permissão para editar posts.")
   }
 
   return <Editor post={data} />;
