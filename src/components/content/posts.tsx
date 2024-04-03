@@ -5,19 +5,18 @@ import PostCard from "../card/post-card";
 import Image from "next/image";
 
 export type contentArray = {
-  siteId?: string;
+  websiteId: string;
   limit?: number;
 };
 
-export default async function Posts({ siteId, limit }: contentArray) {
+export default async function Posts({ websiteId, limit }: contentArray) {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");
   }
   const posts = await prisma.post.findMany({
     where: {
-      userId: session.user.id,
-      ...(siteId ? { siteId } : {}),
+      websiteId
     },
     orderBy: {
       updatedAt: "desc",

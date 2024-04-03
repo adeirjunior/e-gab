@@ -55,10 +55,8 @@ export default async function SettingsPage() {
           }}
           handleSubmit={editUser}
         />
-        {user.role === "politician" ? (
+        {user.role === "politician" && (
           <CurrentActivePlanCard session={session} plan="Grátis" />
-        ) : (
-          ""
         )}
       </div>
     </div>

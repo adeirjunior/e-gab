@@ -1,8 +1,7 @@
 import { getSession } from "@/lib/auth/get-session";
-import { notFound, redirect } from "next/navigation";
-import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
+import { redirect } from "next/navigation";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import CreateLawButton from "@/components/button/generic-dashboard-button";
-import { getCurrentDomain } from "@/lib/utils";
 import { Metadata } from "next";
 import Laws from "@/components/content/laws";
 import { createLaw } from "@/lib/actions/law/law.create.action";
@@ -17,10 +16,10 @@ export default async function SitePosts() {
   if (!session) {
     redirect("/login");
   }
-  const data = await getPoliticianSiteByUser(session.user.id);
+  const data = await getWebsiteByUserId(session.user.id);
 
   if (!data) {
-    notFound();
+    throw new Error("Dados não encontrados.");
   }
 
   return (

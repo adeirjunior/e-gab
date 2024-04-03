@@ -1,8 +1,8 @@
 import { getSession } from "@/lib/auth/get-session";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import Posts from "@/components/content/posts";
 import CreateButton from "@/components/button/generic-dashboard-button";
-import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { Metadata } from "next";
 import { createPost } from "@/lib/actions/post/post.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
@@ -16,10 +16,10 @@ export default async function SitePosts() {
   if (!session) {
     redirect("/login");
   }
-  const data = await getPoliticianSiteByUser(session.user.id);
+  const data = await getWebsiteByUserId(session.user.id);
 
   if (!data) {
-    notFound();
+    throw new Error("Dados não encontrados.")
   }
 
   return (
@@ -35,7 +35,7 @@ export default async function SitePosts() {
           Criar Post
         </CreateButton>
       </div>
-      <Posts />
+      <Posts websiteId={data.id} />
     </>
   );
 }

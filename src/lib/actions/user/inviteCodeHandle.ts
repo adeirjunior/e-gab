@@ -17,6 +17,13 @@ const inviteToken = formData.get("inviteToken") as string;
                 inviteToken
             }
         })
+
+        if(!invitedUser) {
+            return {
+                error: "InvitedUser não encontrado."
+            }
+        }
+
         const user = await prisma.user.update({
             where: {
                 id: session.user.id
@@ -31,9 +38,19 @@ const inviteToken = formData.get("inviteToken") as string;
             }
         })
 
+        if(!user) {
+            return {
+                error: "user não encontrado."
+            }
+        }
+
         redirect("/")
+
+        return user
           
     } catch (error) {
-        
+        return {
+                error
+            }
     }
 }
