@@ -8,6 +8,10 @@ export default async function Page() {
   const session = await getSession();
   const website = await getWebsiteByUserId(session?.user.id!);
 
+  if(!website) {
+    throw new Error("Site não foi encontrado")
+  }
+
   const contact = await prisma.contact.findUnique({
     where: {
       id: website?.contactId ?? undefined

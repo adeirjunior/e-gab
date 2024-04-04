@@ -39,6 +39,16 @@ export const createSite = async (formData: FormData) => {
       },
     }); 
 
+    await prisma.contact.create({
+      data: {
+        website: {
+          connect: {
+            id: response.id
+          }
+        }
+      }
+    })
+
     await prisma.website.update({
       where: {
         id: response.id,

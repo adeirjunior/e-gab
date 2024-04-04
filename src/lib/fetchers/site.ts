@@ -26,20 +26,12 @@ export async function getWebsiteByUserId(userId: string) {
       include: {
         politician: {
           include: {
-            website: {
-              include: {
-                contact: true
-              }
-            },
+            website: true,
           },
         },
         admin: {
           select: {
-            website: {
-              include: {
-                contact: true
-              }
-            },
+            website: true
           }
         },
       }, 
@@ -131,7 +123,7 @@ export async function getSiteData(domain: string) {
     async () => {
       return prisma.website.findUnique({
         where: subdomain ? { subdomain } : { customDomain: domain },
-        include: { politician: true, admins: true, contact: true },
+        include: { politician: true, admins: true },
       });
     },
     [`${domain}-metadata`],
