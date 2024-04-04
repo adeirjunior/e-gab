@@ -131,7 +131,7 @@ export async function getSiteData(domain: string) {
     async () => {
       return prisma.website.findUnique({
         where: subdomain ? { subdomain } : { customDomain: domain },
-        include: { politician: true, admins: true },
+        include: { politician: true, admins: true, contact: true },
       });
     },
     [`${domain}-metadata`],
