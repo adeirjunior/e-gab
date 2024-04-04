@@ -26,12 +26,20 @@ export async function getWebsiteByUserId(userId: string) {
       include: {
         politician: {
           include: {
-            website: true,
+            website: {
+              include: {
+                contact: true
+              }
+            },
           },
         },
         admin: {
           select: {
-            website: true
+            website: {
+              include: {
+                contact: true
+              }
+            },
           }
         },
       }, 
