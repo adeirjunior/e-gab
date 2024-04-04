@@ -4,6 +4,7 @@ import Form from "@/components/form";
 import { updatePostMetadata } from "@/lib/actions/post/post.update.action";
 import DeletePostForm from "@/components/form/delete-post-form";
 import { getSession } from "@/lib/auth/get-session";
+import { getUserById } from "@/lib/fetchers/user";
 
 export default async function PostSettings({
   params,
@@ -11,29 +12,38 @@ export default async function PostSettings({
   params: { id: string };
 }) {
   const session = await getSession();
+
   if (!session) {
     redirect("/login");
   }
-  const data = await prisma.post.findUnique({
+
+  const post = await prisma.post.findUnique({
     where: {
       id: params.id,
     },
     include: {
-    user: {
-      include: {
-        admin: true
-      }
-    }
+      user: {
+        include: {
+          admin: true,
+        },
+      },
     },
   });
 
-  if (!data) {
+  const user = await getUserById(session.user.id)
+
+  if (!post) {
     notFound();
   }
 
-  if(!data.user.admin?.canEditPosts) {
-    throw new Error("Você não tem permissão para editar posts.")
+  if (!user) {
+    throw new Error("Usuário não encontrado.");
   }
+
+  if (user.role === "admin" && !user.admin?.canEditPosts) {
+    throw new Error("Você não tem permissão para editar posts.");
+  }
+
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-6">
       <div className="flex flex-col space-y-6">
@@ -47,7 +57,7 @@ export default async function PostSettings({
           inputAttrs={{
             name: "slug",
             type: "text",
-            defaultValue: data?.slug!,
+            defaultValue: post?.slug!,
             placeholder: "slug",
           }}
           handleSubmit={updatePostMetadata}
@@ -60,12 +70,12 @@ export default async function PostSettings({
           inputAttrs={{
             name: "image",
             type: "file",
-            defaultValue: data?.image!,
+            defaultValue: post?.image!,
           }}
           handleSubmit={updatePostMetadata}
         />
 
-        <DeletePostForm postName={data?.title!} />
+        <DeletePostForm postName={post?.title!} />
       </div>
     </div>
   );

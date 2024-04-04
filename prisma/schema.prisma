@@ -69,6 +69,7 @@ model Admin {
   id                         String     @id @default(cuid()) @map("_id")
   website                    Website    @relation(fields: [websiteId], references: [id])
   websiteId                  String
+  canViewContents            Boolean    @default(false)
   canViewPosts               Boolean    @default(false)
   canEditPosts               Boolean    @default(false)
   canViewLaws                Boolean    @default(false)
@@ -77,6 +78,10 @@ model Admin {
   canEditProposals           Boolean    @default(false)
   canViewPoll                Boolean    @default(false)
   canEditPoll                Boolean    @default(false)
+  canViewExpenses            Boolean    @default(false)
+  canEditExpenses            Boolean    @default(false)
+  canViewEvents              Boolean    @default(false)
+  canEditEvents              Boolean    @default(false)
   canViewSurvey              Boolean    @default(false)
   canEditSurvey              Boolean    @default(false)
   canViewMotion              Boolean    @default(false)

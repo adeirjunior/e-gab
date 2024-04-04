@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { useTransition } from "react";
 import LoadingDots from "@/components/icons/loading-dots";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   inviteToken: z.string().min(2).max(50),
@@ -26,6 +27,7 @@ const formSchema = z.object({
 export const InvitedPath1 = () => {
   const { invitedUserToken, setInvitedUserToken } = useNewUserSteps();
   const [pending, start] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,10 +41,11 @@ export const InvitedPath1 = () => {
       start(async () => {
         const data = await inviteCodeHandle(formData);
 
-        if('error' in data!) {
-toast.error(JSON.stringify(data.error!))
+        if ("error" in data!) {
+          toast.error(data.error!);
         } else {
-toast.success(data.role)
+          toast.success(data.role);
+          router.push("/");
         }
       });
     } catch (error) {}

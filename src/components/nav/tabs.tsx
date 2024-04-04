@@ -57,54 +57,87 @@ export const getTabs: (
 
     return [
       { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
-      {
-        name: "Posts",
-        href: `/${segments[0]}/posts`,
-        isActive: segments.includes("posts"),
-        icon: "Edit3",
-      },
-      {
-        name: "Leis",
-        href: `/${segments[0]}/leis`,
-        isActive: segments.includes("leis"),
-        icon: "Scale",
-      },
-      {
-        name: "Gastos",
-        href: `/${segments[0]}/gastos`,
-        isActive: segments.includes("gastos"),
-        icon: "DollarSign",
-      },
-      {
-        name: "Eventos",
-        href: `/${segments[0]}/eventos`,
-        isActive: segments.includes("eventos"),
-        icon: "CalendarDays",
-      },
-      {
-        name: "Moções",
-        href: `/${segments[0]}/mocoes`,
-        isActive: segments.includes("mocoes"),
-        icon: "ScrollText",
-      },
-      {
-        name: "Pesquisas",
-        href: `/${segments[0]}/pesquisas`,
-        isActive: segments.includes("pesquisas"),
-        icon: "ListChecks",
-      },
-      {
-        name: "Enquetes",
-        href: `/${segments[0]}/enquetes`,
-        isActive: segments.includes("enquetes"),
-        icon: "Vote",
-      },
-      {
-        name: "Propostas",
-        href: `/${segments[0]}/propostas`,
-        isActive: segments.includes("propostas"),
-        icon: "Vote",
-      },
+      ...(user.admin?.canViewPosts || user.role === "politician"
+        ? [
+            {
+              name: "Posts",
+              href: `/${segments[0]}/posts`,
+              isActive: segments.includes("posts"),
+              icon: "Edit3",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewLaws || user.role === "politician"
+        ? [
+            {
+              name: "Leis",
+              href: `/${segments[0]}/leis`,
+              isActive: segments.includes("leis"),
+              icon: "Scale",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewMotion || user.role === "politician"
+        ? [
+            {
+              name: "Moções",
+              href: `/${segments[0]}/mocoes`,
+              isActive: segments.includes("mocoes"),
+              icon: "ScrollText",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewSurvey || user.role === "politician"
+        ? [
+            {
+              name: "Pesquisas",
+              href: `/${segments[0]}/pesquisas`,
+              isActive: segments.includes("pesquisas"),
+              icon: "ListChecks",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewExpenses || user.role === "politician"
+        ? [
+            {
+              name: "Gastos",
+              href: `/${segments[0]}/gastos`,
+              isActive: segments.includes("gastos"),
+              icon: "DollarSign",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewEvents || user.role === "politician"
+        ? [
+            {
+              name: "Eventos",
+              href: `/${segments[0]}/eventos`,
+              isActive: segments.includes("eventos"),
+              icon: "CalendarDays",
+            },
+          ]
+        : []),
+
+      ...(user.admin?.canViewPoll || user.role === "politician"
+        ? [
+            {
+              name: "Enquetes",
+              href: `/${segments[0]}/enquetes`,
+              isActive: segments.includes("enquetes"),
+              icon: "Vote",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewProposals || user.role === "politician"
+        ? [
+            {
+              name: "Propostas",
+              href: `/${segments[0]}/propostas`,
+              isActive: segments.includes("propostas"),
+              icon: "Vote",
+            },
+          ]
+        : []),
     ];
   } else if (segments[0] === "usuarios") {
     if (id) {
@@ -217,13 +250,16 @@ export const getTabs: (
       isActive: segments[0] === "site",
       icon: "Globe",
     },
-    {
-      name: "Conteúdos",
-      href: `/conteudos`,
-      isActive: segments.includes("conteudos"),
-      icon: "Newspaper",
-    },
-
+    ...(user.admin?.canViewContents || user.role === "politician"
+      ? [
+          {
+            name: "Conteúdos",
+            href: `/conteudos`,
+            isActive: segments.includes("conteudos"),
+            icon: "Newspaper",
+          },
+        ]
+      : []),
     ...(user.admin?.canViewArchives || user.role === "politician"
       ? [
           {
