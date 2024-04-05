@@ -62,6 +62,7 @@ model Client {
   address   String?
   level     Int        @default(0)
   exp       Int        @default(0)
+  maxExp    Int        @default(500)
   user      User?
   chatRoom  ChatRoom[]
   birthday  DateTime?

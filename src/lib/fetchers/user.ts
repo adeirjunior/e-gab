@@ -48,7 +48,8 @@ export async function getUserById(id: string) {
       where: { id },
       include: {
         admin: true,
-        politician: true
+        politician: true,
+        client: true
       }
     });
 
