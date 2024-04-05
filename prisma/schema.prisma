@@ -56,13 +56,17 @@ enum UserRole {
 
 model Client {
   id        String     @id @default(cuid()) @map("_id")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
   cpf       String?
   tel       String?
+  cep       String?
   address   String?
+  level     Int        @default(0)
+  exp       Int        @default(0)
   user      User?
   chatRoom  ChatRoom[]
+  birthday  DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Admin {
