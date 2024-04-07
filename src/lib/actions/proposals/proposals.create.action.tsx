@@ -16,13 +16,20 @@ export const createProposal = async (proposal: FormData) => {
     };
   }
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
   const hasSub = await hasSubscription();
 
-  if (!hasSub) {
+  if (user?.role === "politician" && !hasSub) {
     return {
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
   }
+
 
   const site = await getWebsiteByUserId(session.user.id);
 

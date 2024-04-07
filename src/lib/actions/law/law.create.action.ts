@@ -8,20 +8,27 @@ import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createLaw = withSiteAuth(async (_: FormData, site: Website) => {
-  const hasSub = await hasSubscription();
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Not authenticated",
+      };
+    }
 
-  if (!hasSub) {
-    return {
-      error: `Você precisa assinar um plano para realizar este comando.`,
-    };
-  }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
 
-  const session = await getSession();
-  if (!session?.user.id) {
-    return {
-      error: "Não autentificado",
-    };
-  }
+    const hasSub = await hasSubscription();
+
+    if (user?.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
+      };
+    }
+
 
   const response = await prisma.law.create({
     data: {

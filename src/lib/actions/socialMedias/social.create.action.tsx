@@ -8,20 +8,26 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createSocial = async (social: FormData) => {
-  const hasSub = await hasSubscription();
-
-  if (!hasSub) {
-    return {
-      error: `Você precisa assinar um plano para realizar este comando.`,
-    };
-  }
-
   const session = await getSession();
   if (!session?.user.id) {
     return {
       error: "Not authenticated",
     };
   }
+
+   const user = await prisma.user.findUnique({
+     where: {
+       id: session.user.id,
+     },
+   });
+
+   const hasSub = await hasSubscription();
+
+   if (user?.role === "politician" && !hasSub) {
+     return {
+       error: `Você precisa assinar um plano para realizar este comando.`,
+     };
+   }
 
   const site = await getWebsiteByUserId(session.user.id);
 
