@@ -14,76 +14,104 @@ export default function AdminSettingGrid({
   children?: ReactNode;
 }) {
   return (
-    <Grid numItems={2} className="w-full gap-4">
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+    <div className="min-h-screen w-full space-y-6">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch name="canViewContents" defaultSelected={data.canViewContents} />}
           title="Ver Conteúdos"
-        >
+        > 
           <Grid numItems={2} className="gap-4">
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={
+                  <Switch
+                    name="canViewPosts"
+                    defaultSelected={data.canViewPosts}
+                  />
+                }
                 title="Ver Posts"
               >
-                <AdminSettingSwitch name="canEditPosts">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditPosts}
+                  name="canEditPosts"
+                >
                   Editar Posts
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewLaws} />}
                 title="Ver Leis"
               >
-                <AdminSettingSwitch name="canEditLaws">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditLaws}
+                  name="canEditLaws"
+                >
                   Editar Leis
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewProposals} />}
                 title="Ver Propostas"
               >
-                <AdminSettingSwitch name="canEditProposals">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditProposals}
+                  name="canEditProposals"
+                >
                   Editar Propostas
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewPoll} />}
                 title="Ver Enquetes"
               >
-                <AdminSettingSwitch name="canEditPoll">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditPoll}
+                  name="canEditPoll"
+                >
                   Editar Enquetes
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewSurvey} />}
                 title="Ver Pesquisas"
               >
-                <AdminSettingSwitch name="canEditSurvey">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditSurvey}
+                  name="canEditSurvey"
+                >
                   Editar Pesquisas
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewMotion} />}
                 title="Ver Moções"
               >
-                <AdminSettingSwitch name="canEditMotion">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditMotion}
+                  name="canEditMotion"
+                >
                   Editar Moções
                 </AdminSettingSwitch>
               </AccordionItem>
@@ -91,86 +119,136 @@ export default function AdminSettingGrid({
           </Grid>
         </AccordionItem>
       </Accordion>
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch defaultSelected={data.canViewExpenses} />}
           title="Ver Gastos"
         >
-          <AdminSettingSwitch name="canEditExpenses">
+          <AdminSettingSwitch
+            defaultSelected={data.canEditExpenses}
+            name="canEditExpenses"
+          >
             Editar Gastos
           </AdminSettingSwitch>
         </AccordionItem>
       </Accordion>
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch defaultSelected={data.canViewStatistics} />}
           title="Ver Estatísticas"
         >
-          <AdminSettingSwitch name="canEditStatistics">
+          <AdminSettingSwitch
+            defaultSelected={data.canEditStatistics}
+            name="canEditStatistics"
+          >
             Editar Estatísticas
           </AdminSettingSwitch>
         </AccordionItem>
       </Accordion>
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch defaultSelected={data.canViewChatRoom} />}
           title="Ver Ouvidoria"
         >
-          <AdminSettingSwitch name="canEditChatRoom">
+          <AdminSettingSwitch
+            defaultSelected={data.canEditChatRoom}
+            name="canEditChatRoom"
+          >
             Editar Ouvidoria
           </AdminSettingSwitch>
         </AccordionItem>
       </Accordion>
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch defaultSelected={data.canViewArchives} />}
           title="Ver Arquivos"
         >
-          <AdminSettingSwitch name="canEditArchives">
+          <AdminSettingSwitch
+            defaultSelected={data.canEditArchives}
+            name="canEditArchives"
+          >
             Editar Arquivos
           </AdminSettingSwitch>
         </AccordionItem>
       </Accordion>
-      <Accordion className="w-full" variant="splitted" title="Configurações">
+      <Accordion
+        defaultSelectedKeys={"all"}
+        className="w-full"
+        variant="splitted"
+        title="Configurações"
+      >
         <AccordionItem
           disableIndicatorAnimation
-          indicator={<Switch />}
+          indicator={<Switch defaultSelected={data.canViewGeralSettings} />}
           title="Ver Configurações do Site"
         >
           <Grid numItems={2} className="gap-4">
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={
+                  <Switch defaultSelected={data.canViewContactSettings} />
+                }
                 title="Ver Contatos"
               >
-                <AdminSettingSwitch name="canEditPosts">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditContactSettings}
+                  name="canEditContactSettings"
+                >
                   Editar Contatos
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={
+                  <Switch defaultSelected={data.canViewSocialMediaSettings} />
+                }
                 title="Ver Redes Sociais"
               >
-                <AdminSettingSwitch name="canEditLaws">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditSocialMediaSettings}
+                  name="canEditSocialMediaSettings"
+                >
                   Editar Redes Sociais
                 </AdminSettingSwitch>
               </AccordionItem>
             </Accordion>
-            <Accordion>
+            <Accordion defaultSelectedKeys={"all"}>
               <AccordionItem
                 disableIndicatorAnimation
-                indicator={<Switch />}
+                indicator={<Switch defaultSelected={data.canViewProposals} />}
                 title="Ver Design"
               >
-                <AdminSettingSwitch name="canEditProposals">
+                <AdminSettingSwitch
+                  defaultSelected={data.canEditProposals}
+                  name="canEditProposals"
+                >
                   Editar Design
                 </AdminSettingSwitch>
               </AccordionItem>
@@ -178,6 +256,6 @@ export default function AdminSettingGrid({
           </Grid>
         </AccordionItem>
       </Accordion>
-    </Grid>
+    </div>
   );
 }

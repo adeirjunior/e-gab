@@ -1,4 +1,4 @@
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card, Divider } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import { getAdminById } from "@/lib/fetchers/admin";
 import AdminSettingGrid from "./admin-setting-grid";
@@ -33,6 +33,7 @@ export default async function Page({ params }: PageProps) {
     <form action={handleSubmit} className="flex w-full flex-col gap-8">
       <Card className="flex w-full items-end justify-center rounded-none border-t-3 border-stone-700 bg-black p-4">
         <AdminSettingGrid data={data}><p>asdas</p></AdminSettingGrid>
+        <Divider className="border-3 my-6" />
         <Button type="submit" variant="bordered" className="border-3">
           Salvar
         </Button>
