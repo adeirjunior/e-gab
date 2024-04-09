@@ -49,7 +49,6 @@ export default function AdminSettingGrid({
 
   const handleChange = (target: EventTarget & HTMLInputElement) => {
     try {
-      toast(target.checked)
       start(async () => {
         const response = await updateOneAdminSettings(target.name, id, target.checked);
 
@@ -59,7 +58,6 @@ export default function AdminSettingGrid({
 
       });
 
-      console.log(data);
     } catch (error) {
       console.error(error);
     }

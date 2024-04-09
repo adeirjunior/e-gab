@@ -49,7 +49,7 @@ export default function UsersTable({ admins }: { admins: Admin[] }) {
       case "role":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{admin.user.role}</p>
+            <p className="text-bold text-sm">{admin.user.role}</p>
           </div>
         );
       case "email":

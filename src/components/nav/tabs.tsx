@@ -244,12 +244,17 @@ export const getTabs: (
       isActive: segments.length === 0,
       icon: "LayoutDashboard",
     },
-    {
-      name: "Site",
-      href: "/site",
-      isActive: segments[0] === "site",
-      icon: "Globe",
-    },
+    ...(user.admin?.canViewGeralSettings || user.role === "politician"
+      ? [
+          {
+            name: "Site",
+            href: "/site",
+            isActive: segments[0] === "site",
+            icon: "Globe",
+          },
+        ]
+      : []),
+
     ...(user.admin?.canViewContents || user.role === "politician"
       ? [
           {

@@ -6,6 +6,7 @@ import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { Metadata } from "next";
 import { createPost } from "@/lib/actions/post/post.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
+import { getUserById } from "@/lib/fetchers/user";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -18,8 +19,16 @@ export default async function SitePosts() {
   }
   const data = await getWebsiteByUserId(session.user.id);
 
+  const user = await getUserById(session.user.id);
+
+  if (user.admin) {
+    if (user.admin.canViewPosts === false) {
+      redirect("/");
+    }
+  }
+
   if (!data) {
-    throw new Error("Dados não encontrados.")
+    throw new Error("Dados não encontrados.");
   }
 
   return (
