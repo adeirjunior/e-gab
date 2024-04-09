@@ -4,21 +4,12 @@ import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import { Card, Link } from "@nextui-org/react";
 
 interface LawCardProps {
-  data: Pick<
-    Law,
-    | "slug"
-    | "image"
-    | "imageBlurhash"
-    | "title"
-    | "description"
-    | "createdAt"
-    | "id"
-  >;
+  data: Law,
 }
 
 export default function LawCard({ data }: LawCardProps) {
   return (
-    <Card as={Link} isPressable href={`leis/${data.id}`}>
+    <Card as={Link} isPressable href={`leis/${data.slug}`}>
       <div className="ease overflow-hidden rounded-2xl border-2 border-stone-100 bg-white shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl dark:border-stone-800 xl:flex">
         <BlurImage
           src={data.image!}
