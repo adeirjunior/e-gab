@@ -91,6 +91,102 @@ export default function AdminSettingGrid({
       >
         Ver Ouvidoria
       </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewPosts"
+        defaultSelected={data.canViewPosts}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Posts
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewLaws"
+        defaultSelected={data.canViewLaws}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Leis
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewProposals"
+        defaultSelected={data.canViewLaws}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Propostas
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewPoll"
+        defaultSelected={data.canViewPoll}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Enquetes
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewSurvey"
+        defaultSelected={data.canViewPoll}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Pesquisas
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewMotion"
+        defaultSelected={data.canViewPoll}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Moções
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewExpenses"
+        defaultSelected={data.canViewExpenses}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Gastos
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewArchives"
+        defaultSelected={data.canViewArchives}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Arquivos
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewGeralSettings"
+        defaultSelected={data.canViewGeralSettings}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Configurações Gerais
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewContactSettings"
+        defaultSelected={data.canViewContactSettings}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Configurações de Contato
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewSocialMediaSettings"
+        defaultSelected={data.canViewSocialMediaSettings}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Configurações de Rede Social
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
+        name="canViewDesignSettings"
+        defaultSelected={data.canViewDesignSettings}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Configurações de Aparência
+      </AdminSettingSwitch>
     </Grid>
   );
 }
