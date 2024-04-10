@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
 import { Metadata } from "next";
-import FavoritesList from "@/app/app/(dashboard)/arquivos/favoritos/favorites-list";
+import GalleryList from "@/components/arquives/gallery-list";
 
 export const metadata: Metadata = {
   title: "Bibliografia",
@@ -46,7 +46,7 @@ export default async function FavoritesPage({
           <h1 className="text-4xl font-bold">Galeria</h1>
         </div>
 
-        <FavoritesList initialResources={results.resources} />
+        <GalleryList initialResources={results.resources} />
       </div>
     </section>
   );

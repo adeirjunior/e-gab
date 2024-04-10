@@ -1,5 +1,5 @@
 import { ForceRefresh } from "@/components/force-refresh";
-import FavoritesList from "./favorites-list";
+import FavoritesList from "../../../../../components/arquives/favorites-list";
 import cloudinary from "@/lib/configs/cloudinary";
 import { SearchResult } from "@/lib/types/types";
 import { getSession } from "@/lib/auth/get-session";
