@@ -3,6 +3,7 @@ import { getCurrentDomain, placeholderBlurhash } from "@/lib/utils";
 import { Post, Website } from "@prisma/client";
 import Link from "next/link";
 import DomainLinkTag from "../domain-link-tag";
+import { Card } from "@nextui-org/react";
 
 export default function PostCard({
   data,
@@ -10,7 +11,7 @@ export default function PostCard({
   data: Post & { website: Website | null };
 }) {
   return (
-    <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
+    <Card isPressable className="relative rounded-lg border-3 border-stone-200 pb-10 shadow-md transition-all dark:bg-black hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link
         href={`/conteudos/posts/${data.id}`}
         className="flex flex-col overflow-hidden rounded-lg"
@@ -46,6 +47,6 @@ export default function PostCard({
           path={`/posts/${data.slug}`}
         />
       </div>
-    </div>
+    </Card>
   );
 }
