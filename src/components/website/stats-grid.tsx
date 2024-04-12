@@ -9,7 +9,7 @@ export default async function StatsGrid({ websiteId }: { websiteId: string }) {
   });
 
   return (
-    <section className="bg-white">
+    <section>
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <SectionHeadingTitles
           id="resumo"

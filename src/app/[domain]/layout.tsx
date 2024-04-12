@@ -94,7 +94,7 @@ export default async function SiteLayout({
       <div className={fontMapper[data.font]}>
         <Header data={data} />
 
-        <div className="sm:container mt-16">{children}</div>
+        <div className="bg-gradient-to-br from-[#90CAFF] to-white">{children}</div>
 
         <Footer data={data} socials={socials} />
       </div>

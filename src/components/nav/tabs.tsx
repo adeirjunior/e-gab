@@ -53,6 +53,46 @@ export const getTabs: (
           icon: "Settings",
         },
       ];
+    } else if (segments[1] === "mocoes" && id) {
+      return [
+        {
+          name: "Voltar para moções",
+          href: `/conteudos/mocoes`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/mocoes/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/mocoes/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
+    } else if (segments[1] === "leis" && id) {
+      return [
+        {
+          name: "Voltar para indicações legislativas",
+          href: `/conteudos/indicacoes-legislativas`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/indicacoes-legislativas/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/indicacoes-legislativas/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
     }
 
     return [

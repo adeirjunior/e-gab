@@ -27,8 +27,8 @@ const config = {
     },
     extend: {
       colors: {
-        //demo page style
         heroGradient: "#DCE6FF",
+        "blue-theme": "#3B5DD9",
 
         // light mode
         tremor: {

@@ -16,11 +16,6 @@ export default async function FavoritesPage({
 }: {
   params: { domain: string };
 }) {
-  const session = await getSession();
-
-  if (!session) {
-    redirect("/login");
-  }
 
   const subdomain = params.domain.endsWith(
     `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,

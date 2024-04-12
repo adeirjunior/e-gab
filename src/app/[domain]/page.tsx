@@ -9,7 +9,6 @@ import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
 import PostCard from "@/components/website/post-card";
 import { Grid, Text, Title } from "@tremor/react";
-import CarouselWebsite from "@/components/modal/carousel";
 import { CalendarDemo } from "@/components/website/calendar-demo";
 import {
   Card,
@@ -68,11 +67,8 @@ export default async function SiteHomePage({
 
   return (
     <>
-      <PoliticianBanner
-        name={politician.user.name!}
-        src={data.politicianPhoto}
-      />
-      <div className="mb-20 mt-[400px] w-full space-y-6">
+      <PoliticianBanner website={data} politician={politician} />
+      <div className="mb-20 w-full space-y-6">
         <StatsGrid websiteId={data.id} />
         {posts.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
@@ -97,7 +93,7 @@ export default async function SiteHomePage({
               height={400}
               className="hidden dark:block"
             />
-            <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
+            <p className="font-title text-stone-600 dark:text-stone-400 text-2xl">
               Sem posts ainda.
             </p>
           </div>
@@ -155,9 +151,6 @@ export default async function SiteHomePage({
         </Card>
       </Grid>
       <Divider className="my-4" />
-      <section>
-        <CarouselWebsite />
-      </section>
     </>
   );
 }

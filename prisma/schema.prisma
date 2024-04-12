@@ -272,6 +272,8 @@ model Website {
   cloudinaryDir    String
   description      String?
   myHistory        String?
+  heroTitle        String?
+  heroDescription  String?
   theme            WebsiteThemeType   @default(blue)
   politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
   logo             String             @default("E-Gab/Websites/default_logo")
