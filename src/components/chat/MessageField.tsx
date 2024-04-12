@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Card, Input } from "@nextui-org/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface MessageFieldProps {
   roomId: string;
@@ -9,6 +9,8 @@ interface MessageFieldProps {
 }
 
 const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
+  const [inputText, setInputText] = useState<string>("")
+
   const sendMessage = async (formData: FormData) => {
     const text = formData.get("message") as string;
 
@@ -16,6 +18,7 @@ const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
      method: "POST",
      body: JSON.stringify({ text, roomId, userId }),
    });
+   setInputText("")
   };
 
   return (
@@ -26,6 +29,9 @@ const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
           radius="full"
           placeholder="Escreva sua mensagem"
           type="text"
+          onValueChange={setInputText}
+          value={inputText}
+          autoComplete="off"
         />
         <Button type="submit">Enviar</Button>
       </Card>
