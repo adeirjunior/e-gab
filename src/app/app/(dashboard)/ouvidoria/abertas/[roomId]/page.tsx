@@ -7,6 +7,7 @@ import { AcceptedChatRoomRequest, ChatRoom, User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 import ActionsDropDown from "./actions-dropdown";
+import WhatsAppButton from "@/components/button/whatsapp-button";
 
 interface PageProps {
   params: {
@@ -66,17 +67,20 @@ const page = async ({ params }: PageProps) => {
   });
 
   return (
-    <Card className="flex max-h-screen flex-col justify-between bg-transparent">
+    <Card className="flex h-screen max-h-screen flex-1 flex-col justify-between bg-transparent">
       <CardHeader>
-        <Card className="flex w-full flex-row items-center justify-between px-4 py-6">
+        <Card className="flex w-full flex-col items-center justify-between space-y-6 px-4 py-6 sm:flex-row">
           <Card>
             <Title className="m-0 p-0 dark:text-gray-300">
-            {data?.client.user?.name || data?.client.user?.email}:
-          </Title>
-          <Title>{data.title}</Title>
+              {data?.client.user?.name || data?.client.user?.email}:
+            </Title>
+            <Title>{data.title}</Title>
           </Card>
-          
-          <ActionsDropDown chatRoom={data} />
+
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <WhatsAppButton phoneNumber={data.tel} />
+            <ActionsDropDown chatRoom={data} />
+          </div>
         </Card>
       </CardHeader>
       <CardBody>
