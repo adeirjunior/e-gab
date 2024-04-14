@@ -1,13 +1,14 @@
 import MessageField from "@/components/chat/MessageField";
 import Messages from "@/components/chat/Messages";
 import { getSession } from "@/lib/auth/get-session";
-import prisma from "@/lib/configs/prisma";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 import ActionsDropDown from "./actions-dropdown";
 import WhatsAppButton from "@/components/button/whatsapp-button";
+import { getRoomById } from "@/lib/fetchers/room";
+import { getAllMessagesFromRoomId } from "@/lib/fetchers/message";
 
 interface PageProps {
   params: {
@@ -23,29 +24,7 @@ const page = async ({ params }: PageProps) => {
     return redirect("/");
   }
 
-  const data = (await prisma.chatRoom.findUnique({
-    where: {
-      id: roomId,
-    },
-    include: {
-      client: {
-        include: {
-          user: true,
-        },
-      },
-      politician: {
-        include: {
-          user: true,
-        },
-      },
-      admin: {
-        include: {
-          user: true,
-        },
-      },
-      acceptedRequest: true,
-    },
-  }));
+  const data = await getRoomById(roomId)
 
   if (!data || !data.politician?.user) {
     notFound();
@@ -57,14 +36,7 @@ const page = async ({ params }: PageProps) => {
    notFound();
  }
 
-  const existingMessages = await prisma.message.findMany({
-    where: {
-      chatRoomId: roomId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const existingMessages = await getAllMessagesFromRoomId(roomId);
 
   return (
     <Card className="flex h-screen max-h-screen flex-1 flex-col justify-between bg-transparent">
@@ -92,7 +64,7 @@ const page = async ({ params }: PageProps) => {
         />
       </CardBody>
       <CardFooter>
-        <MessageField userId={session.user.id} roomId={roomId} />
+        <MessageField session={session} roomId={roomId} />
       </CardFooter>
     </Card>
   );

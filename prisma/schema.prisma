@@ -267,42 +267,44 @@ model Post {
 }
 
 model Website {
-  id               String             @id @default(cuid()) @map("_id")
-  name             String
-  cloudinaryDir    String
-  description      String?
-  myHistory        String?
-  heroTitle        String?
-  heroDescription  String?
-  theme            WebsiteThemeType   @default(blue)
-  politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
-  logo             String             @default("E-Gab/Websites/default_logo")
-  font             String             @default("font-cal")
-  image            String             @default("E-Gab/Websites/default_image")
-  imageBlurhash    String             @default("E-Gab/Websites/default_post_image")
-  message404       String             @default("Parabéns! Você encontrou uma página que não existe.")
-  politicianId     String             @unique
-  contactId        String?            @unique
-  subdomain        String             @unique
-  customDomain     String?            @unique
-  contact          Contact?           @relation(fields: [contactId], references: [id])
-  laws             Law[]
-  events           Event[]
-  polls            Poll[]
-  surveys          Survey[]
-  proposals        Proposal[]
-  news             News[]
-  expenditures     Expenditure[]
-  posts            Post[]
-  donations        Donation[]
-  chatRoom         ChatRoom[]
-  socialMedia      SocialMedia[]
-  politicalProject PoliticalProject[]
-  politician       Politician         @relation(fields: [politicianId], references: [id])
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  userInvite       UserInvite[]
-  admins           Admin[]
+  id                    String                  @id @default(cuid()) @map("_id")
+  name                  String
+  cloudinaryDir         String
+  description           String?
+  myHistory             String?
+  heroTitle             String?
+  heroDescription       String?
+  theme                 WebsiteThemeType        @default(blue)
+  politicianPhoto       String                  @default("E-Gab/Websites/default_politician_photo")
+  logo                  String                  @default("E-Gab/Websites/default_logo")
+  font                  String                  @default("font-cal")
+  image                 String                  @default("E-Gab/Websites/default_image")
+  imageBlurhash         String                  @default("E-Gab/Websites/default_post_image")
+  message404            String                  @default("Parabéns! Você encontrou uma página que não existe.")
+  politicianId          String                  @unique
+  contactId             String?                 @unique
+  subdomain             String                  @unique
+  customDomain          String?                 @unique
+  contact               Contact?                @relation(fields: [contactId], references: [id])
+  laws                  Law[]
+  events                Event[]
+  polls                 Poll[]
+  surveys               Survey[]
+  proposals             Proposal[]
+  news                  News[]
+  expenditures          Expenditure[]
+  posts                 Post[]
+  donations             Donation[]
+  chatRoom              ChatRoom[]
+  socialMedia           SocialMedia[]
+  politicalProject      PoliticalProject[]
+  politicianMotion      PoliticianMotion[]
+  legislativeIndication LegislativeIndication[]
+  politician            Politician              @relation(fields: [politicianId], references: [id])
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  userInvite            UserInvite[]
+  admins                Admin[]
 }
 
 enum WebsiteThemeType {
@@ -324,6 +326,8 @@ model PoliticianMotion {
   status       MotionStatus
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  website      Website?     @relation(fields: [websiteId], references: [id])
+  websiteId    String?
 }
 
 enum MotionStatus {
@@ -342,6 +346,8 @@ model LegislativeIndication {
   status         IndicationStatus
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  Website        Website?         @relation(fields: [websiteId], references: [id])
+  websiteId      String?
 }
 
 enum IndicationStatus {

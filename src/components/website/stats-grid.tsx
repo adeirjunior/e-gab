@@ -8,6 +8,18 @@ export default async function StatsGrid({ websiteId }: { websiteId: string }) {
     },
   });
 
+  const motionCount = await prisma.politicianMotion.count({
+    where: {
+      websiteId,
+    },
+  });
+
+const legislativeIndication = await prisma.legislativeIndication.count({
+  where: {
+    websiteId,
+  },
+});
+
   return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
@@ -36,7 +48,7 @@ export default async function StatsGrid({ websiteId }: { websiteId: string }) {
               </dt>
 
               <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                24
+                {legislativeIndication}
               </dd>
             </div>
 
@@ -46,7 +58,7 @@ export default async function StatsGrid({ websiteId }: { websiteId: string }) {
               </dt>
 
               <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                86
+                {motionCount}
               </dd>
             </div>
           </dl>

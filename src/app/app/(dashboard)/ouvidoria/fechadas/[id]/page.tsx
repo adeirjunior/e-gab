@@ -3,7 +3,7 @@ import Messages from "@/components/chat/Messages";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
-import { AcceptedChatRoomRequest, ChatRoom, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 import ActionsDropDown from "../../abertas/[roomId]/actions-dropdown";
@@ -89,7 +89,7 @@ const page = async ({ params }: PageProps) => {
         />
       </CardBody>
       <CardFooter>
-        <MessageField userId={session.user.id} roomId={id} />
+        <MessageField session={session} roomId={id} />
       </CardFooter>
     </Card>
   );

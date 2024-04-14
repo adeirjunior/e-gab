@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
 import { useRouter } from "next/navigation";
+import { getUserByEmail } from "@/lib/fetchers/user";
 
 export default function LoginForm() {
   const [isPendingUserLogin, startUserLogin] = useTransition();
@@ -23,16 +24,22 @@ export default function LoginForm() {
 
     try {
       startUserLogin(async () => {
-        await signIn("credentials", { email, password, redirect: false });
-        const session = await getSession();
+        const isThereUser = await getUserByEmail(email as string);
 
-        console.log(session);
+        if (isThereUser.role === "politician") {
+          await signIn("credentials", { email, password, redirect: false });
+          const session = await getSession();
 
-        if (!session) {
-          toast.error("Esta conta não existe.");
+          console.log(session);
+
+          if (!session) {
+            toast.error("Esta conta não existe.");
+          } else {
+            toast.success("Login feito com sucesso.");
+            router.push("/");
+          }
         } else {
-          toast.success("Login feito com sucesso.");
-          router.push("/");
+          toast.error("Esta conta não existe.");
         }
       });
     } catch (error: any) {

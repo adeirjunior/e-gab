@@ -1,22 +1,27 @@
 "use client"
 
-import { Button, Card, Input } from "@nextui-org/react";
+import { Button, Card, Input, useDisclosure } from "@nextui-org/react";
+import { ImageIcon } from "lucide-react";
 import { FC, useState } from "react";
+import FilesModal from "../modal/files-modal";
+import { userSession } from "@/lib/auth/get-session";
 
 interface MessageFieldProps {
   roomId: string;
-  userId: string;
+  session: userSession;
 }
 
-const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
+const  MessageField: FC<MessageFieldProps> = ({ roomId, session }) => {
   const [inputText, setInputText] = useState<string>("")
+  const [file, setFile] = useState<string>("")
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const sendMessage = async (formData: FormData) => {
     const text = formData.get("message") as string;
 
    await fetch("/api/message", {
      method: "POST",
-     body: JSON.stringify({ text, roomId, userId }),
+     body: JSON.stringify({ text, roomId, userId: session.user.id }),
    });
    setInputText("")
   };
@@ -33,6 +38,9 @@ const MessageField: FC<MessageFieldProps> = ({ roomId, userId }) => {
           value={inputText}
           autoComplete="off"
         />
+        <Button isIconOnly onPress={onOpen} radius="full">
+          <ImageIcon />
+        </Button>
         <Button type="submit">Enviar</Button>
       </Card>
     </form>
