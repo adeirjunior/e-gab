@@ -67,8 +67,8 @@ export default function CreateProposalForm() {
 
         const prosposal = await getProposalByType(type);
 
-        if(prosposal) {
-          await updateProposal(data).then((res: any) => {
+        if('error' in prosposal) {
+          await createProposal(data).then((res: any) => {
             if (res.error) {
               toast.error(res.error);
             } else {
@@ -78,15 +78,15 @@ export default function CreateProposalForm() {
             }
           });
         } else {
-          await createProposal(data).then((res: any) => {
-          if (res.error) {
-            toast.error(res.error);
-          } else {
-            router.refresh();
-            setProposalExist(true);
-            toast.success(`Proposta salva com sucesso!`);
-          }
-        })
+          await updateProposal(data).then((res: any) => {
+            if (res.error) {
+              toast.error(res.error);
+            } else {
+              router.refresh();
+              setProposalExist(true);
+              toast.success(`Proposta salva com sucesso!`);
+            }
+          });
         }
         }
       }
