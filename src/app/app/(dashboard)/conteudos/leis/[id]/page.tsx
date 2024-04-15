@@ -3,7 +3,7 @@ import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
 import LawEditor from "@/components/editor/law-editor";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function page({ params }: { params: { id: string } }) {
   const session = await getSession();
   if (!session) {
     redirect("/login");

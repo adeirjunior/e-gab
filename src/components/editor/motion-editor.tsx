@@ -2,11 +2,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { Law } from "@prisma/client";
-import {
-  updateLaw,
-  updateLawMetadata,
-} from "@/lib/actions/law/law.update.action";
+import { PoliticianMotion } from "@prisma/client";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
@@ -15,24 +11,25 @@ import { toast } from "sonner";
 import { Button } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
+import { updateMotion, updateMotionMetadata } from "@/lib/actions/motion/motion.update.action";
 import Link from "next/link";
 
-export type LawWithSite = Law & {
+export type MotionWithSite = PoliticianMotion & {
   website: { subdomain: string | null };
 };
 
-export default function LawEditor({ law }: { law: LawWithSite }) {
+export default function MotionEditor({ motion }: { motion: MotionWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
   const [isPendingPublishing, startTransitionPublishing] = useTransition();
-  const [data, setData] = useState<LawWithSite>(law);
+  const [data, setData] = useState<MotionWithSite>(motion);
   const debouncedData = useDebounce(data, 750);
 
-  const url = getCurrentDomain(data.website?.subdomain!, `/leis/${data.slug}`);
+  const url = getCurrentDomain(data.website?.subdomain!, `/mocoes/${data.slug}`);
 
   const isSync =
-    data.title === law.title &&
-    data.description === law.description &&
-    data.content === law.content;
+    data.title === motion.title &&
+    data.description === motion.description &&
+    data.content === motion.content;
 
   useEffect(() => {
     if (isSync) {
@@ -40,7 +37,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
     }
 
     startTransitionSaving(async () => {
-      const response = await updateLaw(data);
+      const response = await updateMotion(data);
 
       if ("error" in response) {
         toast.error(response.error);
@@ -56,9 +53,9 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         if (!data.title || !data.description || !data.content) {
           toast.error("Impossível publicar sem conteúdo.");
         } else {
-          const response = await updateLawMetadata(
+          const response = await updateMotionMetadata(
             formData,
-            law.id,
+            motion.id,
             "published",
           );
 
@@ -67,7 +64,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
           } else {
             setData((prev) => ({ ...prev, published: !prev.published }));
             toast.success(
-              `Seu law foi ${
+              `Seu motion foi ${
                 data.published ? "despublicado" : "publicado"
               } com sucesso.`,
             );
@@ -75,7 +72,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         }
       } catch (error) {
         console.error("Erro ao atualizar metadata:", error);
-        toast.error("Erro ao atualizar metadata do law");
+        toast.error("Erro ao atualizar metadata das moções");
       }
     });
   };
@@ -128,21 +125,21 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         <input
           type="text"
           placeholder="Título"
-          defaultValue={law.title || ""}
+          defaultValue={motion.title || ""}
           autoFocus
           onChange={(e) => setData({ ...data, title: e.target.value })}
           className="dark:placeholder-text-600 font-cal border-none px-0 text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <TextareaAutosize
           placeholder="Descrição"
-          defaultValue={law.description || ""}
+          defaultValue={motion.description || ""}
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <NovelEditor
           className="relative block"
           disableLocalStorage
-          defaultValue={law.content || undefined}
+          defaultValue={motion.content || undefined}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,
