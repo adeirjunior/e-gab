@@ -114,17 +114,22 @@ export default async function SiteHomePage({
       </section>
 
       {proposals.length > 0 && (
-        <section id="propostas" className="space-y-6 my-6 px-6">
+        <section id="propostas" className="space-y-10 my-6 px-6">
           <SectionHeadingTitles
             id="propostas"
             subtitle="Meus objetivos"
             title="Quais são as principais areas que quero impulsionar"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+            description="Uma explicação resumida."
           />
-          {proposals.length >= 1 &&
+          <div className="flex flex-col items-center">
+            <div className="space-y-6">
+               {proposals.length >= 1 &&
             proposals.map((proposal, index) => (
               <ProposalSection key={index} proposal={proposal} />
             ))}
+            </div>
+          </div>
+         
         </section>
       )}
       <section>
@@ -132,7 +137,7 @@ export default async function SiteHomePage({
           id="calendario"
           subtitle="Eventos próximos"
           title="Fique atento aos próximos eventos"
-          description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+          description="Selecione a data que deseja e veja os eventos eventos agendados no dia."
         />
         <CalendarDemo />
       </section>

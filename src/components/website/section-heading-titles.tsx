@@ -12,7 +12,7 @@ export default function SectionHeadingTitles({
   description,
 }: Props) {
   return (
-    <div className="mx-auto max-w-3xl text-center">
+    <div className="mx-auto max-w-3xl text-center my-4">
       <span className="text-sm font-bold text-[#3B5DD9] sm:text-xl">
         {subtitle}
       </span>
