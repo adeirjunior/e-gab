@@ -31,6 +31,7 @@ import { AtSign, Instagram, Youtube } from "lucide-react";
 import Facebook from "../website/svg/facebook.svg";
 import Twitter from "../website/svg/twitter.svg";
 import Tiktok from "../website/svg/tiktok.svg";
+import { updateSocial } from "@/lib/actions/socialMedias/social.update.action";
 
 export default function CreateSocialForm() {
   const [isPending, start] = useTransition();
@@ -65,24 +66,42 @@ export default function CreateSocialForm() {
 
   return (
     <form
-      action={async (data: FormData) =>
-        await createSocial(data).then((res: any) => {
+      action={async (data: FormData) =>{
+        const type = data.get("type") as SocialMediaTypes;
+
+        const social = await getSocialByType(type);
+
+        if('error' in social) {
+          await createSocial(data).then((res: any) => {
           if (res.error) {
             toast.error(res.error);
           } else {
             router.refresh();
             setSocialExist(true);
-            toast.success(`Proposta salva com sucesso!`);
+            toast.success(`Rede salva com sucesso!`);
           }
         })
+        } else {
+          await updateSocial(data).then((res: any) => {
+            if (res.error) {
+              toast.error(res.error);
+            } else {
+              router.refresh();
+              setSocialExist(true);
+              toast.success(`Rede salva com sucesso!`);
+            }
+          });
+        }}
+        
       }
       className="space-y-4"
     >
       <div className="flex flex-row gap-4">
         <Input
-          name="socialMediaName"
+          name="socialMediaUsername"
           variant="bordered"
           radius="md"
+          value={textareaValue}
           isRequired
           label="Nome de usuário"
           placeholder="@nomedeusuario"
@@ -94,7 +113,7 @@ export default function CreateSocialForm() {
         />
         <Select
           className="max-w-xs"
-          name="socialMedia"
+          name="type"
           label="Rede Social"
           selectedKeys={value}
           onSelectionChange={setValue as any}

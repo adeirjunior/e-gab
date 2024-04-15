@@ -37,8 +37,8 @@ export const createSocial = async (social: FormData) => {
     };
   }
 
-  const type = social.get("socialMedia") as SocialMediaTypes;
-  const handle = social.get("socialMediaName") as string;
+  const type = social.get("type") as SocialMediaTypes;
+  const handle = social.get("socialMediaUsername") as string;
 
   if (!type || !handle) {
     return {
