@@ -15,11 +15,12 @@ export default function LawCard({ data }: LawCardProps) {
           alt={data.title ?? "Blog Post"}
           width={300}
           height={100}
-          className="object-cover"
+          
+          className="object-cover w-full"
           placeholder="blur"
           blurDataURL={data.imageBlurhash ?? placeholderBlurhash}
         />
-        <div className="h-full border-t border-stone-200 px-5 py-8 dark:border-stone-700 dark:bg-black">
+        <div className="h-full border-t w-full border-stone-200 px-5 py-8 dark:border-stone-700 dark:bg-black">
           <h3 className="font-title text-xl tracking-wide dark:text-white">
             {data.title}
           </h3>

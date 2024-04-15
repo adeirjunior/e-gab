@@ -89,6 +89,7 @@ export async function getPostsForSite(domain: string) {
           published: true,
         },
         select: {
+          id: true,
           title: true,
           description: true,
           slug: true,

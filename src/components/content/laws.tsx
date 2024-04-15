@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import LawCard from "../card/law-card";
 import Image from "next/image";
+import { Grid } from "@tremor/react";
 
 export type contentArray = {
   siteId?: string;
@@ -28,11 +29,11 @@ export default async function Laws({ siteId, limit }: contentArray) {
   });
 
   return laws.length > 0 ? (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-1">
+    <Grid numItemsMd={2} numItemsLg={3} className="gap-4 w-full">
       {laws.map((law) => (
         <LawCard key={law.id} data={law} />
       ))}
-    </div>
+    </Grid>
   ) : (
     <div className="flex flex-col items-center space-x-4">
       <h1 className="font-cal text-4xl">Sem laws Ainda</h1>

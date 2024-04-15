@@ -133,3 +133,27 @@ export async function getSiteData(domain: string) {
     },
   )();
 }
+
+export async function getAllWebsites() {
+  try {
+    const websites = await prisma.website.findMany({
+      include: {
+        laws: true,
+        posts: true,
+        chatRoom: true,
+      }
+    });
+
+    if (!websites) {
+      console.log("Websites não encontrados.");
+      return null;
+    }
+
+    return websites;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
