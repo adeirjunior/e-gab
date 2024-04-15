@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
   const [laws] = await Promise.all([getLawsForSite(domain)]);
 
   return (
-    <div>
+    <section>
       {laws.length > 0 ? (
         <Grid
           numItems={1}
@@ -50,6 +50,6 @@ export default async function Page({ params }: { params: { domain: string } }) {
           </p>
         </div>
       )}
-    </div>
+    </section>
   );
 }

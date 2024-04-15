@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bibliografia",
+  title: "Indicações Legislativas",
 };
 
 export default function page() {

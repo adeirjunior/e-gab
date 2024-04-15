@@ -25,7 +25,7 @@ export default async function FavoritesPage({
   const results = await getGalleryImagesWithTags(subdomain!, ["favorite"]);
 
   return (
-    <section className="min-h-screen">
+    <section>
       <ForceRefresh />
 
       <div className="flex flex-col gap-8">

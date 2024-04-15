@@ -21,10 +21,10 @@ export default async function SiteContactPage({
   });
 
   return (
-    <div className="mb-20 w-full">
+    <section>
       <h1>Contato</h1>
       <p>{contact?.email}</p>
       <p>{contact?.phone}</p>
-    </div>
+    </section>
   );
 }

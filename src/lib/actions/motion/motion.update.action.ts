@@ -54,7 +54,7 @@ export const updateMotion = async (motion: PoliticianMotion) => {
   }
 
   try {
-    const response = await prisma.law.update({
+    const response = await prisma.politicianMotion.update({
       where: {
         id: data.id,
       },
@@ -101,8 +101,6 @@ export const updateMotionMetadata = withMotionAuth(
       if (key === "image") {
         const file = formData.get("image") as File;
         const filename = `${nanoid()}.${file.type.split("/")[1]}`;
-
-        
 
         const blurhash = await getBlurDataURL("");
 
