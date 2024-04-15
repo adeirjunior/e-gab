@@ -114,7 +114,7 @@ export default async function SiteHomePage({
       </section>
 
       {proposals.length > 0 && (
-        <section className="space-y-6 my-6 px-6">
+        <section id="propostas" className="space-y-6 my-6 px-6">
           <SectionHeadingTitles
             id="propostas"
             subtitle="Meus objetivos"
