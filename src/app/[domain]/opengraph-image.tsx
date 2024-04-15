@@ -1,5 +1,5 @@
+import CldImage from "@/components/demo/cloudinary-image";
 import { getWebsiteBySubdomain } from "@/lib/fetchers/site";
-import { CldImage } from "next-cloudinary";
 import { ImageResponse } from "next/og";
 
 // Route segment config
@@ -52,14 +52,12 @@ export default async function Image({
     );
   }
 
-  return new ImageResponse(
-    (
+  return (
       <CldImage
         width={size.width}
         height={size.height}
         alt={alt}
         src={website!.image}
       />
-    ),
-  );
+  )   
 }
