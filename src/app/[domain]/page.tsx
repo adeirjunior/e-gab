@@ -22,6 +22,7 @@ import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
 import PoliticianBanner from "@/components/website/politician-banner";
 import { getPoliticianDataByDomain } from "@/lib/fetchers/politician";
+import { ArrowRight } from "lucide-react";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -68,10 +69,19 @@ export default async function SiteHomePage({
   return (
     <>
       <PoliticianBanner website={data} politician={politician} />
-      <div className="mb-20 w-full space-y-6">
-        <StatsGrid websiteId={data.id} />
+      <StatsGrid websiteId={data.id} />
+
+      <section className="max-w-[1320px] w-full mx-auto space-y-6 px-6">
+        <h2 className=" text-xl font-semibold text-primary-500">
+          Posts recentes
+        </h2>
         {posts.length > 0 ? (
-          <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
+          <Grid
+            numItems={1}
+            numItemsSm={2}
+            numItemsLg={3}
+            className="mx-auto gap-4 "
+          >
             {" "}
             {posts.map((post, index) => (
               <PostCard key={index} post={post} />
@@ -93,15 +103,18 @@ export default async function SiteHomePage({
               height={400}
               className="hidden dark:block"
             />
-            <p className="font-title text-stone-600 dark:text-stone-400 text-2xl">
+            <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
               Sem posts ainda.
             </p>
           </div>
         )}
-      </div>
+        <Link className="float-right" showAnchorIcon anchorIcon={<ArrowRight />} href="/posts">
+          Todos os posts
+        </Link>
+      </section>
 
       {proposals.length > 0 && (
-        <section>
+        <section className="space-y-6 my-6 px-6">
           <SectionHeadingTitles
             id="propostas"
             subtitle="Meus objetivos"

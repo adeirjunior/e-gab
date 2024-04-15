@@ -94,7 +94,7 @@ export default async function SiteLayout({
       <div className={fontMapper[data.font]}>
         <Header data={data} />
 
-        <div className="min-h-screen space-y-6">{children}</div>
+        <div className="min-h-screen flex flex-col gap-8">{children}</div>
 
         <Footer data={data} socials={socials} />
       </div>
