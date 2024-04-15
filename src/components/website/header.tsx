@@ -43,11 +43,10 @@ export default function Header({ data }: { data: Website }) {
 
   return (
     <>
-      <div className="h-20 w-2"></div>
       <Navbar
         position="static"
         onMenuOpenChange={setIsMenuOpen}
-        className="absolute left-0 top-0 z-40 bg-white"
+        className="bg-white"
       >
         <NavbarContent>
           <NavbarBrand>
