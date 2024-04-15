@@ -23,6 +23,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...websites.map((site) => ({
       url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
       lastModified: site.updatedAt,
+      priority: 1
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/contato`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/leis`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/ouvidoria`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/agenda`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/galeria`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/mocoes`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/bibliografia`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/projetos`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/enquetes`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/pesquisas`,
     })),
     ...landindPaths,
     ...docPaths,
