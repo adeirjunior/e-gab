@@ -95,6 +95,7 @@ export async function getPostsForSite(domain: string) {
           image: true,
           imageBlurhash: true,
           createdAt: true,
+          updatedAt: true
         },
         orderBy: [
           {
