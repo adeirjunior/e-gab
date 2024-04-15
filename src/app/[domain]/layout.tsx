@@ -7,6 +7,7 @@ import { NextThemeProvider } from "@/app/next-themes-provider";
 import Header from "@/components/website/header";
 import Footer from "@/components/website/footer";
 import prisma from "@/lib/configs/prisma";
+import cloudinary from "@/lib/configs/cloudinary";
 
 export async function generateMetadata({
   params,
@@ -36,16 +37,16 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: [image],
+      images: [cloudinary.v2.url(image)],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [cloudinary.v2.url(image)],
       creator: "@vercel",
     },
-    icons: [logo],
+    icons: [cloudinary.v2.url(logo)],
     metadataBase: new URL(`https://${domain}`),
     // Optional: Set canonical URL to custom domain if it exists
     // ...(params.domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
