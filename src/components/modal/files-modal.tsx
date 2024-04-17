@@ -1,38 +1,35 @@
-import { userSession } from "@/lib/auth/get-session";
-import { getGalleryImages } from "@/lib/fetchers/image";
-import { getWebsiteByUserId } from "@/lib/fetchers/site";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import GalleryList from "../arquives/gallery-list";
+"use client"
+
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { SearchResult } from "@/lib/types/types";
+import SelectArchiveList from "../arquives/select-archive-list";
+import { Dispatch, SetStateAction } from "react";
 
 
-export default async function FilesModal({
+export default function FilesModal({
   isOpen,
   onOpenChange,
-  session,
+  resources,
+  setFile,
 }: {
   isOpen: boolean;
   onOpenChange: () => void;
-  session: userSession;
+  resources: SearchResult[];
+  setFile: Dispatch<SetStateAction<string>>;
 }) {
- 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Modal Title
-            </ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Images</ModalHeader>
             <ModalBody>
+              <SelectArchiveList
+                setFile={setFile}
+                initialResources={resources}
+              />
             </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Action
-              </Button>
-            </ModalFooter>
+            <ModalFooter></ModalFooter>
           </>
         )}
       </ModalContent>

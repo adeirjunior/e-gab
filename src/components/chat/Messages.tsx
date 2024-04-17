@@ -1,12 +1,12 @@
 "use client";
 
 import { pusherClient } from "@/lib/configs/pusherClient";
-import { Message } from "@/lib/validations/message";
 import { FC, useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { User, UserRole } from "@prisma/client";
+import { Message, User, UserRole } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
+import { Card } from "@nextui-org/react";
 
 export interface MessagesProps {
   initialMessages: Message[];
@@ -88,8 +88,8 @@ const Messages: FC<MessagesProps> = ({
                   },
                 )}
               >
-                <span
-                  className={cn("inline-block rounded-lg px-4 py-2", {
+                <Card
+                  className={cn("inline-block rounded-lg px-4 py-2 space-y-2", {
                     "bg-indigo-600 text-white": isCurrentUser,
                     "bg-gray-200 text-gray-900": !isCurrentUser,
                     "rounded-br-none":
@@ -98,11 +98,22 @@ const Messages: FC<MessagesProps> = ({
                       !hasNextMessageFromSameUser && !isCurrentUser,
                   })}
                 >
-                  {message.text}{" "}
-                  <span className="ml-2 text-xs text-gray-400">
-                    {formatTimestamp(message.createdAt)}
+                  <span>
+                    {message.text}{" "}
+                    <span className="ml-2 text-xs text-gray-400">
+                      {formatTimestamp(message.createdAt)}
+                    </span>
                   </span>
-                </span>
+                  {message.file && (
+                    <CldImage
+                      src={message.file}
+                      width={250}
+                      height={250}
+                      className="rounded-md"
+                      alt=""
+                    />
+                  )}
+                </Card>
               </div>
 
               <div

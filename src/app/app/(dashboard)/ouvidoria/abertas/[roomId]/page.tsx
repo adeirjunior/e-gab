@@ -9,6 +9,8 @@ import ActionsDropDown from "./actions-dropdown";
 import WhatsAppButton from "@/components/button/whatsapp-button";
 import { getRoomById } from "@/lib/fetchers/room";
 import { getAllMessagesFromRoomId } from "@/lib/fetchers/message";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { getGalleryImages } from "@/lib/fetchers/image";
 
 interface PageProps {
   params: {
@@ -38,6 +40,9 @@ const page = async ({ params }: PageProps) => {
 
   const existingMessages = await getAllMessagesFromRoomId(roomId);
 
+  const website = await getWebsiteByUserId(session.user.id);
+  const { resources } = await getGalleryImages(website?.cloudinaryDir!);
+
   return (
     <Card className="flex h-screen max-h-screen flex-1 flex-col justify-between bg-transparent">
       <CardHeader>
@@ -64,7 +69,7 @@ const page = async ({ params }: PageProps) => {
         />
       </CardBody>
       <CardFooter>
-        <MessageField session={session} roomId={roomId} />
+        <MessageField resources={resources} session={session} roomId={roomId} />
       </CardFooter>
     </Card>
   );

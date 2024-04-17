@@ -7,6 +7,8 @@ import { User } from "@prisma/client";
 import { Title } from "@tremor/react";
 import { notFound, redirect } from "next/navigation";
 import ActionsDropDown from "../../abertas/[roomId]/actions-dropdown";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { getGalleryImages } from "@/lib/fetchers/image";
 
 interface PageProps {
   params: {
@@ -66,6 +68,9 @@ const page = async ({ params }: PageProps) => {
     },
   });
 
+  const website = await getWebsiteByUserId(session.user.id);
+  const { resources } = await getGalleryImages(website?.cloudinaryDir!);
+
   return (
     <Card className="flex max-h-screen flex-col justify-between bg-transparent">
       <CardHeader>
@@ -89,7 +94,7 @@ const page = async ({ params }: PageProps) => {
         />
       </CardBody>
       <CardFooter>
-        <MessageField session={session} roomId={id} />
+        <MessageField resources={resources} session={session} roomId={id} />
       </CardFooter>
     </Card>
   );
