@@ -30,7 +30,6 @@ export default function ShareButtons({url}: {url:string}) {
       <WhatsappShareButton
         url={url}
         title={"Dê uma olhada nesta publicação."}
-        separator=":: "
       >
         <WhatsappIcon size={32} round />
       </WhatsappShareButton>

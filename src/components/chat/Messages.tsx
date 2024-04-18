@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Message, User, UserRole } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
-import { Card } from "@nextui-org/react";
+import { Card, ScrollShadow } from "@nextui-org/react";
 
 export interface MessagesProps {
   initialMessages: Message[];
@@ -56,9 +56,9 @@ const Messages: FC<MessagesProps> = ({
   };
 
   return (
-    <div
+    <ScrollShadow
       id="messages"
-      className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex h-full flex-1 flex-col-reverse gap-4 overflow-y-auto p-3"
+      className="flex h-full flex-1 flex-col-reverse gap-4 overflow-y-auto p-3"
     >
       <div ref={scrollDownRef} />
 
@@ -89,7 +89,7 @@ const Messages: FC<MessagesProps> = ({
                 )}
               >
                 <Card
-                  className={cn("inline-block rounded-lg px-4 py-2 space-y-2", {
+                  className={cn("inline-block space-y-2 rounded-lg px-4 py-2", {
                     "bg-indigo-600 text-white": isCurrentUser,
                     "bg-gray-200 text-gray-900": !isCurrentUser,
                     "rounded-br-none":
@@ -100,19 +100,23 @@ const Messages: FC<MessagesProps> = ({
                 >
                   <span>
                     {message.text}{" "}
-                    <span className="ml-2 text-xs text-gray-400">
+                    {message.file && (
+                      <CldImage
+                        src={message.file}
+                        width={250}
+                        height={250}
+                        className="rounded-md"
+                        alt=""
+                      />
+                    )}
+                    <span
+                      className={cn("ml-2 text-xs text-gray-400", {
+                        "mt-2 block w-full text-right": message.file,
+                      })}
+                    >
                       {formatTimestamp(message.createdAt)}
                     </span>
                   </span>
-                  {message.file && (
-                    <CldImage
-                      src={message.file}
-                      width={250}
-                      height={250}
-                      className="rounded-md"
-                      alt=""
-                    />
-                  )}
                 </Card>
               </div>
 
@@ -135,7 +139,7 @@ const Messages: FC<MessagesProps> = ({
           </div>
         );
       })}
-    </div>
+    </ScrollShadow>
   );
 };
 

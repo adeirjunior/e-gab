@@ -192,6 +192,7 @@ const config = {
   plugins: [
     require("@headlessui/tailwindcss"),
     require("tailwindcss-animate"),
+    require("tailwind-scrollbar"),
     nextui(),
   ],
 };

@@ -68,7 +68,7 @@ const page = async ({ params }: PageProps) => {
           initialMessages={existingMessages}
         />
       </CardBody>
-      <CardFooter>
+      <CardFooter className="overflow-visible">
         <MessageField resources={resources} session={session} roomId={roomId} />
       </CardFooter>
     </Card>
