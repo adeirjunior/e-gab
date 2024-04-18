@@ -7,6 +7,7 @@ import BlurImage from "@/components/arquives/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import "./style.css";
+import ShareButtons from "./share-buttons";
 
 export const dynamic = "force-static";
 
@@ -119,32 +120,6 @@ export default async function SitePostPage({
               {data.description}
             </p>
           </div>
-          <p>
-            Posted by{" "}
-            <span
-              itemProp="author"
-              itemScope
-              itemType="https://schema.org/Person"
-            >
-              <span itemProp="name">
-                <a
-                  itemProp="url"
-                  href="https://www.dataliberate.com/author/richard-wallis/"
-                >
-                  Richard Wallis
-                </a>
-              </span>
-            </span>{" "}
-            in <span itemProp="locationCreated">Winton on the Green</span> on{" "}
-            <time itemProp="datePublished" dateTime="2019-05-14T17:30:57+01:00">
-              May 14, 2019
-            </time>
-            , and updated on{" "}
-            <time itemProp="dateModified" dateTime="2023-03-01T17:18:17+01:00">
-              March 1, 2023
-            </time>
-            .
-          </p>
           <a
             // if you are using Github OAuth, you can get rid of the Twitter option
             href={
@@ -179,9 +154,7 @@ export default async function SitePostPage({
                   itemType="https://schema.org/Person"
                   className="font-semibold"
                 >
-                  <span itemProp="name">
-                    {data.user?.name}
-                  </span>
+                  <span itemProp="name">{data.user?.name}</span>
                 </span>
               </div>
             </div>
@@ -201,6 +174,8 @@ export default async function SitePostPage({
 
         <MDX source={data.mdxSource} />
       </article>
+
+      <ShareButtons url={`${domain}/posts/${slug}`} />
 
       {data.adjacentPosts.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">
