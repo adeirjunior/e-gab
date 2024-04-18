@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Message, User, UserRole } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import { Card, ScrollShadow } from "@nextui-org/react";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export interface MessagesProps {
   initialMessages: Message[];
@@ -127,13 +128,19 @@ const Messages: FC<MessagesProps> = ({
                   invisible: hasNextMessageFromSameUser,
                 })}
               >
-                <CldImage
-                  src={isDifferenttUser ? chatPartner.image : sessionUser.image}
-                  width={50}
-                  height={50}
-                  alt="Profile picture"
-                  className="rounded-full"
-                />
+                <AspectRatio
+                  className="grid place-content-center overflow-hidden rounded-full"
+                  ratio={1 / 1}
+                >
+                  <CldImage
+                    src={
+                      isDifferenttUser ? chatPartner.image : sessionUser.image
+                    }
+                    width={50}
+                    height={50}
+                    alt="Profile picture"
+                  />
+                </AspectRatio>
               </div>
             </div>
           </div>
