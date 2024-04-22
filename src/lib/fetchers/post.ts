@@ -89,12 +89,14 @@ export async function getPostsForSite(domain: string) {
           published: true,
         },
         select: {
+          id: true,
           title: true,
           description: true,
           slug: true,
           image: true,
           imageBlurhash: true,
           createdAt: true,
+          updatedAt: true
         },
         orderBy: [
           {

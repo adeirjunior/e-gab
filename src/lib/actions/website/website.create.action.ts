@@ -35,9 +35,19 @@ export const createSite = async (formData: FormData) => {
         description,
         subdomain,
         cloudinaryDir: "",
-        politicianId: politician.id,
+        politician: { connect: { id: politician.id } },
       },
     }); 
+
+    await prisma.contact.create({
+      data: {
+        website: {
+          connect: {
+            id: response.id
+          }
+        }
+      }
+    })
 
     await prisma.website.update({
       where: {

@@ -23,10 +23,18 @@ export async function getWebsiteByUserId(userId: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { politician: {
-        include: {
-          website: true}
-      } }, // Certifique-se de que o relacionamento está correto no seu modelo
+      include: {
+        politician: {
+          include: {
+            website: true,
+          },
+        },
+        admin: {
+          select: {
+            website: true
+          }
+        },
+      }, 
     });
 
     if (!user) {
@@ -34,7 +42,7 @@ export async function getWebsiteByUserId(userId: string) {
       return null;
     }
 
-    const website = user.politician?.website;
+    const website = user.politician?.website || user.admin?.website;
 
     if (!website) {
       console.log("Usuário não tem um site associado.");
@@ -79,12 +87,12 @@ export async function getPoliticianSiteByUser(userId: string) {
       include: {
         politician: {
           include: {
-            website: true
-          }
-        }
+            website: true,
+          },
+        },
       },
     });
-    
+
     if (!user) {
       console.log("Usuário não encontrado.");
       return null;
@@ -124,4 +132,28 @@ export async function getSiteData(domain: string) {
       tags: [`${domain}-metadata`],
     },
   )();
+}
+
+export async function getAllWebsites() {
+  try {
+    const websites = await prisma.website.findMany({
+      include: {
+        laws: true,
+        posts: true,
+        chatRoom: true,
+      }
+    });
+
+    if (!websites) {
+      console.log("Websites não encontrados.");
+      return null;
+    }
+
+    return websites;
+  } catch (error) {
+    console.error("Erro ao buscar o site:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 }

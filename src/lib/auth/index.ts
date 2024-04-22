@@ -1,6 +1,7 @@
-import { PoliticalProject, Post, Website } from "@prisma/client";
+import { PoliticalProject, PoliticianMotion, Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
+import { hasSubscription } from "../helpers/billing";
 
 export function withSiteAuth(action: any) {
   return async (formData: FormData | null, key: string | null) => {
@@ -10,7 +11,7 @@ export function withSiteAuth(action: any) {
         error: "Não autentificado",
       };
     }
-    console.log(key);
+
     const checkUser = await prisma.user.findUnique({
       where: {
         id: session.user.id,
@@ -20,10 +21,19 @@ export function withSiteAuth(action: any) {
           include: {
             website: true
           }
-        },
+        }, 
         admin: true
       }
     });
+
+    const hasSub = await hasSubscription();
+
+    if (checkUser?.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
+      };
+    }
+
 
     if (!checkUser) {
       return {
@@ -148,5 +158,53 @@ export function withProjectAuth(
     }
 
     return action(formData, project, key);
+  };
+}
+
+export function withMotionAuth(
+  action: (
+    formData: FormData,
+    motion: PoliticianMotion & { website: Website },
+    key: string,
+  ) => any,
+) {
+  return async (formData: FormData, motionId: string, key: string) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Não autentificado",
+      };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+
+     const hasSub = await hasSubscription();
+
+     if (user?.role === "politician" && !hasSub) {
+       return {
+         error: `Você precisa assinar um plano para realizar este comando.`,
+       };
+     }
+
+    const motion = await prisma.politicianMotion.findUnique({
+      where: {
+        id: motionId,
+      },
+      include: {
+        website: true,
+      },
+    });
+
+    if (!motion) {
+      return {
+        error: "Falhou em coletar moção",
+      };
+    }
+
+    return action(formData, motion, key);
   };
 }

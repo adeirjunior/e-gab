@@ -13,7 +13,7 @@ model User {
   username                 String?
   gh_username              String?
   password                 String?
-  email                    String?        @unique
+  email                    String         @unique
   stripeCustomerId         String?        @unique
   clientId                 String?        @unique
   resetPasswordToken       String?        @unique
@@ -56,52 +56,64 @@ enum UserRole {
 
 model Client {
   id        String     @id @default(cuid()) @map("_id")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
   cpf       String?
   tel       String?
+  cep       String?
   address   String?
+  level     Int        @default(0)
+  exp       Int        @default(0)
+  maxExp    Int        @default(500)
   user      User?
   chatRoom  ChatRoom[]
+  birthday  DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Admin {
-  id        String     @id @default(cuid()) @map("_id")
-  website   Website    @relation(fields: [websiteId], references: [id])
-  websiteId String
-  canViewPosts Boolean @default(false)
-  canEditPosts Boolean @default(false)
-  canViewLaws Boolean @default(false)
-  canEditLaws Boolean @default(false)
-  canViewProposals Boolean @default(false)
-  canEditProposals Boolean @default(false)
-  canViewPoll Boolean @default(false)
-  canEditPoll Boolean @default(false)
-  canViewSurvey Boolean @default(false)
-  canEditSurvey Boolean @default(false)
-  canViewMotion Boolean @default(false)
-  canEditMotion Boolean @default(false)
-  canViewChatRoom Boolean @default(false)
-  canEditChatRoom Boolean @default(false)
-  canViewAdmins Boolean @default(false)
-  canEditAdmins Boolean @default(false)
-  canViewArchives Boolean @default(false)
-  canEditArchives Boolean @default(false)
-  canViewGeralSettings Boolean @default(false)
-  canEditGeralSettings Boolean @default(false)
-  canViewDesignSettings Boolean @default(false)
-  canEditDesignSettings Boolean @default(false)
-  canViewDomainSettings Boolean @default(false)
-  canEditDomainSettings Boolean @default(false)
-  canViewContactSettings Boolean @default(false)
-  canEditContactSettings Boolean @default(false)
-  canViewSocialMediaSettings Boolean @default(false)
-  canEditSocialMediaSettings Boolean @default(false)
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String     @unique
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  chatRoom  ChatRoom[]
+  id                         String     @id @default(cuid()) @map("_id")
+  website                    Website    @relation(fields: [websiteId], references: [id])
+  websiteId                  String
+  canViewContents            Boolean    @default(false)
+  canViewPosts               Boolean    @default(false)
+  canEditPosts               Boolean    @default(false)
+  canViewLaws                Boolean    @default(false)
+  canEditLaws                Boolean    @default(false)
+  canViewProposals           Boolean    @default(false)
+  canEditProposals           Boolean    @default(false)
+  canViewPoll                Boolean    @default(false)
+  canEditPoll                Boolean    @default(false)
+  canViewExpenses            Boolean    @default(false)
+  canEditExpenses            Boolean    @default(false)
+  canViewEvents              Boolean    @default(false)
+  canEditEvents              Boolean    @default(false)
+  canViewSurvey              Boolean    @default(false)
+  canEditSurvey              Boolean    @default(false)
+  canViewMotion              Boolean    @default(false)
+  canEditMotion              Boolean    @default(false)
+  canViewStatistics          Boolean    @default(false)
+  canEditStatistics          Boolean    @default(false)
+  canViewChatRoom            Boolean    @default(false)
+  canEditChatRoom            Boolean    @default(false)
+  canViewAdmins              Boolean    @default(false)
+  canEditAdmins              Boolean    @default(false)
+  canViewArchives            Boolean    @default(false)
+  canEditArchives            Boolean    @default(false)
+  canViewGeralSettings       Boolean    @default(false)
+  canEditGeralSettings       Boolean    @default(false)
+  canViewDesignSettings      Boolean    @default(false)
+  canEditDesignSettings      Boolean    @default(false)
+  canViewDomainSettings      Boolean    @default(false)
+  canEditDomainSettings      Boolean    @default(false)
+  canViewContactSettings     Boolean    @default(false)
+  canEditContactSettings     Boolean    @default(false)
+  canViewSocialMediaSettings Boolean    @default(false)
+  canEditSocialMediaSettings Boolean    @default(false)
+  user                       User       @relation(fields: [userId], references: [id])
+  userId                     String     @unique
+  createdAt                  DateTime   @default(now())
+  updatedAt                  DateTime   @updatedAt
+  chatRoom                   ChatRoom[]
 }
 
 model Politician {
@@ -255,40 +267,44 @@ model Post {
 }
 
 model Website {
-  id               String             @id @default(cuid()) @map("_id")
-  name             String
-  cloudinaryDir    String
-  description      String?
-  myHistory        String?
-  theme            WebsiteThemeType   @default(blue)
-  politicianPhoto  String             @default("E-Gab/Websites/default_politician_photo")
-  logo             String             @default("E-Gab/Websites/default_logo")
-  font             String             @default("font-cal")
-  image            String             @default("E-Gab/Websites/default_image")
-  imageBlurhash    String             @default("E-Gab/Websites/default_post_image")
-  message404       String             @default("Parabéns! Você encontrou uma página que não existe.")
-  politicianId     String             @unique
-  contactId        String?            @unique
-  subdomain        String             @unique
-  customDomain     String?            @unique
-  contact          Contact?           @relation(fields: [contactId], references: [id])
-  laws             Law[]
-  events           Event[]
-  polls            Poll[]
-  surveys          Survey[]
-  proposals        Proposal[]
-  news             News[]
-  expenditures     Expenditure[]
-  posts            Post[]
-  donations        Donation[]
-  chatRoom         ChatRoom[]
-  socialMedia      SocialMedia[]
-  politicalProject PoliticalProject[]
-  politician       Politician         @relation(fields: [politicianId], references: [id])
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  userInvite       UserInvite[]
-  admins            Admin[]
+  id                    String                  @id @default(cuid()) @map("_id")
+  name                  String
+  cloudinaryDir         String
+  description           String?
+  myHistory             String?
+  heroTitle             String?
+  heroDescription       String?
+  theme                 WebsiteThemeType        @default(blue)
+  politicianPhoto       String                  @default("E-Gab/Websites/default_politician_photo")
+  logo                  String                  @default("E-Gab/Websites/default_logo")
+  font                  String                  @default("font-cal")
+  image                 String                  @default("E-Gab/Websites/default_image")
+  imageBlurhash         String                  @default("E-Gab/Websites/default_post_image")
+  message404            String                  @default("Parabéns! Você encontrou uma página que não existe.")
+  politicianId          String                  @unique
+  contactId             String?                 @unique
+  subdomain             String                  @unique
+  customDomain          String?                 @unique
+  contact               Contact?                @relation(fields: [contactId], references: [id])
+  laws                  Law[]
+  events                Event[]
+  polls                 Poll[]
+  surveys               Survey[]
+  proposals             Proposal[]
+  news                  News[]
+  expenditures          Expenditure[]
+  posts                 Post[]
+  donations             Donation[]
+  chatRoom              ChatRoom[]
+  socialMedia           SocialMedia[]
+  politicalProject      PoliticalProject[]
+  politicianMotion      PoliticianMotion[]
+  legislativeIndication LegislativeIndication[]
+  politician            Politician              @relation(fields: [politicianId], references: [id])
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  userInvite            UserInvite[]
+  admins                Admin[]
 }
 
 enum WebsiteThemeType {
@@ -303,13 +319,19 @@ enum WebsiteThemeType {
 }
 
 model PoliticianMotion {
-  id           String       @id @default(cuid()) @map("_id")
-  politicianId String
-  title        String
-  description  String
-  status       MotionStatus
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String       @id @default(cuid()) @map("_id")
+  title         String?
+  description   String?
+  content       String?
+  websiteId     String
+  image         String      @default("E-Gab/Websites/default_law_image")
+  imageBlurhash String      @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  website       Website      @relation(fields: [websiteId], references: [id])
+  status        MotionStatus @default(pending)
+  published     Boolean      @default(false)
+  slug          String       @default(cuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 enum MotionStatus {
@@ -321,13 +343,19 @@ enum MotionStatus {
 
 model LegislativeIndication {
   id             String           @id @default(cuid()) @map("_id")
-  politicianId   String
-  title          String
-  description    String
+  title         String?
+  description   String?
+  content       String?
+  image         String      @default("E-Gab/Websites/default_law_image")
+  imageBlurhash String      @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  published     Boolean      @default(false)
+  slug          String       @default(cuid())
   proposedAction String
-  status         IndicationStatus
+  status         IndicationStatus @default(pending)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  Website        Website          @relation(fields: [websiteId], references: [id])
+  websiteId      String
 }
 
 enum IndicationStatus {
@@ -454,8 +482,8 @@ model Law {
   id            String   @id @default(cuid()) @map("_id")
   title         String?
   content       String?
-  image         String?  @default("E-Gab/Websites/default_law_image")
-  imageBlurhash String?  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
+  image         String  @default("E-Gab/Websites/default_law_image")
+  imageBlurhash String  @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
   published     Boolean  @default(false)
   slug          String   @default(cuid())
   description   String?

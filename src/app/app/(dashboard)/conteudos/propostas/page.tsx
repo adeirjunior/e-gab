@@ -1,10 +1,9 @@
 import ProposalCard from "@/components/card/proposal-card";
 import CreateProposalForm from "@/components/form/create-proposal-form";
 import { getSession } from "@/lib/auth/get-session";
-import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
-import { getCurrentDomain } from "@/lib/utils";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import { Suspense } from "react";
 import DomainLinkTag from "@/components/domain-link-tag";
@@ -18,11 +17,11 @@ export default async function Page() {
   if (!session) {
     redirect("/login");
   }
-  const data = await getPoliticianSiteByUser(session.user.id);
+  const data = await getWebsiteByUserId(session.user.id);
 
-  if (!data) {
-    notFound();
-  }
+   if (!data) {
+     throw new Error("Dados não encontrados.");
+   }
 
   const proposals = await prisma.proposal.findMany({
     where: {

@@ -1,12 +1,13 @@
 "use client";
 
 import { pusherClient } from "@/lib/configs/pusherClient";
-import { Message } from "@/lib/validations/message";
 import { FC, useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { User, UserRole } from "@prisma/client";
+import { Message, User, UserRole } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
+import { Card, ScrollShadow } from "@nextui-org/react";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export interface MessagesProps {
   initialMessages: Message[];
@@ -56,9 +57,9 @@ const Messages: FC<MessagesProps> = ({
   };
 
   return (
-    <div
+    <ScrollShadow
       id="messages"
-      className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex h-full flex-1 flex-col-reverse gap-4 overflow-y-auto p-3"
+      className="flex h-full flex-1 flex-col-reverse gap-4 overflow-y-auto p-3"
     >
       <div ref={scrollDownRef} />
 
@@ -88,8 +89,8 @@ const Messages: FC<MessagesProps> = ({
                   },
                 )}
               >
-                <span
-                  className={cn("inline-block rounded-lg px-4 py-2", {
+                <Card
+                  className={cn("inline-block space-y-2 rounded-lg px-4 py-2", {
                     "bg-indigo-600 text-white": isCurrentUser,
                     "bg-gray-200 text-gray-900": !isCurrentUser,
                     "rounded-br-none":
@@ -98,11 +99,26 @@ const Messages: FC<MessagesProps> = ({
                       !hasNextMessageFromSameUser && !isCurrentUser,
                   })}
                 >
-                  {message.text}{" "}
-                  <span className="ml-2 text-xs text-gray-400">
-                    {formatTimestamp(message.createdAt)}
+                  <span>
+                    {message.text}{" "}
+                    {message.file && (
+                      <CldImage
+                        src={message.file}
+                        width={250}
+                        height={250}
+                        className="rounded-md"
+                        alt=""
+                      />
+                    )}
+                    <span
+                      className={cn("ml-2 text-xs text-gray-400", {
+                        "mt-2 block w-full text-right": message.file,
+                      })}
+                    >
+                      {formatTimestamp(message.createdAt)}
+                    </span>
                   </span>
-                </span>
+                </Card>
               </div>
 
               <div
@@ -112,19 +128,25 @@ const Messages: FC<MessagesProps> = ({
                   invisible: hasNextMessageFromSameUser,
                 })}
               >
-                <CldImage
-                  src={isDifferenttUser ? chatPartner.image : sessionUser.image}
-                  width={50}
-                  height={50}
-                  alt="Profile picture"
-                  className="rounded-full"
-                />
+                <AspectRatio
+                  className="grid place-content-center overflow-hidden rounded-full"
+                  ratio={1 / 1}
+                >
+                  <CldImage
+                    src={
+                      isDifferenttUser ? chatPartner.image : sessionUser.image
+                    }
+                    width={50}
+                    height={50}
+                    alt="Profile picture"
+                  />
+                </AspectRatio>
               </div>
             </div>
           </div>
         );
       })}
-    </div>
+    </ScrollShadow>
   );
 };
 

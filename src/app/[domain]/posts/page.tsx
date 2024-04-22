@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
   const [posts] = await Promise.all([getPostsForSite(domain)]);
 
   return (
-    <div>
+    <section>
       {posts.length > 0 ? (
         <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
           {" "}
@@ -43,6 +43,6 @@ export default async function Page({ params }: { params: { domain: string } }) {
           </p>
         </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bibliografia",
+  title: "Agenda",
 };
 
-export default function Page() {
-  return <div>page</div>;
+export default function page() {
+  return <section>page</section>;
 }
+

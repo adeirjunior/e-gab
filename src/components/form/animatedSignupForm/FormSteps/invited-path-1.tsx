@@ -1,6 +1,5 @@
 "use client";
 import { inviteCodeHandle } from "@/lib/actions/user/inviteCodeHandle";
-import { ButtonContainerLg } from "../ButtonContainerLg";
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import {
   Form,
@@ -18,6 +17,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
 import LoadingDots from "@/components/icons/loading-dots";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   inviteToken: z.string().min(2).max(50),
@@ -26,6 +27,7 @@ const formSchema = z.object({
 export const InvitedPath1 = () => {
   const { invitedUserToken, setInvitedUserToken } = useNewUserSteps();
   const [pending, start] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,7 +39,14 @@ export const InvitedPath1 = () => {
   function onSubmit(formData: FormData) {
     try {
       start(async () => {
-        await inviteCodeHandle(formData);
+        const data = await inviteCodeHandle(formData);
+
+        if ("error" in data!) {
+          toast.error(data.error!);
+        } else {
+          toast.success(data.role);
+          router.push("/");
+        }
       });
     } catch (error) {}
   }
@@ -51,17 +60,17 @@ export const InvitedPath1 = () => {
             name="inviteToken"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Escreva seu código</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="shadcn"
+                    placeholder="0000-0000-0000-0000-000000000000"
                     {...field}
                     onChange={(e) => setInvitedUserToken(e.target.value)}
                     value={invitedUserToken}
                   />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  Ele foi enviado para seu email.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

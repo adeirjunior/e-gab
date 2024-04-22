@@ -2,7 +2,7 @@ import { Card } from "@nextui-org/react";
 import { getSession } from "@/lib/auth/get-session";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
-import { getPoliticianSiteByUser } from "@/lib/fetchers/site";
+import { getPoliticianSiteByUser, getWebsiteByUserId } from "@/lib/fetchers/site";
 import CreateSocialForm from "@/components/form/create-social-form";
 import { Suspense } from "react";
 import SocialMediaCard from "@/components/card/social-card";
@@ -12,7 +12,7 @@ export default async function Page() {
   if (!session) {
     return redirect("/login");
   }
-  const data = await getPoliticianSiteByUser(session.user.id);
+  const data = await getWebsiteByUserId(session.user.id);
 
   if (!data) {
     notFound();

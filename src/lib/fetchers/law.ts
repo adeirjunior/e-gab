@@ -69,14 +69,6 @@ export async function getLawsForSite(domain: string) {
           website: subdomain ? { subdomain } : { customDomain: domain },
           published: true,
         },
-        select: {
-          title: true,
-          description: true,
-          slug: true,
-          image: true,
-          imageBlurhash: true,
-          createdAt: true,
-        },
         orderBy: [
           {
             createdAt: "desc",

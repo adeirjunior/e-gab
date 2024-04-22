@@ -46,6 +46,34 @@ export async function getUserById(id: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id },
+      include: {
+        admin: true,
+        politician: true,
+        client: true
+      }
+    });
+
+    if (!user) {
+      throw new Error("Não foi possível encontrar o usuário");
+    }
+
+    return user;
+  } catch (error: any) {
+    throw new Error(`Erro ao obter usuário: ${error.message}`);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function getUserByEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        admin: true,
+        politician: true,
+        client: true,
+      },
     });
 
     if (!user) {

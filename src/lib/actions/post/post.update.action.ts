@@ -7,16 +7,31 @@ import { getBlurDataURL } from "@/lib/utils";
 import { hasSubscription } from "@/lib/helpers/billing";
 import { create } from "../image/image.create.action";
 import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
+import { getSession } from "@/lib/auth/get-session";
 
 export const updatePost = withPostAuth(async (formData, post) => {
   try {
-    const hasSub = await hasSubscription();
+      const session = await getSession();
+      if (!session?.user.id) {
+        return {
+          error: "Not authenticated",
+        };
+      }
 
-    if (!hasSub) {
-      return {
-        error: `Você precisa assinar um plano para realizar este comando.`,
-      };
-    }
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.user.id,
+        },
+      });
+
+      const hasSub = await hasSubscription();
+
+      if (user?.role === "politician" && !hasSub) {
+        return {
+          error: `Você precisa assinar um plano para realizar este comando.`,
+        };
+      }
+
 
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -61,43 +76,32 @@ export const updatePost = withPostAuth(async (formData, post) => {
 });
 
 export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
+  const session = await getSession();
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
   const hasSub = await hasSubscription();
 
-  if (!hasSub) {
+  if (user?.role === "politician" && !hasSub) {
     return {
       error: `Você precisa assinar um plano para realizar este comando.`,
     };
   }
 
+
   const value = formData.get(key) as string;
 
   try {
-    let response;
-    if (key === "image") {
-      const url = await create(formData, websiteImagePathCreator, key, [
-        "post",
-        "image",
-      ]);
-
-      if(!url) {
-        return {
-          error: 'Falha ao coletar url'
-        }
-      }
-
-      const blurhash = await getBlurDataURL(url);
-
-      response = await prisma.post.update({
-        where: {
-          id: post.id,
-        },
-        data: {
-          image: url,
-          imageBlurhash: blurhash,
-        },
-      });
-    } else {
-      response = await prisma.post.update({
+    const response = await prisma.post.update({
         where: {
           id: post.id,
         },
@@ -105,7 +109,6 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
           [key]: key === "published" ? value === "true" : value,
         },
       });
-    }
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,

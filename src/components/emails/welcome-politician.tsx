@@ -1,58 +1,108 @@
-import React from "react";
+import { getCurrentDomain } from "@/lib/utils";
 import {
   Body,
   Button,
   Container,
   Head,
-  Heading,
+  Hr,
   Html,
+  Img,
+  Link,
   Preview,
-  Text,
-  Tailwind,
   Section,
-  Link
+  Text,
 } from "@react-email/components";
-import { getCurrentDomain } from "@/lib/utils";
+import * as React from "react";
 
-interface WelcomeEmailProps {
-  name: string | null | undefined;
-}
+const WelcomeEmail = () => (
+  <Html>
+    <Head />
+    <Preview>Esperamos que você aproveite esta jornada conosco.</Preview>
+    <Body style={main}>
+      <Container style={container}>
+        <Section style={box}>
+          <Img
+            src={getCurrentDomain("", "/logo.png")}
+            width="200"
+            height="200"
+            alt="E-Gab"
+            style={{
+              margin: "auto"
+            }}
+          />
+          <Hr style={hr} />
+          <Text style={paragraph}>
+            Obrigado por criar sua conta no E-Gab! Esperamos que você aproveite
+            esta jornada conosco.
+          </Text>
+          <Text style={paragraph}>
+            Você pode agora personalizar seu próprio site, adicionar conteúdos,
+            fazer seu marketing nas redes sociais, e ter seu trabalho facílitado
+            por meio de nossas ferramentas.
+          </Text>
+          <Button style={button} href={getCurrentDomain("app")}>
+            Veja sua Dashboard
+          </Button>
+          <Hr style={hr} />
+          <Text style={paragraph}>
+            Caso tenha qualquer duvida de como utilizar nossos sistemas consulte
+            nossa{" "}
+            <Link style={anchor} href={getCurrentDomain("docs")}>
+              documentação detalhada
+            </Link>{" "}
+            .
+          </Text>
+        </Section>
+      </Container>
+    </Body>
+  </Html>
+);
 
- const WelcomeEmail = ({ name }: WelcomeEmailProps) => {
-  const previewText = `Bem vindo ao E-Gab, ${name}!`;
+export default WelcomeEmail;
 
-  return (
-    <Html>
-      <Head />
-      <Preview>{previewText}</Preview>
-      <Tailwind>
-        <Body className="mx-auto my-auto bg-white font-sans">
-          <Container className="mx-auto my-10 w-[465px] p-5">
-            <Heading className="mx-0 my-8 p-0 text-center text-2xl font-normal">
-              Bem vindo ao E-Gab!
-            </Heading>
-            <Text className="text-sm">Olá {name},</Text>
-            <Text className="text-sm">
-              Nós estamos animados em ter você na nossa plataforma! Esperamos que você aproveite esta jornada conosco. Caso tenha qualquer duvida de como utilizar nossos sistemas consulte nossa <Link href={getCurrentDomain('docs')} className="text-lighblue-300">documentação detalhada</Link>.
-            </Text>
-            <Section className="mb-[32px] mt-[32px] text-center">
-              <Button
-                className="rounded bg-[#00A3FF] text-center text-xs font-semibold text-white no-underline py-2 px-4"
-                href={getCurrentDomain("app")}
-              >
-                Inicie
-              </Button>
-            </Section>
-            <Text className="text-sm">
-              Saudações,
-              <br />
-              Time do E-Gab
-            </Text>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
-  );
+const main = {
+  backgroundColor: "#f6f9fc",
+  fontFamily:
+    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
-export default WelcomeEmail
+const container = {
+  backgroundColor: "#ffffff",
+  margin: "0 auto",
+  padding: "20px 0 48px",
+  marginBottom: "64px",
+};
+
+const box = {
+  padding: "0 48px",
+};
+
+const hr = {
+  borderColor: "#e6ebf1",
+  margin: "20px 0",
+};
+
+const paragraph = {
+  color: "#525f7f",
+
+  fontSize: "16px",
+  lineHeight: "24px",
+  textAlign: "left" as const,
+};
+
+const anchor = {
+  color: "#556cd6",
+};
+
+const button = {
+  backgroundColor: "#656ee8",
+  borderRadius: "5px",
+  color: "#fff",
+  fontSize: "16px",
+  fontWeight: "bold",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "block",
+  width: "100%",
+  padding: "10px",
+};

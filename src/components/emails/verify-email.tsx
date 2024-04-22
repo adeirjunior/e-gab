@@ -10,7 +10,7 @@ import {
   Text,
   Tailwind,
   Section,
-  Link
+  Link,
 } from "@react-email/components";
 import { getCurrentDomain } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ interface VerifyEmailProps {
   name: string | null | undefined;
 }
 
- const VerifyEmail = ({ token, name }: VerifyEmailProps) => {
+const VerifyEmail = ({ token, name }: VerifyEmailProps) => {
   const previewText = `Bem vindo ao E-Gab, ${name}!`;
 
   return (
@@ -30,27 +30,20 @@ interface VerifyEmailProps {
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 w-[465px] p-5">
             <Heading className="mx-0 my-8 p-0 text-center text-2xl font-normal">
-              Bem vindo ao E-Gab!
+              Verifique seu email
             </Heading>
-            <Text className="text-sm">Olá {name},</Text>
+            <Text className="text-sm">Olá {name || "{nome}"},</Text>
             <Text className="text-sm">
-              Nós estamos animados em ter você na nossa plataforma! Esperamos
-              que você aproveite esta jornada conosco. Caso tenha qualquer
-              duvida de como utilizar nossos sistemas consulte nossa{" "}
-              <Link
-                href={getCurrentDomain("docs")}
-                className="text-lighblue-300"
-              >
-                documentação detalhada
-              </Link>
-              .
+              Agora que você criou sua conta, pedimos que você verifique seu
+              email para que sua conta seja confirmada. Caso você não verifique
+              sua conta pode ser desativada em 1 semana.
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 className="rounded bg-[#00A3FF] px-4 py-2 text-center text-xs font-semibold text-white no-underline"
                 href={getCurrentDomain("app", `/verify-email?token=${token}`)}
               >
-                Inicie
+                Clique para verificar seu email
               </Button>
             </Section>
             <Text className="text-sm">

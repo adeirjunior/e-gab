@@ -29,8 +29,9 @@ export default function Profile({
   return (
     <Dropdown placement="top-start">
       <DropdownTrigger>
-        <Card>
-          <div className="w-10 overflow-hidden rounded-full">
+        <Card className="bg-transparent border-transparent cursor-pointer flex flex-col shadow-none">
+          <div className="flex gap-2 items-center">
+            <div className="w-10 overflow-hidden rounded-full">
             <AspectRatio
               className="grid place-content-center overflow-hidden"
               ratio={1 / 1}
@@ -39,13 +40,15 @@ export default function Profile({
             </AspectRatio>
           </div>
           <Title>{user.name}</Title>
-          <Subtitle>@username</Subtitle>
+          </div>
+          
+          <Subtitle>{user.email}</Subtitle>
         </Card>
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="profile" className="gap-2">
           <Bold>Entrou como</Bold>
-          <Text>@tonyreichert</Text>
+          <Text>{user.email}</Text>
         </DropdownItem>
         <DropdownItem as={Link} href="/configuracoes" key="settings">
           Configurações

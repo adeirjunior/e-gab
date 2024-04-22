@@ -8,8 +8,11 @@ import { cn } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { useModal } from "./provider";
 import va from "@vercel/analytics";
-import { Button, Input, Textarea } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Button, Input, Textarea, Tooltip } from "@nextui-org/react";
+import { useState } from "react";
+import { generate } from "random-words";
+import { RegexIcon } from "lucide-react";
+import { useEffectOnce } from "usehooks-ts";
 
 export default function CreateSiteModal() {
   const router = useRouter();
@@ -21,29 +24,34 @@ export default function CreateSiteModal() {
     description: "",
   });
 
-  useEffect(() => {
+  const randomSubdomain = () => {
     setData((prev) => ({
       ...prev,
-      subdomain: prev.name
-        .toLowerCase()
-        .trim()
-        .replace(/[\W_]+/g, "-"),
+      subdomain: generate({ exactly: 8, join: "-" }),
     }));
-  }, [data.name]);
+  };
+
+  useEffectOnce(() => {
+    setData((prev) => ({
+      ...prev,
+      subdomain: generate({ exactly: 8, join: "-" }),
+    }));
+  });
 
   return (
     <form
-      action={async (data: FormData) =>
-        createSite(data).then((res: any) => {
+      action={async (formData: FormData) =>{
+        formData.append("subdomain", data.subdomain)
+        createSite(formData).then((res: any) => {
           if (res.error) {
             toast.error(res.error);
           } else {
             va.track("Created Site");
             modal?.hide();
             toast.success(`Site criado com sucesso!`);
-            router.push('/')
+            router.push("/");
           }
-        })
+        })}
       }
       className="w-full rounded-md bg-white dark:bg-black md:max-w-md md:border md:border-stone-200 md:shadow dark:md:border-stone-700"
     >
@@ -92,20 +100,31 @@ export default function CreateSiteModal() {
               autoComplete="no"
               variant="bordered"
               radius="none"
+              endContent={
+                <Tooltip offset={16} content="Gerar subdomínio">
+                  <Button
+                    className="border-stone-200 bg-stone-100 dark:border-stone-600 dark:bg-stone-800"
+                    onPress={() => randomSubdomain()}
+                    isIconOnly
+                  >
+                    <RegexIcon />
+                  </Button>
+                </Tooltip>
+              }
               type="text"
               placeholder="subdomínio"
               value={data.subdomain}
-              onChange={(e) => setData({ ...data, subdomain: e.target.value })}
               autoCapitalize="off"
-              pattern="[a-zA-Z0-9\-]+" // only allow lowercase letters, numbers, and dashes
-              maxLength={32}
+              description="Você poderá alterar seu subdomínio, ou colocar um domínio próprio após assinar algum de nossos planos."
+              pattern="[a-zA-Z0-9\-]+"
               required
+              disabled
               classNames={{
                 inputWrapper: "rounded-s-xl",
                 input: "dark:text-gray-200",
               }}
             />
-            <div className="flex items-center rounded-r-lg border border-l-0 border-stone-200 bg-stone-100 px-3 text-sm dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400">
+            <div className="flex h-fit items-center rounded-r-lg border border-l-0 border-stone-200 bg-stone-100 px-3 py-[17px] text-sm dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400">
               .{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
             </div>
           </div>

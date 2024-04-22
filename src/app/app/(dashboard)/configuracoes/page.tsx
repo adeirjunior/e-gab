@@ -3,6 +3,9 @@ import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions/user/user.update.action";
 import CurrentActivePlanCard from "@/components/card/current-active-plan-card";
+import ImageForm from "@/components/form/image-form";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { getGalleryImages } from "@/lib/fetchers/image";
 
 export default async function SettingsPage() {
   const session = await getSession();
@@ -12,6 +15,9 @@ export default async function SettingsPage() {
   }
 
   const user = session.user;
+
+  const website = await getWebsiteByUserId(user.id!);
+  const { resources } = await getGalleryImages(website?.cloudinaryDir!);
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -32,13 +38,13 @@ export default async function SettingsPage() {
           }}
           handleSubmit={editUser}
         />
-        <Form
+        <ImageForm
+        resources={resources}
           title="Logo"
           description="A logo do seu perfil. Formatos aceitos: .png, .jpg, .jpeg, .webp"
           helpText="Arquivo de no máximo 5MB. Tamanho recomendado 400x400."
           inputAttrs={{
-            name: "logo",
-            type: "file",
+            name: "image",
             defaultValue: user.image!,
           }}
           handleSubmit={editUser}
@@ -55,10 +61,8 @@ export default async function SettingsPage() {
           }}
           handleSubmit={editUser}
         />
-        {user.role === "politician" ? (
+        {user.role === "politician" && (
           <CurrentActivePlanCard session={session} plan="Grátis" />
-        ) : (
-          ""
         )}
       </div>
     </div>

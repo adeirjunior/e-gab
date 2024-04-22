@@ -4,6 +4,7 @@ export const messageValidator = z.object({
   id: z.string(),
   userId: z.string(),
   text: z.string(),
+  file: z.string().optional(),
   createdAt: z.date(),
 });
 

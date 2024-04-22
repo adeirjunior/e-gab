@@ -2,6 +2,7 @@
 
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
+import { UserRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const updateOneKeyChatRoom = async (
@@ -67,7 +68,7 @@ export const updateChatRoom = async (
        };
      }
 
-    const userRole = user.role;
+    const userRole: UserRole = user.role;
 
     const userRoleContent =
       userRole === "politician"
@@ -91,7 +92,7 @@ export const updateChatRoom = async (
        where: { id },
        data: {
          [key]: value,
-         [userRole === "politician" ? "politicianId" : "secretaryId"]:
+         [userRole === "politician" ? "politicianId" : "adminId"]:
            userRoleContent.id,
        },
      });

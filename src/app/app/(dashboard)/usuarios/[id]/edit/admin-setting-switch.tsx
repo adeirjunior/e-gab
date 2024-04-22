@@ -1,6 +1,6 @@
-import { cn, Switch } from "@nextui-org/react";
+import { cn, Switch, SwitchProps } from "@nextui-org/react";
 
-export default function AdminSettingSwitch({name, children}: {name: string; children: string}) {
+export default function AdminSettingSwitch(props: SwitchProps & {children: string}) {
     return (
       <Switch
         classNames={{
@@ -19,10 +19,10 @@ export default function AdminSettingSwitch({name, children}: {name: string; chil
             "group-data-[selected]:group-data-[pressed]:ml-4",
           ),
         }}
-        name={name}
+        {...props}
       >
         <div className="flex flex-col gap-1">
-          <p className="text-medium">{children}</p>
+          <p className="text-medium">{props.children}</p>
         </div>
       </Switch>
     );

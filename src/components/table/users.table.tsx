@@ -49,13 +49,13 @@ export default function UsersTable({ admins }: { admins: Admin[] }) {
       case "role":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{admin.user.role}</p>
+            <p className="text-bold text-sm">{admin.user.role}</p>
           </div>
         );
       case "email":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{admin.user.email}</p>
+            <p className="text-bold text-sm">{admin.user.email}</p>
           </div>
         );
       case "status":
@@ -80,12 +80,12 @@ export default function UsersTable({ admins }: { admins: Admin[] }) {
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem href={`/usuarios/${admin.id}`} as={Link}>
-                  View
+                  Ver
                 </DropdownItem>
                 <DropdownItem href={`/usuarios/${admin.id}/edit`} as={Link}>
-                  Edit
+                  Editar
                 </DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem>Deletar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>

@@ -8,7 +8,6 @@ import {
   useSelectedLayoutSegments,
 } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { getExternalLinks } from "./external-links";
 import { getTabs } from "./tabs";
@@ -18,14 +17,17 @@ import { cn, getCurrentDomain } from "@/lib/utils";
 import { useEffectOnce } from "usehooks-ts";
 import EGabLogo from "../icons/EGabLogo";
 import { CldImage } from "next-cloudinary";
-import { Website } from "@prisma/client";
+import { Admin, Politician, User, Website } from "@prisma/client";
+import { Button } from "@nextui-org/react";
 
 export default function Nav({
   children,
   site,
+  user
 }: {
   children: ReactNode;
   site: Website;
+  user: User & {politician: Politician, admin: Admin}
 }) {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
@@ -33,7 +35,7 @@ export default function Nav({
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = usePathname();
 
-  const tabs = useMemo(() => getTabs(segments, id), [segments, id]);
+  const tabs = useMemo(() => getTabs(segments, id, user ), [segments, id]);
 
   useEffectOnce(() => {
     const fetchExternalLinks = async () => {
@@ -50,7 +52,8 @@ export default function Nav({
 
   return (
     <>
-      <button
+      <Button
+      isIconOnly
         className={`fixed z-20 ${
           segments[0] === "posts" && segments.length === 2 && !showSidebar
             ? "left-5 top-5"
@@ -59,7 +62,7 @@ export default function Nav({
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
-      </button>
+      </Button>
       <div
         className={cn(
           "fixed z-10 flex h-full transform flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0",

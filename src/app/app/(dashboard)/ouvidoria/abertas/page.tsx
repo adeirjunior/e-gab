@@ -7,7 +7,7 @@ import { Grid } from "@tremor/react";
 import { redirect } from "next/navigation";
 import ActionsDropDown from "./[roomId]/actions-dropdown";
 
-const Page = async () => {
+const page = async () => {
   const session = await getSession();
 
   if (!session?.user) {
@@ -64,4 +64,4 @@ const Page = async () => {
   );
 };
 
-export default Page;
+export default page;

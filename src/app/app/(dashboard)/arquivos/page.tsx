@@ -6,6 +6,7 @@ import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { redirect } from "next/navigation";
 import UploadImageFormModal from "./upload-image-form-modal";
+import { getGalleryImages } from "@/lib/fetchers/image";
 
 export default async function GalleryPage({
   searchParams: { search },
@@ -26,16 +27,7 @@ export default async function GalleryPage({
    return null
   }
 
-  const results = (await cloudinary.v2.search
-    .expression(
-      `folder="${website.cloudinaryDir}/*"${
-        search ? ` AND tags=${search}` : ""
-      }`,
-    )
-    .sort_by("created_at", "desc")
-    .with_field("tags")
-    .max_results(30)
-    .execute()) as { resources: SearchResult[] };
+  const results = await getGalleryImages(website.cloudinaryDir)
 
   return (
       <div className="flex flex-col gap-8 p-6">

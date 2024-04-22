@@ -181,3 +181,29 @@ export async function getRoomsWithLimitAndStatus(
     await prisma.$disconnect();
   }
 }
+
+export async function getRoomById(id: string) {
+  return await prisma.chatRoom.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      client: {
+        include: {
+          user: true,
+        },
+      },
+      politician: {
+        include: {
+          user: true,
+        },
+      },
+      admin: {
+        include: {
+          user: true,
+        },
+      },
+      acceptedRequest: true,
+    },
+  });
+}

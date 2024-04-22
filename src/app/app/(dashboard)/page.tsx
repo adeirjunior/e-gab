@@ -2,8 +2,20 @@ import { Suspense } from "react";
 import OverviewStats from "@/components/stats/overview-stats";
 import Posts from "@/components/content/posts";
 import PlaceholderCard from "@/components/card/placeholder-card";
+import { getSession } from "@/lib/auth/get-session";
+import { redirect } from "next/navigation";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
 
-export default function Overview() {
+export default async function Overview() {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+  const data = await getWebsiteByUserId(session.user.id);
+
+  if (!data) {
+    throw new Error("Dados não encontrados.");
+  }
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
       <div className="flex flex-col space-y-6">
@@ -26,7 +38,7 @@ export default function Overview() {
             </div>
           }
         >
-          <Posts limit={4} />
+          <Posts websiteId={data.id} limit={4} />
         </Suspense>
       </div>
     </div>

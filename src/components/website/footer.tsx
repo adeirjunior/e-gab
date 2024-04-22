@@ -16,7 +16,7 @@ export default function Footer({
   socials: SocialMedia[];
 }) {
   return (
-    <footer className="mt-10 bg-gray-100">
+    <footer className="mt-10 bg-primary-100">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex justify-center text-teal-600">
           <Link className="block text-teal-600" href="/">

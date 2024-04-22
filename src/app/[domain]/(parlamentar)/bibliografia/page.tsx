@@ -4,6 +4,6 @@ export const metadata: Metadata = {
   title: "Bibliografia",
 };
 
-export default function Page() {
-  return <div>page</div>;
+export default function page() {
+  return <section>page</section>;
 }

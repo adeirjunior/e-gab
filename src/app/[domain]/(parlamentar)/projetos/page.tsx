@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bibliografia",
+  title: "Projetos",
 };
 
-export default function Page() {
-  return <div>page</div>;
+export default function page() {
+  return <section className="min-h-screen space-y-6">page</section>;
 }

@@ -43,11 +43,10 @@ export default function Header({ data }: { data: Website }) {
 
   return (
     <>
-      <div className="h-20 w-2"></div>
       <Navbar
         position="static"
         onMenuOpenChange={setIsMenuOpen}
-        className="absolute left-0 top-0 z-40 bg-white"
+        className="bg-white"
       >
         <NavbarContent>
           <NavbarBrand>
@@ -88,39 +87,30 @@ export default function Header({ data }: { data: Website }) {
                 as={Link}
                 href="/agenda"
                 key="autoscaling"
-                description="ACME scales apps to meet user demand, automagically, based on load."
               >
                 Agenda
               </DropdownItem>
               <DropdownItem
                 as={Link}
                 href="/bibliografia"
-                key="usage_metrics"
-                description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
               >
                 Bibliografia
               </DropdownItem>
               <DropdownItem
                 as={Link}
                 href="/emendas"
-                key="production_ready"
-                description="ACME runs on ACME, join us and others serving requests at web scale."
               >
                 Emendas
               </DropdownItem>
               <DropdownItem
                 as={Link}
                 href="/galeria"
-                key="99_uptime"
-                description="Applications stay on the grid with high availability and high uptime guarantees."
               >
                 Galeria
               </DropdownItem>
               <DropdownItem
                 as={Link}
                 href="/projetos"
-                key="99_utime"
-                description="Applications stay on the grid with high availability and high uptime guarantees."
               >
                 Projetos
               </DropdownItem>
@@ -150,7 +140,6 @@ export default function Header({ data }: { data: Website }) {
                 as={Link}
                 href="/enquetes"
                 key="autoscaling"
-                description="ACME scales apps to meet user demand, automagically, based on load."
               >
                 Enquetes
               </DropdownItem>
@@ -158,7 +147,6 @@ export default function Header({ data }: { data: Website }) {
                 as={Link}
                 href="/leis"
                 key="usage_metrics"
-                description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
               >
                 Leis
               </DropdownItem>
@@ -166,7 +154,6 @@ export default function Header({ data }: { data: Website }) {
                 as={Link}
                 href="/ouvidoria"
                 key="production_ready"
-                description="ACME runs on ACME, join us and others serving requests at web scale."
               >
                 Ouvidoria
               </DropdownItem>
@@ -174,7 +161,6 @@ export default function Header({ data }: { data: Website }) {
                 as={Link}
                 href="/pesquisas"
                 key="99_uptime"
-                description="Applications stay on the grid with high availability and high uptime guarantees."
               >
                 Pesquisas
               </DropdownItem>

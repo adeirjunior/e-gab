@@ -4,6 +4,8 @@ import { checkPassStrengthType } from "@/components/form/signup-form";
 import LoadingDots from "@/components/icons/loading-dots";
 import { createClient } from "@/lib/actions/client/client.create.action";
 import { createUser } from "@/lib/actions/user/user.create.action";
+import { editOneKeyUser } from "@/lib/actions/user/user.update.action";
+import { getUserByEmail } from "@/lib/fetchers/user";
 import { cn } from "@/lib/utils";
 import { Button, Input, Link } from "@nextui-org/react";
 import { User } from "@prisma/client";
@@ -56,15 +58,21 @@ export default function Form() {
 
     try {
       startUserCreation(async () => {
-        const user: User = await createUser(name, email, hashPass);
+        const isThereUser = await getUserByEmail(email)
+        if (!isThereUser) {
+            const user: User = await createUser(name, email, hashPass);
+        await editOneKeyUser("client", "role")
         await createClient(user.id);
         if (user) {
           toast.success("Usuário criado");
           router.push("/login");
         } else {
           toast.error("Usuário já existe.");
-          console.error("Criação de usuario falhou: Email já existe.");
         }
+        } else {
+          toast.error("Usuário já existe.");
+        }
+        
       });
     } catch (error: any) {
       console.error("Authentication failed:", error);

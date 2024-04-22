@@ -45,6 +45,34 @@ export default async function SiteSettingsIndex() {
         }}
         handleSubmit={updateSite}
       />
+
+      <Form
+        title="Título da página inicial"
+        description="A descrição do seu site. Isto sera usado como descrição do seu site no Google também."
+        helpText="Inclua palacras-chave para ser melhor posicionado no Google."
+        inputAttrs={{
+          name: "heroTitle",
+          type: "text",
+          defaultValue: data.heroTitle!,
+          placeholder:
+            "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
+        }}
+        handleSubmit={updateSite}
+      />
+
+      <Form
+        title="Descrição da página inicial"
+        description="A descrição do seu site. Isto sera usado como descrição do seu site no Google também."
+        helpText="Inclua palacras-chave para ser melhor posicionado no Google."
+        inputAttrs={{
+          name: "heroDescription",
+          type: "text",
+          defaultValue: data.heroDescription!,
+          placeholder:
+            "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
+        }}
+        handleSubmit={updateSite}
+      />
     </div>
   );
 }

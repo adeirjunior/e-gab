@@ -8,20 +8,27 @@ import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
-  const session = await getSession();
-  if (!session?.user.id) {
-    return {
-      error: "Not authenticated",
-    };
-  }
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Not authenticated",
+      };
+    }
 
-  const hasSub = await hasSubscription();
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
 
-  if (!hasSub) {
-    return {
-      error: `Você precisa assinar um plano para realizar este comando.`,
-    };
-  }
+    const hasSub = await hasSubscription();
+
+    if (user?.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
+      };
+    }
+
 
   const response = await prisma.event.create({
     data: {

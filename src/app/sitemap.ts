@@ -1,24 +1,64 @@
-import { headers } from "next/headers";
-import { getPostsForSite } from "@/lib/fetchers/post";
+import { getAllWebsites } from "@/lib/fetchers/site";
+import { MetadataRoute } from "next";
 
-export default async function Sitemap() {
-  const headersList = headers();
-  const domain =
-    headersList
-      .get("host")
-      ?.replace(".localhost:3000", `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) ??
-    "vercel.pub";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const websites = (await getAllWebsites()) || [];
 
-  const posts = await getPostsForSite(domain);
+   const landindPaths = [
+     "",
+     "/contato",
+     "/precos",
+     "/sobre",
+   ].map((route) => ({
+     url: `${process.env.NEXT_PUBLIC_ROOT_DOMAIN}${route}`,
+     lastModified: new Date().toISOString(),
+   }));
+
+   const docPaths = [""].map((route) => ({
+     url: `docs.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}${route}`,
+     lastModified: new Date().toISOString(),
+   }));
 
   return [
-    {
-      url: `https://${domain}`,
-      lastModified: new Date(),
-    },
-    ...posts.map(({ slug }: { slug: string }) => ({
-      url: `https://${domain}/${slug}`,
-      lastModified: new Date(),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+      lastModified: site.updatedAt,
+      priority: 1
     })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/contato`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/posts`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/leis`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/ouvidoria`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/agenda`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/galeria`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/mocoes`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/bibliografia`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/projetos`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/enquetes`,
+    })),
+    ...websites.map((site) => ({
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/pesquisas`,
+    })),
+    ...landindPaths,
+    ...docPaths,
   ];
 }

@@ -22,7 +22,7 @@ export default function OverviewStats() {
   }, []);
 
   return (
-    <div className="grid">
+    <div className="grid gap-6">
       <div className="gap-6 sm:grid-cols-3">
         <AnalyticsMockup />
       </div>

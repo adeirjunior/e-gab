@@ -1,5 +1,3 @@
-import { Config } from "tailwindcss/types/config";
-
 const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
@@ -29,8 +27,8 @@ const config = {
     },
     extend: {
       colors: {
-        //demo page style
         heroGradient: "#DCE6FF",
+        "blue-theme": "#3B5DD9",
 
         // light mode
         tremor: {
@@ -194,8 +192,9 @@ const config = {
   plugins: [
     require("@headlessui/tailwindcss"),
     require("tailwindcss-animate"),
+    require("tailwind-scrollbar"),
     nextui(),
   ],
-} satisfies Config;
+};
 
-export default config;
+module.exports = config;

@@ -5,26 +5,32 @@ import { Law, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { nanoid } from "..";
-import { put } from "@vercel/blob";
 import { getBlurDataURL } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updateLaw = async (data: Law) => {
-  const hasSub = await hasSubscription();
+   const session = await getSession();
+   if (!session?.user.id) {
+     return {
+       error: "Not authenticated",
+     };
+   }
 
-  if (!hasSub) {
-    return {
-      error: `Você precisa assinar um plano para realizar este comando.`,
-    };
-  }
+   const user = await prisma.user.findUnique({
+     where: {
+       id: session.user.id,
+     },
+   });
 
-  const session = await getSession();
-  if (!session?.user.id) {
-    return {
-      error: "Not authenticatedNão autentificado",
-    };
-  }
+   const hasSub = await hasSubscription();
+
+   if (user?.role === "politician" && !hasSub) {
+     return {
+       error: `Você precisa assinar um plano para realizar este comando.`,
+     };
+   }
+
 
   // Verifique se as propriedades essenciais não estão vazias
   if (!data.title || !data.description || !data.content) {
@@ -96,18 +102,16 @@ export const updateLawMetadata = withLawAuth(
         const file = formData.get("image") as File;
         const filename = `${nanoid()}.${file.type.split("/")[1]}`;
 
-        const { url } = await put(filename, file, {
-          access: "public",
-        });
+        
 
-        const blurhash = await getBlurDataURL(url);
+        const blurhash = await getBlurDataURL("");
 
         response = await prisma.law.update({
           where: {
             id: law.id,
           },
           data: {
-            image: url,
+            image: "",
             imageBlurhash: blurhash,
           },
         });

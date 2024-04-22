@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/docs/*.mdx"
-, "prisma/seed.ts"  ],
+, "prisma/seed.ts", "tailwind.config.js"  ],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,9 @@
 "use server";
-
-import WelcomeEmail from "@/components/emails/welcome-politician";
 import { getSession } from "@/lib/auth/get-session";
 import resend from "@/lib/configs/resend";
 import prisma from "@/lib/configs/prisma";
 import { randomUUID } from "crypto";
+import WelcomeEmail from "@/components/emails/welcome-politician";
 
 export const sendWelcomeEmail = async (formData: FormData) => {
   const session = await getSession();
@@ -53,10 +52,10 @@ inviteTokenExpiry.setMinutes(inviteTokenExpiry.getMinutes() + 15);
     });
 
     return await resend.emails.send({
-      from: "E-Gab <onboarding@resend.dev>",
+      from: "E-Gab <no-reply@simplesgov.com.br>",
       to: invite.invitedEmail,
       subject: `Você foi convidado por ${session.user.name} para administrar o site do político ${invite.toAdminWebsite.politician.user.name}`,
-      react: WelcomeEmail({ name: session.user.name }),
+      react: WelcomeEmail(),
     });
   } catch (error) {}
 };

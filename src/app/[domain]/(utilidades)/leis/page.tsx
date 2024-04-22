@@ -1,3 +1,4 @@
+import LawCard from "@/components/card/law-card";
 import PostCard from "@/components/website/post-card";
 import { getLawsForSite } from "@/lib/fetchers/law";
 import { Image } from "@nextui-org/react";
@@ -11,11 +12,11 @@ export const metadata: Metadata = {
 export default async function Page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
 
-  const [posts] = await Promise.all([getLawsForSite(domain)]);
+  const [laws] = await Promise.all([getLawsForSite(domain)]);
 
   return (
-    <div>
-      {posts.length > 0 ? (
+    <section>
+      {laws.length > 0 ? (
         <Grid
           numItems={1}
           numItemsSm={2}
@@ -24,21 +25,21 @@ export default async function Page({ params }: { params: { domain: string } }) {
           className="gap-2"
         >
           {" "}
-          {posts.map((post, index) => (
-            <PostCard key={index} post={post} />
+          {laws.map((law, index) => (
+            <LawCard key={index} data={law} />
           ))}
         </Grid>
       ) : (
         <div className="flex flex-col items-center justify-center py-20">
           <Image
-            alt="missing post"
+            alt="missing law"
             src="https://illustrations.popsy.co/gray/success.svg"
             width={400}
             height={400}
             className="dark:hidden"
           />
           <Image
-            alt="missing post"
+            alt="missing law"
             src="https://illustrations.popsy.co/white/success.svg"
             width={400}
             height={400}
@@ -49,6 +50,6 @@ export default async function Page({ params }: { params: { domain: string } }) {
           </p>
         </div>
       )}
-    </div>
+    </section>
   );
 }

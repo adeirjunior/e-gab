@@ -27,6 +27,7 @@ import {
 import { ProposalTypes } from "@prisma/client";
 import { getProposalByType } from "./get-proposal";
 import { deleteProposal } from "@/lib/actions/proposals/proposals.delete.action";
+import { updateProposal } from "@/lib/actions/proposals/proposals.update.action";
 
 export default function CreateProposalForm() {
   const [isPending, start] = useTransition();
@@ -61,16 +62,33 @@ export default function CreateProposalForm() {
 
   return (
     <form
-      action={async (data: FormData) =>
-        await createProposal(data).then((res: any) => {
-          if (res.error) {
-            toast.error(res.error);
-          } else {
-            router.refresh();
-            setProposalExist(true);
-            toast.success(`Proposta salva com sucesso!`);
-          }
-        })
+      action={async (data: FormData) =>{
+        const type = data.get("type") as ProposalTypes;
+
+        const proposal = await getProposalByType(type);
+
+        if('error' in proposal) {
+          await createProposal(data).then((res: any) => {
+            if (res.error) {
+              toast.error(res.error);
+            } else {
+              router.refresh();
+              setProposalExist(true);
+              toast.success(`Proposta salva com sucesso!`);
+            }
+          });
+        } else {
+          await updateProposal(data).then((res: any) => {
+            if (res.error) {
+              toast.error(res.error);
+            } else {
+              router.refresh();
+              setProposalExist(true);
+              toast.success(`Proposta salva com sucesso!`);
+            }
+          });
+        }
+        }
       }
       className="relative w-full border-stone-200 dark:border-stone-700 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:p-8 sm:px-12 sm:shadow-lg"
     >

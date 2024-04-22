@@ -9,7 +9,6 @@ import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
 import PostCard from "@/components/website/post-card";
 import { Grid, Text, Title } from "@tremor/react";
-import CarouselWebsite from "@/components/modal/carousel";
 import { CalendarDemo } from "@/components/website/calendar-demo";
 import {
   Card,
@@ -23,6 +22,7 @@ import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
 import PoliticianBanner from "@/components/website/politician-banner";
 import { getPoliticianDataByDomain } from "@/lib/fetchers/politician";
+import { ArrowRight } from "lucide-react";
 
 export async function generateStaticParams() {
   const allSites = await prisma.website.findMany({
@@ -68,14 +68,20 @@ export default async function SiteHomePage({
 
   return (
     <>
-      <PoliticianBanner
-        name={politician.user.name!}
-        src={data.politicianPhoto}
-      />
-      <div className="mb-20 mt-[400px] w-full space-y-6">
-        <StatsGrid websiteId={data.id} />
+      <PoliticianBanner website={data} politician={politician} />
+      <StatsGrid websiteId={data.id} />
+
+      <section className="max-w-[1320px] w-full mx-auto space-y-6 px-6">
+        <h2 className=" text-xl font-semibold text-primary-500">
+          Posts recentes
+        </h2>
         {posts.length > 0 ? (
-          <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
+          <Grid
+            numItems={1}
+            numItemsSm={2}
+            numItemsLg={3}
+            className="mx-auto gap-4 "
+          >
             {" "}
             {posts.map((post, index) => (
               <PostCard key={index} post={post} />
@@ -102,20 +108,28 @@ export default async function SiteHomePage({
             </p>
           </div>
         )}
-      </div>
+        <Link className="float-right" showAnchorIcon anchorIcon={<ArrowRight />} href="/posts">
+          Todos os posts
+        </Link>
+      </section>
 
       {proposals.length > 0 && (
-        <section>
+        <section id="propostas" className="space-y-10 my-6 px-6">
           <SectionHeadingTitles
             id="propostas"
             subtitle="Meus objetivos"
             title="Quais são as principais areas que quero impulsionar"
-            description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+            description="Uma explicação resumida."
           />
-          {proposals.length >= 1 &&
+          <div className="flex flex-col items-center">
+            <div className="space-y-6">
+               {proposals.length >= 1 &&
             proposals.map((proposal, index) => (
               <ProposalSection key={index} proposal={proposal} />
             ))}
+            </div>
+          </div>
+         
         </section>
       )}
       <section>
@@ -123,7 +137,7 @@ export default async function SiteHomePage({
           id="calendario"
           subtitle="Eventos próximos"
           title="Fique atento aos próximos eventos"
-          description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. In unde expedita veniam quibusdam sed cupiditate nostrum, deleniti perspiciatis architecto fugit. Rem consequuntur error placeat dolor tenetur, incidunt nisi fugit non mollitia molestiae quisquam ad hic corporis architecto possimus quae optio cupiditate sit! Maiores dignissimos ea culpa omnis odio. Numquam, laboriosam."
+          description="Selecione a data que deseja e veja os eventos eventos agendados no dia."
         />
         <CalendarDemo />
       </section>
@@ -155,9 +169,6 @@ export default async function SiteHomePage({
         </Card>
       </Grid>
       <Divider className="my-4" />
-      <section>
-        <CarouselWebsite />
-      </section>
     </>
   );
 }

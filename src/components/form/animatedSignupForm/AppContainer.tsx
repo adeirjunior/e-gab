@@ -22,7 +22,6 @@ export const AppContainer = () => {
   return (
     <>
       <div className="lg:hidden ">
-        <Header activeStep={activeStep} />
         <AnimatePresence initial={false} mode="wait" custom={direction}>
           <motion.div
             key={activeStep}
@@ -69,7 +68,6 @@ export const AppContainer = () => {
 
       <div className=" hidden w-full lg:flex lg:min-h-screen lg:items-center lg:justify-center">
         <div className="max-w-[550px]">
-          <Sidebar activeStep={activeStep} />
           <AnimatePresence initial={false} mode="wait">
             <motion.div
               key={activeStep}

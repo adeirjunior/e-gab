@@ -1,4 +1,17 @@
-export const getTabs = (segments: string[], id: string | undefined) => {
+import { Admin, Politician, Session, User } from "@prisma/client";
+
+interface getTabsInterface {
+  name: string;
+  href: string;
+  isActive?: boolean;
+  icon: string;
+}
+
+export const getTabs: (
+  segments: string[],
+  id: string | undefined,
+  user: User & { politician: Politician; admin: Admin },
+) => getTabsInterface[] = (segments, id, user) => {
   if (segments[0] === "conteudos") {
     if (segments[1] === "posts" && id) {
       return [
@@ -40,58 +53,131 @@ export const getTabs = (segments: string[], id: string | undefined) => {
           icon: "Settings",
         },
       ];
+    } else if (segments[1] === "mocoes" && id) {
+      return [
+        {
+          name: "Voltar para moções",
+          href: `/conteudos/mocoes`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/mocoes/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/mocoes/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
+    } else if (segments[1] === "leis" && id) {
+      return [
+        {
+          name: "Voltar para indicações legislativas",
+          href: `/conteudos/indicacoes-legislativas`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/indicacoes-legislativas/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/indicacoes-legislativas/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
     }
 
     return [
       { name: "Voltar para Visão Geral", href: `/`, icon: "ArrowLeft" },
-      {
-        name: "Posts",
-        href: `/${segments[0]}/posts`,
-        isActive: segments.includes("posts"),
-        icon: "Edit3",
-      },
-      {
-        name: "Leis",
-        href: `/${segments[0]}/leis`,
-        isActive: segments.includes("leis"),
-        icon: "Scale",
-      },
-      {
-        name: "Gastos",
-        href: `/${segments[0]}/gastos`,
-        isActive: segments.includes("gastos"),
-        icon: "DollarSign",
-      },
-      {
-        name: "Eventos",
-        href: `/${segments[0]}/eventos`,
-        isActive: segments.includes("eventos"),
-        icon: "CalendarDays",
-      },
-      {
-        name: "Moções",
-        href: `/${segments[0]}/mocoes`,
-        isActive: segments.includes("mocoes"),
-        icon: "ScrollText",
-      },
-      {
-        name: "Pesquisas",
-        href: `/${segments[0]}/pesquisas`,
-        isActive: segments.includes("pesquisas"),
-        icon: "ListChecks",
-      },
-      {
-        name: "Enquetes",
-        href: `/${segments[0]}/enquetes`,
-        isActive: segments.includes("enquetes"),
-        icon: "Vote",
-      },
-      {
-        name: "Propostas",
-        href: `/${segments[0]}/propostas`,
-        isActive: segments.includes("propostas"),
-        icon: "Vote",
-      },
+      ...(user.admin?.canViewPosts || user.role === "politician"
+        ? [
+            {
+              name: "Posts",
+              href: `/${segments[0]}/posts`,
+              isActive: segments.includes("posts"),
+              icon: "Edit3",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewLaws || user.role === "politician"
+        ? [
+            {
+              name: "Leis",
+              href: `/${segments[0]}/leis`,
+              isActive: segments.includes("leis"),
+              icon: "Scale",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewMotion || user.role === "politician"
+        ? [
+            {
+              name: "Moções",
+              href: `/${segments[0]}/mocoes`,
+              isActive: segments.includes("mocoes"),
+              icon: "ScrollText",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewSurvey || user.role === "politician"
+        ? [
+            {
+              name: "Pesquisas",
+              href: `/${segments[0]}/pesquisas`,
+              isActive: segments.includes("pesquisas"),
+              icon: "ListChecks",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewExpenses || user.role === "politician"
+        ? [
+            {
+              name: "Gastos",
+              href: `/${segments[0]}/gastos`,
+              isActive: segments.includes("gastos"),
+              icon: "DollarSign",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewEvents || user.role === "politician"
+        ? [
+            {
+              name: "Eventos",
+              href: `/${segments[0]}/eventos`,
+              isActive: segments.includes("eventos"),
+              icon: "CalendarDays",
+            },
+          ]
+        : []),
+
+      ...(user.admin?.canViewPoll || user.role === "politician"
+        ? [
+            {
+              name: "Enquetes",
+              href: `/${segments[0]}/enquetes`,
+              isActive: segments.includes("enquetes"),
+              icon: "Vote",
+            },
+          ]
+        : []),
+      ...(user.admin?.canViewProposals || user.role === "politician"
+        ? [
+            {
+              name: "Propostas",
+              href: `/${segments[0]}/propostas`,
+              isActive: segments.includes("propostas"),
+              icon: "Vote",
+            },
+          ]
+        : []),
     ];
   } else if (segments[0] === "usuarios") {
     if (id) {
@@ -198,41 +284,66 @@ export const getTabs = (segments: string[], id: string | undefined) => {
       isActive: segments.length === 0,
       icon: "LayoutDashboard",
     },
-    {
-      name: "Site",
-      href: "/site",
-      isActive: segments[0] === "site",
-      icon: "Globe",
-    },
-    {
-      name: "Conteúdos",
-      href: `/conteudos`,
-      isActive: segments.includes("conteudos"),
-      icon: "Newspaper",
-    },
-    {
-      name: "Arquivos",
-      href: `/arquivos`,
-      isActive: segments.includes("arquivos"),
-      icon: "Files",
-    },
-    {
-      name: "Estatísticas",
-      href: `/estatisticas`,
-      isActive: segments.includes("estatisticas"),
-      icon: "BarChart3",
-    },
-    {
-      name: "Ouvidoria",
-      href: `/ouvidoria`,
-      isActive: segments.includes("ouvidoria"),
-      icon: "BarChart3",
-    },
-    {
-      name: "Usuários",
-      href: "/usuarios",
-      isActive: segments[0] === "usuarios",
-      icon: "Users",
-    },
+    ...(user.admin?.canViewGeralSettings || user.role === "politician"
+      ? [
+          {
+            name: "Site",
+            href: "/site",
+            isActive: segments[0] === "site",
+            icon: "Globe",
+          },
+        ]
+      : []),
+
+    ...(user.admin?.canViewContents || user.role === "politician"
+      ? [
+          {
+            name: "Conteúdos",
+            href: `/conteudos`,
+            isActive: segments.includes("conteudos"),
+            icon: "Newspaper",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewArchives || user.role === "politician"
+      ? [
+          {
+            name: "Arquivos",
+            href: `/arquivos`,
+            isActive: segments.includes("arquivos"),
+            icon: "Files",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewStatistics || user.role === "politician"
+      ? [
+          {
+            name: "Estatísticas",
+            href: `/estatisticas`,
+            isActive: segments.includes("estatisticas"),
+            icon: "BarChart3",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewChatRoom || user.role === "politician"
+      ? [
+          {
+            name: "Ouvidoria",
+            href: `/ouvidoria`,
+            isActive: segments.includes("ouvidoria"),
+            icon: "BarChart3",
+          },
+        ]
+      : []),
+    ...(user.admin?.canViewAdmins || user.role === "politician"
+      ? [
+          {
+            name: "Usuários",
+            href: "/usuarios",
+            isActive: segments[0] === "usuarios",
+            icon: "Users",
+          },
+        ]
+      : []),
   ];
 };

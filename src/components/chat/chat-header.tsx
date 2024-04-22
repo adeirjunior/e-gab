@@ -3,24 +3,26 @@
 import { Button } from "@nextui-org/react";
 import { User } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export default function ChatHeader({ chatPartner }: { chatPartner: User }) {
   return (
     <>
-      <div className="relative flex items-center space-x-4">
-        <div className="relative">
-          <span className="absolute bottom-0 right-0 text-green-500">
+      <div className="flex items-center space-x-4">
+        <div>
+          <span className="text-green-500">
             <svg width="20" height="20">
               <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
             </svg>
           </span>
-          <CldImage
-            className="rounded-full"
-            src={chatPartner.image}
-            width={50}
-            height={50}
-            alt=""
-          />
+          <div className="w-10 overflow-hidden rounded-full">
+            <AspectRatio
+              className="grid place-content-center overflow-hidden"
+              ratio={1 / 1}
+            >
+              <CldImage alt="" src={chatPartner.image} width={50} height={50} />
+            </AspectRatio>
+          </div>
         </div>
         <div className="flex flex-col leading-tight">
           <div className="mt-1 flex items-center text-2xl">
