@@ -6,18 +6,18 @@ import Image from "next/image";
 import MotionCard from "../card/motion-card";
 
 export type contentArray = {
-  siteId?: string;
+  websiteId: string;
   limit?: number;
 };
 
-export default async function Motions({ siteId, limit }: contentArray) {
+export default async function Motions({ websiteId, limit }: contentArray) {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");
   }
   const motions = await prisma.politicianMotion.findMany({
     where: {
-      ...(siteId ? { websiteId: siteId } : {}),
+      websiteId
     },
     orderBy: {
       updatedAt: "desc",
@@ -36,7 +36,7 @@ export default async function Motions({ siteId, limit }: contentArray) {
     </div>
   ) : (
     <div className="flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">Sem moções Ainda</h1>
+      <h1 className="font-cal text-4xl">Sem moções ainda</h1>
       <Image
         alt="missing law"
         src="https://illustrations.popsy.co/gray/graphic-design.svg"

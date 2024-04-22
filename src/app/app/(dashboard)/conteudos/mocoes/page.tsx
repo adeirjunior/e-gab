@@ -35,7 +35,7 @@ export default async function SitePosts() {
           Criar Moção
         </CreateMotionButton>
       </div>
-      <Motions />
+      <Motions websiteId={data.id}/>
     </>
   );
 }

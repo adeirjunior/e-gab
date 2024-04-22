@@ -35,7 +35,7 @@ export const createSite = async (formData: FormData) => {
         description,
         subdomain,
         cloudinaryDir: "",
-        politicianId: politician.id,
+        politician: { connect: { id: politician.id } },
       },
     }); 
 

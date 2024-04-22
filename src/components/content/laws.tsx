@@ -6,18 +6,18 @@ import Image from "next/image";
 import { Grid } from "@tremor/react";
 
 export type contentArray = {
-  siteId?: string;
+  websiteId: string;
   limit?: number;
 };
 
-export default async function Laws({ siteId, limit }: contentArray) {
+export default async function Laws({ websiteId, limit }: contentArray) {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");
   }
   const laws = await prisma.law.findMany({
     where: {
-      ...(siteId ? { websiteId: siteId } : {}),
+      websiteId,
     },
     orderBy: {
       updatedAt: "desc",
@@ -36,7 +36,7 @@ export default async function Laws({ siteId, limit }: contentArray) {
     </Grid>
   ) : (
     <div className="flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">Sem laws Ainda</h1>
+      <h1 className="font-cal text-4xl">Sem leis ainda</h1>
       <Image
         alt="missing law"
         src="https://illustrations.popsy.co/gray/graphic-design.svg"
@@ -44,7 +44,7 @@ export default async function Laws({ siteId, limit }: contentArray) {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        Você não tem nenhum law ainda. Crie um para começar.
+        Você não tem nenhuma lei ainda. Crie uma para começar.
       </p>
     </div>
   );

@@ -40,7 +40,6 @@ export const updateSite = async (
     };
   }
 
-  
   const value = formData.get(key) as string;
   const site = await getWebsiteByUserId(session.user.id);
 

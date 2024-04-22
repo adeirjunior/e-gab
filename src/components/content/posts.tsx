@@ -35,7 +35,7 @@ export default async function Posts({ websiteId, limit }: contentArray) {
     </div>
   ) : (
     <div className="flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">Sem Posts Ainda</h1>
+      <h1 className="font-cal text-4xl">Sem posts ainda</h1>
       <Image
         alt="missing post"
         src="https://illustrations.popsy.co/gray/graphic-design.svg"

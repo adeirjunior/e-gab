@@ -92,6 +92,7 @@
     "novel": "^0.1.22",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
+    "random-words": "^2.0.1",
     "react": "^18",
     "react-canvas-confetti": "^2.0.7",
     "react-day-picker": "^8.10.0",

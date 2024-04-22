@@ -26,14 +26,14 @@ export default function LoginForm() {
       startUserLogin(async () => {
         const isThereUser = await getUserByEmail(email as string);
 
-        if (isThereUser.role === "politician") {
+        if (isThereUser.role !== "client") {
           await signIn("credentials", { email, password, redirect: false });
           const session = await getSession();
 
           console.log(session);
 
           if (!session) {
-            toast.error("Esta conta não existe.");
+            toast.error(`Esta conta não existe: {senha: ${password}, email: ${email}}`);
           } else {
             toast.success("Login feito com sucesso.");
             router.push("/");

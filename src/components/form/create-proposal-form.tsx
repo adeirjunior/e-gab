@@ -65,9 +65,9 @@ export default function CreateProposalForm() {
       action={async (data: FormData) =>{
         const type = data.get("type") as ProposalTypes;
 
-        const prosposal = await getProposalByType(type);
+        const proposal = await getProposalByType(type);
 
-        if('error' in prosposal) {
+        if('error' in proposal) {
           await createProposal(data).then((res: any) => {
             if (res.error) {
               toast.error(res.error);

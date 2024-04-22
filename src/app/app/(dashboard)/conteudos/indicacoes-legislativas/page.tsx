@@ -35,7 +35,7 @@ export default async function SitePosts() {
           Criar Lei
         </CreateLawButton>
       </div>
-      <Laws />
+      <Laws websiteId={data.id}/>
     </>
   );
 }
