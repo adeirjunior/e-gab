@@ -7,7 +7,6 @@ import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import DomainStatus from "./domain-status";
 import DomainConfiguration from "./domain-configuration";
-import Uploader from "./uploader";
 import va from "@vercel/analytics";
 import {
   Button,
@@ -91,25 +90,7 @@ export default function Form({
             </p>
           </Suspense>
 
-          {inputAttrs.name === "image" ||
-          inputAttrs.name === "logo" ||
-          inputAttrs.name === "politicianPhoto" ? (
-            <Suspense
-              fallback={
-                <Skeleton>
-                  <Uploader
-                    defaultValue={inputAttrs.defaultValue}
-                    name={inputAttrs.name}
-                  />
-                </Skeleton>
-              }
-            >
-              <Uploader
-                defaultValue={inputAttrs.defaultValue}
-                name={inputAttrs.name}
-              />
-            </Suspense>
-          ) : inputAttrs.name === "font" ? (
+          {inputAttrs.name === "font" ? (
             <div className="flex max-w-sm items-center overflow-hidden border-stone-600">
               <Select
                 name={inputAttrs.name}

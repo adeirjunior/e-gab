@@ -101,32 +101,7 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
   const value = formData.get(key) as string;
 
   try {
-    let response;
-    if (key === "image") {
-      const url = await create(formData, websiteImagePathCreator, key, [
-        "post",
-        "image",
-      ]);
-
-      if(!url) {
-        return {
-          error: 'Falha ao coletar url'
-        }
-      }
-
-      const blurhash = await getBlurDataURL(url);
-
-      response = await prisma.post.update({
-        where: {
-          id: post.id,
-        },
-        data: {
-          image: url,
-          imageBlurhash: blurhash,
-        },
-      });
-    } else {
-      response = await prisma.post.update({
+    const response = await prisma.post.update({
         where: {
           id: post.id,
         },
@@ -134,7 +109,6 @@ export const updatePostMetadata = withPostAuth(async (formData, post, key) => {
           [key]: key === "published" ? value === "true" : value,
         },
       });
-    }
 
     revalidateTag(
       `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,

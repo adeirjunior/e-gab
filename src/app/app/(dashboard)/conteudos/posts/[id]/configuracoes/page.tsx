@@ -5,6 +5,9 @@ import { updatePostMetadata } from "@/lib/actions/post/post.update.action";
 import DeletePostForm from "@/components/form/delete-post-form";
 import { getSession } from "@/lib/auth/get-session";
 import { getUserById } from "@/lib/fetchers/user";
+import ImageForm from "@/components/form/image-form";
+import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { getGalleryImages } from "@/lib/fetchers/image";
 
 export default async function PostSettings({
   params,
@@ -44,6 +47,9 @@ export default async function PostSettings({
     throw new Error("Você não tem permissão para editar posts.");
   }
 
+  const website = await getWebsiteByUserId(session.user.id);
+  const { resources } = await getGalleryImages(website?.cloudinaryDir!);
+
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-6">
       <div className="flex flex-col space-y-6">
@@ -63,13 +69,13 @@ export default async function PostSettings({
           handleSubmit={updatePostMetadata}
         />
 
-        <Form
+        <ImageForm
+        resources={resources}
           title="Thumbnail"
           description="A thumbnail do seu post. Formatos aceitos: .png, .jpg, .jpeg"
           helpText="Arquivo de no máximo 5MB. Tamanho recomendado 1200x630."
           inputAttrs={{
             name: "image",
-            type: "file",
             defaultValue: post?.image!,
           }}
           handleSubmit={updatePostMetadata}

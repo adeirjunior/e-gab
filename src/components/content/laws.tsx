@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
-import LawCard from "../card/law-card";
+import LawCard from "../card/law-card-dashboard";
 import Image from "next/image";
 import { Grid } from "@tremor/react";
 
