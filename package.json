@@ -53,6 +53,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@react-email/components": "^0.0.15",
     "@remixicon/react": "^4.1.1",
+    "@splinetool/react-spline": "^2.2.6",
     "@stripe/stripe-js": "^2.3.0",
     "@tremor/react": "^3.13.4",
     "@types/mdx": "^2.0.10",

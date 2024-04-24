@@ -96,3 +96,18 @@ export interface DomainVerificationResponse {
     reason: string;
   }[];
 }
+
+export type PartyDataType = {
+  id: string;
+  sigla: string;
+  nome: string;
+  uri: string;
+};
+
+export type PartiesDataType = {
+  dados: PartyDataType[];
+  links: {
+    rel: string;
+    href: string;
+  }[];
+};
