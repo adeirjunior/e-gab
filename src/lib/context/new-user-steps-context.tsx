@@ -22,6 +22,8 @@ type NewUserStepsContextType = {
   CalcTotalAmount: () => any;
   invitedUserToken: string;
   setInvitedUserToken: React.Dispatch<React.SetStateAction<string>>;
+  politicianParty: string;
+  setPoliticianParty: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const NewUserStepsContext = createContext<NewUserStepsContextType>({
@@ -41,12 +43,15 @@ export const NewUserStepsContext = createContext<NewUserStepsContextType>({
   setDirection: () => {},
   CalcTotalAmount: () => {},
   invitedUserToken: "",
-  setInvitedUserToken: () => {}
+  setInvitedUserToken: () => {},
+  politicianParty: "",
+  setPoliticianParty: () => {},
 });
 
 export function NewUserStepsContextProvider({ children }: { children: ReactNode }) {
   const [invitedUserToken, setInvitedUserToken] = useState<string>("");
   const [firstStepData, setFirstStepData] = useState<UserRole>("invited");
+  const [politicianParty, setPoliticianParty] = useState<string>("");
 
   const [firstStepErrors, setFirstStepErrors] = useState<string[]>([]);
 
@@ -90,6 +95,8 @@ export function NewUserStepsContextProvider({ children }: { children: ReactNode 
         CalcTotalAmount,
         invitedUserToken,
         setInvitedUserToken,
+        politicianParty,
+        setPoliticianParty,
       }}
     >
       {children}

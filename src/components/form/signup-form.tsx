@@ -11,6 +11,7 @@ import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/user/user.create.action";
 import { useEffectOnce } from "usehooks-ts";
+import PasswordInput from "./password-input";
 
 export type checkPassStrengthType = {
   id: number;
@@ -98,7 +99,7 @@ export default function SignupForm() {
         label="Email"
         className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
-      <Input
+      <PasswordInput
         label="Senha"
         isRequired
         variant="bordered"

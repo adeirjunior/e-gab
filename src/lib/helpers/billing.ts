@@ -21,6 +21,24 @@ export async function hasSubscription() {
   return false;
 }
 
+export async function getActivePlan() {
+  const session = await getSession();
+
+  if (session) {
+    const user = await prisma.user.findFirst({
+      where: { email: session.user?.email },
+    });
+
+    const subscriptions = await stripe.subscriptions.list({
+      customer: String(user?.stripeCustomerId),
+    });
+
+    return subscriptions.data[0];
+  }
+
+  return null;
+}
+
 export async function generateCustomerPortalLink(customerId: string) {
   try {
     const portalSession = await stripe.billingPortal.sessions.create({

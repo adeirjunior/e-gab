@@ -22,7 +22,7 @@ export const PoliticianPath3 = () => {
             <h3>
               {selectedPlan.title} (
               {billing === "monthly" ? "Mensalmente" : "Anualmente"})
-            </h3>
+            </h3> 
             <span
               onClick={() => {
                 setActiveStep(2);
