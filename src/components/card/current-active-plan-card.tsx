@@ -2,6 +2,7 @@ import {
   createCheckoutLink,
   createCustomerIfNull,
   generateCustomerPortalLink,
+  getActivePlan,
   hasSubscription,
 } from "@/lib/helpers/billing";
 import { getCurrentDomain } from "@/lib/utils";
@@ -12,9 +13,11 @@ import React from "react";
 export default async function CurrentActivePlanCard({
   plan,
   session,
+  isVerified
 }: {
   plan: string;
   session: any;
+  isVerified: boolean;
 }) {
   const stripeCustomerId = (await createCustomerIfNull(
     session.user.id,
@@ -35,10 +38,18 @@ export default async function CurrentActivePlanCard({
           {hasSub ? (
             <>
               <span>Você esta usando o plano</span>{" "}
-              <Chip size="sm">{plan}</Chip>
+              <Chip size="sm" color="primary">{plan}</Chip>
             </>
           ) : (
-            "Você não possui um plano ativo."
+            <>
+              Você não possui um plano ativo.{" "}
+              {!isVerified && (
+                <span className="underline font-semibold">
+                  Verifique seu email para poder assinar um
+                  plano.
+                </span>
+              )}
+            </>
           )}{" "}
           <Link
             isExternal
@@ -52,7 +63,7 @@ export default async function CurrentActivePlanCard({
           </Link>
         </p>
         {hasSub ? (
-          <Card isPressable className="w-fit min-w-[300px] space-y-4 p-6">
+          <Card isPressable className="w-fit min-w-[300px] space-y-4 p-6 bg-transparent border-2 border-primary">
             <h3 className="font-cal m-0 p-0 text-lg dark:text-white">
               Plano Padrão
             </h3>
@@ -72,6 +83,7 @@ export default async function CurrentActivePlanCard({
           className="border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800"
           variant="bordered"
           radius="sm"
+          isDisabled={!isVerified}
         >
           {hasSub ? "Gerenciar" : "Assinar"} Plano
         </Button>

@@ -6,6 +6,7 @@ import CurrentActivePlanCard from "@/components/card/current-active-plan-card";
 import ImageForm from "@/components/form/image-form";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getGalleryImages } from "@/lib/fetchers/image";
+import { getUserById } from "@/lib/fetchers/user";
 
 export default async function SettingsPage() {
   const session = await getSession();
@@ -14,9 +15,9 @@ export default async function SettingsPage() {
     redirect("/login");
   }
 
-  const user = session.user;
+  const user = await getUserById(session.user.id)
 
-  const website = await getWebsiteByUserId(user.id!);
+  const website = await getWebsiteByUserId(session.user.id);
   const { resources } = await getGalleryImages(website?.cloudinaryDir!);
 
   return (
@@ -39,7 +40,7 @@ export default async function SettingsPage() {
           handleSubmit={editUser}
         />
         <ImageForm
-        resources={resources}
+          resources={resources}
           title="Logo"
           description="A logo do seu perfil. Formatos aceitos: .png, .jpg, .jpeg, .webp"
           helpText="Arquivo de no máximo 5MB. Tamanho recomendado 400x400."
@@ -62,7 +63,11 @@ export default async function SettingsPage() {
           handleSubmit={editUser}
         />
         {user.role === "politician" && (
-          <CurrentActivePlanCard session={session} plan="Grátis" />
+          <CurrentActivePlanCard
+            isVerified={user.emailVerified}
+            session={session}
+            plan="Padrão"
+          />
         )}
       </div>
     </div>

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { getSession } from "@/lib/auth/get-session";
 import { useRouter } from "next/navigation";
 import { getUserByEmail } from "@/lib/fetchers/user";
+import PasswordInput from "./password-input";
 
 export default function LoginForm() {
   const [isPendingUserLogin, startUserLogin] = useTransition();
@@ -57,7 +58,7 @@ export default function LoginForm() {
         label="Email"
         className="w-full border-stone-200 bg-white hover:bg-stone-50 focus:outline-none active:bg-stone-100 dark:border-stone-700 dark:bg-black dark:text-white dark:hover:border-white dark:hover:bg-black"
       />
-      <Input
+      <PasswordInput
         variant="bordered"
         name="password"
         isRequired

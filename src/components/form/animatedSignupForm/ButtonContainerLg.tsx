@@ -1,6 +1,7 @@
 "use client"
 
 import { createPolitician } from "@/lib/actions/politician/politician.create.action";
+import { editOneKeyPolitician } from "@/lib/actions/politician/politician.update";
 import { editOneKeyUser } from "@/lib/actions/user/user.update.action";
 import {useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { FirstStepValidationSchema } from "@/lib/validations/FirstStepValidation.";
@@ -13,6 +14,7 @@ export const ButtonContainerLg = () => {
      setDirection,
      setFirstStepErrors,
      selectedRole,
+     politicianParty
    } = useNewUserSteps();
    
   return (
@@ -53,7 +55,9 @@ export const ButtonContainerLg = () => {
             }
           } else if(activeStep === 3 && selectedRole === "politician") {
             await editOneKeyUser(selectedRole, "role");
-            await createPolitician();
+            await createPolitician().then(async ()=> {
+              await editOneKeyPolitician(politicianParty, "party")
+            });
             setActiveStep((prev: number) => prev + 1);
             setDirection(1);
           } else {

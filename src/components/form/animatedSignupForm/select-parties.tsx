@@ -1,44 +1,17 @@
 "use client";
 
+import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
+import { getAllParties } from "@/lib/fetchers/party";
 import { Select, SelectItem, Skeleton } from "@nextui-org/react";
 import useSWR from "swr";
-
-type PartyDataType = {
-  id: string;
-  sigla: string;
-  nome: string;
-  uri: string;
-};
-
-type PartiesDataType = {
-  dados: PartyDataType[];
-  links: {
-    rel: string;
-    href: string;
-  }[];
-};
-
-async function getParties(url: string): Promise<PartyDataType[]> {
-  const res: Response = await fetch(
-    `https://dadosabertos.camara.leg.br/api/v2${url}`,
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  const { dados } = (await res.json()) as PartiesDataType;
-
-  console.log(dados);
-
-  return dados;
-}
 
 export default function SelectParties() {
   const { data, error, isLoading } = useSWR(
     "/partidos?ordem=ASC&ordenarPor=sigla",
-    getParties,
+    getAllParties,
   );
+
+  const { politicianParty, setPoliticianParty } = useNewUserSteps();
 
   if (isLoading)
     return (
@@ -46,7 +19,7 @@ export default function SelectParties() {
         <Select
           variant="bordered"
           disabled
-          label="Um erro ocorreu"
+          label="Carregando"
           className="max-w-xs"
         >
           <SelectItem key="1" value="Vazio">
@@ -71,12 +44,25 @@ export default function SelectParties() {
   if (!data) return "Dados vazios.";
 
   return (
-    <Select variant="bordered" label="Escolha seu partido" className="max-w-xs">
-      {data.map((party) => (
-        <SelectItem key={party.id} value={party.sigla}>
-          {party.sigla}
-        </SelectItem>
-      ))}
-    </Select>
+    <>
+      <Select
+        value={politicianParty}
+        onChange={(e) => {
+          const selected = data.filter(
+            (party) => party.id == e.target.value,
+          )[0];
+          setPoliticianParty(selected.sigla);
+        }}
+        variant="bordered"
+        label="Escolha seu partido"
+        className="max-w-xs"
+      >
+        {data.map((party) => (
+          <SelectItem key={party.id} value={party.sigla}>
+            {party.sigla}
+          </SelectItem>
+        ))}
+      </Select>
+    </>
   );
 }

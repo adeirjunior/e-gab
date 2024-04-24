@@ -13,7 +13,7 @@ export default function LoginPage() {
         alt="Logo E-Gab"
         width={200}
         height={200}
-        className="relative mx-auto h-28 w-auto dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
+        className="relative mx-auto h-28 w-auto scale-125"
         src="/logo.png"
       />
       <h1 className="mt-6 text-center text-3xl font-semibold dark:text-white">
