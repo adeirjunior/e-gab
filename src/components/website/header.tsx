@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -34,6 +33,8 @@ export default function Header({ data }: { data: Website }) {
     { title: "Galeria", href: "/galeria" },
     { title: "Projetos", href: "/projetos" },
     { title: "Leis", href: "/leis" },
+    {title: "Indicacoes Legislativas", href: "/indicacoes-legislativas"},
+    {title: "Moções", href: "/mocoes"},
     { title: "Ouvidoria", href: "/ouvidoria" },
     { title: "Enquetes", href: "/enquetes" },
     { title: "Pesquisas", href: "/pesquisas" },
@@ -83,35 +84,25 @@ export default function Header({ data }: { data: Website }) {
                 base: "gap-4",
               }}
             >
-              <DropdownItem
-                as={Link}
-                href="/agenda"
-                key="autoscaling"
-              >
+              <DropdownItem as={Link} href="/agenda" key="autoscaling">
                 Agenda
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/bibliografia"
-              >
+              <DropdownItem as={Link} href="/bibliografia">
                 Bibliografia
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/emendas"
-              >
+              <DropdownItem as={Link} href="/emendas">
                 Emendas
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/galeria"
-              >
+              <DropdownItem as={Link} href="/indicacoes-legislativas">
+                Indicações Legislativas
+              </DropdownItem>
+              <DropdownItem as={Link} href="/mocoes">
+                Moções
+              </DropdownItem>
+              <DropdownItem as={Link} href="/galeria">
                 Galeria
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/projetos"
-              >
+              <DropdownItem as={Link} href="/projetos">
                 Projetos
               </DropdownItem>
             </DropdownMenu>
@@ -136,32 +127,16 @@ export default function Header({ data }: { data: Website }) {
                 base: "gap-4",
               }}
             >
-              <DropdownItem
-                as={Link}
-                href="/enquetes"
-                key="autoscaling"
-              >
+              <DropdownItem as={Link} href="/enquetes" key="autoscaling">
                 Enquetes
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/leis"
-                key="usage_metrics"
-              >
+              <DropdownItem as={Link} href="/leis" key="usage_metrics">
                 Leis
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/ouvidoria"
-                key="production_ready"
-              >
+              <DropdownItem as={Link} href="/ouvidoria" key="production_ready">
                 Ouvidoria
               </DropdownItem>
-              <DropdownItem
-                as={Link}
-                href="/pesquisas"
-                key="99_uptime"
-              >
+              <DropdownItem as={Link} href="/pesquisas" key="99_uptime">
                 Pesquisas
               </DropdownItem>
             </DropdownMenu>
@@ -222,7 +197,9 @@ export default function Header({ data }: { data: Website }) {
                   as={Link}
                   href="/documentacao"
                   key="documentation"
-                > Documentação
+                >
+                  {" "}
+                  Documentação
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
@@ -239,7 +216,7 @@ export default function Header({ data }: { data: Website }) {
             <>
               <NavbarItem className="hidden lg:flex">
                 <Link
-                  className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                  className="rounded-md bg-primary-500 px-5 py-2.5 text-sm font-medium text-white shadow"
                   href="/login"
                 >
                   Login
@@ -248,7 +225,7 @@ export default function Header({ data }: { data: Website }) {
               <NavbarItem>
                 <Button
                   as={Link}
-                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary-500"
                   color="primary"
                   href="/signup"
                   variant="flat"

@@ -22,6 +22,7 @@ import {
 } from "@nextui-org/react";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
+import Uploader from "./uploader";
 
 export default function Form({
   title,
@@ -90,7 +91,25 @@ export default function Form({
             </p>
           </Suspense>
 
-          {inputAttrs.name === "font" ? (
+          {inputAttrs.name === "image" ||
+          inputAttrs.name === "logo" ||
+          inputAttrs.name === "politicianPhoto" ? (
+            <Suspense
+              fallback={
+                <Skeleton>
+                  <Uploader
+                    defaultValue={inputAttrs.defaultValue}
+                    name={inputAttrs.name}
+                  />
+                </Skeleton>
+              }
+            >
+              <Uploader
+                defaultValue={inputAttrs.defaultValue}
+                name={inputAttrs.name}
+              />
+            </Suspense>
+          ) : inputAttrs.name === "font" ? (
             <div className="flex max-w-sm items-center overflow-hidden border-stone-600">
               <Select
                 name={inputAttrs.name}

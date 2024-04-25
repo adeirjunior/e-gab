@@ -7,7 +7,7 @@ import BlurImage from "@/components/arquives/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import "./style.css";
-import ShareButtons from "../../../../components/button/share-buttons";
+import ShareButtons from "@/components/button/share-buttons";
 
 export const dynamic = "force-static";
 

@@ -77,7 +77,7 @@ export async function getUserByEmail(email: string) {
     });
 
     if (!user) {
-      throw new Error("Não foi possível encontrar o usuário");
+      return null
     }
 
     return user;

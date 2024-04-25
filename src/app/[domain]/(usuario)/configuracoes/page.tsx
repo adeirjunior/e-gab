@@ -1,5 +1,5 @@
 import Form from "@/components/form";
-import { editUser } from "@/lib/actions/user/user.update.action";
+import { editImageUser, editUser } from "@/lib/actions/user/user.update.action";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 
@@ -34,7 +34,7 @@ export default async function Page() {
           type: "file",
           defaultValue: session.user.image!,
         }}
-        handleSubmit={editUser}
+        handleSubmit={editImageUser}
       />
       <Form
         title="Email"

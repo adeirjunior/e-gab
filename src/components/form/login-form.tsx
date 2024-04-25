@@ -27,7 +27,7 @@ export default function LoginForm() {
       startUserLogin(async () => {
         const isThereUser = await getUserByEmail(email as string);
 
-        if (isThereUser.role !== "client") {
+        if (isThereUser?.role !== "client") {
           await signIn("credentials", { email, password, redirect: false });
           const session = await getSession();
 
