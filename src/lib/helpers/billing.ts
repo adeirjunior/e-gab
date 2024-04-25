@@ -1,5 +1,5 @@
 import { getSession } from "../auth/get-session";
-import { getCurrentDomain } from "../utils";
+import { getCurrentDomain, isDev } from "../utils";
 import { stripe } from "../configs/stripe";
 import prisma from "../configs/prisma";
 
@@ -61,7 +61,7 @@ export async function createCheckoutLink(customer: string) {
 
     line_items: [
       {
-        price: "price_1OaVzYF2B4eBI9ENg94MBCT8",
+        price: isDev ? "price_1OaVzYF2B4eBI9ENg94MBCT8" : "price_1P9SWxF2B4eBI9ENq7E0xfp7",
         quantity: 1,
       },
     ],
