@@ -1,11 +1,10 @@
 import { ForceRefresh } from "@/components/force-refresh";
-
 import { Metadata } from "next";
 import GalleryList from "@/components/arquives/gallery-list";
 import { getGalleryImagesWithTags } from "@/lib/fetchers/image";
 
 export const metadata: Metadata = {
-  title: "Bibliografia",
+  title: "Galeria",
 };
 
 export default async function FavoritesPage({
@@ -13,14 +12,10 @@ export default async function FavoritesPage({
 }: {
   params: { domain: string };
 }) {
-
-  const subdomain = params.domain.endsWith(
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
-  )
-    ? params.domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+  const domain = decodeURIComponent(params.domain);
+  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
-
-
 
   const results = await getGalleryImagesWithTags(subdomain!, ["favorite"]);
 

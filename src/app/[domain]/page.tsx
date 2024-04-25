@@ -24,14 +24,19 @@ import PoliticianBanner from "@/components/website/politician-banner";
 import { getPoliticianDataByDomain } from "@/lib/fetchers/politician";
 import { ArrowRight } from "lucide-react";
 
-export async function generateStaticParams() {
+export async function generateStaticParams({
+  params,
+}: {
+  params: { domain: string };
+}) {
+  const domain = decodeURIComponent(params.domain);
   const allSites = await prisma.website.findMany({
     select: {
       subdomain: true,
       customDomain: true,
     },
     where: {
-      subdomain: "demo",
+      subdomain: domain,
     },
   });
 
