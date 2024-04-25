@@ -34,7 +34,7 @@ export default function LoginForm() {
           console.log(session);
 
           if (!session) {
-            toast.error(`Esta conta não existe: {senha: ${password}, email: ${email}}`);
+            toast.error(`Esta conta não existe.`);
           } else {
             toast.success("Login feito com sucesso.");
             router.push("/");

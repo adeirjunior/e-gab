@@ -21,7 +21,7 @@ export function calculateAverage(numbers: number[]): string {
   return formattedAverage;
 }
 
-
+export const isDev = process.env.NODE_ENV === "development";
 
 export function chatHrefConstructor(id1: string, id2: string) {
   const sortedIds = [id1, id2].sort();
@@ -33,7 +33,7 @@ export function decodeUTF8(encodedText: string): string {
 }
 
 export function getCurrentDomain(subdomain?: string, path?: string) {
-  const isDev = process.env.NODE_ENV === "development";
+  
   const protocol = isDev ? "http://" : "https://";
   const domain = isDev ? "localhost:3000" : process.env.NEXT_PUBLIC_ROOT_DOMAIN;
   return `${protocol}${subdomain ? `${subdomain}.` : ""}${domain}${path ?? ""}`;
