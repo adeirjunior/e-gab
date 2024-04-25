@@ -5,3 +5,11 @@
 .root :global(.react-tweet-theme) a {
   font-weight: 300;
 }
+
+.root :is(h1) {
+ @apply text-4xl font-semibold
+}
+
+.root :is(p) {
+ @apply text-base font-normal
+}

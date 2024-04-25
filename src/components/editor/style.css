@@ -35,5 +35,13 @@ div {
 }
 
 .ce-block--selected .ce-block__content {
-  @apply bg-gray-900;
+  @apply dark:bg-gray-900;
+}
+
+#tippy-1, .react-renderer, #slash-command {
+  @apply dark:bg-black
+}
+
+#slash-command > button {
+  @apply dark:hover:bg-black rounded-none
 }

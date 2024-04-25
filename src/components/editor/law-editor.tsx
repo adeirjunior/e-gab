@@ -12,10 +12,9 @@ import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
-import Link from "next/link";
 
 export type LawWithSite = Law & {
   website: { subdomain: string | null };
@@ -84,14 +83,18 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
     <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 dark:border-stone-700 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg">
       <div className="absolute right-5 top-5 mb-5 flex items-center space-x-3">
         {data.published && (
-          <Link
+          <Button
+            isIconOnly
+            variant="bordered"
+            as={Link}
             href={url}
             target="_blank"
+            isExternal
             rel="noopener noreferrer"
             className="flex items-center space-x-1 text-sm text-stone-400 hover:text-stone-500"
           >
             <ExternalLink className="h-4 w-4" />
-          </Link>
+          </Button>
         )}
         <div
           className={cn(
@@ -106,12 +109,13 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         </div>
         <Button
           onClick={togglePublish}
+          variant="bordered"
           className={cn(
-            "flex h-7 w-24 items-center justify-center space-x-2 rounded-lg border text-sm transition-all focus:outline-none",
+            "flex h-7 w-24 items-center justify-center space-x-2 rounded-lg border-2 text-sm transition-all focus:outline-none",
             {
               "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300":
                 isPendingPublishing,
-              "border border-black bg-black text-white hover:bg-white hover:text-black active:bg-stone-100 dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800":
+              "border-2 border-black bg-black text-white hover:bg-white hover:text-black active:bg-stone-100 dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800":
                 !isPendingPublishing,
             },
           )}
@@ -142,7 +146,7 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
         <NovelEditor
           className="relative block"
           disableLocalStorage
-          defaultValue={law.content || undefined}
+          defaultValue={law.content || ""}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,

@@ -8,11 +8,10 @@ import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
 import { updateMotion, updateMotionMetadata } from "@/lib/actions/motion/motion.update.action";
-import Link from "next/link";
 
 export type MotionWithSite = PoliticianMotion & {
   website: { subdomain: string | null };
@@ -81,14 +80,18 @@ export default function MotionEditor({ motion }: { motion: MotionWithSite }) {
     <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 dark:border-stone-700 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg">
       <div className="absolute right-5 top-5 mb-5 flex items-center space-x-3">
         {data.published && (
-          <Link
+          <Button
+            isIconOnly
+            variant="bordered"
+            as={Link}
             href={url}
             target="_blank"
+            isExternal
             rel="noopener noreferrer"
             className="flex items-center space-x-1 text-sm text-stone-400 hover:text-stone-500"
           >
             <ExternalLink className="h-4 w-4" />
-          </Link>
+          </Button>
         )}
         <div
           className={cn(
@@ -139,7 +142,7 @@ export default function MotionEditor({ motion }: { motion: MotionWithSite }) {
         <NovelEditor
           className="relative block"
           disableLocalStorage
-          defaultValue={motion.content || undefined}
+          defaultValue={motion.content || ""}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,

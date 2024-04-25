@@ -18,7 +18,7 @@ export default function MDX({ source }: { source: MDXRemoteProps }) {
   return (
     <section
       itemProp="articleBody"
-      className={`prose-md  prose prose-stone sm:prose-lg m-auto w-11/12 text-wrap py-6 sm:w-3/4 ${styles.root}`}
+      className={`prose-md prose space-y-6 prose-stone sm:prose-lg m-auto w-11/12 text-wrap py-6 max-w-5xl ${styles.root}`}
       suppressHydrationWarning={true}
     >
       {/* @ts-ignore */}

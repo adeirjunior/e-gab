@@ -12,7 +12,7 @@ import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
 import { Editor as NovelEditor } from "novel";
 import "@/components/editor/style.css";
@@ -100,14 +100,18 @@ export default function Editor({ post }: { post: PostWithSite }) {
     <div className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 dark:border-stone-700 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg">
       <div className="absolute right-5 top-5 mb-5 flex items-center space-x-3">
         {data.published && (
-          <a
+          <Button
+          isIconOnly
+          variant="bordered"
+          as={Link}
             href={url}
             target="_blank"
+            isExternal
             rel="noopener noreferrer"
             className="flex items-center space-x-1 text-sm text-stone-400 hover:text-stone-500"
           >
             <ExternalLink className="h-4 w-4" />
-          </a>
+          </Button>
         )}
         <div
           className={cn(
@@ -154,9 +158,9 @@ export default function Editor({ post }: { post: PostWithSite }) {
           className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
         />
         <NovelEditor
-          className="relative block"
+          className="relative block dark"
           disableLocalStorage
-          defaultValue={post.content || undefined}
+          defaultValue={post.content || ""}
           onUpdate={(editor) => {
             setData((prev) => ({
               ...prev,
