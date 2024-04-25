@@ -7,7 +7,7 @@ import { getProposalsForSite } from "@/lib/fetchers/proposal";
 import ProposalSection from "@/components/website/proposal-section";
 import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
-import PostCard from "@/components/website/post-card";
+import PostCard from "@/components/card/post-card";
 import { Grid, Text, Title } from "@tremor/react";
 import { CalendarDemo } from "@/components/website/calendar-demo";
 import {

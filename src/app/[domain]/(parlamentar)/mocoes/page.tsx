@@ -1,6 +1,8 @@
-import PostCard from "@/components/website/post-card";
-import { getPostsForSite } from "@/lib/fetchers/post";
+import MotionCard from "@/components/card/motion-card";
+import PostCard from "@/components/card/post-card";
+import { getMotionsForSite } from "@/lib/fetchers/motion";
 import { Image } from "@nextui-org/react";
+import { PoliticianMotion } from "@prisma/client";
 import { Grid } from "@tremor/react";
 import { Metadata } from "next";
 
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 export default async function Page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
 
-  const [posts] = await Promise.all([getPostsForSite(domain)]);
+  const [posts] = await Promise.all([getMotionsForSite(domain)]);
 
   return (
     <section>
@@ -19,7 +21,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
         <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
           {" "}
           {posts.map((post, index) => (
-            <PostCard key={index} post={post} />
+            <MotionCard key={index} data={post as PoliticianMotion} />
           ))}
         </Grid>
       ) : (

@@ -1,4 +1,4 @@
-import PostCard from "@/components/website/post-card";
+import PostCard from "@/components/card/post-card";
 import { getPostsForSite } from "@/lib/fetchers/post";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";

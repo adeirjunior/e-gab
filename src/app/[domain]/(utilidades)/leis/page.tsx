@@ -1,5 +1,5 @@
 import LawCard from "@/components/card/law-card";
-import PostCard from "@/components/website/post-card";
+import PostCard from "@/components/card/post-card";
 import { getLawsForSite } from "@/lib/fetchers/law";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";

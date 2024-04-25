@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import LawCard from "../card/law-card";
 import Image from "next/image";
-import MotionCard from "../card/motion-card";
+import MotionCard from "../card/motion-card-dashboard";
 
 export type contentArray = {
   websiteId: string;

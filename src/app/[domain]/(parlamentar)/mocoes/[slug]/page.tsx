@@ -8,6 +8,8 @@ import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import "./style.css";
 import ShareButtons from "@/components/button/share-buttons";
+import { getMotionData } from "@/lib/fetchers/motion";
+import { Link } from "@nextui-org/react";
 
 export const dynamic = "force-static";
 
@@ -89,7 +91,7 @@ export default async function SitePostPage({
 }) {
   const domain = decodeURIComponent(params.domain);
   const slug = decodeURIComponent(params.slug);
-  const data = await getPostData(domain, slug);
+  const data = await getMotionData(domain, slug);
 
   if ("error" in data) {
     console.log(data);
@@ -103,7 +105,7 @@ export default async function SitePostPage({
         <header
           itemScope
           itemType="https://schema.org/BlogPosting"
-          itemID={`${domain}/posts/${slug}`}
+          itemID={`${domain}/mocoes/${slug}`}
           className="flex flex-col items-center justify-center"
         >
           <div className="m-auto w-full space-y-6 text-center md:w-7/12">
@@ -120,24 +122,20 @@ export default async function SitePostPage({
               {data.description}
             </p>
           </div>
-          <a
-            // if you are using Github OAuth, you can get rid of the Twitter option
-            href={
-              data.user?.username
-                ? `https://twitter.com/${data.user.username}`
-                : `https://github.com/${data.user?.gh_username}`
-            }
+          <Link
+            isExternal
+            isDisabled
             rel="noreferrer"
             itemProp="url"
             target="_blank"
           >
             <div className="my-8">
               <div className="relative inline-block h-8 w-8 overflow-hidden rounded-full align-middle md:h-12 md:w-12">
-                {data.user.image ? (
+                {data.user?.image ? (
                   <BlurImage
-                    alt={data.user.name ?? "User Avatar"}
+                    alt={data.user?.name ?? "Imagem de usuário"}
                     height={80}
-                    src={data.user.image}
+                    src={data.user?.image!}
                     width={80}
                   />
                 ) : (
@@ -154,15 +152,15 @@ export default async function SitePostPage({
                   itemType="https://schema.org/Person"
                   className="font-semibold"
                 >
-                  <span itemProp="name">{data.user?.name}</span>
+                  <span itemProp="name">{data.user?.name || "anônimo"}</span>
                 </span>
               </div>
             </div>
-          </a>
+          </Link>
         </header>
         <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
           <BlurImage
-            alt={data.title ?? "Post image"}
+            alt={data.title ?? "Imagem de moção"}
             width={1200}
             height={630}
             className="h-full w-full object-cover"
@@ -175,9 +173,9 @@ export default async function SitePostPage({
         <MDX source={data.mdxSource} />
       </article>
 
-      <ShareButtons url={`${domain}/posts/${slug}`} />
+      <ShareButtons url={`${domain}/mocoes/${slug}`} />
 
-      {data.adjacentPosts.length > 0 && (
+      {data.adjacentMotions.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">
           <div
             className="absolute inset-0 flex items-center"
@@ -192,9 +190,9 @@ export default async function SitePostPage({
           </div>
         </div>
       )}
-      {data.adjacentPosts && (
+      {data.adjacentMotions && (
         <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:mx-auto xl:grid-cols-3">
-          {data.adjacentPosts.map((data: any, index: number) => (
+          {data.adjacentMotions.map((data: any, index: number) => (
             <BlogCard key={index} data={data} />
           ))}
         </div>
