@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
             className="hidden dark:block"
           />
           <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
-            Sem posts ainda.
+            Sem moções ainda.
           </p>
         </div>
       )}

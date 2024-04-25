@@ -7,9 +7,9 @@ interface LawCardProps {
   data: Law,
 }
 
-export default function LawCard({ data }: LawCardProps) {
+export default function IndicativeLegislationCard({ data }: LawCardProps) {
   return (
-    <Card className="ease overflow-hidden rounded-2xl border-2 border-stone-100 bg-white shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl dark:border-stone-800 xl:flex" as={Link} isPressable href={`leis/${data.id}`}>
+    <Card className="ease overflow-hidden rounded-2xl border-2 border-stone-100 bg-white shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl dark:border-stone-800 xl:flex" as={Link} isPressable href={`indicacoes-legislativas/${data.slug}`}>
         <BlurImage
           src={data.image!}
           alt={data.title ?? "Blog Post"}

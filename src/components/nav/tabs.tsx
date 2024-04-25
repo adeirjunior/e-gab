@@ -117,6 +117,16 @@ export const getTabs: (
             },
           ]
         : []),
+      ...(user.admin?.canViewLaws || user.role === "politician"
+        ? [
+            {
+              name: "Indicacoes Legislativas",
+              href: `/${segments[0]}/indicacoes-legislativas`,
+              isActive: segments.includes("indicacoes-legislativas"),
+              icon: "Scale",
+            },
+          ]
+        : []),
       ...(user.admin?.canViewMotion || user.role === "politician"
         ? [
             {

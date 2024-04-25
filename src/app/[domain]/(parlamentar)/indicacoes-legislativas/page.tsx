@@ -1,17 +1,18 @@
-import PostCard from "@/components/card/post-card";
-import { getPostsForSite } from "@/lib/fetchers/post";
+import IndicativeLegislationCard from "@/components/card/legislative-indication-card";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 import { Metadata } from "next";
+import { getLegislativeIndicationForSite } from "../../../../lib/fetchers/legislative-indication";
+import { LegislativeIndication } from "@prisma/client";
 
 export const metadata: Metadata = {
-  title: "Posts",
+  title: "Indicações Legislativas",
 };
 
 export default async function Page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
 
-  const [posts] = await Promise.all([getPostsForSite(domain)]);
+  const [posts] = await Promise.all([getLegislativeIndicationForSite(domain)]);
 
   return (
     <section>
@@ -19,7 +20,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
         <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
           {" "}
           {posts.map((post, index) => (
-            <PostCard key={index} post={post} />
+            <IndicativeLegislationCard key={index} data={post as LegislativeIndication} />
           ))}
         </Grid>
       ) : (
@@ -39,7 +40,7 @@ export default async function Page({ params }: { params: { domain: string } }) {
             className="hidden dark:block"
           />
           <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
-            Sem posts ainda.
+            Sem indicações legislativas ainda.
           </p>
         </div>
       )}
