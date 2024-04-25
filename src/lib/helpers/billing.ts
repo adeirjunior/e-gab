@@ -61,7 +61,7 @@ export async function createCheckoutLink(customer: string) {
 
     line_items: [
       {
-        price: isDev ? "price_1OaVzYF2B4eBI9ENg94MBCT8" : "price_1P9SWxF2B4eBI9ENq7E0xfp7",
+        price: "price_1OaVzYF2B4eBI9ENg94MBCT8",
         quantity: 1,
       },
     ],
