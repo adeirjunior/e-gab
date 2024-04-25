@@ -13,3 +13,7 @@
 .root :is(p) {
  @apply text-base font-normal
 }
+
+.root :is(blockquote) {
+ @apply p-4 bg-blue-100 border-r-3 border-blue-400
+}
