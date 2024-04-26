@@ -29,6 +29,8 @@ export async function create(
 
     const file = formData.get(key) as File;
 
+    console.log(file)
+
     const fileBuffer = await file.arrayBuffer();
 
     var mime = file.type;

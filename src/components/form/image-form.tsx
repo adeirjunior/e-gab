@@ -46,8 +46,8 @@ const { id } = useParams() as { id?: string };
   return (
     <form
       action={async () => {
-        const data = new FormData()
-        data.append(inputAttrs.name, file)
+        const data = new FormData();
+        data.append(inputAttrs.name, file);
         handleSubmit(data, id, inputAttrs.name).then(async (res: any) => {
           if (res.error) {
             console.error(res.error);
@@ -84,8 +84,10 @@ const { id } = useParams() as { id?: string };
             <Card
               isPressable
               onPress={onOpen}
-              className="max-w-[400px] relative"
-              style={{aspectRatio: "1 / 1" }}
+              className="relative max-w-[400px]"
+              style={{
+                aspectRatio: inputAttrs.name === "image" ? "16 / 9" : "1 / 1",
+              }}
             >
               <CldImage alt="" fill crop="fill" aspectRatio="1:1" src={file} />
             </Card>

@@ -6,13 +6,10 @@ import {
   validDomainRegex,
 } from "@/lib/domains";
 import prisma from "@/lib/configs/prisma";
-import { getBlurDataURL } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
-import { create } from "../image/image.create.action";
-import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
 
 export const updateSite = async (
   formData: FormData,
@@ -106,36 +103,6 @@ export const updateSite = async (
           
           */
       }
-    } else if (key === "image" || key === "logo" || key === "politicianPhoto") {
-      if (!process.env.CLOUDINARY_API_KEY) {
-        return {
-          error:
-            "Missing CLOUDINARY_API_KEY token.",
-        };
-      }
-
-      const url = await create(formData, websiteImagePathCreator, key, [
-        "website",
-        "image",
-      ]);
-
-      if (!url) {
-        return {
-          error: "Erro ao coletar url.",
-        };
-      }
-
-      const blurhash = key === "image" ? await getBlurDataURL(url) : null;
-
-      response = await prisma.website.update({
-        where: {
-          id: site?.id,
-        },
-        data: {
-          [key]: url,
-          ...(blurhash && { imageBlurhash: blurhash }),
-        },
-      });
     } else {
       response = await prisma.website.update({
         where: {
