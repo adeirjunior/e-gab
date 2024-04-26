@@ -55,7 +55,7 @@ export default function Form({
           inputAttrs.name === "customDomain" &&
           inputAttrs.defaultValue &&
           data.get("customDomain") !== inputAttrs.defaultValue &&
-          !confirm("Are you sure you want to change your custom domain?")
+          !confirm("Tem certeza que quer mudar seu domínio customizado?")
         ) {
           return;
         }

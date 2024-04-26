@@ -25,6 +25,7 @@ export const InlineSnippet = ({
     </span>
   );
 };
+
 export default function DomainConfiguration({ domain }: { domain: string }) {
   const [recordType, setRecordType] = useState<"A" | "CNAME">("A");
 
@@ -55,22 +56,30 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
             className="text-white dark:text-black"
           />
         )}
-        <p className="text-lg font-semibold dark:text-white">{status}</p>
+        <p className="text-lg font-semibold dark:text-white">
+          {status === "Domain Not Found"
+            ? "Domínio Não Encontrado"
+            : status === "Invalid Configuration"
+              ? "Configuração Inválida"
+              : status === "Pending Verification"
+                ? "Verificação Pendente"
+                : "Erro Desconhecido"}
+        </p>
       </div>
       {txtVerification ? (
         <>
           <p className="text-sm dark:text-white">
-            Please set the following TXT record on{" "}
-            <InlineSnippet>{domainJson.apexName}</InlineSnippet> to prove
-            ownership of <InlineSnippet>{domainJson.name}</InlineSnippet>:
+            Por favor, configure o TXT record em{" "}
+            <InlineSnippet>{domainJson.apexName}</InlineSnippet> para provar a
+            posse de <InlineSnippet>{domainJson.name}</InlineSnippet>:
           </p>
           <div className="my-5 flex items-start justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-800 dark:text-white">
             <div>
-              <p className="text-sm font-bold">Type</p>
+              <p className="text-sm font-bold">Tipo</p>
               <p className="mt-2 font-mono text-sm">{txtVerification.type}</p>
             </div>
             <div>
-              <p className="text-sm font-bold">Name</p>
+              <p className="text-sm font-bold">Nome</p>
               <p className="mt-2 font-mono text-sm">
                 {txtVerification.domain.slice(
                   0,
@@ -81,22 +90,21 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               </p>
             </div>
             <div>
-              <p className="text-sm font-bold">Value</p>
+              <p className="text-sm font-bold">Valor</p>
               <p className="mt-2 font-mono text-sm">
                 <span className="text-ellipsis">{txtVerification.value}</span>
               </p>
             </div>
           </div>
           <p className="text-sm dark:text-stone-400">
-            Warning: if you are using this domain for another site, setting this
-            TXT record will transfer domain ownership away from that site and
-            break it. Please exercise caution when setting this record.
+            Atenção: Se você estiver usando este domínio em outro site,
+            configurar este TXT record irá tranferir a posse do domínio deste
+            site e o fazer parar de funcionar. Por favor tome cuidado quando
+            configurando este record.
           </p>
         </>
       ) : status === "Unknown Error" ? (
-        <p className="mb-5 text-sm dark:text-white">
-          {domainJson.error.message}
-        </p>
+        <p className="mb-5 text-sm dark:text-white">Erro desconhecido</p>
       ) : (
         <>
           <div className="flex justify-start space-x-4">
@@ -109,7 +117,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
                   : "border-white text-stone-400 dark:border-black dark:text-stone-600"
               } ease border-b-2 pb-1 text-sm transition-all duration-150`}
             >
-              A Record{!subdomain && " (recommended)"}
+              A Record{!subdomain && " (recomendado)"}
             </Button>
             <Button
               type="button"
@@ -120,32 +128,31 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
                   : "border-white text-stone-400 dark:border-black dark:text-stone-600"
               } ease border-b-2 pb-1 text-sm transition-all duration-150`}
             >
-              CNAME Record{subdomain && " (recommended)"}
+              CNAME Record{subdomain && " (recomendado)"}
             </Button>
           </div>
           <div className="my-3 text-left">
             <p className="my-5 text-sm dark:text-white">
-              To configure your{" "}
-              {recordType === "A" ? "apex domain" : "subdomain"} (
+              Para configurar seu{" "}
+              {recordType === "A" ? "domínio apex" : "subdomínio"} (
               <InlineSnippet>
                 {recordType === "A" ? domainJson.apexName : domainJson.name}
               </InlineSnippet>
-              ), set the following {recordType} record on your DNS provider to
-              continue:
+              ), configure o {recordType} no lugar aonde seu domínio foi comprado para seguir:
             </p>
             <div className="flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-800 dark:text-white">
               <div>
-                <p className="text-sm font-bold">Type</p>
+                <p className="text-sm font-bold">Tipo</p>
                 <p className="mt-2 font-mono text-sm">{recordType}</p>
               </div>
               <div>
-                <p className="text-sm font-bold">Name</p>
+                <p className="text-sm font-bold">Nome</p>
                 <p className="mt-2 font-mono text-sm">
                   {recordType === "A" ? "@" : subdomain ?? "www"}
                 </p>
               </div>
               <div>
-                <p className="text-sm font-bold">Value</p>
+                <p className="text-sm font-bold">Valor</p>
                 <p className="mt-2 font-mono text-sm">
                   {recordType === "A"
                     ? `76.76.21.21`
@@ -158,9 +165,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               </div>
             </div>
             <p className="mt-5 text-sm dark:text-white">
-              Note: for TTL, if <InlineSnippet>86400</InlineSnippet> is not
-              available, set the highest value possible. Also, domain
-              propagation can take up to an hour.
+              Nota: no TTL, se <InlineSnippet>86400</InlineSnippet> não estiver disponível, coloque o maior valor possível. Também, pode demorar até 1 hora para as mudanças tomarem efeito.
             </p>
           </div>
         </>

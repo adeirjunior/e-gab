@@ -2,6 +2,7 @@ import Form from "@/components/form";
 import { updateSite } from "@/lib/actions/website/website.update.action";
 import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import { decodeUTF8 } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export default async function SiteSettingsIndex() {
@@ -53,7 +54,7 @@ export default async function SiteSettingsIndex() {
         inputAttrs={{
           name: "heroTitle",
           type: "text",
-          defaultValue: data.heroTitle!,
+          defaultValue: decodeUTF8(data.heroTitle!),
           placeholder:
             "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
         }}
@@ -67,7 +68,7 @@ export default async function SiteSettingsIndex() {
         inputAttrs={{
           name: "heroDescription",
           type: "text",
-          defaultValue: data.heroDescription!,
+          defaultValue: decodeUTF8(data.heroDescription!),
           placeholder:
             "Site de político com anos trabalhando em projetos para melhorar a vida da população.",
         }}

@@ -274,8 +274,8 @@ model Website {
   cloudinaryDir         String
   description           String?
   myHistory             String?
-  heroTitle             String?
-  heroDescription       String?
+  heroTitle             String?                 @default("Título de Destaque")
+  heroDescription       String?                 @default("Este é um texto de apresentação, ele serve perfeitamente para que você possa passar informações resumidas sobre sua história e seu trabalho.")
   theme                 WebsiteThemeType        @default(blue)
   politicianPhoto       String                  @default("E-Gab/Websites/default_politician_photo")
   logo                  String                  @default("E-Gab/Websites/default_logo")
