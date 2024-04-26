@@ -2,6 +2,8 @@
 
 import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { ButtonContainerLg } from "../ButtonContainerLg";
+import { useSession } from "next-auth/react";
+import { Bold } from "@tremor/react";
 
 export const PoliticianPath3 = () => {
   const {
@@ -11,7 +13,10 @@ export const PoliticianPath3 = () => {
     CalcTotalAmount,
     setActiveStep,
     setDirection,
+    politicianParty
   } = useNewUserSteps();
+
+  const {data, status} = useSession()
   return (
     <>
       <h4>Finalizando</h4>
@@ -19,26 +24,13 @@ export const PoliticianPath3 = () => {
       <div className="bg-neutral-Magnolia my-8 rounded-lg p-3">
         <div className="border-neutral-Light_gray flex items-center justify-between border-b">
           <div className="flex flex-col">
-            <h3>
-              {selectedPlan.title} (
-              {billing === "monthly" ? "Mensalmente" : "Anualmente"})
-            </h3> 
-            <span
-              onClick={() => {
-                setActiveStep(2);
-                setDirection(-1);
-              }}
-              className="text-neutral-Cool_gray hover:text-primary-Purplish_blue cursor-pointer pb-3 text-sm font-bold underline transition"
-            >
-              Mudar
-            </span>
+            <p>
+              Você é um <Bold>político</Bold>
+            </p>
+            <p>
+              Seu partido é <Bold>{politicianParty}</Bold>
+            </p>
           </div>
-          <span className="text-primary-Marine_blue text-sm font-bold">
-            R$
-            {billing === "monthly"
-              ? `R${selectedPlan.monthlyPrice}/mês`
-              : `R${selectedPlan.yearlyPrice}/ano`}
-          </span>
         </div>
 
         <div>
@@ -56,16 +48,6 @@ export const PoliticianPath3 = () => {
         </div>
       </div>
 
-      <div className="flex w-full items-center justify-between">
-        <span className="text-neutral-Cool_gray text-sm">
-          Total (por {billing === "monthly" ? "mês" : "ano"})
-        </span>
-        <span className="text-primary-Purplish_blue font-bold">
-          +R$
-          {CalcTotalAmount()}
-          {billing === "monthly" ? `/mês` : `/ano`}
-        </span>
-      </div>
       <ButtonContainerLg />
     </>
   );
