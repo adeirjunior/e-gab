@@ -1,3 +1,4 @@
+import EmBreveAlert from "@/components/em-breve";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return <section className="min-h-screen space-y-6">page</section>;
+  return <section className="min-h-screen space-y-6"><EmBreveAlert/></section>;
 }

@@ -1,5 +1,10 @@
+import EmBreveAlert from "@/components/em-breve";
 import React from "react";
 
 export default function page() {
-  return <div>page</div>;
+  return (
+    <div>
+      <EmBreveAlert />
+    </div>
+  );
 }

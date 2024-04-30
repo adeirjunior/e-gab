@@ -1,5 +1,6 @@
 "use client";
 
+import { decodeUTF8 } from "@/lib/utils";
 import { Button } from "@nextui-org/react";
 import { Politician, User, Website } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
@@ -22,14 +23,16 @@ export default function PoliticianBanner({
         className="select-none sm:static sm:h-full sm:w-auto"
       />
       <div className="max-w-96 space-y-6">
-        <h2 className="absolute left-1/2 top-20 -translate-x-1/2 text-center text-2xl font-extrabold uppercase text-white antialiased opacity-95 sm:static sm:translate-x-0 sm:text-start whitespace-nowrap">
-          {website.heroTitle}
+        <h2 className="absolute left-1/2 top-20 -translate-x-1/2 whitespace-nowrap text-center text-2xl font-extrabold uppercase text-white antialiased opacity-95 sm:static sm:translate-x-0 sm:text-start">
+          {decodeUTF8(website.heroTitle!)}
         </h2>
-        <h3 className="hidden sm:block text-white">{website.heroDescription}</h3>
+        <h3 className="hidden text-white sm:block">
+          {decodeUTF8(website.heroDescription!)}
+        </h3>
         <Button
           color="primary"
           radius="full"
-          className="absolute left-1/2 -translate-x-1/2 -bottom-7 px-6 text-xs sm:translate-x-0 sm:m-0 sm:static sm:text-xl font-bold"
+          className="absolute -bottom-7 left-1/2 -translate-x-1/2 px-6 text-xs font-bold sm:static sm:m-0 sm:translate-x-0 sm:text-xl"
         >
           Junte-se
         </Button>

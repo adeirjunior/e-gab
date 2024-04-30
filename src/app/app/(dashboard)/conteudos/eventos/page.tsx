@@ -1,3 +1,4 @@
+import EmBreveAlert from "@/components/em-breve";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <div>page</div>;
+  return (
+    <div>
+      <EmBreveAlert />
+    </div>
+  );
 }

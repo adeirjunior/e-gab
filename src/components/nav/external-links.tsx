@@ -25,7 +25,7 @@ export const getExternalLinks = async (subdomain: string) => {
     {
       name: "Veja o site",
       href:
-        res.domainJson.verified === true ? `https://${website?.customDomain}` :
+        res.domainJson.verified === true ? `https://${website?.customDomain}` : 
         getCurrentDomain(subdomain!),
       icon: "Layout",
     },
