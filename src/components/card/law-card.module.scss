@@ -1,0 +1,67 @@
+.root {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 1em;
+  display: flex;
+  padding: 1em;
+  gap: 1em;
+  background-color: #ffffff;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  align-content: start;
+  z-index: 0;
+  justify-items: center;
+}
+.law-card-circle {
+  border-radius: 100%;
+  border: 2px dashed #4e89ae;
+  display: flex;
+  align-content: start;
+  grid-auto-flow: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.125rem;
+  text-decoration-style: solid;
+  font-weight: 500;
+  width: 42px;
+  height: 42px;
+}
+.law-card-year {
+  align-content: start;
+  text-align: center;
+  font-weight: 500;
+}
+.law-card-left-side {
+  color: #4e89ae;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  align-items: center;
+  margin: 0px;
+}
+.law-card-text {
+  font-size: 0.625rem;
+  opacity: 60%;
+}
+.law-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+@media only screen and (min-width: 425px) {
+  .law-card-title {
+    font-size: 1.5rem;
+  }
+  .law-card-text {
+    font-size: 0.8rem;
+  }
+  .law-card-circle {
+    font-size: 1.5rem;
+    width: 60px;
+  height: 60px;
+  }
+  .law-card-year {
+    font-size: 1.4rem;
+  }
+}

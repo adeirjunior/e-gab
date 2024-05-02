@@ -1,10 +1,10 @@
 import BlurImage from "../arquives/blur-image";
-import type { Law } from "@prisma/client";
+import type { LegislativeIndication } from "@prisma/client";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import { Card, Link } from "@nextui-org/react";
 
 interface LawCardProps {
-  data: Law,
+  data: LegislativeIndication,
 }
 
 export default function IndicativeLegislationCard({ data }: LawCardProps) {

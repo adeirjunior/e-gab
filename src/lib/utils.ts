@@ -39,6 +39,14 @@ export function getCurrentDomain(subdomain?: string, path?: string) {
   return `${protocol}${subdomain ? `${subdomain}.` : ""}${domain}${path ?? ""}`;
 }
 
+export async function prevent(fn: any, defaultOnly?: any) {
+    return (e: any, ...params: any) => {
+        e && e.preventDefault()
+        !defaultOnly && e && e.stopPropagation()
+        fn(e, ...params)
+    }
+}
+
 export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit,

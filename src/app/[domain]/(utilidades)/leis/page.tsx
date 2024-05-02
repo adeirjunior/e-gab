@@ -1,5 +1,4 @@
 import LawCard from "@/components/card/law-card";
-import PostCard from "@/components/card/post-card";
 import { getLawsForSite } from "@/lib/fetchers/law";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
@@ -20,9 +19,8 @@ export default async function Page({ params }: { params: { domain: string } }) {
         <Grid
           numItems={1}
           numItemsSm={2}
-          numItemsMd={3}
-          numItemsLg={4}
-          className="gap-2"
+          numItemsLg={3}
+          className="xl:grid-cols-4 gap-4"
         >
           {" "}
           {laws.map((law, index) => (

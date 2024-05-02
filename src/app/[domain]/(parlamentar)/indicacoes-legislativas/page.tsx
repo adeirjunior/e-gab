@@ -12,15 +12,15 @@ export const metadata: Metadata = {
 export default async function Page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
 
-  const [posts] = await Promise.all([getLegislativeIndicationForSite(domain)]);
+  const [laws] = await Promise.all([getLegislativeIndicationForSite(domain)]);
 
   return (
     <section>
-      {posts.length > 0 ? (
+      {laws.length > 0 ? (
         <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
           {" "}
-          {posts.map((post, index) => (
-            <IndicativeLegislationCard key={index} data={post as LegislativeIndication} />
+          {laws.map((law, index) => (
+            <IndicativeLegislationCard key={index} data={law as LegislativeIndication} />
           ))}
         </Grid>
       ) : (
