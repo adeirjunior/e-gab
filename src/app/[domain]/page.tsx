@@ -60,20 +60,19 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  const [data, posts, proposals, politician] = await Promise.all([
+  const [data, posts, proposals] = await Promise.all([
     getSiteData(domain),
     getFirstPostsForSite(domain, 3),
     getProposalsForSite(domain),
-    getPoliticianDataByDomain(domain),
   ]);
 
-  if (!data || !politician) {
+  if (!data ) {
     notFound();
   }
 
   return (
     <>
-      <PoliticianBanner website={data} politician={politician} />
+      <PoliticianBanner website={data} />
       <StatsGrid websiteId={data.id} />
 
       <section className="mx-auto w-full max-w-[1320px] space-y-6 px-6">

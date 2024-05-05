@@ -2,15 +2,13 @@
 
 import { decodeUTF8 } from "@/lib/utils";
 import { Button } from "@nextui-org/react";
-import { Politician, User, Website } from "@prisma/client";
+import { Website } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 
 export default function PoliticianBanner({
   website,
-  politician,
 }: {
   website: Website;
-  politician: Politician & { user: User };
 }) {
   return (
     <main className="relative flex h-[425px] w-full flex-col items-center justify-end bg-[#90CAFF]  sm:flex-row sm:justify-between sm:px-14">
@@ -18,7 +16,7 @@ export default function PoliticianBanner({
       <CldImage
         width={250}
         height={250}
-        alt={`Vereador ${politician.user.name}`}
+        alt={`Político`}
         src={website.politicianPhoto}
         className="select-none sm:static sm:h-full sm:w-auto"
       />
