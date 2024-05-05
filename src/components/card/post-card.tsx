@@ -33,7 +33,7 @@ export default function PostCard({
         src={post.image ?? "/placeholder.png"}
       />
 
-      <div className="relative w-full bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
+      <div className="relative w-full h-full bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
         <div className="p-4 sm:p-6">
           <time dateTime={format(post.createdAt, 'P')} className="block text-xs text-white/90">
             {" "}

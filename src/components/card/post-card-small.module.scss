@@ -1,0 +1,39 @@
+.root {
+  width: 321px;
+  box-shadow: 2.83px 2.83px 4px rgba(0, 0, 0, 0.699);
+  border-radius: 0.6em;
+  display: flex;
+  flex-direction: row;
+  justify-items: start;
+  gap: 0.8em;
+  align-items: center;
+  padding: 9px;
+}
+.post-card-image {
+  height: 100%;
+  max-height: 60px;
+}
+.post-card-time {
+  font-size: 9px;
+  opacity: 60%;
+  font-weight: 400;
+}
+.post-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0px;
+}
+.post-card-image-wrapper {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  min-height: 60px;
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+  border-radius: 0.4em;
+}
+.post-card-right-side {
+  display: flex;
+  flex-direction: column;
+}

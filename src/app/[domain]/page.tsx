@@ -1,7 +1,7 @@
 import prisma from "@/lib/configs/prisma";
 import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/fetchers/site";
-import { getPostsForSite } from "@/lib/fetchers/post";
+import { getFirstPostsForSite, getPostsForSite } from "@/lib/fetchers/post";
 import Image from "next/image";
 import { getProposalsForSite } from "@/lib/fetchers/proposal";
 import ProposalSection from "@/components/website/proposal-section";
@@ -62,7 +62,7 @@ export default async function SiteHomePage({
   const domain = decodeURIComponent(params.domain);
   const [data, posts, proposals, politician] = await Promise.all([
     getSiteData(domain),
-    getPostsForSite(domain),
+    getFirstPostsForSite(domain, 3),
     getProposalsForSite(domain),
     getPoliticianDataByDomain(domain),
   ]);
@@ -76,7 +76,7 @@ export default async function SiteHomePage({
       <PoliticianBanner website={data} politician={politician} />
       <StatsGrid websiteId={data.id} />
 
-      <section className="max-w-[1320px] w-full mx-auto space-y-6 px-6">
+      <section className="mx-auto w-full max-w-[1320px] space-y-6 px-6">
         <h2 className=" text-xl font-semibold text-primary-500">
           Posts recentes
         </h2>
@@ -113,13 +113,18 @@ export default async function SiteHomePage({
             </p>
           </div>
         )}
-        <Link className="float-right" showAnchorIcon anchorIcon={<ArrowRight />} href="/posts">
+        <Link
+          className="float-right"
+          showAnchorIcon
+          anchorIcon={<ArrowRight />}
+          href="/posts"
+        >
           Todos os posts
         </Link>
       </section>
 
       {proposals.length > 0 && (
-        <section id="propostas" className="space-y-10 my-6 px-6">
+        <section id="propostas" className="my-6 space-y-10 px-6">
           <SectionHeadingTitles
             id="propostas"
             subtitle="Meus objetivos"
@@ -128,13 +133,12 @@ export default async function SiteHomePage({
           />
           <div className="flex flex-col items-center">
             <div className="space-y-6">
-               {proposals.length >= 1 &&
-            proposals.map((proposal, index) => (
-              <ProposalSection key={index} proposal={proposal} />
-            ))}
+              {proposals.length >= 1 &&
+                proposals.map((proposal, index) => (
+                  <ProposalSection key={index} proposal={proposal} />
+                ))}
             </div>
           </div>
-         
         </section>
       )}
       <section>
@@ -153,7 +157,7 @@ export default async function SiteHomePage({
             <MessageSvg />
             <Title>Fale comigo</Title>
           </CardHeader>
-          <CardBody>
+          <CardBody className="text-center">
             <Text>Envie suas reclamações e sugestões</Text>
           </CardBody>
           <CardFooter>
@@ -165,7 +169,7 @@ export default async function SiteHomePage({
             <ListSvg />
             <Title>Meus projetos</Title>
           </CardHeader>
-          <CardBody>
+          <CardBody className="text-center">
             <Text>Fique por dentro dos trabalhos que tenho feito</Text>
           </CardBody>
           <CardFooter>
