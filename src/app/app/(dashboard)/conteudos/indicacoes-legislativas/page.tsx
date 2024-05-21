@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import Laws from "@/components/content/laws";
 import { createLaw } from "@/lib/actions/law/law.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
+import IndicativeLegislation from "@/components/content/Indicative-legislation";
 
 export const metadata: Metadata = {
   title: "Indicacoes Legislativas",
@@ -35,7 +36,7 @@ export default async function SitePosts() {
           Criar Indicação Legislativa
         </CreateLawButton>
       </div>
-      <Laws websiteId={data.id} />
+      <IndicativeLegislation websiteId={data.id} />
     </>
   );
 }

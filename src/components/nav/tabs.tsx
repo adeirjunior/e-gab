@@ -53,6 +53,26 @@ export const getTabs: (
           icon: "Settings",
         },
       ];
+    } else if (segments[1] === "indicacoes-legislativas" && id) {
+      return [
+        {
+          name: "Voltar para indicações legislativas",
+          href: `/conteudos/indicacoes-legislativas`,
+          icon: "ArrowLeft",
+        },
+        {
+          name: "Editor",
+          href: `/conteudos/indicacoes-legislativas/${id}`,
+          isActive: segments.length === 3,
+          icon: "Edit3",
+        },
+        {
+          name: "Configurações",
+          href: `/conteudos/leis/${id}/configuracoes`,
+          isActive: segments.includes("configuracoes"),
+          icon: "Settings",
+        },
+      ];
     } else if (segments[1] === "mocoes" && id) {
       return [
         {

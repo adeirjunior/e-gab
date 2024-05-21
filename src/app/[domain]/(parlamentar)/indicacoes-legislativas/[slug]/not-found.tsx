@@ -1,5 +1,4 @@
 import { getSiteData } from "@/lib/fetchers/site";
-import { decodeUTF8 } from "@/lib/utils";
 import { headers } from "next/headers";
 import Image from "next/image";
 
@@ -21,7 +20,7 @@ export default async function NotFound() {
       />
       <p className="text-lg text-stone-500">
         {data && data.message404
-          ? decodeUTF8(data.message404)
+          ? data.message404
           : "Você encontrou um post que não existe."}
       </p>
     </div>

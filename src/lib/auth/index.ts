@@ -1,4 +1,4 @@
-import { PoliticalProject, PoliticianMotion, Post, Website } from "@prisma/client";
+import { LegislativeIndication, PoliticalProject, PoliticianMotion, Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
 import { hasSubscription } from "../helpers/billing";
@@ -158,6 +158,37 @@ export function withProjectAuth(
     }
 
     return action(formData, project, key);
+  };
+}
+
+export function withLegislativeIndicationAuth(action: any) {
+  return async (
+    formData: FormData | null,
+    legislativeIndicationId: string,
+    key: string | null,
+  ) => {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: "Não autentificado",
+      };
+    }
+    const legislativeIndication =
+      await prisma.legislativeIndication.findUnique({
+        where: {
+          id: legislativeIndicationId,
+        },
+        include: {
+          website: true,
+        },
+      });
+    if (!legislativeIndication) {
+      return {
+        error: "Indicação legislativa não encontrada",
+      };
+    }
+
+    return action(formData, legislativeIndication, key);
   };
 }
 

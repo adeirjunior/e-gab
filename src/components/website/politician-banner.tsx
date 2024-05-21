@@ -1,6 +1,5 @@
 "use client";
 
-import { decodeUTF8 } from "@/lib/utils";
 import { Button } from "@nextui-org/react";
 import { Website } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
@@ -22,10 +21,10 @@ export default function PoliticianBanner({
       />
       <div className="max-w-96 space-y-6">
         <h2 className="absolute left-1/2 top-20 -translate-x-1/2 whitespace-nowrap text-center text-2xl font-extrabold uppercase text-white antialiased opacity-95 sm:static sm:translate-x-0 sm:text-start">
-          {decodeUTF8(website.heroTitle!)}
+          {website.heroTitle!}
         </h2>
         <h3 className="hidden text-white sm:block">
-          {decodeUTF8(website.heroDescription!)}
+          {website.heroDescription!}
         </h3>
         <Button
           color="primary"

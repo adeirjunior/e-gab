@@ -11,7 +11,7 @@ export default function NotFoundPost() {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        Esta lei não existe, ou você não tem permissão para edita-la.
+        Esta indicação legislativa não existe, ou você não tem permissão para edita-la.
       </p>
     </div>
   );

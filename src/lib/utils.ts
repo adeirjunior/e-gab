@@ -28,10 +28,6 @@ export function chatHrefConstructor(id1: string, id2: string) {
   return `${sortedIds[0]}--${sortedIds[1]}`;
 }
 
-export function decodeUTF8(encodedText: string): string {
-  return decodeURIComponent(escape(encodedText));
-}
-
 export function getCurrentDomain(subdomain?: string, path?: string) {
   
   const protocol = isDev ? "http://" : "https://";

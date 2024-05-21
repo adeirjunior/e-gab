@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -127,8 +127,6 @@ model Politician {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   donation       Donation[]
-  billingAddress Json?
-  paymentMethod  Json?
   chatRoom       ChatRoom[]
   website        Website?
 }
@@ -357,7 +355,7 @@ model LegislativeIndication {
   imageBlurhash  String           @default("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR4nN3XyZLDIAwE0Pz/v3q3r55JDlSBplsIEI49h76k4opexCK/juP4eXjOT149f2Tf9ySPgcjCc7kdpBTgDPKByKK2bTPFEdMO0RDrusJ0wLRBGCIuelmWJAjkgPGDSIQEMBDCfA2CEPM80+Qwl0JkNxBimiaYGOTUlXYI60YoehzHJDEm7kxjV3whOQTD3AaCuhGKHoYhyb+CBMwjIAFz647kTqyapdV4enGINuDJMSScPmijSwjCaHeLcT77C7EC0C1ugaCTi2HYfAZANgj6Z9A8xY5eiYghDMNQBJNCWhASot0jGsSCUiHWZcSGQjaWWCDaGMOWnsCcn2QhVkRuxqqNxMSdUSElCDbp1hbNOsa6Ugxh7xXauF4DyM1m5BLtCylBXgaxvPXVwEoOBjeIFVODtW74oj1yBQah3E8tyz3SkpolKS9Geo9YMD1QJR1Go4oJkgO1pgbNZq0AOUPChyjvh7vlXaQa+X1UXwKxgHokB2XPxbX+AnijwIU4ahazAAAAAElFTkSuQmCC")
   published      Boolean          @default(false)
   slug           String           @default(cuid())
-  proposedAction String
+  proposedAction String?
   status         IndicationStatus @default(pending)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -479,6 +477,8 @@ model Event {
   eventStart  DateTime?
   eventEnd    DateTime?
   location    String?
+  published      Boolean          @default(false)
+  slug           String           @default(cuid())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   website     Website   @relation(fields: [websiteId], references: [id])

@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import { getSiteData } from "@/lib/fetchers/site";
-import { getPostData } from "@/lib/fetchers/post";
 import BlogCard from "@/components/card/blog-card";
 import BlurImage from "@/components/arquives/blur-image";
 import MDX from "@/components/mdx";
 import { placeholderBlurhash, toDateString } from "@/lib/utils";
 import "./style.css";
 import ShareButtons from "@/components/button/share-buttons";
+import { getLegislativeIndicationData } from "@/lib/fetchers/legislative-indication";
 
 export const dynamic = "force-static";
 
@@ -20,7 +20,7 @@ export async function generateMetadata({
   const slug = decodeURIComponent(params.slug);
 
   const [data, siteData] = await Promise.all([
-    getPostData(domain, slug),
+    getLegislativeIndicationData(domain, slug),
     getSiteData(domain),
   ]);
   if (!data || !siteData) {
@@ -89,7 +89,7 @@ export default async function SitePostPage({
 }) {
   const domain = decodeURIComponent(params.domain);
   const slug = decodeURIComponent(params.slug);
-  const data = await getPostData(domain, slug);
+  const data = await getLegislativeIndicationData(domain, slug);
 
   if ("error" in data) {
     console.log(data);
@@ -175,9 +175,9 @@ export default async function SitePostPage({
         <MDX source={data.mdxSource} />
       </article>
 
-      <ShareButtons url={`${domain}/posts/${slug}`} />
+      <ShareButtons url={`${domain}/indicacao-legislativa/${slug}`} />
 
-      {data.adjacentPosts.length > 0 && (
+      {data.adjacentLegislativeIndication.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">
           <div
             className="absolute inset-0 flex items-center"
@@ -192,11 +192,13 @@ export default async function SitePostPage({
           </div>
         </div>
       )}
-      {data.adjacentPosts && (
+      {data.adjacentLegislativeIndication && (
         <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:mx-auto xl:grid-cols-3">
-          {data.adjacentPosts.map((data: any, index: number) => (
-            <BlogCard key={index} data={data} />
-          ))}
+          {data.adjacentLegislativeIndication.map(
+            (data: any, index: number) => (
+              <BlogCard key={index} data={data} />
+            ),
+          )}
         </div>
       )}
     </>
