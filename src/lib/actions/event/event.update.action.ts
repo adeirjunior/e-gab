@@ -1,9 +1,12 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Event } from "@prisma/client";
+import { Event, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
+import { withEventAuth } from "@/lib/auth/event.auth";
+import { nanoid } from "nanoid";
+import { getBlurDataURL } from "@/lib/utils";
 
 export const updateEvent = async (data: Event) => {
   const session = await getSession();
@@ -73,3 +76,51 @@ export const updateEvent = async (data: Event) => {
     };
   }
 };
+
+
+export const updateEventMetadata = withEventAuth(
+  async (
+    formData: FormData,
+    event: Event & {
+      website: Website;
+    },
+    key: string,
+  ) => {
+    const value = formData.get(key) as string;
+
+    try {
+      const response = await prisma.event.update({
+          where: {
+            id: event.id,
+          },
+          data: {
+            [key]: key === "published" ? value === "true" : value,
+          },
+        });
+
+      revalidateTag(
+        `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-events`,
+      );
+      revalidateTag(
+        `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${event.slug}`,
+      );
+
+      // if the site has a custom domain, we need to revalidate those tags too
+      event.website?.customDomain &&
+        (revalidateTag(`${event.website?.customDomain}-events`),
+        revalidateTag(`${event.website?.customDomain}-${event.slug}`));
+
+      return response;
+    } catch (error: any) {
+      if (error.code === "P2002") {
+        return {
+          error: `This slug is already in use`,
+        };
+      } else {
+        return {
+          error: error.message,
+        };
+      }
+    }
+  },
+);
