@@ -27,9 +27,9 @@ export default function Profile({
   };
 }) {
   return (
-    <Dropdown placement="top-start">
+    <Dropdown offset={30} showArrow shadow="sm" placement="right-end">
       <DropdownTrigger>
-        <Card className="bg-transparent border-transparent cursor-pointer flex flex-col shadow-none">
+        <Card isPressable className="bg-transparent border-none w-full mt-4 p-4 cursor-pointer flex flex-col shadow-none">
           <div className="flex gap-2 items-center">
             <div className="w-10 overflow-hidden rounded-full">
             <AspectRatio

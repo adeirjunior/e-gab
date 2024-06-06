@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from "react";
-import Profile from "@/components/profile/profile-wrapper";
+import Profile from  "@/components/profile/profile-wrapper";
 import Nav from "@/components/nav";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";

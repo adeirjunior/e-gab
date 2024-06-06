@@ -52,7 +52,7 @@ inviteTokenExpiry.setMinutes(inviteTokenExpiry.getMinutes() + 15);
     });
 
     return await resend.emails.send({
-      from: "E-Gab <no-reply@simplesgov.com.br>",
+      from: "E-Gab <no-reply@egab.online",
       to: invite.invitedEmail,
       subject: `Você foi convidado por ${session.user.name} para administrar o site do político ${invite.toAdminWebsite.politician.user.name}`,
       react: WelcomeEmail(),
