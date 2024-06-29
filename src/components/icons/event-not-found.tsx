@@ -11,7 +11,6 @@ export default function EventNotFound({ className }: { className?: string }) {
       <circle opacity="0.5" cx="101" cy="101" r="101" fill="#EBF5FC" />
       <mask
         id="mask0_188_1729"
-        style="mask-type:alpha"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
