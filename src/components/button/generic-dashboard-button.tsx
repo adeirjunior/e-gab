@@ -30,7 +30,7 @@ export default function GenericDashboardButton({
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const error = searchParams?.get("error");
-
+ 
   useEffect(() => {
     if (type === "signIn") {
       const errorMessage = Array.isArray(error) ? error.pop() : error;

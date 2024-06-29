@@ -1,11 +1,11 @@
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
-import CreateLawButton from "@/components/button/generic-dashboard-button";
+import CreateEventButton from "@/components/button/generic-dashboard-button";
 import { Metadata } from "next";
-import { createLaw } from "@/lib/actions/law/law.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
 import Events from "@/components/content/events";
+import { createEvent } from "@/lib/actions/event/event.create.action";
 
 export const metadata: Metadata = {
   title: "Eventos",
@@ -31,9 +31,9 @@ export default async function SitePosts() {
           </h1>
           <DomainLinkTag subdomain={data.subdomain!} path="/eventos" />
         </div>
-        <CreateLawButton type="content" create={createLaw} path="leis">
+        <CreateEventButton type="content" create={createEvent} path="eventos">
           Criar Evento
-        </CreateLawButton>
+        </CreateEventButton>
       </div>
       <Events websiteId={data.id} />
     </>

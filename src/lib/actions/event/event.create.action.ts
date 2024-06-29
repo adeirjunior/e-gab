@@ -10,7 +10,11 @@ export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
   const response = await prisma.event.create({
     data: {
       websiteId: site.id,
-    },
+      eventStartDay: new Date(),
+      eventEndDay: new Date(new Date().setDate(new Date().getDate() + 1)),
+      eventStartHour: new Date(new Date().setHours(18, 0)),
+      eventEndHour: new Date(new Date().setHours(20, 0)),
+    }
   });
 
   revalidateTag(

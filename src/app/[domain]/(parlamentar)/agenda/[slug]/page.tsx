@@ -3,10 +3,18 @@ import prisma from "@/lib/configs/prisma";
 import { getSiteData } from "@/lib/fetchers/site";
 import BlogCard from "@/components/card/blog-card";
 import MDX from "@/components/mdx";
-import { toDateString } from "@/lib/utils";
 import "./style.css";
 import { getEventData } from "@/lib/fetchers/event";
 import ShareButtons from "@/components/button/share-buttons";
+import { format, getHours } from "date-fns";
+import LocationIcon from "@/components/icons/location";
+import CalendarIcon from "@/components/icons/calendar";
+import { Button, Card } from "@nextui-org/react";
+import { ptBR } from "date-fns/locale";
+import SubscribeButton from "./subscribe-button";
+import { toggleEventConnection } from "@/lib/actions/event/event.update.action";
+import { getSession } from "@/lib/auth/get-session";
+import StandardGoogleMap from "@/components/maps/standard-google-map";
 
 export const dynamic = "force-static";
 
@@ -103,23 +111,67 @@ export default async function SitePostPage({
           itemScope
           itemType="https://schema.org/BlogPosting"
           itemID={`${domain}/agenda/${slug}`}
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center px-6"
         >
-          <div className="m-auto w-full space-y-6 text-center md:w-7/12">
-            <p className="m-auto mb-5 w-10/12 text-sm font-light text-stone-500 dark:text-stone-400 md:text-base">
-              {toDateString(data.createdAt)}
-            </p>
+          <div className="m-auto w-full space-y-6 text-start md:w-7/12">
             <h1
               itemProp="name"
-              className="font-title text-3xl font-bold text-stone-800 md:text-6xl"
+              className="font-title text-3xl font-bold italic text-stone-800 md:text-6xl"
             >
               {data.title}
             </h1>
+            <div className="space-y-4 md:flex md:items-center md:justify-center md:gap-4 md:space-y-0">
+              <div className="flex gap-2">
+                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
+                  <CalendarIcon />
+                </div>
+                <div>
+                  <h2 className="text-base font-medium">{format(data.eventStartDay, "d LLLL, yyyy", { locale: ptBR })}</h2>
+                  <p className="text-[12px] font-black">
+                    {format(data.eventStartDay, "eeee", { locale: ptBR })},{" "}
+                    {`${format(data.eventStartHour, "k:m", { locale: ptBR })} ${
+                      data.eventEndHour &&
+                      `- ${format(data.eventEndHour, "k:m", { locale: ptBR })}`
+                    }`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
+                  <LocationIcon />
+                </div>
+                <div>
+                  <h2 className="text-base font-medium">{data.location}</h2>
+                  <p className="text-[12px] font-black">
+                    36 Guild Street London, UK
+                  </p>
+                </div>
+              </div>
+            </div>
+
+        <StandardGoogleMap event={data} />
+
           </div>
         </header>
-
-        <MDX source={data.mdxSource} />
+        <section className="my-8 px-6">
+          <h2 className="mx-auto text-lg font-semibold md:w-7/12 md:text-2xl">
+            Sobre o Evento
+          </h2>
+          <main>
+            <MDX source={data.mdxSource} />
+          </main>
+              <div className="sticky bottom-0 w-full">
+            <div className="sticky bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-white to-transparent pt-4">
+              <SubscribeButton>Inscrever-se</SubscribeButton>
+            </div>
+            <div className="h-4 bg-white"></div>
+          </div>
+          
+        </section>
       </article>
+
+      
 
       <ShareButtons url={`${domain}/agenda/${slug}`} />
 

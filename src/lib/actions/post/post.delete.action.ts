@@ -4,7 +4,6 @@ import { withPostAuth } from "@/lib/auth";
 import { getSession } from "@/lib/auth/get-session";
 import prisma from "@/lib/configs/prisma";
 import { hasSubscription } from "@/lib/helpers/billing";
-import { revalidateTag } from "next/cache";
 
 export const deletePost = withPostAuth(async (formData, post) => {
   try {

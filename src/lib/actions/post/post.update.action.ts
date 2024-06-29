@@ -3,10 +3,7 @@
 import { withPostAuth } from "@/lib/auth";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
-import { getBlurDataURL } from "@/lib/utils";
 import { hasSubscription } from "@/lib/helpers/billing";
-import { create } from "../image/image.create.action";
-import { websiteImagePathCreator } from "@/lib/utils/cloudinary-path-creators";
 import { getSession } from "@/lib/auth/get-session";
 
 export const updatePost = withPostAuth(async (formData, post) => {

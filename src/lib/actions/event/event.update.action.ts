@@ -5,8 +5,6 @@ import { Event, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { withEventAuth } from "@/lib/auth/event.auth";
-import { nanoid } from "nanoid";
-import { getBlurDataURL } from "@/lib/utils";
 
 export const updateEvent = async (data: Event) => {
   const session = await getSession();
@@ -19,17 +17,14 @@ export const updateEvent = async (data: Event) => {
   // Verifique se as propriedades essenciais não estão vazias
   if (
     !data.title ||
-    !data.description ||
-    !data.eventEnd ||
-    !data.eventStart ||
-    !data.location
+    !data.description
   ) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
   }
 
-  const post = await prisma.post.findUnique({
+  const event = await prisma.event.findUnique({
     where: {
       id: data.id,
     },
@@ -37,12 +32,11 @@ export const updateEvent = async (data: Event) => {
       website: true,
     },
   });
-  if (!post || post.userId !== session.user.id) {
+  if (!event) {
     return {
       error: "Post não encontrado",
     };
   }
-
   try {
     const response = await prisma.event.update({
       where: {
@@ -52,22 +46,24 @@ export const updateEvent = async (data: Event) => {
         title: data.title,
         description: data.description,
         location: data.location,
-        eventStart: data.eventStart,
-        eventEnd: data.eventEnd,
+        eventStartDay: data.eventStartDay,
+        eventEndDay: data.eventEndDay,
+        eventStartHour: data.eventStartHour,
+        eventEndHour: data.eventEndHour
       },
     });
 
     revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+      `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
     );
     revalidateTag(
-      `${post.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
+      `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${event.slug}`,
     );
 
     // if the site has a custom domain, we need to revalidate those tags too
-    post.website?.customDomain &&
-      (revalidateTag(`${post.website?.customDomain}-posts`),
-      revalidateTag(`${post.website?.customDomain}-${post.slug}`));
+    event.website?.customDomain &&
+      (revalidateTag(`${event.website?.customDomain}-posts`),
+      revalidateTag(`${event.website?.customDomain}-${event.slug}`));
 
     return response;
   } catch (error: any) {
@@ -77,6 +73,81 @@ export const updateEvent = async (data: Event) => {
   }
 };
 
+export const toggleEventConnection = async (
+  userId: string | null,
+  event: Event & {
+    website: Website;
+  } | null
+) => {
+  const session = await getSession();
+
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticatedNão autentificado",
+    };
+  }
+
+  // Verifique se as propriedades essenciais não estão vazias
+  if (!event || !userId) {
+    return {
+      error: "Conteúdo faltando",
+    };
+  }
+
+  try {
+    // Check if the user is already connected to the event
+    const existingEvent = await prisma.event.findUnique({
+      where: {
+        id: event.id,
+      },
+      select: {
+        usersWhoSubscripted: {
+          where: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    let response: Event;
+
+    if (existingEvent && existingEvent.usersWhoSubscripted.length > 0) {
+      // If user is already connected, disconnect them
+      response = await prisma.event.update({
+        where: {
+          id: event.id,
+        },
+        data: {
+          usersWhoSubscripted: {
+            disconnect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    } else {
+      // If user is not connected, connect them
+      response = await prisma.event.update({
+        where: {
+          id: event.id,
+        },
+        data: {
+          usersWhoSubscripted: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    }
+
+    return response;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
 
 export const updateEventMetadata = withEventAuth(
   async (

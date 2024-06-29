@@ -12,7 +12,7 @@ export interface EventCardProps {
 
 const EventCard = ({ className, data }: EventCardProps) => {
   return (
-    <Card className="relative shadow-2xl">
+    <Card isPressable className="relative shadow-2xl">
       <Link
         color="foreground"
         className={cn("min-w-full", styles.root, className)}
@@ -24,7 +24,7 @@ const EventCard = ({ className, data }: EventCardProps) => {
         </div>
         <div>
           <h2 className={styles["law-card-title"]}>{data.title}</h2>
-          <p className={styles["law-card-text"]}>{data.description}</p>
+          <p className={`${styles["law-card-text"]} truncate`}>{data.description}</p>
         </div>
       </Link>
       <SwitchIconButton

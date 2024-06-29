@@ -8,9 +8,10 @@ import { TimePickerInput } from "./time-picker-input";
 interface TimePickerDemoProps {
   date: Date | undefined;
   setDate: Dispatch<SetStateAction<Date>>;
+  disabled?: boolean;
 }
  
-export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
+export function TimePickerDemo({ date, setDate, disabled }: TimePickerDemoProps) {
   const minuteRef = useRef<HTMLInputElement>(null);
   const hourRef = useRef<HTMLInputElement>(null);
   const secondRef = useRef<HTMLInputElement>(null);
@@ -23,6 +24,7 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
         </Label>
         <TimePickerInput
           picker="hours"
+          disabled={disabled}
           date={date}
           setDate={setDate}
           ref={hourRef}
@@ -35,6 +37,7 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
         </Label>
         <TimePickerInput
           picker="minutes"
+          disabled={disabled}
           date={date}
           setDate={setDate}
           ref={minuteRef}
