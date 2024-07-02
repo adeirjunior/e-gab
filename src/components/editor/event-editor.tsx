@@ -28,6 +28,7 @@ import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
+import ptBR from "date-fns/locale/pt-BR";
 
 export type EventWithSite = Event & {
   website: { subdomain: string | null };
@@ -41,8 +42,8 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const [hourEnd, setHourEnd] = useState<Date>(event.eventEndHour!);
   const debouncedData = useDebounce(data, 750);
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: addDays(new Date(), 2),
   });
   const [disableEndHour, setDisableEndHour] = useState<boolean>(true);
 
@@ -229,14 +230,16 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
                         format(date.from, "LLL dd, y")
                       )
                     ) : (
-                      <span>Pick a date</span>
+                      <span>Selecione uma data</span>
                     )}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
+                  className="bg-white dark:bg-black"
                     initialFocus
                     mode="range"
+                    locale={ptBR}
                     defaultMonth={date?.from}
                     selected={date}
                     onSelect={setDate}
