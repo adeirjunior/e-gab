@@ -21,8 +21,8 @@ export const navPaths: NavPathsType = [
     href: "noticias",
   },
   {
-    name: "Agenda",
-    href: "agenda",
+    name: "Eventos",
+    href: "eventos",
   },
   {
     name: "Projetos",

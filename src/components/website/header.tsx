@@ -27,7 +27,7 @@ export default function Header({ data }: { data: Website }) {
   const router = useRouter();
 
   const menuItems = [
-    { title: "Agenda", href: "/agenda" },
+    { title: "Eventos", href: "/eventos" },
     { title: "Bibliografia", href: "/bibliografia" },
     { title: "Emendas", href: "/emendas" },
     { title: "Galeria", href: "/galeria" },
@@ -84,8 +84,8 @@ export default function Header({ data }: { data: Website }) {
                 base: "gap-4",
               }}
             >
-              <DropdownItem as={Link} href="/agenda" key="autoscaling">
-                Agenda
+              <DropdownItem as={Link} href="/eventos" key="autoscaling">
+                Eventos
               </DropdownItem>
               <DropdownItem as={Link} href="/bibliografia">
                 Bibliografia

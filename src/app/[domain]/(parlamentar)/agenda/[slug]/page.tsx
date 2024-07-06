@@ -107,7 +107,7 @@ export default async function SitePostPage({
         <header
           itemScope
           itemType="https://schema.org/BlogPosting"
-          itemID={`${domain}/agenda/${slug}`}
+          itemID={`${domain}/eventos/${slug}`}
           className="flex flex-col items-center justify-center px-6"
         >
           <div className="m-auto w-full space-y-6 text-start md:w-7/12">
@@ -170,7 +170,7 @@ export default async function SitePostPage({
 
       
 
-      <ShareButtons url={`${domain}/agenda/${slug}`} />
+      <ShareButtons url={`${domain}/eventos/${slug}`} />
 
       {data.adjacentEvents.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">

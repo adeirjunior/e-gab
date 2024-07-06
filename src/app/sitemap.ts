@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/ouvidoria`,
     })),
     ...websites.map((site) => ({
-      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/agenda`,
+      url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/eventos`,
     })),
     ...websites.map((site) => ({
       url: `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/galeria`,

@@ -16,7 +16,7 @@ const EventCard = ({ className, data }: EventCardProps) => {
       <Link
         color="foreground"
         className={cn("min-w-full", styles.root, className)}
-        href={`agenda/${data.slug}`}
+        href={`eventos/${data.slug}`}
       >
         <div className={styles["law-card-left-side"]}>
           <div className={styles["law-card-circle"]}>22 </div>

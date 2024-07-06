@@ -8,7 +8,7 @@ import { Grid } from "@tremor/react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Agenda",
+  title: "Eventos",
 };
 
 export default async function page({ params }: { params: { domain: string } }) {

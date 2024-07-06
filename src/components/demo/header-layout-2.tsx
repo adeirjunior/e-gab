@@ -30,8 +30,8 @@ export default function App() {
       name: "Parlamentar",
       children: [
         {
-          name: "Agenda",
-          href: "agenda",
+          name: "Eventos",
+          href: "eventos",
         },
         {
           name: "Bibliografia",
@@ -143,8 +143,8 @@ export default function App() {
               base: "gap-4",
             }}
           >
-            <DropdownItem href="/agenda" key="autoscaling">
-              Agenda
+            <DropdownItem href="/eventos" key="autoscaling">
+              Eventos
             </DropdownItem>
             <DropdownItem href="/bibliografia" key="usage_metrics">
               Bibliografia

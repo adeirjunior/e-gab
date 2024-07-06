@@ -41,7 +41,7 @@ const chartdata = [
 
 const pages = [
   { name: "/", value: 1230 },
-  { name: "/agenda", value: 751 },
+  { name: "/eventos", value: 751 },
   { name: "/ouvidoria", value: 471 },
   { name: "/posts", value: 280 },
   { name: "/sobre", value: 78 },
