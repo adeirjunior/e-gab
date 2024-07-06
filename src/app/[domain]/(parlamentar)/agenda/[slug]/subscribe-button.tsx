@@ -41,7 +41,7 @@ export default function SubscribeButton(
   return (
     <Button  disabled={status !== "authenticated" || isPending} onClick={handleClick}
       spinner={<LoadingDots color="#ffffff" />}
-      isLoading={status !== "authenticated" || isPending} color="primary" className="-mb-2 w-full sm:w-32" {...buttonProps}>
+      isLoading={isPending} color="primary" className="-mb-2 w-full sm:w-32" {...buttonProps}>
        {status !== "authenticated" || !isPending && children}
     </Button>
   );

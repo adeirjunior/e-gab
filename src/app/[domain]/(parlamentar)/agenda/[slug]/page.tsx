@@ -6,14 +6,11 @@ import MDX from "@/components/mdx";
 import "./style.css";
 import { getEventData } from "@/lib/fetchers/event";
 import ShareButtons from "@/components/button/share-buttons";
-import { format, getHours } from "date-fns";
+import { format } from "date-fns";
 import LocationIcon from "@/components/icons/location";
 import CalendarIcon from "@/components/icons/calendar";
-import { Button, Card } from "@nextui-org/react";
 import { ptBR } from "date-fns/locale";
 import SubscribeButton from "./subscribe-button";
-import { toggleEventConnection } from "@/lib/actions/event/event.update.action";
-import { getSession } from "@/lib/auth/get-session";
 import StandardGoogleMap from "@/components/maps/standard-google-map";
 
 export const dynamic = "force-static";

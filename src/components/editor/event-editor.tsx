@@ -14,7 +14,6 @@ import {
   CardFooter,
   CardHeader,
   Checkbox,
-  Input,
   Link,
 } from "@nextui-org/react";
 import { useDebounce } from "usehooks-ts";
@@ -29,6 +28,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import ptBR from "date-fns/locale/pt-BR";
+import AutocompleteLocationInput from "./autocomplete-location-input";
 
 export type EventWithSite = Event & {
   website: { subdomain: string | null };
@@ -196,13 +196,7 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
         <Card className="mb-4 border-2 dark:border-stone-700 dark:bg-black">
           <CardHeader>Localização</CardHeader>
           <CardBody>
-            <Input
-              type="text"
-              defaultValue={event.location || ""}
-              onChange={(e) => setData({ ...data, location: e.target.value })}
-              variant="bordered"
-              placeholder="Rua X, 1111, Bairro X, Cidade X, Brasil"
-            />
+            <AutocompleteLocationInput event={data} onChange={setData}/>
           </CardBody>
         </Card>
         <Card className="border-2 dark:border-stone-700 dark:bg-black">
