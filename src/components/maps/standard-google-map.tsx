@@ -5,7 +5,6 @@ import { Card, Link, Skeleton } from "@nextui-org/react";
 import { Event } from "@prisma/client";
 import { GoogleMap, InfoWindow, MarkerF } from "@react-google-maps/api";
 import { useMemo, useState, useEffect } from "react";
-import { toast } from "sonner";
 
 export default function StandardGoogleMap({ event }: { event: Event }) {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
@@ -56,9 +55,6 @@ export default function StandardGoogleMap({ event }: { event: Event }) {
     try {
       const placeResult = await findPlace(event.location!);
       if (placeResult) {
-        toast.success(
-          `Sucesso! O lugar carregado se chama: ${placeResult.name}`,
-        );
         setPlace(placeResult);
       }
     } catch (error) {
@@ -128,6 +124,7 @@ export default function StandardGoogleMap({ event }: { event: Event }) {
               >
                 <div>
                   <h3 className="text-xl">{event.title}</h3>
+                  <p>{place.formatted_address}</p>
                   <Link
                     color="primary"
                     href={`https://www.google.com/maps?q=${place.geometry?.location.lat()},${place.geometry?.location.lng()}`}

@@ -27,7 +27,7 @@ model User {
   admin                    Admin?
   client                   Client?                 @relation(fields: [clientId], references: [id])
   posts                    Post[]
-  subscriptedEvents Event[]
+  subscriptedEvents        Event[]
   subscriptions            Subscription[]
   message                  Message[]
   accounts                 Account[]
@@ -472,21 +472,32 @@ model Plan {
 }
 
 model Event {
-  id             String   @id @default(cuid()) @map("_id")
-  title          String?
-  description    String?
-  eventStartDay  DateTime
-  eventEndDay    DateTime?
-  eventStartHour DateTime
-  eventEndHour   DateTime?
-  location       String?
-  usersWhoSubscripted  User[]
-  published      Boolean  @default(false)
-  slug           String   @default(cuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  website        Website  @relation(fields: [websiteId], references: [id])
-  websiteId      String
+  id                  String         @id @default(cuid()) @map("_id")
+  title               String?
+  description         String?
+  eventStartDay       DateTime
+  eventEndDay         DateTime?
+  eventStartHour      DateTime
+  eventEndHour        DateTime?
+  location            EventLocation? @relation(fields: [eventLocationId], references: [id])
+  usersWhoSubscripted User[]
+  published           Boolean        @default(false)
+  slug                String         @default(cuid())
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  website             Website        @relation(fields: [websiteId], references: [id])
+  websiteId           String
+  eventLocationId     String?
+}
+
+model EventLocation {
+  id        String   @id @default(cuid()) @map("_id")
+  name String
+  lat Int
+  lng Int
+  event     Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Law {

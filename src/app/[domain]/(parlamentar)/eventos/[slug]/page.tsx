@@ -12,6 +12,7 @@ import CalendarIcon from "@/components/icons/calendar";
 import { ptBR } from "date-fns/locale";
 import SubscribeButton from "./subscribe-button";
 import StandardGoogleMap from "@/components/maps/standard-google-map";
+import LocationTag from "./location-tag";
 
 export const dynamic = "force-static";
 
@@ -117,9 +118,9 @@ export default async function SitePostPage({
             >
               {data.title}
             </h1>
-            <div className="space-y-4 md:flex md:items-center md:justify-center md:gap-4 md:space-y-0">
-              <div className="flex gap-2">
-                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
+            <div className="space-y-4 md:grid md:grid-cols-2 md:items-center md:justify-center md:gap-4 md:space-y-0">
+              <div className="flex gap-2 md:justify-end">
+                <div className="w-fit h-fit rounded-xl bg-[#566aff2a] p-2">
                   <CalendarIcon />
                 </div>
                 <div>
@@ -134,17 +135,7 @@ export default async function SitePostPage({
                 </div>
               </div>
 
-              <div className="flex gap-2">
-                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
-                  <LocationIcon />
-                </div>
-                <div>
-                  <h2 className="text-base font-medium">{data.location}</h2>
-                  <p className="text-[12px] font-black">
-                    36 Guild Street London, UK
-                  </p>
-                </div>
-              </div>
+              <LocationTag event={data}/>
             </div>
 
         <StandardGoogleMap event={data} />
