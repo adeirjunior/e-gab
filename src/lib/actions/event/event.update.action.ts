@@ -1,12 +1,14 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Event, Website } from "@prisma/client";
+import { Event, EventLocation, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { withEventAuth } from "@/lib/auth/event.auth";
 
-export const updateEvent = async (data: Event) => {
+export const updateEvent = async (
+  data: Event & { location: EventLocation },
+) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
@@ -15,55 +17,54 @@ export const updateEvent = async (data: Event) => {
   }
 
   // Verifique se as propriedades essenciais não estão vazias
-  if (
-    !data.title ||
-    !data.description
-  ) {
+  if (!data.title || !data.description) {
     return {
       error: "Título, descrição, e conteúdo não podem estar vazios",
     };
   }
 
-  const event = await prisma.event.findUnique({
-    where: {
-      id: data.id,
-    },
-    include: {
-      website: true,
-    },
-  });
-  if (!event) {
-    return {
-      error: "Post não encontrado",
-    };
-  }
   try {
+    const existingEvent = await prisma.event.findUnique({
+      where: { id: data.id },
+      include: { website: true, location: true }, // Inclua a localização atual do evento
+    });
+
+    if (!existingEvent) {
+      return {
+        error: "Evento não encontrado",
+      };
+    }
+
     const response = await prisma.event.update({
-      where: {
-        id: data.id,
-      },
+      where: { id: data.id },
       data: {
         title: data.title,
         description: data.description,
-        location: data.location,
         eventStartDay: data.eventStartDay,
         eventEndDay: data.eventEndDay,
         eventStartHour: data.eventStartHour,
-        eventEndHour: data.eventEndHour
+        eventEndHour: data.eventEndHour,
+        // Atualize a localização se houver uma nova localização fornecida
+        location: data.location
+          ? { connect: { id: data.location.id } }
+          : undefined,
       },
+      include: { website: true, location: true }, // Inclua a localização atualizada na resposta
     });
 
     revalidateTag(
-      `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+      `${existingEvent.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
     );
     revalidateTag(
-      `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${event.slug}`,
+      `${existingEvent.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${existingEvent.slug}`,
     );
 
-    // if the site has a custom domain, we need to revalidate those tags too
-    event.website?.customDomain &&
-      (revalidateTag(`${event.website?.customDomain}-posts`),
-      revalidateTag(`${event.website?.customDomain}-${event.slug}`));
+    // Se o site tiver um domínio personalizado, revalide também essas tags
+    existingEvent.website?.customDomain &&
+      (revalidateTag(`${existingEvent.website?.customDomain}-posts`),
+      revalidateTag(
+        `${existingEvent.website?.customDomain}-${existingEvent.slug}`,
+      ));
 
     return response;
   } catch (error: any) {

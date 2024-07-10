@@ -12,7 +12,7 @@ import CalendarIcon from "@/components/icons/calendar";
 import { ptBR } from "date-fns/locale";
 import SubscribeButton from "./subscribe-button";
 import StandardGoogleMap from "@/components/maps/standard-google-map";
-import LocationTag from "./location-tag";
+import { EventLocation, Event } from "@prisma/client";
 
 export const dynamic = "force-static";
 
@@ -101,6 +101,8 @@ export default async function SitePostPage({
     notFound();
   }
 
+  const {adjacentEvents, mdxSource, error,  ...event} = data;
+
   return (
     <>
       <article>
@@ -116,30 +118,43 @@ export default async function SitePostPage({
               itemProp="name"
               className="font-title text-3xl font-bold italic text-stone-800 md:text-6xl"
             >
-              {data.title}
+              {event.title}
             </h1>
             <div className="space-y-4 md:grid md:grid-cols-2 md:items-center md:justify-center md:gap-4 md:space-y-0">
               <div className="flex gap-2 md:justify-end">
-                <div className="w-fit h-fit rounded-xl bg-[#566aff2a] p-2">
+                <div className="h-fit w-fit rounded-xl bg-[#566aff2a] p-2">
                   <CalendarIcon />
                 </div>
                 <div>
-                  <h2 className="text-base font-medium">{format(data.eventStartDay, "d LLLL, yyyy", { locale: ptBR })}</h2>
+                  <h2 className="text-base font-medium">
+                    {format(event.eventStartDay, "d LLLL, yyyy", {
+                      locale: ptBR,
+                    })}
+                  </h2>
                   <p className="text-[12px] font-black">
-                    {format(data.eventStartDay, "eeee", { locale: ptBR })},{" "}
-                    {`${format(data.eventStartHour, "k:m", { locale: ptBR })} ${
-                      data.eventEndHour &&
-                      `- ${format(data.eventEndHour, "k:m", { locale: ptBR })}`
+                    {format(event.eventStartDay, "eeee", { locale: ptBR })},{" "}
+                    {`${format(event.eventStartHour, "k:m", { locale: ptBR })} ${
+                      event.eventEndHour &&
+                      `- ${format(event.eventEndHour, "k:m", { locale: ptBR })}`
                     }`}
                   </p>
                 </div>
               </div>
 
-              <LocationTag event={data}/>
+              <div className="flex gap-2">
+                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
+                  <LocationIcon />
+                </div>
+                <div>
+                  <h2 className="text-base font-medium">{event.location?.name}</h2>
+                  <p className="text-[12px] font-black">
+                    {data.location?.adr_address}
+                  </p>
+                </div>
+              </div>
             </div>
 
-        <StandardGoogleMap event={data} />
-
+            <StandardGoogleMap event={event} />
           </div>
         </header>
         <section className="my-8 px-6">
@@ -147,23 +162,20 @@ export default async function SitePostPage({
             Sobre o Evento
           </h2>
           <main>
-            <MDX source={data.mdxSource} />
+            <MDX source={mdxSource} />
           </main>
-              <div className="sticky bottom-0 w-full">
+          <div className="sticky bottom-0 w-full">
             <div className="sticky bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-white to-transparent pt-4">
               <SubscribeButton>Inscrever-se</SubscribeButton>
             </div>
             <div className="h-4 bg-white"></div>
           </div>
-          
         </section>
       </article>
 
-      
-
       <ShareButtons url={`${domain}/eventos/${slug}`} />
 
-      {data.adjacentEvents.length > 0 && (
+      {adjacentEvents.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">
           <div
             className="absolute inset-0 flex items-center"
@@ -178,9 +190,9 @@ export default async function SitePostPage({
           </div>
         </div>
       )}
-      {data.adjacentEvents && (
+      {adjacentEvents && (
         <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:mx-auto xl:grid-cols-3">
-          {data.adjacentEvents.map((data: any, index: number) => (
+          {adjacentEvents.map((data: any, index: number) => (
             <BlogCard key={index} data={data} />
           ))}
         </div>

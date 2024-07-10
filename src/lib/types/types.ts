@@ -111,3 +111,5 @@ export type PartiesDataType = {
     href: string;
   }[];
 };
+
+export type ExcludeKeys<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

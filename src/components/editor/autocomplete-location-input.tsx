@@ -36,24 +36,32 @@ export default function AutocompleteLocationInput({
   }, [isLoaded]);
 
 
- useEffect(() => {
-   if (autoComplete) {
-     autoComplete.addListener('place_changed', () => {
-        const place = autoComplete.getPlace()
-        setData((prev) => ({ ...prev, location: place.formatted_address as string }));
-     })
-   }
- }, [autoComplete, setData]);
+useEffect(() => {
+  if (autoComplete) {
+    autoComplete.addListener("place_changed", () => {
+      const place = autoComplete.getPlace();
+      setData((prev) => ({
+        ...prev,
+          location: {
+            ...prev.location,
+            name: place.name ?? "",
+            formatted_address: place.formatted_address ?? "",
+            adr_address: place.adr_address ?? "",
+            url: place.url ?? "",
+            lat: place.geometry?.location?.lat() ?? 0,
+            lng: place.geometry?.location?.lng() ?? 0,
+          },
+      }));
+
+    });
+  }
+}, [autoComplete, setData]);
 
   return isLoaded ? (
     <Input
       ref={placeAutoCompleteRef}
       type="text"
-      value={event.location || ""}
-      defaultValue={event.location || ""}
-      onChange={(e) =>
-        setData((prev) => ({ ...prev, location: e.target.value }))
-      }
+      defaultValue={event.location.formatted_address || ""}
       variant="bordered"
       placeholder="Rua X, 1111, Bairro X, Cidade X, Brasil"
     />
@@ -62,9 +70,6 @@ export default function AutocompleteLocationInput({
       <Input
         type="text"
         disabled
-        onChange={(e) =>
-          setData((prev) => ({ ...prev, location: e.target.value }))
-        }
         variant="bordered"
         placeholder="Rua X, 1111, Bairro X, Cidade X, Brasil"
       />

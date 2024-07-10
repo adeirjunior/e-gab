@@ -27,17 +27,21 @@ export async function getEventData(domain: string, slug: string) {
           website: subdomain ? { subdomain } : { customDomain: domain },
           slug,
           published: true,
-        }
+        },
+        include: {
+          location: true,
+        },
       });
 
-      if (!data || !data.description) {
+      // Handle case where location is null
+      if (!data || !data.description || !data.location) {
         return {
-          error: "Post está indefinido",
+          error: "Post está indefinido ou localização não encontrada",
         };
       }
 
       const [mdxSource, adjacentEvents] = await Promise.all([
-        getMdxSource(data.description!),
+        getMdxSource(data.description),
         prisma.event.findMany({
           where: {
             website: subdomain ? { subdomain } : { customDomain: domain },
@@ -55,8 +59,12 @@ export async function getEventData(domain: string, slug: string) {
         }),
       ]);
 
+      // Ensure location is not null
+      const location = data.location;
+
       return {
         ...data,
+        location,
         mdxSource,
         adjacentEvents,
       };

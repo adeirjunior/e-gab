@@ -493,6 +493,9 @@ model Event {
 model EventLocation {
   id        String   @id @default(cuid()) @map("_id")
   name String
+  formatted_address String
+  adr_address String
+  url String
   lat Int
   lng Int
   event     Event[]

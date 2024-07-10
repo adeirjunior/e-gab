@@ -2,7 +2,7 @@
 "use client";
 
 import { Suspense, useEffect, useState, useTransition } from "react";
-import { Event } from "@prisma/client";
+import { Event, EventLocation } from "@prisma/client";
 import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { CalendarIcon, ExternalLink } from "lucide-react";
@@ -30,7 +30,7 @@ import { DateRange } from "react-day-picker";
 import ptBR from "date-fns/locale/pt-BR";
 import AutocompleteLocationInput from "./autocomplete-location-input";
 
-export type EventWithSite = Event & {
+export type EventWithSite = Event & {location: EventLocation} & {
   website: { subdomain: string | null };
 };
 
