@@ -30,7 +30,7 @@ import { DateRange } from "react-day-picker";
 import ptBR from "date-fns/locale/pt-BR";
 import AutocompleteLocationInput from "./autocomplete-location-input";
 
-export type EventWithSite = Event & {location: EventLocation} & {
+export type EventWithSite = Event & { eventLocation: EventLocation } & {
   website: { subdomain: string | null };
 };
 
@@ -42,8 +42,8 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const [hourEnd, setHourEnd] = useState<Date>(event.eventEndHour!);
   const debouncedData = useDebounce(data, 750);
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 2),
+    from: data.eventStartDay,
+    to: data.eventEndDay || addDays(data.eventStartDay, 2),
   });
   const [disableEndHour, setDisableEndHour] = useState<boolean>(true);
 
@@ -55,11 +55,15 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const isSync =
     data.title === event.title &&
     data.description === event.description &&
-    data.location === event.location &&
-    data.eventStartHour === event.eventStartHour &&
-    data.eventEndHour === event.eventEndHour && 
-    data.eventStartDay === event.eventStartDay && 
-    data.eventEndDay === event.eventEndDay;
+    data.eventLocation.adr_address === event.eventLocation.adr_address;
+
+  const updateEventData = async () => {
+    const response = await updateEvent(data);
+
+    if ("error" in response) {
+      toast.error(response.error);
+    }
+  };
 
   useEffect(() => {
     if (isSync) {
@@ -67,23 +71,9 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
     }
 
     startTransitionSaving(async () => {
-      setData((prev) => ({
-        ...prev,
-        eventStartHour: hourStart,
-        eventEndHour: hourEnd,
-      }));
-      const response = await updateEvent(data);
-
-      if ("error" in response) {
-        toast.error(response.error);
-      }
+      await updateEventData();
     });
-  }, [
-    debouncedData,
-    startTransitionSaving,
-    hourEnd,
-    hourStart
-  ]);
+  }, [debouncedData]);
 
   const togglePublish = async () => {
     const formData = new FormData();
@@ -178,8 +168,7 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
             onChange={(e) => setData({ ...data, title: e.target.value })}
             className="dark:placeholder-text-600 font-cal border-none px-0 text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 dark:bg-black dark:text-white"
           />
-          <Suspense fallback={<p>Carregando...</p>}>
-            <NovelEditor
+          <NovelEditor
             className="relative block"
             disableLocalStorage
             defaultValue={event.description || ""}
@@ -190,14 +179,30 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
               }));
             }}
           />
-          </Suspense>
-          
         </div>
         <Card className="mb-4 border-2 dark:border-stone-700 dark:bg-black">
           <CardHeader>Localização</CardHeader>
           <CardBody>
-            <AutocompleteLocationInput event={data} onChange={setData}/>
+            <AutocompleteLocationInput event={data} onChange={setData} />
           </CardBody>
+          <CardFooter>
+            <Button
+              onPress={() =>
+                startTransitionSaving(async () => {
+                  await updateEventData();
+                })
+              }
+              variant="bordered"
+              disabled={data.eventLocation === event.eventLocation}
+              color={
+                data.eventLocation === event.eventLocation
+                  ? "success"
+                  : "primary"
+              }
+            >
+              {data.eventLocation === event.eventLocation ? "Salvo" : "Salvar"}
+            </Button>
+          </CardFooter>
         </Card>
         <Card className="border-2 dark:border-stone-700 dark:bg-black">
           <CardHeader>Data</CardHeader>
@@ -230,7 +235,7 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
-                  className="bg-white dark:bg-black"
+                    className="bg-white dark:bg-black"
                     initialFocus
                     mode="range"
                     locale={ptBR}
@@ -242,23 +247,65 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
                 </PopoverContent>
               </Popover>
             </div>
-            <Checkbox isSelected={disableEndHour} onValueChange={setDisableEndHour} className="mt-4" defaultSelected>
+            <Checkbox
+              isSelected={disableEndHour}
+              onValueChange={setDisableEndHour}
+              className="mt-4"
+              defaultSelected
+            >
               Sem horário para finalizar
             </Checkbox>
+            <Card className="mt-4 grid grid-cols-2 gap-6 dark:bg-black">
+              <Card className="border p-4 dark:border-stone-700 dark:bg-black">
+                <CardHeader>
+                  <h3>Início</h3>
+                </CardHeader>
+                <TimePickerDemo date={hourStart} setDate={setHourStart} />
+              </Card>
+              <Card className="border p-4 dark:border-stone-700 dark:bg-black">
+                <CardHeader>
+                  <h3>Final</h3>
+                </CardHeader>
+                <TimePickerDemo date={hourEnd} setDate={setHourEnd} />
+              </Card>
+            </Card>
           </CardBody>
           <CardFooter className="gap-4">
-            <Card className="border p-4 dark:border-stone-700 dark:bg-black">
-              <CardHeader>
-                <h3>Início</h3>
-              </CardHeader>
-              <TimePickerDemo date={hourStart} setDate={setHourStart} />
-            </Card>
-            <Card className="border p-4 dark:border-stone-700 dark:bg-black">
-              <CardHeader>
-                <h3>Final</h3>
-              </CardHeader>
-              <TimePickerDemo date={hourEnd} setDate={setHourEnd} />
-            </Card>
+            <Button
+              onPress={() =>
+                startTransitionSaving(async () => {
+                  await updateEventData();
+                })
+              }
+              variant="bordered"
+              disabled={
+                data.eventStartDay === event.eventStartDay &&
+                data.eventEndDay === event.eventEndDay &&
+                data.eventStartHour === event.eventStartHour &&
+                data.eventEndHour === event.eventEndHour &&
+                hourStart === data.eventStartHour &&
+                hourEnd === data.eventEndHour
+              }
+              color={
+                data.eventStartDay === event.eventStartDay &&
+                data.eventEndDay === event.eventEndDay &&
+                data.eventStartHour === event.eventStartHour &&
+                data.eventEndHour === event.eventEndHour &&
+                hourStart === data.eventStartHour &&
+                hourEnd === data.eventEndHour
+                  ? "success"
+                  : "primary"
+              }
+            >
+              {data.eventStartDay === event.eventStartDay &&
+              data.eventEndDay === event.eventEndDay &&
+              data.eventStartHour === event.eventStartHour &&
+              data.eventEndHour === event.eventEndHour &&
+              hourStart === data.eventStartHour &&
+              hourEnd === data.eventEndHour
+                ? "Salvo"
+                : "Salvar"}
+            </Button>
           </CardFooter>
         </Card>
       </Card>

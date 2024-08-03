@@ -1,18 +1,17 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Event, EventLocation, Website } from "@prisma/client";
+import { Event, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { withEventAuth } from "@/lib/auth/event.auth";
+import { EventWithSite } from "@/components/editor/event-editor";
 
-export const updateEvent = async (
-  data: Event & { location: EventLocation },
-) => {
+export const updateEvent = async (data: EventWithSite) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {
-      error: "Not authenticatedNão autentificado",
+      error: "Não autentificado",
     };
   }
 
@@ -26,7 +25,7 @@ export const updateEvent = async (
   try {
     const existingEvent = await prisma.event.findUnique({
       where: { id: data.id },
-      include: { website: true, location: true }, // Inclua a localização atual do evento
+      include: { website: true, eventLocation: true }, // Inclua a localização atual do evento
     });
 
     if (!existingEvent) {
@@ -45,11 +44,20 @@ export const updateEvent = async (
         eventStartHour: data.eventStartHour,
         eventEndHour: data.eventEndHour,
         // Atualize a localização se houver uma nova localização fornecida
-        location: data.location
-          ? { connect: { id: data.location.id } }
-          : undefined,
+        eventLocation: {
+          update: {
+            data: {
+              adr_address: data.eventLocation.adr_address,
+              formatted_address: data.eventLocation.formatted_address,
+              lat: data.eventLocation.lat,
+              lng: data.eventLocation.lng,
+              name: data.eventLocation.name,
+              url: data.eventLocation.url,
+            },
+          },
+        },
       },
-      include: { website: true, location: true }, // Inclua a localização atualizada na resposta
+      include: { website: true, eventLocation: true }, // Inclua a localização atualizada na resposta
     });
 
     revalidateTag(
@@ -76,9 +84,11 @@ export const updateEvent = async (
 
 export const toggleEventConnection = async (
   userId: string | null,
-  event: Event & {
-    website: Website;
-  } | null
+  event:
+    | (Event & {
+        website: Website;
+      })
+    | null,
 ) => {
   const session = await getSession();
 
@@ -162,13 +172,13 @@ export const updateEventMetadata = withEventAuth(
 
     try {
       const response = await prisma.event.update({
-          where: {
-            id: event.id,
-          },
-          data: {
-            [key]: key === "published" ? value === "true" : value,
-          },
-        });
+        where: {
+          id: event.id,
+        },
+        data: {
+          [key]: key === "published" ? value === "true" : value,
+        },
+      });
 
       revalidateTag(
         `${event.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-events`,

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Input,
-  Skeleton,
-} from "@nextui-org/react";
+import { Input, Skeleton } from "@nextui-org/react";
 import { EventWithSite } from "./event-editor";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Library } from "@googlemaps/js-api-loader";
@@ -18,8 +15,9 @@ export default function AutocompleteLocationInput({
   onChange: Dispatch<SetStateAction<EventWithSite>>;
 }) {
   const placeAutoCompleteRef = useRef<HTMLInputElement>(null);
-  const [autoComplete, setAutoComplete] =
-    useState<google.maps.places.Autocomplete | null>(null);
+  const [inputValue, setInputValue] = useState<string>(
+    event.eventLocation?.formatted_address || "",
+  );
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
@@ -31,42 +29,38 @@ export default function AutocompleteLocationInput({
       const gAutoComplete = new google.maps.places.Autocomplete(
         placeAutoCompleteRef.current as HTMLInputElement,
       );
-      setAutoComplete(gAutoComplete);
+      gAutoComplete.addListener("place_changed", () => {
+        const place = gAutoComplete.getPlace();
+        if (place.formatted_address) {
+          setInputValue(place.formatted_address);
+          setData(prev => ({
+            ...prev,
+            eventLocation: {
+              ...prev.eventLocation,
+              formatted_address: place.formatted_address || "",
+              adr_address: place.adr_address || "",
+              lat: place.geometry?.location?.lat() || 0,
+              lng: place.geometry?.location?.lng() || 0,
+              name: place.name || "",
+              url: place.url || ""
+            },
+          }));
+        }
+      });
     }
-  }, [isLoaded]);
-
-
-useEffect(() => {
-  if (autoComplete) {
-    autoComplete.addListener("place_changed", () => {
-      const place = autoComplete.getPlace();
-      setData((prev) => ({
-        ...prev,
-          location: {
-            ...prev.location,
-            name: place.name ?? "",
-            formatted_address: place.formatted_address ?? "",
-            adr_address: place.adr_address ?? "",
-            url: place.url ?? "",
-            lat: place.geometry?.location?.lat() ?? 0,
-            lng: place.geometry?.location?.lng() ?? 0,
-          },
-      }));
-
-    });
-  }
-}, [autoComplete, setData]);
+  }, [isLoaded, setData]);
 
   return isLoaded ? (
     <Input
       ref={placeAutoCompleteRef}
       type="text"
-      defaultValue={event.location.formatted_address || ""}
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
       variant="bordered"
       placeholder="Rua X, 1111, Bairro X, Cidade X, Brasil"
     />
   ) : (
-    <Skeleton>
+    <Skeleton className="rounded-lg">
       <Input
         type="text"
         disabled

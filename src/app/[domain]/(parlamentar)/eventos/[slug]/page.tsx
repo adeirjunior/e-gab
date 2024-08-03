@@ -12,7 +12,6 @@ import CalendarIcon from "@/components/icons/calendar";
 import { ptBR } from "date-fns/locale";
 import SubscribeButton from "./subscribe-button";
 import StandardGoogleMap from "@/components/maps/standard-google-map";
-import { EventLocation, Event } from "@prisma/client";
 
 export const dynamic = "force-static";
 
@@ -96,9 +95,12 @@ export default async function SitePostPage({
   const slug = decodeURIComponent(params.slug);
   const data = await getEventData(domain, slug);
 
+  if(!data) {
+    notFound()
+  }
+
   if ("error" in data) {
-    console.log(data);
-    notFound();
+    throw new Error(data.error)
   }
 
   const {adjacentEvents, mdxSource, error,  ...event} = data;
@@ -146,9 +148,9 @@ export default async function SitePostPage({
                   <LocationIcon />
                 </div>
                 <div>
-                  <h2 className="text-base font-medium">{event.location?.name}</h2>
+                  <h2 className="text-base font-medium">{event.location.name}</h2>
                   <p className="text-[12px] font-black">
-                    {data.location?.adr_address}
+                    {data.location.formatted_address}
                   </p>
                 </div>
               </div>

@@ -14,6 +14,19 @@ export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
       eventEndDay: new Date(new Date().setDate(new Date().getDate() + 1)),
       eventStartHour: new Date(new Date().setHours(18, 0)),
       eventEndHour: new Date(new Date().setHours(20, 0)),
+      eventLocation: {
+        create: {
+          name: "",
+          adr_address: "",
+          formatted_address: "",
+          url: "",
+          lat: 0,
+          lng: 0,
+        }
+      }
+    },
+    include: {
+      eventLocation: true
     }
   });
 

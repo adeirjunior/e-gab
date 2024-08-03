@@ -23,15 +23,15 @@ export default async function page({ params }: { params: { id: string } }) {
           subdomain: true,
         },
       },
-      location: true
+      eventLocation: true
     },
   });
 
-  if (!data || !data.location) {
+  if (!data || !data.eventLocation) {
     notFound();
   }
+ 
+  const eventLocation = data.eventLocation
 
-  const location = data.location
-
-  return <EventEditor event={{...data, location}} />;
+  return <EventEditor event={{ ...data, eventLocation }} />;
 }

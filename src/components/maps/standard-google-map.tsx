@@ -3,8 +3,13 @@
 
 import { Card, Link, Skeleton } from "@nextui-org/react";
 import { Event, EventLocation } from "@prisma/client";
-import { GoogleMap, InfoWindow, MarkerF } from "@react-google-maps/api";
-import { useMemo, useState, useEffect, Suspense } from "react";
+import {
+  GoogleMap,
+  InfoWindow,
+  MarkerF,
+  LoadScript,
+} from "@react-google-maps/api";
+import { useMemo, useState, Suspense } from "react";
 
 export default function StandardGoogleMap({
   event,
@@ -29,7 +34,7 @@ export default function StandardGoogleMap({
       streetViewControl: false,
       scaleControl: false,
       rotateControl: false,
-      center: mapCenter || undefined, // Use undefined if mapCenter is null
+      center: mapCenter, // Use undefined if mapCenter is null
     }),
     [mapCenter],
   );
@@ -40,52 +45,61 @@ export default function StandardGoogleMap({
   }
 
   return (
-    <Suspense
-      fallback={
+    <LoadScript
+      loadingElement={
         <Skeleton className="rounded-2xl">
           <Card isPressable className="h-96 w-full bg-gray-400"></Card>
         </Skeleton>
       }
+      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
     >
-      <GoogleMap
-        options={mapOptions}
-        zoom={14}
-        mapTypeId={google.maps.MapTypeId.ROADMAP}
-        onClick={() => setIsInfoWindowOpen(false)}
-        mapContainerStyle={{
-          width: "100%",
-          height: "384px",
-          borderRadius: "1em",
-        }}
-        center={mapCenter || undefined}
-        onLoad={() => console.log("Map Component Loaded...")}
+      <Suspense
+        fallback={
+          <Skeleton className="rounded-2xl">
+            <Card isPressable className="h-96 w-full bg-gray-400"></Card>
+          </Skeleton>
+        }
       >
-        <MarkerF
-          onClick={() => setIsInfoWindowOpen(true)}
-          position={mapCenter}
-          onLoad={() => console.log("Marker Loaded")}
+        <GoogleMap
+          options={mapOptions}
+          zoom={14}
+          mapTypeId="roadmap"
+          onClick={() => setIsInfoWindowOpen(false)}
+          mapContainerStyle={{
+            width: "100%",
+            height: "384px",
+            borderRadius: "1em",
+          }}
+          center={mapCenter || undefined}
+          onLoad={() => console.log("Map Component Loaded...")}
         >
-          {isInfoWindowOpen && (
-            <InfoWindow
-              options={{ ariaLabel: event.title }}
-              onCloseClick={() => setIsInfoWindowOpen(false)}
-            >
-              <div>
-                <h3 className="text-xl">{event.title}</h3>
-                <p>{event.location.formatted_address}</p>
-                <Link
-                  color="primary"
-                  href={event.location.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Abrir no Google Maps
-                </Link>
-              </div>
-            </InfoWindow>
-          )}
-        </MarkerF>
-      </GoogleMap>
-    </Suspense>
+          <MarkerF
+            onClick={() => setIsInfoWindowOpen(true)}
+            position={mapCenter}
+            onLoad={() => console.log("Marker Loaded")}
+          >
+            {isInfoWindowOpen && (
+              <InfoWindow
+                options={{ ariaLabel: event.title }}
+                onCloseClick={() => setIsInfoWindowOpen(false)}
+              >
+                <div>
+                  <h3 className="text-xl">{event.title}</h3>
+                  <p>{event.location.formatted_address}</p>
+                  <Link
+                    color="primary"
+                    href={event.location.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Abrir no Google Maps
+                  </Link>
+                </div>
+              </InfoWindow>
+            )}
+          </MarkerF>
+        </GoogleMap>
+      </Suspense>
+    </LoadScript>
   );
 }

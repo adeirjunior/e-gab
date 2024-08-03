@@ -29,12 +29,12 @@ export async function getEventData(domain: string, slug: string) {
           published: true,
         },
         include: {
-          location: true,
+          eventLocation: true,
         },
       });
 
       // Handle case where location is null
-      if (!data || !data.description || !data.location) {
+      if (!data || !data.description || !data.eventLocation) {
         return {
           error: "Post está indefinido ou localização não encontrada",
         };
@@ -60,8 +60,8 @@ export async function getEventData(domain: string, slug: string) {
       ]);
 
       // Ensure location is not null
-      const location = data.location;
-
+      const location = data.eventLocation;
+    
       return {
         ...data,
         location,
