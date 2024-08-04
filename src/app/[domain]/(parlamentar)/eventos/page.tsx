@@ -14,21 +14,18 @@ export default async function page({ params }: { params: { domain: string } }) {
 
   const [events] = await Promise.all([getEventsForSite(domain)]);
 
+  const validEvents: EventWithSite[] = events.filter(
+    (event): event is EventWithSite => event.eventLocation !== null
+  );
+
   return (
-    <div className="p-6 container space-y-8">
+    <div className="container space-y-8 p-6">
       <section>
-        <h2 className="text-xl font-bold mb-4">Próximos Eventos</h2>
-        {events.length > 0 ? (
+        <h2 className="mb-4 text-xl font-bold">Próximos Eventos</h2>
+        {validEvents.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
-            {" "}
-            {events.map(
-              (event, index) =>
-                index <= 2 && (
-                  <EventCard
-                    key={index}
-                    data={event as unknown as EventWithSite}
-                  />
-                ),
+            {validEvents.map((event, index) =>
+              index <= 2 ? <EventCard key={index} data={event} /> : null,
             )}
           </Grid>
         ) : (
@@ -54,18 +51,11 @@ export default async function page({ params }: { params: { domain: string } }) {
         )}
       </section>
       <section>
-        <h2 className="text-xl font-bold mb-4">Eventos Antigos</h2>
-        {events.length > 0 ? (
+        <h2 className="mb-4 text-xl font-bold">Eventos Antigos</h2>
+        {validEvents.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
-            {" "}
-            {events.map(
-              (event, index) =>
-                index > 2 && (
-                  <EventCard
-                    key={index}
-                    data={event as unknown as EventWithSite}
-                  />
-                ),
+            {validEvents.map((event, index) =>
+              index > 2 ? <EventCard key={index} data={event} /> : null,
             )}
           </Grid>
         ) : (
