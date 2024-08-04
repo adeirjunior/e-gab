@@ -135,7 +135,9 @@ export default async function SitePostPage({
                   </h2>
                   <p className="text-[12px] font-black">
                     {format(event.eventStartDay, "eeee", { locale: ptBR })},{" "}
-                    {`${format(event.eventStartHour, "k:m", { locale: ptBR })} ${
+                    {`${format(event.eventStartHour, "k:m", {
+                      locale: ptBR,
+                    })} ${
                       event.eventEndHour &&
                       `- ${format(event.eventEndHour, "k:m", { locale: ptBR })}`
                     }`}
@@ -144,11 +146,13 @@ export default async function SitePostPage({
               </div>
 
               <div className="flex gap-2">
-                <div className="w-fit rounded-xl bg-[#566aff2a] p-2">
+                <div className="h-fit w-fit rounded-xl bg-[#566aff2a] p-2">
                   <LocationIcon />
                 </div>
                 <div>
-                  <h2 className="text-base font-medium">{event.location.name}</h2>
+                  <h2 className="text-base font-medium">
+                    {event.location.name}
+                  </h2>
                   <p className="text-[12px] font-black">
                     {data.location.formatted_address}
                   </p>
@@ -175,7 +179,10 @@ export default async function SitePostPage({
         </section>
       </article>
 
-      <ShareButtons url={`${domain}/eventos/${slug}`} />
+      <ShareButtons
+        message={`Veja sobre o evento ${data.title}.`}
+        url={`${domain}/eventos/${slug}`}
+      />
 
       {adjacentEvents.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">

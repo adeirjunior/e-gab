@@ -1,37 +1,37 @@
-import { Card, cn, Link } from "@nextui-org/react";
-import styles from "./law-card.module.scss";
-import { Event } from "@prisma/client";
-import SwitchIconButton from "../button/switch-icon-button";
-import Bookmark from "../icons/Bookmark";
-import BookmarkFill from "../icons/BookmarkFill";
+import { Card, Link } from "@nextui-org/react";
+import { EventWithSite } from "../editor/event-editor";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 export interface EventCardProps {
   className?: string;
-  data: Event;
+  data: EventWithSite;
 }
 
 const EventCard = ({ className, data }: EventCardProps) => {
   return (
-    <Card isPressable className="relative shadow-2xl">
-      <Link
-        color="foreground"
-        className={cn("min-w-full", styles.root, className)}
-        href={`eventos/${data.slug}`}
-      >
-        <div className={styles["law-card-left-side"]}>
-          <div className={styles["law-card-circle"]}>22 </div>
-          <h3 className={styles["law-card-year"]}>2024 </h3>
-        </div>
-        <div>
-          <h2 className={styles["law-card-title"]}>{data.title}</h2>
-          <p className={`${styles["law-card-text"]} truncate`}>{data.description}</p>
-        </div>
-      </Link>
-      <SwitchIconButton
-        EnabledIcon={<BookmarkFill />}
-        DisabledIcon={<Bookmark />}
-        className="absolute right-6 top-0"
-      />
+    <Card
+      as={Link}
+      href={`eventos/${data.slug}`}
+      isPressable
+      className={cn("flex w-full flex-row gap-2 shadow-2xl", className)}
+    >
+      <Card className="min-h-[92px] min-w-[79px] bg-gray-300"></Card>
+      <div>
+        <time className={cn("text-xs font-black italic text-[#5669FF]")}>
+          {format(data.eventStartDay, "eee", { locale: ptBR }).toLocaleUpperCase()},{" "}
+          {format(data.eventStartDay, "MMM", { locale: ptBR })}{" "}
+          {format(data.eventStartDay, "d", { locale: ptBR })} •{" "}
+          {format(data.eventStartHour, "p", { locale: ptBR })}
+        </time>
+        <h2 className={"w-fit text-sm font-medium text-[#120D26]"}>
+          {data.title}
+        </h2>
+        <p className={`text-xs font-black italic text-[#747688]`}>
+          {data.eventLocation.formatted_address}
+        </p>
+      </div>
     </Card>
   );
 };

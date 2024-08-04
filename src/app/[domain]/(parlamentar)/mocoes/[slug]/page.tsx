@@ -173,7 +173,10 @@ export default async function SitePostPage({
         <MDX source={data.mdxSource} />
       </article>
 
-      <ShareButtons url={`${domain}/mocoes/${slug}`} />
+      <ShareButtons
+        message={`Dê uma olhada nesta moção.`}
+        url={`${domain}/mocoes/${slug}`}
+      />
 
       {data.adjacentMotions.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">

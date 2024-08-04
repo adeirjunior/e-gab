@@ -1,8 +1,6 @@
 import EventCard from "@/components/card/event-card";
-import PostCard from "@/components/card/post-card";
-import { PostCardSmall } from "@/components/card/post-card-small";
+import { EventWithSite } from "@/components/editor/event-editor";
 import { getEventsForSite } from "@/lib/fetchers/event";
-import { getPostsForSite } from "@/lib/fetchers/post";
 import { Image } from "@nextui-org/react";
 import { Grid } from "@tremor/react";
 import { Metadata } from "next";
@@ -17,15 +15,20 @@ export default async function page({ params }: { params: { domain: string } }) {
   const [events] = await Promise.all([getEventsForSite(domain)]);
 
   return (
-    <>
+    <div className="p-6 container space-y-8">
       <section>
-        <h2 className="text-xl font-bold">Em Destaque</h2>
+        <h2 className="text-xl font-bold mb-4">Próximos Eventos</h2>
         {events.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
             {" "}
             {events.map(
               (event, index) =>
-                index <= 2 && <EventCard key={index} data={event} />,
+                index <= 2 && (
+                  <EventCard
+                    key={index}
+                    data={event as unknown as EventWithSite}
+                  />
+                ),
             )}
           </Grid>
         ) : (
@@ -51,13 +54,18 @@ export default async function page({ params }: { params: { domain: string } }) {
         )}
       </section>
       <section>
-        <h2 className="text-xl font-bold">Recentes</h2>
+        <h2 className="text-xl font-bold mb-4">Eventos Antigos</h2>
         {events.length > 0 ? (
           <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-2">
             {" "}
             {events.map(
               (event, index) =>
-                index > 2 && <EventCard key={index} data={event} />,
+                index > 2 && (
+                  <EventCard
+                    key={index}
+                    data={event as unknown as EventWithSite}
+                  />
+                ),
             )}
           </Grid>
         ) : (
@@ -82,6 +90,6 @@ export default async function page({ params }: { params: { domain: string } }) {
           </div>
         )}
       </section>
-    </>
+    </div>
   );
 }

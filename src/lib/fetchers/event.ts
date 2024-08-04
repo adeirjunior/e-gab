@@ -82,7 +82,7 @@ export async function getEventsForSite(domain: string) {
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
 
-  return await unstable_cache(
+  const response = await unstable_cache(
     async () => {
       return prisma.event.findMany({
         where: {
@@ -94,6 +94,9 @@ export async function getEventsForSite(domain: string) {
             createdAt: "desc",
           },
         ],
+        include: {
+          eventLocation: true
+        }
       });
     },
     [`${domain}-events`],
@@ -102,6 +105,8 @@ export async function getEventsForSite(domain: string) {
       tags: [`${domain}-events`],
     },
   )();
+
+  return response;
 }
 
 export async function getFirstEventsForSite(domain: string, take: number) {

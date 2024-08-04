@@ -175,7 +175,7 @@ export default async function SitePostPage({
         <MDX source={data.mdxSource} />
       </article>
 
-      <ShareButtons url={`${domain}/indicacao-legislativa/${slug}`} />
+      <ShareButtons message={`Dê uma olhada nesta indicação legislativa.`} url={`${domain}/indicacao-legislativa/${slug}`} />
 
       {data.adjacentLegislativeIndication.length > 0 && (
         <div className="relative mb-20 mt-10 sm:mt-20">
