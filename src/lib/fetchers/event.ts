@@ -30,6 +30,7 @@ export async function getEventData(domain: string, slug: string) {
         },
         include: {
           eventLocation: true,
+          usersWhoSubscripted: true
         },
       });
 

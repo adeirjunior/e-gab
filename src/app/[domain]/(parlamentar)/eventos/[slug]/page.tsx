@@ -172,7 +172,7 @@ export default async function SitePostPage({
           </main>
           <div className="sticky bottom-0 w-full">
             <div className="sticky bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-white to-transparent pt-4">
-              <SubscribeButton>Inscrever-se</SubscribeButton>
+              <SubscribeButton event={event} />
             </div>
             <div className="h-4 bg-white"></div>
           </div>

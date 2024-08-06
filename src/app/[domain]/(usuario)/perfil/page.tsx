@@ -1,8 +1,8 @@
 import ClientProfile from "@/components/profile/client-profile";
 import { getSession } from "@/lib/auth/get-session";
 import { getUserById } from "@/lib/fetchers/user";
-import { Card, Progress } from "@nextui-org/react";
-import { Bold, Text, Title } from "@tremor/react";
+import { Card, CardHeader, Link, Progress } from "@nextui-org/react";
+import { Title } from "@tremor/react";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
@@ -17,9 +17,9 @@ export default async function Page() {
   return (
     <div className="min-h-screen space-y-4">
       <Card className="min-h-96 w-full rounded-xl bg-gray-600"></Card>
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <Card className="-mt-20 mx-auto sm:ml-6 rounded-full w-fit h-fit">
+      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
+          <Card className="mx-auto -mt-20 h-fit w-fit rounded-full sm:ml-6">
             <ClientProfile alt="Imagem de perfil" src={user.image} />
           </Card>
           <h2 className="my-4 text-2xl font-semibold">{user.name}</h2>
@@ -38,6 +38,22 @@ export default async function Page() {
           />
         </Card>
       </div>
+      <section className="flex flex-col gap-4">
+        <h2 className="text-xl font-bold">Informações</h2>
+        <section className="flex flex-col gap-4">
+          <h3 className="text-lg font-bold">Eventos Inscritos</h3>
+          {user.subscriptedEvents.map((event, index) => (
+            <Card
+              className="border"
+              as={Link}
+              href={`/eventos/${event.slug}`}
+              key={index}
+            >
+              <CardHeader>{event.title}</CardHeader>
+            </Card>
+          ))}
+        </section>
+      </section>
     </div>
   );
 }

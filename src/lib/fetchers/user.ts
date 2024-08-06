@@ -49,7 +49,8 @@ export async function getUserById(id: string) {
       include: {
         admin: true,
         politician: true,
-        client: true
+        client: true,
+        subscriptedEvents: true
       }
     });
 
