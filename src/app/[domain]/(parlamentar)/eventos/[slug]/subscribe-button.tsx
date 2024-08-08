@@ -5,6 +5,7 @@ import { toggleEventConnection } from "@/lib/actions/event";
 import { Button, ButtonProps } from "@nextui-org/react";
 import { Event, EventLocation, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useEffectOnce } from "usehooks-ts";
@@ -21,6 +22,7 @@ export default function SubscribeButton({ buttonProps, event }: Prop) {
   const [isPending, startTransition] = useTransition();
   const { status, data: session } = useSession();
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const route = useRouter()
 
   useEffectOnce(() => {
     if (session) {
@@ -45,13 +47,15 @@ export default function SubscribeButton({ buttonProps, event }: Prop) {
             toast(res.usersWhoSubscripted.length);
           }
         });
+      } else {
+        route.push("/login")
       }
     });
   };
 
   return (
     <Button
-      disabled={status !== "authenticated" || isPending}
+      disabled={isPending}
       onClick={handleClick}
       spinner={<LoadingDots color="#ffffff" />}
       isLoading={isPending}
@@ -59,7 +63,7 @@ export default function SubscribeButton({ buttonProps, event }: Prop) {
       className="-mb-2 w-full sm:w-32"
       {...buttonProps}
     >
-      {status !== "authenticated" ? "" : isSubscribed ? "Inscrito" : "Inscrever-se"}
+      {isSubscribed ? "Inscrito" : "Inscrever-se"}
     </Button>
   );
 }
