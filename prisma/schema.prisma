@@ -472,7 +472,7 @@ model Plan {
 }
 
 model Event {
-  id                  String        @id @default(cuid()) @map("_id")
+  id                  String         @id @default(cuid()) @map("_id")
   title               String?
   description         String?
   eventStartDay       DateTime
@@ -481,11 +481,11 @@ model Event {
   eventEndHour        DateTime?
   eventLocation       EventLocation?
   usersWhoSubscripted User[]
-  published           Boolean       @default(false)
-  slug                String        @default(cuid())
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  website             Website       @relation(fields: [websiteId], references: [id])
+  published           Boolean        @default(false)
+  slug                String         @default(cuid())
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  website             Website        @relation(fields: [websiteId], references: [id])
   websiteId           String
 }
 
@@ -495,8 +495,8 @@ model EventLocation {
   formatted_address String   @default("")
   adr_address       String   @default("")
   url               String   @default("")
-  lat               Int      @default(0)
-  lng               Int      @default(0)
+  lat               Decimal  @default(0)
+  lng               Decimal  @default(0)
   event             Event    @relation(fields: [eventId], references: [id])
   eventId           String   @unique
   createdAt         DateTime @default(now())

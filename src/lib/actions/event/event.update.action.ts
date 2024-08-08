@@ -1,7 +1,7 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Event, Website } from "@prisma/client";
+import { Event, Prisma, Website } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 import { withEventAuth } from "@/lib/auth/event.auth";
@@ -43,21 +43,20 @@ export const updateEvent = async (data: EventWithSite) => {
         eventEndDay: data.eventEndDay,
         eventStartHour: data.eventStartHour,
         eventEndHour: data.eventEndHour,
-        // Atualize a localização se houver uma nova localização fornecida
         eventLocation: {
           update: {
             data: {
               adr_address: data.eventLocation.adr_address,
               formatted_address: data.eventLocation.formatted_address,
-              lat: data.eventLocation.lat,
-              lng: data.eventLocation.lng,
+              lat: new Prisma.Decimal(data.eventLocation.lat),
+              lng: new Prisma.Decimal(data.eventLocation.lng),
               name: data.eventLocation.name,
               url: data.eventLocation.url,
             },
           },
         },
       },
-      include: { website: true, eventLocation: true }, // Inclua a localização atualizada na resposta
+      include: { website: true, eventLocation: true }
     });
 
     revalidateTag(

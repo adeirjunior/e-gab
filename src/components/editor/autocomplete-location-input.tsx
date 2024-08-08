@@ -5,6 +5,8 @@ import { EventWithSite } from "./event-editor";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Library } from "@googlemaps/js-api-loader";
 import { useJsApiLoader } from "@react-google-maps/api";
+import { toast } from "sonner";
+import { Prisma } from "@prisma/client";
 
 const libs: Library[] = ["places"];
 export default function AutocompleteLocationInput({
@@ -33,18 +35,24 @@ export default function AutocompleteLocationInput({
         const place = gAutoComplete.getPlace();
         if (place.formatted_address) {
           setInputValue(place.formatted_address);
-          setData(prev => ({
-            ...prev,
-            eventLocation: {
-              ...prev.eventLocation,
-              formatted_address: place.formatted_address || "",
-              adr_address: place.adr_address || "",
-              lat: place.geometry?.location?.lat() || 0,
-              lng: place.geometry?.location?.lng() || 0,
-              name: place.name || "",
-              url: place.url || ""
-            },
-          }));
+
+          const latitude = place.geometry?.location?.lat();
+          const longitude = place.geometry?.location?.lng();
+
+          if (latitude && longitude) {
+            setData((prev) => ({
+              ...prev,
+              eventLocation: {
+                ...prev.eventLocation,
+                formatted_address: place.formatted_address || "",
+                adr_address: place.adr_address || "",
+                lat: new Prisma.Decimal(latitude),
+                lng: new Prisma.Decimal(longitude),
+                name: place.name || "",
+                url: place.url || "",
+              },
+            }));
+          }
         }
       });
     }

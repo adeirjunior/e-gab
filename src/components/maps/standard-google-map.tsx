@@ -19,8 +19,8 @@ export default function StandardGoogleMap({
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const mapCenter = {
-    lat: event.eventLocation.lat,
-    lng: event.eventLocation.lng,
+    lat: Number(event.eventLocation.lat),
+    lng: Number(event.eventLocation.lng),
   };
 
   const mapOptions = useMemo<google.maps.MapOptions>(
@@ -34,7 +34,7 @@ export default function StandardGoogleMap({
       streetViewControl: false,
       scaleControl: false,
       rotateControl: false,
-      center: mapCenter, // Use undefined if mapCenter is null
+      center: mapCenter,
     }),
     [mapCenter],
   );
