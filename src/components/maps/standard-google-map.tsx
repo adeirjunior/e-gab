@@ -14,13 +14,13 @@ import { useMemo, useState, Suspense } from "react";
 export default function StandardGoogleMap({
   event,
 }: {
-  event: Event & { location: EventLocation };
+  event: Event & { eventLocation: EventLocation };
 }) {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const mapCenter = {
-    lat: event.location.lat,
-    lng: event.location.lng,
+    lat: event.eventLocation.lat,
+    lng: event.eventLocation.lng,
   };
 
   const mapOptions = useMemo<google.maps.MapOptions>(
@@ -85,10 +85,10 @@ export default function StandardGoogleMap({
               >
                 <div>
                   <h3 className="text-xl">{event.title}</h3>
-                  <p>{event.location.formatted_address}</p>
+                  <p>{event.eventLocation.formatted_address}</p>
                   <Link
                     color="primary"
-                    href={event.location.url}
+                    href={event.eventLocation.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

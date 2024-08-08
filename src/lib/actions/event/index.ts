@@ -7,7 +7,7 @@ import prisma from "@/lib/configs/prisma";
 export const toggleEventConnection = async (
   userId: string,
   event: Event & {
-    location: EventLocation;
+    eventLocation: EventLocation;
   },
 ) => {
   const session = await getSession();
@@ -33,7 +33,7 @@ export const toggleEventConnection = async (
       },
     });
 
-    let response: Event & {usersWhoSubscripted: User[]};
+    let response: Event & { usersWhoSubscripted: User[] };
 
     if (existingEvent && existingEvent.usersWhoSubscripted.length > 0) {
       // If user is already connected, disconnect them
@@ -49,8 +49,8 @@ export const toggleEventConnection = async (
           },
         },
         include: {
-            usersWhoSubscripted: true
-        }
+          usersWhoSubscripted: true,
+        },
       });
     } else {
       // If user is not connected, connect them
@@ -66,8 +66,8 @@ export const toggleEventConnection = async (
           },
         },
         include: {
-            usersWhoSubscripted: true
-        }
+          usersWhoSubscripted: true,
+        },
       });
     }
 

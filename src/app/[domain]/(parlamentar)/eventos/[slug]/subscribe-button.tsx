@@ -11,7 +11,7 @@ import { useEffectOnce } from "usehooks-ts";
 
 type Prop = {
   event: Event & {
-    location: EventLocation;
+    eventLocation: EventLocation;
     usersWhoSubscripted: User[];
   };
   buttonProps?: ButtonProps;

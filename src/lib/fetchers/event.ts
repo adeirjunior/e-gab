@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import prisma from "@/lib/configs/prisma";
 import { replaceTweets } from "@/lib/remark-plugins";
 import { serialize } from "next-mdx-remote/serialize";
+import { EventWithSite } from "@/components/editor/event-editor";
 
 export async function getMdxSource(postContents: string) {
   const content =
@@ -54,18 +55,19 @@ export async function getEventData(domain: string, slug: string) {
           select: {
             slug: true,
             title: true,
-            createdAt: true,
-            description: true,
+            eventLocation: true,
+            eventStartDay: true,
+            eventStartHour: true
           },
         }),
       ]);
 
       // Ensure location is not null
-      const location = data.eventLocation;
+      const eventLocation = data.eventLocation;
     
       return {
         ...data,
-        location,
+        eventLocation,
         mdxSource,
         adjacentEvents,
       };
@@ -83,7 +85,7 @@ export async function getEventsForSite(domain: string) {
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
 
-  const response = await unstable_cache(
+  const events = await unstable_cache(
     async () => {
       return prisma.event.findMany({
         where: {
@@ -96,8 +98,8 @@ export async function getEventsForSite(domain: string) {
           },
         ],
         include: {
-          eventLocation: true
-        }
+          eventLocation: true,
+        },
       });
     },
     [`${domain}-events`],
@@ -107,7 +109,12 @@ export async function getEventsForSite(domain: string) {
     },
   )();
 
-  return response;
+   const validEvents: EventWithSite[] = events.filter(
+     (event): event is EventWithSite => event.eventLocation !== null,
+   );
+
+
+  return validEvents;
 }
 
 export async function getFirstEventsForSite(domain: string, take: number) {

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/configs/prisma";
 import { getSiteData } from "@/lib/fetchers/site";
-import BlogCard from "@/components/card/blog-card";
 import MDX from "@/components/mdx";
 import "./style.css";
 import { getEventData } from "@/lib/fetchers/event";
@@ -12,6 +11,8 @@ import CalendarIcon from "@/components/icons/calendar";
 import { ptBR } from "date-fns/locale";
 import SubscribeButton from "./subscribe-button";
 import StandardGoogleMap from "@/components/maps/standard-google-map";
+import EventCard from "@/components/card/event-card";
+import { EventWithSite } from "@/components/editor/event-editor";
 
 export const dynamic = "force-static";
 
@@ -95,15 +96,28 @@ export default async function SitePostPage({
   const slug = decodeURIComponent(params.slug);
   const data = await getEventData(domain, slug);
 
-  if(!data) {
-    notFound()
+  if (!data) {
+    notFound();
   }
 
   if ("error" in data) {
-    throw new Error(data.error)
+    throw new Error(data.error);
   }
 
-  const {adjacentEvents, mdxSource, error,  ...event} = data;
+  const { adjacentEvents, mdxSource, error, ...event } = data;
+
+  const eventStartDayFormatted = format(event.eventStartDay, "d LLLL, yyyy", {
+    locale: ptBR,
+  });
+  const eventStartHourFormatted = format(event.eventStartHour, "HH:mm", {
+    locale: ptBR,
+  });
+  const eventEndHourFormatted = event.eventEndHour
+    ? format(event.eventEndHour, "- HH:mm", { locale: ptBR })
+    : null;
+  const eventDayOfWeekFormatted = format(event.eventStartDay, "eeee,", {
+    locale: ptBR,
+  });
 
   return (
     <>
@@ -129,18 +143,14 @@ export default async function SitePostPage({
                 </div>
                 <div>
                   <h2 className="text-base font-medium">
-                    {format(event.eventStartDay, "d LLLL, yyyy", {
-                      locale: ptBR,
-                    })}
+                    {eventStartDayFormatted}
                   </h2>
                   <p className="text-[12px] font-black">
-                    {format(event.eventStartDay, "eeee", { locale: ptBR })},{" "}
-                    {`${format(event.eventStartHour, "k:m", {
-                      locale: ptBR,
-                    })} ${
-                      event.eventEndHour &&
-                      `- ${format(event.eventEndHour, "k:m", { locale: ptBR })}`
-                    }`}
+                    {eventDayOfWeekFormatted}{" "}
+                    {`${eventStartHourFormatted} ${
+                      event.eventEndHour && eventEndHourFormatted
+                    }
+                    `}
                   </p>
                 </div>
               </div>
@@ -151,10 +161,10 @@ export default async function SitePostPage({
                 </div>
                 <div>
                   <h2 className="text-base font-medium">
-                    {event.location.name}
+                    {event.eventLocation.name}
                   </h2>
                   <p className="text-[12px] font-black">
-                    {data.location.formatted_address}
+                    {data.eventLocation.formatted_address}
                   </p>
                 </div>
               </div>
@@ -201,9 +211,12 @@ export default async function SitePostPage({
       )}
       {adjacentEvents && (
         <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:mx-auto xl:grid-cols-3">
-          {adjacentEvents.map((data: any, index: number) => (
-            <BlogCard key={index} data={data} />
-          ))}
+          {adjacentEvents.map((event, index: number) => {
+            if (event.eventLocation) {
+              const eventLocation = event.eventLocation
+              return <EventCard key={index} data={{...event, eventLocation}} />;
+            }
+          })}
         </div>
       )}
     </>

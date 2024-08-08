@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Suspense, useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Event, EventLocation } from "@prisma/client";
 import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
@@ -11,7 +11,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Checkbox,
   Link,
@@ -38,12 +37,12 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
   const [isPendingPublishing, startTransitionPublishing] = useTransition();
   const [data, setData] = useState<EventWithSite>(event);
-  const [hourStart, setHourStart] = useState<Date>(event.eventStartHour!);
-  const [hourEnd, setHourEnd] = useState<Date>(event.eventEndHour!);
+  const [hourStart, setHourStart] = useState<Date>(new Date(event.eventStartHour!));
+  const [hourEnd, setHourEnd] = useState<Date>(new Date(event.eventEndHour!));
   const debouncedData = useDebounce(data, 750);
   const [date, setDate] = useState<DateRange | undefined>({
-    from: data.eventStartDay,
-    to: data.eventEndDay || addDays(data.eventStartDay, 2),
+    from: new Date(data.eventStartDay),
+    to: data.eventEndDay ? new Date(data.eventEndDay) : addDays(new Date(data.eventStartDay), 2),
   });
   const [disableEndHour, setDisableEndHour] = useState<boolean>(true);
 
@@ -55,7 +54,11 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const isSync =
     data.title === event.title &&
     data.description === event.description &&
-    data.eventLocation.adr_address === event.eventLocation.adr_address;
+    data.eventLocation.adr_address === event.eventLocation.adr_address &&
+    data.eventStartHour === event.eventStartHour &&
+    data.eventEndHour === event.eventEndHour &&
+    data.eventStartDay === event.eventStartDay &&
+    data.eventEndDay === event.eventEndDay;
 
   const updateEventData = async () => {
     const response = await updateEvent(data);
@@ -64,6 +67,16 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
       toast.error(response.error);
     }
   };
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      eventStartDay: date?.from!,
+      eventEndDay: date?.to!,
+      eventStartHour: hourStart,
+      eventEndHour: hourEnd,
+    }));
+  }, [date, hourStart, hourEnd]);
 
   useEffect(() => {
     if (isSync) {
@@ -185,24 +198,6 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
           <CardBody>
             <AutocompleteLocationInput event={data} onChange={setData} />
           </CardBody>
-          <CardFooter>
-            <Button
-              onPress={() =>
-                startTransitionSaving(async () => {
-                  await updateEventData();
-                })
-              }
-              variant="bordered"
-              disabled={data.eventLocation === event.eventLocation}
-              color={
-                data.eventLocation === event.eventLocation
-                  ? "success"
-                  : "primary"
-              }
-            >
-              {data.eventLocation === event.eventLocation ? "Salvo" : "Salvar"}
-            </Button>
-          </CardFooter>
         </Card>
         <Card className="border-2 dark:border-stone-700 dark:bg-black">
           <CardHeader>Data</CardHeader>
@@ -270,43 +265,6 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
               </Card>
             </Card>
           </CardBody>
-          <CardFooter className="gap-4">
-            <Button
-              onPress={() =>
-                startTransitionSaving(async () => {
-                  await updateEventData();
-                })
-              }
-              variant="bordered"
-              disabled={
-                data.eventStartDay === event.eventStartDay &&
-                data.eventEndDay === event.eventEndDay &&
-                data.eventStartHour === event.eventStartHour &&
-                data.eventEndHour === event.eventEndHour &&
-                hourStart === data.eventStartHour &&
-                hourEnd === data.eventEndHour
-              }
-              color={
-                data.eventStartDay === event.eventStartDay &&
-                data.eventEndDay === event.eventEndDay &&
-                data.eventStartHour === event.eventStartHour &&
-                data.eventEndHour === event.eventEndHour &&
-                hourStart === data.eventStartHour &&
-                hourEnd === data.eventEndHour
-                  ? "success"
-                  : "primary"
-              }
-            >
-              {data.eventStartDay === event.eventStartDay &&
-              data.eventEndDay === event.eventEndDay &&
-              data.eventStartHour === event.eventStartHour &&
-              data.eventEndHour === event.eventEndHour &&
-              hourStart === data.eventStartHour &&
-              hourEnd === data.eventEndHour
-                ? "Salvo"
-                : "Salvar"}
-            </Button>
-          </CardFooter>
         </Card>
       </Card>
     </>

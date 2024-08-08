@@ -487,19 +487,18 @@ model Event {
   updatedAt           DateTime      @updatedAt
   website             Website       @relation(fields: [websiteId], references: [id])
   websiteId           String
-  
 }
 
 model EventLocation {
   id                String   @id @default(cuid()) @map("_id")
-  name              String
-  formatted_address String
-  adr_address       String
-  url               String
-  lat               Int
-  lng               Int
-  event             Event @relation(fields: [eventId], references: [id])
-  eventId     String @unique
+  name              String   @default("")
+  formatted_address String   @default("")
+  adr_address       String   @default("")
+  url               String   @default("")
+  lat               Int      @default(0)
+  lng               Int      @default(0)
+  event             Event    @relation(fields: [eventId], references: [id])
+  eventId           String   @unique
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
