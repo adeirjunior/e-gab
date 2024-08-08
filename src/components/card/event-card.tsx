@@ -23,7 +23,7 @@ const EventCard = ({ className, data: event }: EventCardProps) => {
   return (
     <Card
       as={Link}
-      href={`eventos/${event.slug}`}
+      href={`/eventos/${event.slug}`}
       isPressable
       className={cn("flex w-full flex-row gap-2 shadow-2xl", className)}
     >
