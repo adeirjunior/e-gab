@@ -3,8 +3,7 @@ import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import CreateLawButton from "@/components/button/generic-dashboard-button";
 import { Metadata } from "next";
-import Laws from "@/components/content/laws";
-import { createLaw } from "@/lib/actions/law/law.create.action";
+import { createLegislativeIndication } from "@/lib/actions/legislative-indication/legislative-indication.create.action";
 import DomainLinkTag from "@/components/domain-link-tag";
 import IndicativeLegislation from "@/components/content/Indicative-legislation";
 
@@ -30,9 +29,16 @@ export default async function SitePosts() {
           <h1 className="font-cal mb-0 w-60 truncate text-xl font-bold dark:text-white sm:w-auto sm:text-xl lg:text-3xl">
             Todas as Indicacoes Legislativas de {data.name}
           </h1>
-          <DomainLinkTag subdomain={data.subdomain!} path="/leis" />
+          <DomainLinkTag
+            subdomain={data.subdomain!}
+            path="/indicacoes-legislativas"
+          />
         </div>
-        <CreateLawButton type="content" create={createLaw} path="leis">
+        <CreateLawButton
+          type="content"
+          create={createLegislativeIndication}
+          path="indicacoes-legislativas"
+        >
           Criar Indicação Legislativa
         </CreateLawButton>
       </div>

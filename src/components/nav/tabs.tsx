@@ -68,7 +68,7 @@ export const getTabs: (
         },
         {
           name: "Configurações",
-          href: `/conteudos/leis/${id}/configuracoes`,
+          href: `/conteudos/indicacoes-legislativas/${id}/configuracoes`,
           isActive: segments.includes("configuracoes"),
           icon: "Settings",
         },
@@ -93,22 +93,22 @@ export const getTabs: (
           icon: "Settings",
         },
       ];
-    } else if (segments[1] === "leis" && id) {
+    } else if (segments[1] === "eventos" && id) {
       return [
         {
-          name: "Voltar para indicações legislativas",
-          href: `/conteudos/indicacoes-legislativas`,
+          name: "Voltar para eventos",
+          href: `/conteudos/eventos`,
           icon: "ArrowLeft",
         },
         {
           name: "Editor",
-          href: `/conteudos/indicacoes-legislativas/${id}`,
+          href: `/conteudos/eventos/${id}`,
           isActive: segments.length === 3,
           icon: "Edit3",
         },
         {
           name: "Configurações",
-          href: `/conteudos/indicacoes-legislativas/${id}/configuracoes`,
+          href: `/conteudos/eventos/${id}/configuracoes`,
           isActive: segments.includes("configuracoes"),
           icon: "Settings",
         },
