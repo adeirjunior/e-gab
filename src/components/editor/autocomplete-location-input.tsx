@@ -5,7 +5,6 @@ import { EventWithSite } from "./event-editor";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Library } from "@googlemaps/js-api-loader";
 import { useJsApiLoader } from "@react-google-maps/api";
-import { toast } from "sonner";
 import { Prisma } from "@prisma/client";
 
 const libs: Library[] = ["places"];

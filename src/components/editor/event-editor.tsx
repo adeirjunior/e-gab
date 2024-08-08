@@ -238,7 +238,7 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
-                    className="bg-white dark:bg-black"
+                    className={cn("bg-white dark:bg-black")}
                     initialFocus
                     mode="range"
                     locale={ptBR}
@@ -250,14 +250,6 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
                 </PopoverContent>
               </Popover>
             </div>
-            <Checkbox
-              isSelected={disableEndHour}
-              onValueChange={setDisableEndHour}
-              className="mt-4"
-              defaultSelected
-            >
-              Sem horário para finalizar
-            </Checkbox>
             <Card className="mt-4 grid grid-cols-2 gap-6 dark:bg-black">
               <Card className="border p-4 dark:border-stone-700 dark:bg-black">
                 <CardHeader>

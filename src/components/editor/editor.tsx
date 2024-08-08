@@ -7,9 +7,7 @@ import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor-tools";
 import { PT_I18N } from "./editor-i18n";
 import "./style.css";
-import { updatePost } from "@/lib/actions/post/post.update.action";
 
-//props
 type Props = {
   id?: string;
   data?: OutputData;
