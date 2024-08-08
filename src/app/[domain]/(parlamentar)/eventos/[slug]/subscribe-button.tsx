@@ -20,7 +20,7 @@ type Prop = {
 
 export default function SubscribeButton({ buttonProps, event }: Prop) {
   const [isPending, startTransition] = useTransition();
-  const { status, data: session } = useSession();
+  const { data: session } = useSession();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const route = useRouter()
 

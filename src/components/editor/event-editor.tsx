@@ -37,12 +37,16 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const [isPendingSaving, startTransitionSaving] = useTransition();
   const [isPendingPublishing, startTransitionPublishing] = useTransition();
   const [data, setData] = useState<EventWithSite>(event);
-  const [hourStart, setHourStart] = useState<Date>(new Date(event.eventStartHour!));
+  const [hourStart, setHourStart] = useState<Date>(
+    new Date(event.eventStartHour!),
+  );
   const [hourEnd, setHourEnd] = useState<Date>(new Date(event.eventEndHour!));
   const debouncedData = useDebounce(data, 750);
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(data.eventStartDay),
-    to: data.eventEndDay ? new Date(data.eventEndDay) : addDays(new Date(data.eventStartDay), 2),
+    to: data.eventEndDay
+      ? new Date(data.eventEndDay)
+      : addDays(new Date(data.eventStartDay), 2),
   });
   const [disableEndHour, setDisableEndHour] = useState<boolean>(true);
 
@@ -55,10 +59,14 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
     data.title === event.title &&
     data.description === event.description &&
     data.eventLocation.adr_address === event.eventLocation.adr_address &&
-    data.eventStartHour === event.eventStartHour &&
-    data.eventEndHour === event.eventEndHour &&
-    data.eventStartDay === event.eventStartDay &&
-    data.eventEndDay === event.eventEndDay;
+    new Date(data.eventStartHour).getTime() ===
+      new Date(event.eventStartHour).getTime() &&
+    new Date(data.eventEndHour).getTime() ===
+      new Date(event.eventEndHour).getTime() &&
+    new Date(data.eventStartDay).getTime() ===
+      new Date(event.eventStartDay).getTime() &&
+    new Date(data.eventEndDay).getTime() ===
+      new Date(event.eventEndDay).getTime();
 
   const updateEventData = async () => {
     const response = await updateEvent(data);
