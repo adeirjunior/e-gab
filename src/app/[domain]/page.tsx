@@ -9,7 +9,7 @@ import SectionHeadingTitles from "@/components/website/section-heading-titles";
 import StatsGrid from "@/components/website/stats-grid";
 import PostCard from "@/components/card/post-card";
 import { Grid, Text, Title } from "@tremor/react";
-import { CalendarDemo } from "@/components/website/calendar-demo";
+import { EventsCalendar } from "@/components/website/events-calendar";
 import {
   Card,
   CardBody,
@@ -21,8 +21,8 @@ import {
 import MessageSvg from "@/components/demo/svg/message.svg";
 import ListSvg from "@/components/demo/svg/list.svg";
 import PoliticianBanner from "@/components/website/politician-banner";
-import { getPoliticianDataByDomain } from "@/lib/fetchers/politician";
 import { ArrowRight } from "lucide-react";
+import { getEventsForSite } from "@/lib/fetchers/event";
 
 export async function generateStaticParams({
   params,
@@ -60,10 +60,11 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  const [data, posts, proposals] = await Promise.all([
+  const [data, posts, proposals, events] = await Promise.all([
     getSiteData(domain),
     getFirstPostsForSite(domain, 3),
     getProposalsForSite(domain),
+    getEventsForSite(domain)
   ]);
 
   if (!data ) {
@@ -147,7 +148,7 @@ export default async function SiteHomePage({
           title="Fique atento aos próximos eventos"
           description="Selecione a data que deseja e veja os eventos eventos agendados no dia."
         />
-        <CalendarDemo />
+        <EventsCalendar events={events}/>
       </section>
       <Divider className="my-4" />
       <Grid numItems={2}>
