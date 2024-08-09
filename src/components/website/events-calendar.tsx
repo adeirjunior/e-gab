@@ -19,7 +19,6 @@ export function EventsCalendar({ events }: { events: EventWithSite[] }) {
     <div>
       <Calendar
         mode="single"
-        initialFocus
         locale={ptBR}
         selected={date}
         onSelect={setDate}
