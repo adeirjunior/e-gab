@@ -5,8 +5,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { isSameDay } from "date-fns";
 import { EventWithSite } from "../editor/event-editor";
+import { useEffectOnce } from "usehooks-ts";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   events?: EventWithSite[];
@@ -19,14 +19,10 @@ function Calendar({
   events = [],
   ...props
 }: CalendarProps) {
-  // Verifica se uma data tem eventos
-  const hasEventOnDate = (day: Date) =>
-    events.some((event) => isSameDay(new Date(event.eventStartDay), day));
 
-  // Cria um modificador para dias com eventos
-  const modifiers = {
-    eventDay: (day: Date) => hasEventOnDate(day),
-  };
+  const daysWithEvents = events.map((event) => new Date(event.eventStartDay))
+
+  useEffectOnce(()=> console.log(daysWithEvents))
 
   return (
     <DayPicker
@@ -74,9 +70,11 @@ function Calendar({
         IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
       }}
-      modifiers={modifiers}
+      modifiers={{
+        eventDay: daysWithEvents,
+      }}
       modifiersClassNames={{
-        eventDay: "bg-red-500 text-white",
+        eventDay: "bg-blue-200 text-white",
       }}
       {...props}
     />

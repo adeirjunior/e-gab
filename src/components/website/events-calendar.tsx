@@ -22,6 +22,7 @@ export function EventsCalendar({ events }: { events: EventWithSite[] }) {
         locale={ptBR}
         selected={date}
         onSelect={setDate}
+        events={events}
         className="w-fit rounded-md border shadow"
       />
       <div>
