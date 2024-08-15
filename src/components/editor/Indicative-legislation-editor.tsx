@@ -65,15 +65,10 @@ export default function LegislativeIndicationEditor({
             "published",
           );
 
-          if (response.error) {
+          if ("error" in response) {
             toast.error(response.error);
           } else {
             setData((prev) => ({ ...prev, published: !prev.published }));
-            toast.success(
-              `Seu law foi ${
-                data.published ? "despublicado" : "publicado"
-              } com sucesso.`,
-            );
           }
         }
       } catch (error) {

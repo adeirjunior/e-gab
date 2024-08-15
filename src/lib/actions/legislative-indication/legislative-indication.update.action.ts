@@ -89,7 +89,7 @@ export const updateLegislativeIndicationMetadata = withLegislativeIndicationAuth
   async (
     formData: FormData,
     legislativeIndication: LegislativeIndication & {
-      site: Website;
+      website: Website;
     },
     key: string,
   ) => {
@@ -121,17 +121,17 @@ export const updateLegislativeIndicationMetadata = withLegislativeIndicationAuth
       }
 
       revalidateTag(
-        `${legislativeIndication.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
+        `${legislativeIndication.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
       );
       revalidateTag(
-        `${legislativeIndication.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${legislativeIndication.slug}`,
+        `${legislativeIndication.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${legislativeIndication.slug}`,
       );
 
       // if the site has a custom domain, we need to revalidate those tags too
-      legislativeIndication.site?.customDomain &&
-        (revalidateTag(`${legislativeIndication.site?.customDomain}-Laws`),
+      legislativeIndication.website?.customDomain &&
+        (revalidateTag(`${legislativeIndication.website?.customDomain}-Laws`),
         revalidateTag(
-          `${legislativeIndication.site?.customDomain}-${legislativeIndication.slug}`,
+          `${legislativeIndication.website?.customDomain}-${legislativeIndication.slug}`,
         ));
 
       return response;
