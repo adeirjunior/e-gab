@@ -1,4 +1,4 @@
-import { LegislativeIndication, PoliticalProject, PoliticianMotion, Post, Website } from "@prisma/client";
+import { Law, LegislativeIndication, PoliticalProject, PoliticianMotion, Post, Website } from "@prisma/client";
 import prisma from "../configs/prisma";
 import { getSession } from "./get-session";
 import { hasSubscription } from "../helpers/billing";
@@ -94,16 +94,26 @@ export function withPostAuth(
       };
     }
 
+    const hasSub = await hasSubscription();
+
+    if (session.user.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
+      };
+    }
+
     return action(formData, post, key);
   };
 }
 
-export function withLawAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    lawId: string,
-    key: string | null,
-  ) => {
+export function withLawAuth(
+  action: (
+    formData: FormData,
+    law: Law & { website: Website },
+    key: string,
+  ) => Promise<Law | { error: string }>,
+) {
+  return async (formData: FormData, lawId: string, key: string) => {
     const session = await getSession();
     if (!session?.user.id) {
       return {
@@ -121,6 +131,14 @@ export function withLawAuth(action: any) {
     if (!law) {
       return {
         error: "Lei não encontrada",
+      };
+    }
+
+    const hasSub = await hasSubscription();
+
+    if (session.user.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
       };
     }
 
@@ -157,15 +175,30 @@ export function withProjectAuth(
       };
     }
 
+     const hasSub = await hasSubscription();
+
+     if (session.user.role === "politician" && !hasSub) {
+       return {
+         error: `Você precisa assinar um plano para realizar este comando.`,
+       };
+     }
+
+
     return action(formData, project, key);
   };
 }
 
-export function withLegislativeIndicationAuth(action: any) {
+export function withLegislativeIndicationAuth(
+  action: (
+    formData: FormData,
+    legislativeIndication: LegislativeIndication & { website: Website },
+    key: string,
+  ) => Promise<LegislativeIndication | { error: string }>,
+) {
   return async (
-    formData: FormData | null,
+    formData: FormData,
     legislativeIndicationId: string,
-    key: string | null,
+    key: string,
   ) => {
     const session = await getSession();
     if (!session?.user.id) {
@@ -173,18 +206,27 @@ export function withLegislativeIndicationAuth(action: any) {
         error: "Não autentificado",
       };
     }
-    const legislativeIndication =
-      await prisma.legislativeIndication.findUnique({
+    const legislativeIndication = await prisma.legislativeIndication.findUnique(
+      {
         where: {
           id: legislativeIndicationId,
         },
         include: {
           website: true,
         },
-      });
+      },
+    );
     if (!legislativeIndication) {
       return {
         error: "Indicação legislativa não encontrada",
+      };
+    }
+
+    const hasSub = await hasSubscription();
+
+    if (session.user.role === "politician" && !hasSub) {
+      return {
+        error: `Você precisa assinar um plano para realizar este comando.`,
       };
     }
 

@@ -61,16 +61,11 @@ export default function LawEditor({ law }: { law: LawWithSite }) {
             "published",
           );
 
-          if (response.error) {
-            toast.error(response.error);
-          } else {
-            setData((prev) => ({ ...prev, published: !prev.published }));
-            toast.success(
-              `Seu law foi ${
-                data.published ? "despublicado" : "publicado"
-              } com sucesso.`,
-            );
-          }
+         if ("error" in response) {
+             toast.error(response.error);
+           } else {
+             setData((prev) => ({ ...prev, published: !prev.published }));
+           }
         }
       } catch (error) {
         console.error("Erro ao atualizar metadata:", error);

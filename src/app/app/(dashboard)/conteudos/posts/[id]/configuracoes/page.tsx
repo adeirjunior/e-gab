@@ -2,12 +2,13 @@ import prisma from "@/lib/configs/prisma";
 import { notFound, redirect } from "next/navigation";
 import Form from "@/components/form";
 import { updatePostMetadata } from "@/lib/actions/post/post.update.action";
-import DeletePostForm from "@/components/form/delete-post-form";
+import DeletePostForm from "@/components/form/delete-content-form";
 import { getSession } from "@/lib/auth/get-session";
 import { getUserById } from "@/lib/fetchers/user";
 import ImageForm from "@/components/form/image-form";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getGalleryImages } from "@/lib/fetchers/image";
+import { deletePost } from "@/lib/actions/post/post.delete.action";
 
 export default async function PostSettings({
   params,
@@ -81,7 +82,9 @@ export default async function PostSettings({
           handleSubmit={updatePostMetadata}
         />
 
-        <DeletePostForm postName={post?.title!} />
+        <DeletePostForm handle={deletePost} contentName={post?.title!}>
+          Deletar post
+        </DeletePostForm>
       </div>
     </div>
   );

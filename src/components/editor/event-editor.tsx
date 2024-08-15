@@ -110,16 +110,11 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
             "published",
           );
 
-          if (response.error) {
-            toast.error(response.error);
-          } else {
-            setData((prev) => ({ ...prev, published: !prev.published }));
-            toast.success(
-              `Seu evento foi ${
-                data.published ? "despublicado" : "publicado"
-              } com sucesso.`,
-            );
-          }
+         if ("error" in response) {
+           toast.error(response.error);
+         } else {
+           setData((prev) => ({ ...prev, published: !prev.published }));
+         }
         }
       } catch (error) {
         console.error("Erro ao atualizar metadata:", error);

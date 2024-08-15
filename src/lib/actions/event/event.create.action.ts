@@ -6,6 +6,16 @@ import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 
 export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
+  const location = await prisma.eventLocation.create({
+    data: {
+      name: "",
+      adr_address: "",
+      formatted_address: "",
+      url: "",
+      lat: 0,
+      lng: 0,
+    },
+  });
 
   const response = await prisma.event.create({
     data: {
@@ -14,20 +24,8 @@ export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
       eventEndDay: new Date(new Date().setDate(new Date().getDate() + 1)),
       eventStartHour: new Date(new Date().setHours(18, 0)),
       eventEndHour: new Date(new Date().setHours(20, 0)),
-      eventLocation: {
-        create: {
-          name: "",
-          adr_address: "",
-          formatted_address: "",
-          url: "",
-          lat: 0,
-          lng: 0,
-        }
-      }
+      eventLocationId: location.id,
     },
-    include: {
-      eventLocation: true
-    }
   });
 
   revalidateTag(

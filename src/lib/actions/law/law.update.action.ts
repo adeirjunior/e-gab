@@ -10,27 +10,26 @@ import { getSession } from "@/lib/auth/get-session";
 import { hasSubscription } from "@/lib/helpers/billing";
 
 export const updateLaw = async (data: Law) => {
-   const session = await getSession();
-   if (!session?.user.id) {
-     return {
-       error: "Not authenticated",
-     };
-   }
+  const session = await getSession();
+  if (!session?.user.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
 
-   const user = await prisma.user.findUnique({
-     where: {
-       id: session.user.id,
-     },
-   });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
 
-   const hasSub = await hasSubscription();
+  const hasSub = await hasSubscription();
 
-   if (user?.role === "politician" && !hasSub) {
-     return {
-       error: `Você precisa assinar um plano para realizar este comando.`,
-     };
-   }
-
+  if (user?.role === "politician" && !hasSub) {
+    return {
+      error: `Você precisa assinar um plano para realizar este comando.`,
+    };
+  }
 
   // Verifique se as propriedades essenciais não estão vazias
   if (!data.title || !data.description || !data.content) {
@@ -86,69 +85,59 @@ export const updateLaw = async (data: Law) => {
   }
 };
 
-export const updateLawMetadata = withLawAuth(
-  async (
-    formData: FormData,
-    law: Law & {
-      site: Website;
-    },
-    key: string,
-  ) => {
-    const value = formData.get(key) as string;
+export const updateLawMetadata = withLawAuth(async (formData, law, key) => {
+  const value = formData.get(key) as string;
 
-    try {
-      let response;
-      if (key === "image") {
-        const file = formData.get("image") as File;
-        const filename = `${nanoid()}.${file.type.split("/")[1]}`;
+  try {
+    let response;
+    if (key === "image") {
+      const file = formData.get("image") as File;
+      const filename = `${nanoid()}.${file.type.split("/")[1]}`;
 
-        
+      const blurhash = await getBlurDataURL("");
 
-        const blurhash = await getBlurDataURL("");
-
-        response = await prisma.law.update({
-          where: {
-            id: law.id,
-          },
-          data: {
-            image: "",
-            imageBlurhash: blurhash,
-          },
-        });
-      } else {
-        response = await prisma.law.update({
-          where: {
-            id: law.id,
-          },
-          data: {
-            [key]: key === "published" ? value === "true" : value,
-          },
-        });
-      }
-
-      revalidateTag(
-        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
-      );
-      revalidateTag(
-        `${law.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
-      );
-
-      // if the site has a custom domain, we need to revalidate those tags too
-      law.site?.customDomain &&
-        (revalidateTag(`${law.site?.customDomain}-Laws`),
-        revalidateTag(`${law.site?.customDomain}-${law.slug}`));
-
-      return response;
-    } catch (error: any) {
-      if (error.code === "P2002") {
-        return {
-          error: `This slug is already in use`,
-        };
-      } else {
-        return {
-          error: error.message,
-        };
-      }
+      response = await prisma.law.update({
+        where: {
+          id: law.id,
+        },
+        data: {
+          image: "",
+          imageBlurhash: blurhash,
+        },
+      });
+    } else {
+      response = await prisma.law.update({
+        where: {
+          id: law.id,
+        },
+        data: {
+          [key]: key === "published" ? value === "true" : value,
+        },
+      });
     }
-  },
-);
+
+    revalidateTag(
+      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-Laws`,
+    );
+    revalidateTag(
+      `${law.website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${law.slug}`,
+    );
+
+    // if the site has a custom domain, we need to revalidate those tags too
+    law.website?.customDomain &&
+      (revalidateTag(`${law.website?.customDomain}-Laws`),
+      revalidateTag(`${law.website?.customDomain}-${law.slug}`));
+
+    return response;
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      return {
+        error: `This slug is already in use`,
+      };
+    } else {
+      return {
+        error: error.message,
+      };
+    }
+  }
+});
