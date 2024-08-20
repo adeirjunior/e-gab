@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, Link, Skeleton } from "@nextui-org/react";
-import { Event, EventLocation } from "@prisma/client";
+import { Location } from "@prisma/client";
 import {
   GoogleMap,
   InfoWindow,
@@ -12,15 +12,15 @@ import {
 import { useMemo, useState, Suspense } from "react";
 
 export default function StandardGoogleMap({
-  event,
+  location,
 }: {
-  event: Event & { eventLocation: EventLocation };
+  location: Location
 }) {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const mapCenter = {
-    lat: Number(event.eventLocation.lat),
-    lng: Number(event.eventLocation.lng),
+    lat: Number(location.lat),
+    lng: Number(location.lng),
   };
 
   const mapOptions = useMemo<google.maps.MapOptions>(
@@ -80,15 +80,15 @@ export default function StandardGoogleMap({
           >
             {isInfoWindowOpen && (
               <InfoWindow
-                options={{ ariaLabel: event.title }}
+                options={{ ariaLabel: location.name }}
                 onCloseClick={() => setIsInfoWindowOpen(false)}
               >
                 <div>
-                  <h3 className="text-xl">{event.title}</h3>
-                  <p>{event.eventLocation.formatted_address}</p>
+                  <h3 className="text-xl">{location.name}</h3>
+                  <p>{location.formatted_address}</p>
                   <Link
                     color="primary"
-                    href={event.eventLocation.url}
+                    href={location.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

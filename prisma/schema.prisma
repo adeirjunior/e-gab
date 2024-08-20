@@ -392,12 +392,14 @@ enum ProjectStatus {
 }
 
 model Contact {
-  id        String    @id @default(cuid()) @map("_id")
-  phone     String?
-  email     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  website   Website[]
+  id         String    @id @default(cuid()) @map("_id")
+  phone      String?
+  email      String?
+  location   Location  @relation(fields: [locationId], references: [id])
+  locationId String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  website    Website[]
 }
 
 model SocialMedia {
@@ -472,25 +474,25 @@ model Plan {
 }
 
 model Event {
-  id                  String        @id @default(cuid()) @map("_id")
+  id                  String    @id @default(cuid()) @map("_id")
   title               String?
   description         String?
   eventStartDay       DateTime
   eventEndDay         DateTime?
   eventStartHour      DateTime
   eventEndHour        DateTime?
-  eventLocation       EventLocation @relation(fields: [eventLocationId], references: [id])
-  eventLocationId     String        @unique
+  location            Location  @relation(fields: [locationId], references: [id])
+  locationId          String    @unique
   usersWhoSubscripted User[]
-  published           Boolean       @default(false)
-  slug                String        @default(cuid())
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  website             Website       @relation(fields: [websiteId], references: [id])
+  published           Boolean   @default(false)
+  slug                String    @default(cuid())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  website             Website   @relation(fields: [websiteId], references: [id])
   websiteId           String
 }
 
-model EventLocation {
+model Location {
   id                String   @id @default(cuid()) @map("_id")
   name              String   @default("")
   formatted_address String   @default("")
@@ -499,6 +501,7 @@ model EventLocation {
   lat               Decimal  @default(0)
   lng               Decimal  @default(0)
   event             Event?
+  contact           Contact?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }

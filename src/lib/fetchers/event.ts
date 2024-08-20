@@ -30,13 +30,13 @@ export async function getEventData(domain: string, slug: string) {
           published: true,
         },
         include: {
-          eventLocation: true,
+          location: true,
           usersWhoSubscripted: true
         },
       });
 
       // Handle case where location is null
-      if (!data || !data.description || !data.eventLocation) {
+      if (!data || !data.description || !data.location) {
         return {
           error: "Post está indefinido ou localização não encontrada",
         };
@@ -55,7 +55,7 @@ export async function getEventData(domain: string, slug: string) {
           select: {
             slug: true,
             title: true,
-            eventLocation: true,
+            location: true,
             eventStartDay: true,
             eventStartHour: true
           },
@@ -63,11 +63,11 @@ export async function getEventData(domain: string, slug: string) {
       ]);
 
       // Ensure location is not null
-      const eventLocation = data.eventLocation;
+      const location = data.location;
     
       return {
         ...data,
-        eventLocation,
+        location,
         mdxSource,
         adjacentEvents,
       };
@@ -98,7 +98,7 @@ export async function getEventsForSite(domain: string) {
           },
         ],
         include: {
-          eventLocation: true,
+          location: true,
         },
       });
     },
@@ -110,7 +110,7 @@ export async function getEventsForSite(domain: string) {
   )();
 
    const validEvents: EventWithSite[] = events.filter(
-     (event): event is EventWithSite => event.eventLocation !== null,
+     (event): event is EventWithSite => event.location !== null,
    );
 
 

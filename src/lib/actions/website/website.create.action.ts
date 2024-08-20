@@ -39,13 +39,25 @@ export const createSite = async (formData: FormData) => {
       },
     }); 
 
+    const location = await prisma.location.create({
+      data: {
+        name: "",
+        adr_address: "",
+        formatted_address: "",
+        url: "",
+        lat: 0,
+        lng: 0,
+      },
+    });
+
     await prisma.contact.create({
       data: {
         website: {
           connect: {
             id: response.id
           }
-        }
+        },
+        locationId: location.id
       }
     })
 

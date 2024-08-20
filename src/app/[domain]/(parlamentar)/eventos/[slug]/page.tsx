@@ -161,16 +161,16 @@ export default async function SitePostPage({
                 </div>
                 <div>
                   <h2 className="text-base font-medium">
-                    {event.eventLocation.name}
+                    {event.location.name}
                   </h2>
                   <p className="text-[12px] font-black">
-                    {data.eventLocation.formatted_address}
+                    {data.location.formatted_address}
                   </p>
                 </div>
               </div>
             </div>
 
-            <StandardGoogleMap event={event} />
+            <StandardGoogleMap location={event.location} />
           </div>
         </header>
         <section className="my-8 px-6">
@@ -212,9 +212,9 @@ export default async function SitePostPage({
       {adjacentEvents && (
         <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:mx-auto xl:grid-cols-3">
           {adjacentEvents.map((event, index: number) => {
-            if (event.eventLocation) {
-              const eventLocation = event.eventLocation
-              return <EventCard key={index} data={{...event, eventLocation}} />;
+            if (event.location) {
+              const location = event.location
+              return <EventCard key={index} data={{...event, location}} />;
             }
           })}
         </div>

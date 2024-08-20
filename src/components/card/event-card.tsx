@@ -2,7 +2,7 @@ import { Card, Link } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { EventLocation } from "@prisma/client";
+import { Location } from "@prisma/client";
 
 export interface EventCardProps {
   className?: string;
@@ -11,7 +11,7 @@ export interface EventCardProps {
     eventStartHour: Date;
     slug: string;
     title: string | null;
-    eventLocation: EventLocation
+    location: Location
   };
 }
 
@@ -39,7 +39,7 @@ const EventCard = ({ className, data: event }: EventCardProps) => {
           {event.title}
         </h2>
         <p className={`text-xs font-black italic text-[#747688]`}>
-          {event.eventLocation.formatted_address}
+          {event.location.formatted_address}
         </p>
       </div>
     </Card>

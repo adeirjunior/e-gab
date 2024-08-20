@@ -6,7 +6,7 @@ import prisma from "@/lib/configs/prisma";
 import { revalidateTag } from "next/cache";
 
 export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
-  const location = await prisma.eventLocation.create({
+  const location = await prisma.location.create({
     data: {
       name: "",
       adr_address: "",
@@ -24,7 +24,7 @@ export const createEvent = withSiteAuth(async (_: FormData, site: Website) => {
       eventEndDay: new Date(new Date().setDate(new Date().getDate() + 1)),
       eventStartHour: new Date(new Date().setHours(18, 0)),
       eventEndHour: new Date(new Date().setHours(20, 0)),
-      eventLocationId: location.id,
+      locationId: location.id,
     },
   });
 

@@ -1,13 +1,13 @@
 "use server";
 
 import { getSession } from "@/lib/auth/get-session";
-import { Event, EventLocation, User } from "@prisma/client";
+import { Event, Location, User } from "@prisma/client";
 import prisma from "@/lib/configs/prisma";
 
 export const toggleEventConnection = async (
   userId: string,
   event: Event & {
-    eventLocation: EventLocation;
+    location: Location;
   },
 ) => {
   const session = await getSession();

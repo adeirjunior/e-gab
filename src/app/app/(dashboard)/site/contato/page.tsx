@@ -3,6 +3,8 @@ import { getSession } from "@/lib/auth/get-session";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import Form from "@/components/form";
 import { updateContact } from "@/lib/actions/contato/contato.update.action";
+import AutocompleteLocationGabinete from "@/components/editor/autocomplete-location-gabinete";
+import AutocompleteForm from "@/components/form/autocomplete-form";
 
 export default async function Page() {
   const session = await getSession();
@@ -16,6 +18,9 @@ export default async function Page() {
     where: {
       id: website?.contactId ?? undefined
     },
+    include: {
+      location: true
+    }
   });
 
   return (
@@ -45,6 +50,19 @@ export default async function Page() {
           maxLength: 32,
         }}
         handleSubmit={updateContact}
+      />
+      <AutocompleteForm
+        title="Localização do Gabinete"
+        description="A localização aparecerá para os usuários que acessarem o site."
+        helpText="Por favor use uma localização válida."
+        inputAttrs={{
+          name: "location",
+          type: "text",
+          defaultValue: contact?.location.formatted_address!,
+          placeholder: "Escreva aqui o número",
+          maxLength: 32,
+        }}
+        location={contact?.location!}
       />
     </div>
   );

@@ -3,7 +3,7 @@
 import LoadingDots from "@/components/icons/loading-dots";
 import { toggleEventConnection } from "@/lib/actions/event";
 import { Button, ButtonProps } from "@nextui-org/react";
-import { Event, EventLocation, User } from "@prisma/client";
+import { Event, Location, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -12,7 +12,7 @@ import { useEffectOnce } from "usehooks-ts";
 
 type Prop = {
   event: Event & {
-    eventLocation: EventLocation;
+    location: Location;
     usersWhoSubscripted: User[];
   };
   buttonProps?: ButtonProps;

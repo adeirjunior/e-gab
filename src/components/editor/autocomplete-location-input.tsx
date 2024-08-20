@@ -17,7 +17,7 @@ export default function AutocompleteLocationInput({
 }) {
   const placeAutoCompleteRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>(
-    event.eventLocation?.formatted_address || "",
+    event.location?.formatted_address || "",
   );
 
   const { isLoaded } = useJsApiLoader({
@@ -42,7 +42,7 @@ export default function AutocompleteLocationInput({
             setData((prev) => ({
               ...prev,
               eventLocation: {
-                ...prev.eventLocation,
+                ...prev.location,
                 formatted_address: place.formatted_address || "",
                 adr_address: place.adr_address || "",
                 lat: new Prisma.Decimal(latitude),

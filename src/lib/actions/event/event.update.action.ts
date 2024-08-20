@@ -25,7 +25,7 @@ export const updateEvent = async (data: EventWithSite) => {
   try {
     const existingEvent = await prisma.event.findUnique({
       where: { id: data.id },
-      include: { website: true, eventLocation: true }, // Inclua a localização atual do evento
+      include: { website: true, location: true }, // Inclua a localização atual do evento
     });
 
     if (!existingEvent) {
@@ -43,20 +43,20 @@ export const updateEvent = async (data: EventWithSite) => {
         eventEndDay: data.eventEndDay,
         eventStartHour: data.eventStartHour,
         eventEndHour: data.eventEndHour,
-        eventLocation: {
+        location: {
           update: {
             data: {
-              adr_address: data.eventLocation.adr_address,
-              formatted_address: data.eventLocation.formatted_address,
-              lat: new Prisma.Decimal(data.eventLocation.lat),
-              lng: new Prisma.Decimal(data.eventLocation.lng),
-              name: data.eventLocation.name,
-              url: data.eventLocation.url,
+              adr_address: data.location.adr_address,
+              formatted_address: data.location.formatted_address,
+              lat: new Prisma.Decimal(data.location.lat),
+              lng: new Prisma.Decimal(data.location.lng),
+              name: data.location.name,
+              url: data.location.url,
             },
           },
         },
       },
-      include: { website: true, eventLocation: true }
+      include: { website: true, location: true }
     });
 
     revalidateTag(

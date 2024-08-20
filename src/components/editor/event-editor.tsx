@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { Event, EventLocation } from "@prisma/client";
+import { Event, Location } from "@prisma/client";
 import { cn, getCurrentDomain } from "@/lib/utils";
 import LoadingDots from "@/components/icons/loading-dots";
 import { CalendarIcon, ExternalLink } from "lucide-react";
@@ -29,7 +29,7 @@ import { DateRange } from "react-day-picker";
 import ptBR from "date-fns/locale/pt-BR";
 import AutocompleteLocationInput from "./autocomplete-location-input";
 
-export type EventWithSite = Event & { eventLocation: EventLocation } & {
+export type EventWithSite = Event & { location: Location } & {
   website: { subdomain: string | null };
 };
 
@@ -58,7 +58,7 @@ export default function EventEditor({ event }: { event: EventWithSite }) {
   const isSync =
     data.title === event.title &&
     data.description === event.description &&
-    data.eventLocation.adr_address === event.eventLocation.adr_address &&
+    data.location.adr_address === event.location.adr_address &&
     new Date(data.eventStartHour).getTime() ===
       new Date(event.eventStartHour).getTime() &&
     new Date(data.eventEndHour!).getTime() ===
