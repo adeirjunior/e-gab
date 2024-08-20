@@ -41,7 +41,7 @@ export default function AutocompleteLocationInput({
           if (latitude && longitude) {
             setData((prev) => ({
               ...prev,
-              eventLocation: {
+             location: {
                 ...prev.location,
                 formatted_address: place.formatted_address || "",
                 adr_address: place.adr_address || "",
