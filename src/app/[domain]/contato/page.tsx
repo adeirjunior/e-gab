@@ -35,6 +35,17 @@ export default async function SiteContactPage({
     },
   });
 
+  const formatPhoneNumber = (phoneNumber: string | null | undefined) => {
+
+    if (!phoneNumber) return
+
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+
+    const internationalPhoneNumber = `+55${cleanedPhoneNumber}`;
+    return internationalPhoneNumber;
+  };
+
+
   const medias = await prisma.socialMedia.findMany({
     where: {
       websiteId: website?.id,
@@ -76,8 +87,9 @@ export default async function SiteContactPage({
         <Card
           className="flex flex-row gap-4 p-2"
           isPressable
+          target="whatsapp"
           as={Link}
-          href={`tel:${contact?.phone}`}
+          href={`https://wa.me/${formatPhoneNumber(contact?.phone)}`}
         >
           <div>
             <RiWhatsappLine />
