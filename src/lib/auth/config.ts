@@ -33,6 +33,7 @@ export const authOptions: NextAuthOptions = {
           role: profile.role ?? "client",
         };
       },
+      checks: ["none"],
     }),
     Credentials({
       name: "Credentials",
@@ -71,6 +72,7 @@ export const authOptions: NextAuthOptions = {
       role: { label: string; type: string };
     }>),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,

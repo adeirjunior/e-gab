@@ -18,7 +18,7 @@ model User {
   clientId                 String?                 @unique
   resetPasswordToken       String?                 @unique
   resetPasswordTokenExpiry DateTime?
-  emailVerified            Boolean                 @default(false)
+  emailVerified            DateTime?
   emailVerificationToken   String?                 @unique
   image                    String                  @default("E-Gab/Users/default")
   cloudinaryDir            String?

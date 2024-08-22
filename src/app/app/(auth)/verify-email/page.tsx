@@ -20,7 +20,7 @@ const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
         emailVerificationToken: searchParams.token as string,
       },
       data: {
-        emailVerified: true,
+        emailVerified: new Date(),
         emailVerificationToken: null,
       },
     });

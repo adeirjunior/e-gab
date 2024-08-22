@@ -17,7 +17,7 @@ export default async function CurrentActivePlanCard({
 }: {
   plan: string;
   session: any;
-  isVerified: boolean;
+  isVerified: Date | null;
 }) {
   const stripeCustomerId = (await createCustomerIfNull(
     session.user.id,
