@@ -106,6 +106,14 @@ export default function AdminSettingGrid({
         Ver Leis
       </AdminSettingSwitch>
       <AdminSettingSwitch
+        name="canViewEvents"
+        defaultSelected={data.canViewEvents}
+        disabled={pending}
+        onChange={(e) => handleChange(e.target)}
+      >
+        Ver Eventos
+      </AdminSettingSwitch>
+      <AdminSettingSwitch
         name="canViewProposals"
         defaultSelected={data.canViewLaws}
         disabled={pending}

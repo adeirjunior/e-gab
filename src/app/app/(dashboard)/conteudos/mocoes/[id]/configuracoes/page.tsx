@@ -37,7 +37,7 @@ export default async function MotionSettings({
     throw new Error("Usuário não encontrado.");
   }
 
-  if (user.role === "admin" && !user.admin?.canEditMotion) {
+  if (user.role === "admin" && !user.admin?.canViewMotion) {
     throw new Error("Você não tem permissão para editar moções.");
   }
 

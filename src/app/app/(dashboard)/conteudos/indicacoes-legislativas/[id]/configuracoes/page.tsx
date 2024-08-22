@@ -37,7 +37,7 @@ export default async function LawSettings({
     throw new Error("Usuário não encontrado.");
   }
 
-  if (user.role === "admin" && !user.admin?.canEditLaws) {
+  if (user.role === "admin" && !user.admin?.canViewLaws) {
     throw new Error("Você não tem permissão para editar indicações legislativs.");
   }
 

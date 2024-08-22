@@ -39,7 +39,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
     throw new Error("Usuário não encontrado.");
   }
 
-  if (user.role === "admin" && !user.admin?.canEditPosts) {
+  if (user.role === "admin" && !user.admin?.canViewPosts) {
     throw new Error("Você não tem permissão para editar posts.");
   }
 

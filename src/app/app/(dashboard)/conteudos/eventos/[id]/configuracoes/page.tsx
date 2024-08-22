@@ -34,8 +34,8 @@ export default async function EventSettings({
     throw new Error("Usuário não encontrado.");
   }
 
-  if (user.role === "admin" && !user.admin?.canEditPosts) {
-    throw new Error("Você não tem permissão para editar posts.");
+  if (user.role === "admin" && !user.admin?.canViewEvents) {
+    throw new Error("Você não tem permissão para editar eventos.");
   }
 
   return (
