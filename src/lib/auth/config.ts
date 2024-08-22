@@ -30,10 +30,10 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: profile.role ?? "client",
+          role: profile.role ?? "invited",
+          emailVerified: profile.email_verified ?? null,
         };
       },
-      checks: ["none"],
     }),
     Credentials({
       name: "Credentials",
