@@ -8,7 +8,7 @@ export const stripe = new Stripe(
   {
     // https://github.com/stripe/stripe-node#configuration
     apiVersion: "2023-10-16",
-
+    typescript: true,
     appInfo: {
       name: "E-Gab",
       version: "0.1.0",

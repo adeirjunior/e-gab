@@ -5,17 +5,15 @@ import {
   getActivePlan,
   hasSubscription,
 } from "@/lib/helpers/billing";
-import { getCurrentDomain } from "@/lib/utils";
+import { formatToBRL, getCurrentDomain } from "@/lib/utils";
 import { Button, Card, Chip, Link } from "@nextui-org/react";
 import { MoveRight } from "lucide-react";
 import React from "react";
 
 export default async function CurrentActivePlanCard({
-  plan,
   session,
   isVerified
 }: {
-  plan: string;
   session: any;
   isVerified: Date | null;
 }) {
@@ -30,6 +28,8 @@ export default async function CurrentActivePlanCard({
 
   const hasSub = await hasSubscription();
 
+  const plan = await getActivePlan();
+
   return (
     <div className="rounded-lg border border-stone-200 bg-white dark:border-stone-700 dark:bg-black">
       <div className="relative flex flex-col space-y-4 p-5 sm:p-10">
@@ -38,15 +38,16 @@ export default async function CurrentActivePlanCard({
           {hasSub ? (
             <>
               <span>Você esta usando o plano</span>{" "}
-              <Chip size="sm" color="primary">{plan}</Chip>
+              <Chip size="sm" color="primary">
+                {plan?.product.name.toLowerCase()}
+              </Chip>
             </>
           ) : (
             <>
               Você não possui um plano ativo.{" "}
               {!isVerified && (
-                <span className="underline font-semibold">
-                  Verifique seu email para poder assinar um
-                  plano.
+                <span className="font-semibold underline">
+                  Verifique seu email para poder assinar um plano.
                 </span>
               )}
             </>
@@ -63,11 +64,24 @@ export default async function CurrentActivePlanCard({
           </Link>
         </p>
         {hasSub ? (
-          <Card isPressable className="w-fit min-w-[300px] space-y-4 p-6 bg-transparent border-2 border-primary">
+          <Card
+            isPressable
+            className="w-fit min-w-[300px] space-y-4 border-2 border-primary bg-transparent p-6"
+          >
             <h3 className="font-cal m-0 p-0 text-lg dark:text-white">
-              Plano Padrão
+              Plano {plan?.product.name}
             </h3>
-            <p className="text-base text-gray-400">R$150/mês</p>
+            <p className="text-base text-gray-400">
+              {formatToBRL(
+                plan?.subscription.items?.data[0].plan.amount_decimal!,
+              )}{" "}
+              /{" "}
+              {plan?.subscription.items.data[0].plan.interval === "year"
+                ? "ano"
+                : plan?.subscription.items.data[0].plan.interval === "month"
+                  ? "mês"
+                  : ""}
+            </p>
           </Card>
         ) : (
           ""

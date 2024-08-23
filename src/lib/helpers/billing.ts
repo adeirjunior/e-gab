@@ -29,6 +29,49 @@ export async function getActivePlan() {
       where: { email: session.user?.email },
     });
 
+    if (!user) {
+      return null;
+    }
+
+    const subscriptions = await stripe.subscriptions.list({
+      customer: String(user.stripeCustomerId),
+      status: "active", // Filtrar apenas assinaturas ativas
+      limit: 1, // Limitar a apenas uma assinatura ativa
+    });
+
+    if (subscriptions.data.length === 0) {
+      return null;
+    }
+
+    const activeSubscription = subscriptions.data[0];
+
+    // Garantir que o ID do produto seja uma string
+    const productId =
+      typeof activeSubscription.items.data[0].price.product === "string"
+        ? activeSubscription.items.data[0].price.product
+        : activeSubscription.items.data[0].price.product.id;
+
+    // Buscar o produto associado ao plano ativo
+    const product = await stripe.products.retrieve(productId);
+
+    return {
+      subscription: activeSubscription,
+      product: product,
+    };
+  }
+
+  return null;
+}
+
+
+export async function getProduct() {
+  const session = await getSession();
+
+  if (session) {
+    const user = await prisma.user.findFirst({
+      where: { email: session.user?.email },
+    });
+
     const subscriptions = await stripe.subscriptions.list({
       customer: String(user?.stripeCustomerId),
     });
@@ -56,7 +99,8 @@ export async function generateCustomerPortalLink(customerId: string) {
 export async function createCheckoutLink(customer: string) {
   const checkout = await stripe.checkout.sessions.create({
     success_url: getCurrentDomain("app", "/configuracoes?success=true"),
-    cancel_url: getCurrentDomain("app", "/configuracoes?success=true"),
+    cancel_url: getCurrentDomain("app", "/configuracoes?cancel=true"),
+    locale: 'pt-BR',
     customer: customer,
 
     line_items: [

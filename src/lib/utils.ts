@@ -43,6 +43,17 @@ export async function prevent(fn: any, defaultOnly?: any) {
     }
 }
 
+export function formatToBRL(value: string): string {
+  // Converte a string para um número e divide por 100 para ajustar as casas decimais
+  const number = parseInt(value, 10) / 100;
+
+  // Formata o número para o formato de moeda brasileiro
+  return number.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+}
+
 export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit,

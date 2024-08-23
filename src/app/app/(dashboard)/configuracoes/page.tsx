@@ -7,6 +7,7 @@ import ImageForm from "@/components/form/image-form";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
 import { getGalleryImages } from "@/lib/fetchers/image";
 import { getUserById } from "@/lib/fetchers/user";
+import { getActivePlan } from "@/lib/helpers/billing";
 
 export default async function SettingsPage() {
   const session = await getSession();
@@ -19,6 +20,7 @@ export default async function SettingsPage() {
 
   const website = await getWebsiteByUserId(session.user.id);
   const { resources } = await getGalleryImages(website?.cloudinaryDir!);
+
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -66,7 +68,6 @@ export default async function SettingsPage() {
           <CurrentActivePlanCard
             isVerified={user.emailVerified}
             session={session}
-            plan="Padrão"
           />
         )}
       </div>
