@@ -1,22 +1,24 @@
-"use client"
+"use client";
 
+import { sendVerifyEmail } from "@/lib/actions/email/send-verify-email";
+import { sendWelcomeEmail } from "@/lib/actions/email/send-welcome-email";
 import { createPolitician } from "@/lib/actions/politician/politician.create.action";
 import { editOneKeyPolitician } from "@/lib/actions/politician/politician.update";
 import { editOneKeyUser } from "@/lib/actions/user/user.update.action";
-import {useNewUserSteps } from "@/lib/context/new-user-steps-context";
+import { useNewUserSteps } from "@/lib/context/new-user-steps-context";
 import { FirstStepValidationSchema } from "@/lib/validations/FirstStepValidation.";
 import { Button } from "@nextui-org/react";
 
 export const ButtonContainerLg = () => {
-   const {
-     activeStep,
-     setActiveStep,
-     setDirection,
-     setFirstStepErrors,
-     selectedRole,
-     politicianParty
-   } = useNewUserSteps();
-   
+  const {
+    activeStep,
+    setActiveStep,
+    setDirection,
+    setFirstStepErrors,
+    selectedRole,
+    politicianParty,
+  } = useNewUserSteps();
+
   return (
     <div
       className={`bg-neutral-White mt-3 hidden  w-full items-center lg:flex ${
@@ -38,10 +40,11 @@ export const ButtonContainerLg = () => {
 
       <Button
         variant="bordered"
-        onClick={async() => {
+        onClick={async () => {
           if (activeStep === 1) {
             try {
-              const validatedData = FirstStepValidationSchema.parse(selectedRole);
+              const validatedData =
+                FirstStepValidationSchema.parse(selectedRole);
               console.log(validatedData);
               setFirstStepErrors([]);
 
@@ -53,11 +56,14 @@ export const ButtonContainerLg = () => {
                 console.log(err.message);
               }
             }
-          } else if(activeStep === 3 && selectedRole === "politician") {
+          } else if (activeStep === 3 && selectedRole === "politician") {
             await editOneKeyUser(selectedRole, "role");
-            await createPolitician().then(async ()=> {
-              await editOneKeyPolitician(politicianParty, "party")
+            await createPolitician().then(async () => {
+              await editOneKeyPolitician(politicianParty, "party");
             });
+
+            await sendVerifyEmail();
+            await sendWelcomeEmail();
             setActiveStep((prev: number) => prev + 1);
             setDirection(1);
           } else {

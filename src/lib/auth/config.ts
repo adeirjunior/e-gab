@@ -97,7 +97,17 @@ export const authOptions: NextAuthOptions = {
       const isNotFound = "error" in user;
       if (isNotFound) return false;
 
-      await createEveryUserVariant(user.id);
+      // Verifica se o usuário já existe no banco de dados
+      const dbUser = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      // Se o usuário não existir, envia o e-mail de verificação
+      if (!dbUser) {
+        await createEveryUserVariant(user.id);
+      }
 
       return true;
     },

@@ -19,53 +19,7 @@ export const AppContainer = () => {
   const { activeStep, selectedRole, direction } = useNewUserSteps();
 
   return (
-    <>
-      <div className="lg:hidden ">
-        <AnimatePresence initial={false} mode="wait" custom={direction}>
-          <motion.div
-            key={activeStep}
-            variants={
-              activeStep === 1
-                ? firstStepVariants
-                : activeStep === 5
-                  ? confirmVariants
-                  : containerVariants
-            }
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            custom={direction}
-            className="step-container-box"
-          >
-            {activeStep === 1 && <Step1 />}
-
-            {activeStep === 2 && (
-              <>
-                {selectedRole === "politician" ? (
-                  <PoliticianPath1 />
-                ) : (
-                  <InvitedPath1 />
-                )}
-              </>
-            )}
-
-            {activeStep === 3 && (
-              <>
-                {selectedRole === "politician" ? (
-                  <PoliticianPath2 />
-                ) : (
-                  <Step5 />
-                )}
-              </>
-            )}
-
-            {activeStep === 4 && <Step5 />}
-          </motion.div>
-        </AnimatePresence>
-        {activeStep <= 3 && <Footer />}
-      </div>
-
-      <div className=" hidden w-full lg:flex lg:min-h-screen lg:items-center lg:justify-center">
+      <div className="w-full flex min-h-screen items-center justify-center">
         <div className="max-w-[550px]">
           <AnimatePresence initial={false} mode="wait">
             <motion.div
@@ -100,8 +54,8 @@ export const AppContainer = () => {
               {activeStep === 4 && <Step5 />}
             </motion.div>
           </AnimatePresence>
+          {activeStep <= 3 && <Footer />}
         </div>
       </div>
-    </>
   );
 };

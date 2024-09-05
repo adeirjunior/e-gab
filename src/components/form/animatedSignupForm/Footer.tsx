@@ -13,7 +13,7 @@ export const Footer = () => {
   } = useNewUserSteps();
   return (
     <footer
-      className={`bg-neutral-White  flex w-full items-start ${
+      className={`bg-neutral-White lg:hidden flex w-full items-start ${
         activeStep > 1 ? "justify-between" : "justify-end"
       } fixed bottom-0 left-0 right-0 h-24 p-4`}
     >

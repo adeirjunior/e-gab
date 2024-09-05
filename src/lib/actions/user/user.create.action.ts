@@ -4,7 +4,6 @@ import prisma from "@/lib/configs/prisma";
 import { stripe } from "@/lib/configs/stripe";
 import { Prisma, User } from "@prisma/client";
 import { randomUUID } from "crypto";
-import { sendVerifyEmail } from "../email/send-verify-email";
 
 export const createUser: (
   name: string,
@@ -33,8 +32,6 @@ export const createUser: (
         stripeCustomerId: customer.id,
       },
     });
-
-    await sendVerifyEmail(user.id)
 
     return user2;
   } catch (e: any) {
