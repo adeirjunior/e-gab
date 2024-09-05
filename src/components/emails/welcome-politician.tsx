@@ -48,7 +48,7 @@ const WelcomeEmail = () => (
             Caso tenha qualquer duvida de como utilizar nossos sistemas consulte
             nossa{" "}
             <Link style={anchor} href={getCurrentDomain("docs")}>
-              documentação detalhada
+              Documentação detalhada
             </Link>{" "}
             .
           </Text>
