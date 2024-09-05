@@ -95,7 +95,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const isNotFound = "error" in user;
-      if (isNotFound) return false;
+      if (isNotFound) {
+        console.log(user.error)
+        return false;
+      }
 
       // Verifica se o usuário já existe no banco de dados
       const dbUser = await prisma.user.findUnique({
