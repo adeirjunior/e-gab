@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import OverviewStats from "@/components/stats/overview-stats";
 import Posts from "@/components/content/posts";
 import PlaceholderCard from "@/components/card/placeholder-card";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 import { getWebsiteByUserId } from "@/lib/fetchers/site";
+import AnalyticsMockup from "@/components/stats/analytics";
 
 export default async function Overview() {
   const session = await getSession();
@@ -22,7 +22,7 @@ export default async function Overview() {
         <h1 className="font-cal text-3xl font-bold dark:text-white">
           Visão Geral
         </h1>
-        <OverviewStats />
+        <AnalyticsMockup />
       </div>
 
       <div className="flex flex-col space-y-6">

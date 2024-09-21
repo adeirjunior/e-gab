@@ -113,3 +113,26 @@ export type PartiesDataType = {
 };
 
 export type ExcludeKeys<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+export interface AnalyticsReport {
+  dimensionHeaders: Array<{ name: string }>;
+  metricHeaders: Array<{ name: string, type: string }>;
+  rows: Array<{
+    dimensionValues: Array<{ value: string, oneValue: string }>;
+    metricValues: Array<{ value: string, oneValue: string }>;
+  }>;
+  totals: Array<any>;
+  maximums: Array<any>;
+  minimums: Array<any>;
+  rowCount: number;
+  metadata: {
+    samplingMetadatas: Array<any>;
+    dataLossFromOtherRow: boolean;
+    currencyCode: string;
+    _currencyCode: string;
+    timeZone: string;
+    _timeZone: string;
+  };
+  propertyQuota: any | null;
+  kind: string;
+}

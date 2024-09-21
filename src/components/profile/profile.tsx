@@ -13,6 +13,7 @@ import { Title, Subtitle, Bold, Text } from "@tremor/react";
 import { signOut } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import { AspectRatio } from "../ui/aspect-ratio";
+import { useWindowSize } from 'usehooks-ts'
 
 export default function Profile({
   user,
@@ -26,8 +27,10 @@ export default function Profile({
     stripeCustomerId: string;
   };
 }) {
+  const { width = 0 } = useWindowSize()
+
   return (
-    <Dropdown offset={30} showArrow shadow="sm" placement="right-end">
+    <Dropdown offset={30} showArrow shadow="sm" placement={width <= 640 ? "top" : "right-end"}>
       <DropdownTrigger>
         <Card isPressable className="bg-transparent border-none w-full mt-4 p-4 cursor-pointer flex flex-col shadow-none">
           <div className="flex gap-2 items-center">
