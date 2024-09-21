@@ -1,6 +1,5 @@
 "use client";
 
-import { AnalyticsReport } from "@/lib/types/types";
 import {
   Card,
   Text,
@@ -12,9 +11,6 @@ import {
   AreaChart,
 } from "@tremor/react";
 import Image from "next/image";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
-import { useEffectOnce } from "usehooks-ts";
 
 const chartdata = [
   {
@@ -89,41 +85,7 @@ const categories = [
 ];
 
 export default function AnalyticsMockup() {
-  const [data, setData] = useState<AnalyticsReport>()
-
-  useEffectOnce(() => {
-   const fetchData = async () => {
-      try {
-        const response = await fetch('/api/analytics');
-        const result: AnalyticsReport = await response.json();
-        setData(result);
-        toast(data?.rowCount)
-      } catch (error) {
-        console.error('Error fetching analytics data:', error);
-      }
-    };
-    fetchData();
-  })
   return <>
-  <Suspense fallback={<p>Carregando...</p>}>
-      {data?.rows.map((row, index) => (
-        <div key={index}>
-          <div>
-            <strong>Dimensões:</strong> {row.dimensionValues.map((dimValue, dimIndex) => (
-              <span key={dimIndex}>{dimValue.value} (One Value: {dimValue.oneValue})</span>
-            ))}
-          </div>
-          <div>
-            <strong>Métricas:</strong> {row.metricValues.map((metricValue, metricIndex) => (
-              <span key={metricIndex}>{metricValue.value} (One Value: {metricValue.oneValue})</span>
-            ))}
-          </div>
-        </div>
-      ))}
-  </Suspense>
-    
-
-
     <div className="grid w-full gap-6">
       <Card>
         <Title>Visitantes</Title>
