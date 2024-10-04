@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Card,
-  Title,
-  AreaChart,
-} from "@tremor/react";
+import { Card, Title, AreaChart } from "@tremor/react";
 
 interface VisitorData {
   date: string; // Data no formato original YYYY-MM-DD
@@ -14,6 +10,8 @@ interface VisitorData {
 
 export default function AnalyticsMockup() {
   const [chartData, setChartData] = useState<{ date: string; Visitors: number }[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
+  const [error, setError] = useState<string | null>(null); // Estado de erro
 
   useEffect(() => {
     const fetchVisitorData = async () => {
@@ -21,7 +19,7 @@ export default function AnalyticsMockup() {
         const response = await fetch('/api/analytics/daily-visitors');
         const data = await response.json();
 
-        console.log("Dados retornados da API:", data); // Adicione esta linha
+        console.log("Dados retornados da API:", data);
 
         // Verifica se data é um array
         if (!Array.isArray(data)) {
@@ -29,26 +27,32 @@ export default function AnalyticsMockup() {
         }
 
         // Mapear os dados para o formato necessário
-        const formattedData = data.map(item => ({
+        const formattedData = data.map((item: VisitorData) => ({
           date: item.date,
           Visitors: item.activeUsers,
         }));
 
         setChartData(formattedData);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Erro ao buscar dados dos visitantes:", error);
+        setError("Não foi possível carregar os dados de visitantes.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchVisitorData();
   }, []);
 
-
   return (
     <div className="grid w-full gap-6">
       <Card>
         <Title>Visitantes</Title>
-        {chartData.length === 0 ? (
+        {isLoading ? (
+          <p className="text-center">Carregando...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : chartData.length === 0 ? (
           <p className="text-center">Sem dados</p>
         ) : (
           <AreaChart

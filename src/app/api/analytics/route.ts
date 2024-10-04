@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import { getSession } from '@/lib/auth/get-session';
+import { getWebsiteByUserId } from '@/lib/fetchers/site';
 
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
-function formatDateOneWeekAgo(): string {
+export function formatDateOneWeekAgo(): string {
   const date = new Date();
 
   // Subtrair 7 dias da data atual
-  date.setDate(date.getDate() - 7);
+  date.setDate(date.getDate() - 60);
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -41,6 +43,9 @@ function getAnalyticsClient(): BetaAnalyticsDataClient {
 async function runAnalyticsReport() {
   const client = getAnalyticsClient();
 
+  const session = await getSession();
+  const website = await getWebsiteByUserId(session?.user.id!);
+
   const [response] = await client.runReport({
     property: `properties/${process.env.GOOGLE_CLIENT_PROPERTY}`,
     dateRanges: [
@@ -62,7 +67,7 @@ async function runAnalyticsReport() {
         fieldName: 'hostname',
         stringFilter: {
           matchType: 'EXACT',
-          value: 'adeirju.egab.online', // Substitua pelo subdomínio correto
+          value: website?.customDomain || `${website?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
         },
       },
     },

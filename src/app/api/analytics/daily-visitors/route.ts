@@ -5,6 +5,18 @@ import { getWebsiteByUserId } from '@/lib/fetchers/site';
 
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
+export function formatDateOneWeekAgo(): string {
+    const date = new Date();
+   
+    date.setDate(date.getDate() - 60);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
 function getAnalyticsClient(): BetaAnalyticsDataClient {
     if (!analyticsDataClient) {
         const projectId = process.env.GOOGLE_ANALYTICS_PROJECT_ID;
@@ -35,22 +47,15 @@ const formatDate = (dateString: string): string => {
 async function getDailyVisitorsForSubdomain() {
     const client = getAnalyticsClient();
 
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 60);
-
     const session = await getSession();
     const website = await getWebsiteByUserId(session?.user.id!);
-
-    const formattedStartDate = startDate.toISOString().split('T')[0];
-    const formattedEndDate = endDate.toISOString().split('T')[0];
 
     const [response] = await client.runReport({
         property: `properties/${process.env.GOOGLE_CLIENT_PROPERTY}`,
         dateRanges: [
             {
-                startDate: formattedStartDate,
-                endDate: formattedEndDate,
+                startDate: formatDateOneWeekAgo(),
+                endDate: 'today',
             },
         ],
         dimensions: [
@@ -86,7 +91,6 @@ async function getDailyVisitorsForSubdomain() {
 
     return data || [];
 }
-
 
 export async function GET() {
     try {
