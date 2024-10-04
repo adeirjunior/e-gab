@@ -27,38 +27,38 @@ function getAnalyticsClient(): BetaAnalyticsDataClient {
     return analyticsDataClient;
 }
 
-// Função para formatar a data
 const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('pt-BR', { month: 'short', year: 'numeric' }).format(date); // Formata a data para "MMM YY"
+    return new Intl.DateTimeFormat('pt-BR', { month: 'short', year: 'numeric' }).format(date);
 };
 
-// Função para buscar os visitantes diários
 async function getDailyVisitorsForSubdomain() {
     const client = getAnalyticsClient();
 
-    // Definir a data de início e fim (últimos 60 dias)
     const endDate = new Date();
     const startDate = new Date();
     startDate.setDate(endDate.getDate() - 60);
-    const session = await getSession()
 
+    const session = await getSession();
     const website = await getWebsiteByUserId(session?.user.id!);
 
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
     const [response] = await client.runReport({
-        property: `properties/${process.env.GOOGLE_CLIENT_PROPERTY}`, // Substitua pelo ID da propriedade
+        property: `properties/${process.env.GOOGLE_CLIENT_PROPERTY}`,
         dateRanges: [
             {
-                startDate: startDate.toISOString().split('T')[0], // Formato YYYY-MM-DD
-                endDate: endDate.toISOString().split('T')[0],
+                startDate: formattedStartDate,
+                endDate: formattedEndDate,
             },
         ],
         dimensions: [
-            { name: 'date' }, // Para agrupar por data
-            { name: 'hostname' }, // Filtrando pelo hostname (subdomínio)
+            { name: 'date' },
+            { name: 'hostname' },
         ],
         metrics: [
-            { name: 'activeUsers' }, // Métrica de usuários ativos
+            { name: 'activeUsers' },
         ],
         dimensionFilter: {
             filter: {
@@ -71,29 +71,27 @@ async function getDailyVisitorsForSubdomain() {
         },
     });
 
-    // Mapear o resultado para extrair datas e usuários ativos
     const data = response.rows?.map((row) => {
         const dateValue = row.dimensionValues?.[0]?.value;
         const activeUsersValue = row.metricValues?.[0]?.value;
 
         if (dateValue && activeUsersValue) {
             return {
-                date: formatDate(dateValue), // Formata a data
-                activeUsers: parseInt(activeUsersValue, 10), // Usuários ativos
+                date: formatDate(dateValue),
+                activeUsers: parseInt(activeUsersValue, 10),
             };
         }
-        return null; // Retorna null se os valores não existirem
-    }).filter((item) => item !== null); // Filtra os nulls
+        return null;
+    }).filter((item) => item !== null);
 
     return data || [];
 }
 
-// Endpoint da API
+
 export async function GET() {
     try {
         const visitorsData = await getDailyVisitorsForSubdomain();
 
-        // Verifica os dados retornados pela API
         console.log('Dados retornados da API:', visitorsData);
 
         if (!Array.isArray(visitorsData)) {
