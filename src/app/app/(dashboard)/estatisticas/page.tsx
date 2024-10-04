@@ -1,9 +1,10 @@
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
-import OverviewStats from "@/components/stats/overview-stats";
-import { AnalyticsReport } from "@/lib/types/types";
+import { ReportResponse } from "@/lib/types/types";
 import { Suspense } from "react";
 import { getCurrentDomain } from "@/lib/utils";
+import Visits from "./visits";
+import AnalyticsMockup from "@/components/stats/analytics";
 
 export default async function page() {
   const session = await getSession();
@@ -13,30 +14,17 @@ export default async function page() {
   }
 
   const response = await fetch(`${getCurrentDomain()}/api/analytics`);
-  const result: AnalyticsReport = await response.json();
+  const reportData: ReportResponse = await response.json();
 
   return (
-    <div className="p-8">
+    <div className="p-8 flex flex-col gap-6">
       <h1 className="font-cal m-0 mb-2 text-xl font-bold dark:text-white sm:text-3xl">
         Estatísticas
       </h1>
+      <AnalyticsMockup />
       <Suspense fallback={<p>Carregando...</p>}>
-        {result?.rows.map((row, index) => (
-          <div key={index}>
-            <div>
-              <strong>Dimensões:</strong> {row.dimensionValues.map((dimValue, dimIndex) => (
-                <span key={dimIndex}>{dimValue.value} (One Value: {dimValue.oneValue})</span>
-              ))}
-            </div>
-            <div>
-              <strong>Métricas:</strong> {row.metricValues.map((metricValue, metricIndex) => (
-                <span key={metricIndex}>{metricValue.value} (One Value: {metricValue.oneValue})</span>
-              ))}
-            </div>
-          </div>
-        ))}
+        <Visits reportData={reportData} />
       </Suspense>
-      <OverviewStats />
     </div>
   );
 }

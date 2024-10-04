@@ -114,25 +114,32 @@ export type PartiesDataType = {
 
 export type ExcludeKeys<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export interface AnalyticsReport {
-  dimensionHeaders: Array<{ name: string }>;
-  metricHeaders: Array<{ name: string, type: string }>;
-  rows: Array<{
-    dimensionValues: Array<{ value: string, oneValue: string }>;
-    metricValues: Array<{ value: string, oneValue: string }>;
-  }>;
-  totals: Array<any>;
-  maximums: Array<any>;
-  minimums: Array<any>;
-  rowCount: number;
-  metadata: {
-    samplingMetadatas: Array<any>;
-    dataLossFromOtherRow: boolean;
-    currencyCode: string;
-    _currencyCode: string;
-    timeZone: string;
-    _timeZone: string;
-  };
-  propertyQuota: any | null;
-  kind: string;
+// Representa a métrica retornada (e.g., activeUsers, screenPageViews)
+export interface Metric {
+  name: string;
+  values: string[]; // Os valores geralmente são retornados como strings
+}
+
+// Representa a dimensão (e.g., hostname, pagePath)
+export interface Dimension {
+  name: string;
+  values: string[];
+}
+
+// Cada linha da resposta contém dimensões e métricas
+export interface Row {
+  dimensionValues: { value: string }[]; // Lista de valores das dimensões
+  metricValues: { value: string }[]; // Lista de valores das métricas
+}
+
+// Estrutura geral da resposta do relatório
+export interface ReportResponse {
+  dimensionHeaders: Dimension[]; // Cabeçalhos das dimensões
+  metricHeaders: Metric[]; // Cabeçalhos das métricas
+  rows: Row[]; // As linhas contendo dados das dimensões e métricas
+}
+
+// Interface para resposta do erro
+export interface ErrorResponse {
+  error: string;
 }
