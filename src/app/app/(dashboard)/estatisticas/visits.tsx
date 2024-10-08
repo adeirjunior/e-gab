@@ -1,6 +1,10 @@
 import { ReportResponse } from "@/lib/types/types";
 
-export default function Visits({ reportData }: { reportData: ReportResponse }) {
+export default function Visits({ reportData }: { reportData?: ReportResponse }) {
+    if (!reportData || !reportData.rows) {
+        return <div>Nenhum dado disponível no momento.</div>;
+    }
+
     return (
         <div className="overflow-x-auto">
             <table className="table-auto w-full rounded-md border-collapse border border-gray-200 dark:border-gray-700">
