@@ -5,7 +5,7 @@ import { getWebsiteByUserId } from '@/lib/fetchers/site';
 
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
-export function formatDateOneWeekAgo(): string {
+ function formatDateOneWeekAgo(): string {
     const date = new Date();
    
     date.setDate(date.getDate() - 60);
