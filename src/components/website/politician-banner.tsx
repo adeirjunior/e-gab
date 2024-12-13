@@ -23,16 +23,9 @@ export default function PoliticianBanner({
         <h2 className="absolute left-1/2 top-20 -translate-x-1/2 whitespace-nowrap text-center text-2xl font-extrabold uppercase text-white antialiased opacity-95 sm:static sm:translate-x-0 sm:text-start">
           {website.heroTitle!}
         </h2>
-        <h3 className="hidden text-white sm:block">
+        <p className="hidden text-white sm:block">
           {website.heroDescription!}
-        </h3>
-        <Button
-          color="primary"
-          radius="full"
-          className="absolute -bottom-7 left-1/2 -translate-x-1/2 px-6 text-xs font-bold sm:static sm:m-0 sm:translate-x-0 sm:text-xl"
-        >
-          Junte-se
-        </Button>
+        </p>
       </div>
     </main>
   );
